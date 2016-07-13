@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="cn.bmob.imdemo">
+    package="com.xinguan14.jdyp">
 
     <uses-sdk
         android:minSdkVersion="9"
@@ -24,14 +24,14 @@
     <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
-        android:name=".BmobIMApplication"
+        android:name="com.xinguan14.jdyp.BmobIMApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ui.SplashActivity"
+            android:name="com.xinguan14.jdyp.ui.SplashActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -40,15 +40,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.LoginActivity" />
-        <activity android:name=".ui.MainActivity" />
-        <activity android:name=".ui.RegisterActivity" />
-        <activity android:name=".ui.SearchUserActivity" />
-        <activity android:name=".ui.UserInfoActivity"/>
-        <activity android:name=".ui.NewFriendActivity"/>
+        <activity android:name="com.xinguan14.jdyp.ui.LoginActivity" />
+        <activity android:name="com.xinguan14.jdyp.ui.MainActivity" />
+        <activity android:name="com.xinguan14.jdyp.ui.RegisterActivity" />
+        <activity android:name="com.xinguan14.jdyp.ui.SearchUserActivity" />
+        <activity android:name="com.xinguan14.jdyp.ui.UserInfoActivity"/>
+        <activity android:name="com.xinguan14.jdyp.ui.NewFriendActivity"/>
 
         <activity
-            android:name=".ui.ChatActivity"
+            android:name="com.xinguan14.jdyp.ui.ChatActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
 
