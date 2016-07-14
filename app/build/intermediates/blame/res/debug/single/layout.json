@@ -1,0 +1,282 @@
+[
+    {
+        "merged": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\res\\merged\\debug\\layout\\item_new_friend.xml",
+        "source": "E:\\AndroidStudioProjects\\RunTogether\\app\\src\\main\\res\\layout\\item_new_friend.xml"
+    },
+    {
+        "merged": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_action_bar_view_list_nav_layout.xml",
+        "source": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\22.2.0\\res\\layout\\abc_action_bar_view_list_nav_layout.xml"
+    },
+    {
+        "merged": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\res\\merged\\debug\\layout\\fragment_message.xml",
+        "source": "E:\\AndroidStudioProjects\\RunTogether\\app\\src\\main\\res\\layout\\fragment_message.xml"
+    },
+    {
+        "merged": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\res\\merged\\debug\\layout\\select_dialog_singlechoice_material.xml",
+        "source": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\22.2.0\\res\\layout\\select_dialog_singlechoice_material.xml"
+    },
+    {
+        "merged": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\res\\merged\\debug\\layout\\notification_template_part_time.xml",
+        "source": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\22.2.0\\res\\layout\\notification_template_part_time.xml"
+    },
+    {
+        "merged": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\res\\merged\\debug\\layout\\item_chat_received_voice.xml",
+        "source": "E:\\AndroidStudioProjects\\RunTogether\\app\\src\\main\\res\\layout\\item_chat_received_voice.xml"
+    },
+    {
+        "merged": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\res\\merged\\debug\\layout\\fragment_connect_message.xml",
+        "source": "E:\\AndroidStudioProjects\\RunTogether\\app\\src\\main\\res\\layout\\fragment_connect_message.xml"
+    },
+    {
+        "merged": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\res\\merged\\debug\\layout\\include_chat_add.xml",
+        "source": "E:\\AndroidStudioProjects\\RunTogether\\app\\src\\main\\res\\layout\\include_chat_add.xml"
+    },
+    {
+        "merged": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_activity_chooser_view.xml",
+        "source": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\22.2.0\\res\\layout\\abc_activity_chooser_view.xml"
+    },
+    {
+        "merged": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\res\\merged\\debug\\layout\\activity_chat.xml",
+        "source": "E:\\AndroidStudioProjects\\RunTogether\\app\\src\\main\\res\\layout\\activity_chat.xml"
+    },
+    {
+        "merged": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_popup_menu_item_layout.xml",
+        "source": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\22.2.0\\res\\layout\\abc_popup_menu_item_layout.xml"
+    },
+    {
+        "merged": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_screen_content_include.xml",
+        "source": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\22.2.0\\res\\layout\\abc_screen_content_include.xml"
+    },
+    {
+        "merged": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\res\\merged\\debug\\layout\\item_chat_received_location.xml",
+        "source": "E:\\AndroidStudioProjects\\RunTogether\\app\\src\\main\\res\\layout\\item_chat_received_location.xml"
+    },
+    {
+        "merged": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\res\\merged\\debug\\layout\\notification_template_big_media_narrow.xml",
+        "source": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\22.2.0\\res\\layout\\notification_template_big_media_narrow.xml"
+    },
+    {
+        "merged": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_action_menu_item_layout.xml",
+        "source": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\22.2.0\\res\\layout\\abc_action_menu_item_layout.xml"
+    },
+    {
+        "merged": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\res\\merged\\debug\\layout\\fragment_set.xml",
+        "source": "E:\\AndroidStudioProjects\\RunTogether\\app\\src\\main\\res\\layout\\fragment_set.xml"
+    },
+    {
+        "merged": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_screen_simple.xml",
+        "source": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\22.2.0\\res\\layout\\abc_screen_simple.xml"
+    },
+    {
+        "merged": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_activity_chooser_view_list_item.xml",
+        "source": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\22.2.0\\res\\layout\\abc_activity_chooser_view_list_item.xml"
+    },
+    {
+        "merged": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_screen_toolbar.xml",
+        "source": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\22.2.0\\res\\layout\\abc_screen_toolbar.xml"
+    },
+    {
+        "merged": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_action_mode_bar.xml",
+        "source": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\22.2.0\\res\\layout\\abc_action_mode_bar.xml"
+    },
+    {
+        "merged": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_simple_dropdown_hint.xml",
+        "source": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\22.2.0\\res\\layout\\abc_simple_dropdown_hint.xml"
+    },
+    {
+        "merged": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\res\\merged\\debug\\layout\\item_search_user.xml",
+        "source": "E:\\AndroidStudioProjects\\RunTogether\\app\\src\\main\\res\\layout\\item_search_user.xml"
+    },
+    {
+        "merged": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\res\\merged\\debug\\layout\\notification_media_cancel_action.xml",
+        "source": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\22.2.0\\res\\layout\\notification_media_cancel_action.xml"
+    },
+    {
+        "merged": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\res\\merged\\debug\\layout\\notification_template_part_chronometer.xml",
+        "source": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\22.2.0\\res\\layout\\notification_template_part_chronometer.xml"
+    },
+    {
+        "merged": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\res\\merged\\debug\\layout\\item_chat_sent_message.xml",
+        "source": "E:\\AndroidStudioProjects\\RunTogether\\app\\src\\main\\res\\layout\\item_chat_sent_message.xml"
+    },
+    {
+        "merged": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\res\\merged\\debug\\layout\\include_chat_bottom_bar.xml",
+        "source": "E:\\AndroidStudioProjects\\RunTogether\\app\\src\\main\\res\\layout\\include_chat_bottom_bar.xml"
+    },
+    {
+        "merged": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_action_bar_title_item.xml",
+        "source": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\22.2.0\\res\\layout\\abc_action_bar_title_item.xml"
+    },
+    {
+        "merged": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\res\\merged\\debug\\layout\\select_dialog_multichoice_material.xml",
+        "source": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\22.2.0\\res\\layout\\select_dialog_multichoice_material.xml"
+    },
+    {
+        "merged": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_search_view.xml",
+        "source": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\22.2.0\\res\\layout\\abc_search_view.xml"
+    },
+    {
+        "merged": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_action_mode_close_item_material.xml",
+        "source": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\22.2.0\\res\\layout\\abc_action_mode_close_item_material.xml"
+    },
+    {
+        "merged": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_alert_dialog_material.xml",
+        "source": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\22.2.0\\res\\layout\\abc_alert_dialog_material.xml"
+    },
+    {
+        "merged": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_select_dialog_material.xml",
+        "source": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\22.2.0\\res\\layout\\abc_select_dialog_material.xml"
+    },
+    {
+        "merged": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\res\\merged\\debug\\layout\\activity_user_info.xml",
+        "source": "E:\\AndroidStudioProjects\\RunTogether\\app\\src\\main\\res\\layout\\activity_user_info.xml"
+    },
+    {
+        "merged": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\res\\merged\\debug\\layout\\activity_login.xml",
+        "source": "E:\\AndroidStudioProjects\\RunTogether\\app\\src\\main\\res\\layout\\activity_login.xml"
+    },
+    {
+        "merged": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\res\\merged\\debug\\layout\\activity_search_user.xml",
+        "source": "E:\\AndroidStudioProjects\\RunTogether\\app\\src\\main\\res\\layout\\activity_search_user.xml"
+    },
+    {
+        "merged": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\res\\merged\\debug\\layout\\include_navi.xml",
+        "source": "E:\\AndroidStudioProjects\\RunTogether\\app\\src\\main\\res\\layout\\include_navi.xml"
+    },
+    {
+        "merged": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\res\\merged\\debug\\layout\\item_conversation.xml",
+        "source": "E:\\AndroidStudioProjects\\RunTogether\\app\\src\\main\\res\\layout\\item_conversation.xml"
+    },
+    {
+        "merged": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_action_menu_layout.xml",
+        "source": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\22.2.0\\res\\layout\\abc_action_menu_layout.xml"
+    },
+    {
+        "merged": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\res\\merged\\debug\\layout\\support_simple_spinner_dropdown_item.xml",
+        "source": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\22.2.0\\res\\layout\\support_simple_spinner_dropdown_item.xml"
+    },
+    {
+        "merged": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\res\\merged\\debug\\layout\\header_new_friend.xml",
+        "source": "E:\\AndroidStudioProjects\\RunTogether\\app\\src\\main\\res\\layout\\header_new_friend.xml"
+    },
+    {
+        "merged": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\res\\merged\\debug\\layout\\activity_main.xml",
+        "source": "E:\\AndroidStudioProjects\\RunTogether\\app\\src\\main\\res\\layout\\activity_main.xml"
+    },
+    {
+        "merged": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\res\\merged\\debug\\layout\\item_chat_agree.xml",
+        "source": "E:\\AndroidStudioProjects\\RunTogether\\app\\src\\main\\res\\layout\\item_chat_agree.xml"
+    },
+    {
+        "merged": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\res\\merged\\debug\\layout\\notification_template_lines.xml",
+        "source": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\22.2.0\\res\\layout\\notification_template_lines.xml"
+    },
+    {
+        "merged": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\res\\merged\\debug\\layout\\item_chat_received_image.xml",
+        "source": "E:\\AndroidStudioProjects\\RunTogether\\app\\src\\main\\res\\layout\\item_chat_received_image.xml"
+    },
+    {
+        "merged": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\res\\merged\\debug\\layout\\item_chat_sent_voice.xml",
+        "source": "E:\\AndroidStudioProjects\\RunTogether\\app\\src\\main\\res\\layout\\item_chat_sent_voice.xml"
+    },
+    {
+        "merged": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\res\\merged\\debug\\layout\\bmob_update_dialog.xml",
+        "source": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\exploded-aar\\cn.bmob.android\\bmob-sdk\\3.4.7-aar\\res\\layout\\bmob_update_dialog.xml"
+    },
+    {
+        "merged": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_list_menu_item_checkbox.xml",
+        "source": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\22.2.0\\res\\layout\\abc_list_menu_item_checkbox.xml"
+    },
+    {
+        "merged": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_action_bar_up_container.xml",
+        "source": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\22.2.0\\res\\layout\\abc_action_bar_up_container.xml"
+    },
+    {
+        "merged": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_dialog_title_material.xml",
+        "source": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\22.2.0\\res\\layout\\abc_dialog_title_material.xml"
+    },
+    {
+        "merged": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\res\\merged\\debug\\layout\\include_pullrefresh.xml",
+        "source": "E:\\AndroidStudioProjects\\RunTogether\\app\\src\\main\\res\\layout\\include_pullrefresh.xml"
+    },
+    {
+        "merged": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\res\\merged\\debug\\layout\\fragment_connect_people.xml",
+        "source": "E:\\AndroidStudioProjects\\RunTogether\\app\\src\\main\\res\\layout\\fragment_connect_people.xml"
+    },
+    {
+        "merged": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\res\\merged\\debug\\layout\\item_contact.xml",
+        "source": "E:\\AndroidStudioProjects\\RunTogether\\app\\src\\main\\res\\layout\\item_contact.xml"
+    },
+    {
+        "merged": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\res\\merged\\debug\\layout\\include_chat_voice_short.xml",
+        "source": "E:\\AndroidStudioProjects\\RunTogether\\app\\src\\main\\res\\layout\\include_chat_voice_short.xml"
+    },
+    {
+        "merged": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\res\\merged\\debug\\layout\\item_chat_sent_location.xml",
+        "source": "E:\\AndroidStudioProjects\\RunTogether\\app\\src\\main\\res\\layout\\item_chat_sent_location.xml"
+    },
+    {
+        "merged": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\res\\merged\\debug\\layout\\notification_template_media.xml",
+        "source": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\22.2.0\\res\\layout\\notification_template_media.xml"
+    },
+    {
+        "merged": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\res\\merged\\debug\\layout\\fragment_conversation.xml",
+        "source": "E:\\AndroidStudioProjects\\RunTogether\\app\\src\\main\\res\\layout\\fragment_conversation.xml"
+    },
+    {
+        "merged": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_list_menu_item_icon.xml",
+        "source": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\22.2.0\\res\\layout\\abc_list_menu_item_icon.xml"
+    },
+    {
+        "merged": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_list_menu_item_radio.xml",
+        "source": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\22.2.0\\res\\layout\\abc_list_menu_item_radio.xml"
+    },
+    {
+        "merged": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\res\\merged\\debug\\layout\\item_chat_sent_image.xml",
+        "source": "E:\\AndroidStudioProjects\\RunTogether\\app\\src\\main\\res\\layout\\item_chat_sent_image.xml"
+    },
+    {
+        "merged": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\res\\merged\\debug\\layout\\item_chat_received_message.xml",
+        "source": "E:\\AndroidStudioProjects\\RunTogether\\app\\src\\main\\res\\layout\\item_chat_received_message.xml"
+    },
+    {
+        "merged": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\res\\merged\\debug\\layout\\fragment_contact.xml",
+        "source": "E:\\AndroidStudioProjects\\RunTogether\\app\\src\\main\\res\\layout\\fragment_contact.xml"
+    },
+    {
+        "merged": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\res\\merged\\debug\\layout\\select_dialog_item_material.xml",
+        "source": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\22.2.0\\res\\layout\\select_dialog_item_material.xml"
+    },
+    {
+        "merged": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_list_menu_item_layout.xml",
+        "source": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\22.2.0\\res\\layout\\abc_list_menu_item_layout.xml"
+    },
+    {
+        "merged": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_expanded_menu_layout.xml",
+        "source": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\22.2.0\\res\\layout\\abc_expanded_menu_layout.xml"
+    },
+    {
+        "merged": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_search_dropdown_item_icons_2line.xml",
+        "source": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\22.2.0\\res\\layout\\abc_search_dropdown_item_icons_2line.xml"
+    },
+    {
+        "merged": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\res\\merged\\debug\\layout\\activity_splash.xml",
+        "source": "E:\\AndroidStudioProjects\\RunTogether\\app\\src\\main\\res\\layout\\activity_splash.xml"
+    },
+    {
+        "merged": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\res\\merged\\debug\\layout\\notification_template_big_media.xml",
+        "source": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\22.2.0\\res\\layout\\notification_template_big_media.xml"
+    },
+    {
+        "merged": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\res\\merged\\debug\\layout\\activity_register.xml",
+        "source": "E:\\AndroidStudioProjects\\RunTogether\\app\\src\\main\\res\\layout\\activity_register.xml"
+    },
+    {
+        "merged": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\res\\merged\\debug\\layout\\notification_media_action.xml",
+        "source": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\22.2.0\\res\\layout\\notification_media_action.xml"
+    },
+    {
+        "merged": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_screen_simple_overlay_action_mode.xml",
+        "source": "E:\\AndroidStudioProjects\\RunTogether\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\22.2.0\\res\\layout\\abc_screen_simple_overlay_action_mode.xml"
+    }
+]
