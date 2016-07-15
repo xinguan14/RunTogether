@@ -109,7 +109,7 @@ public class FindFragment extends ParentWithNaviFragment {
 			// TODO Auto-generated constructor stub
 		}
 
-		private final String[] titles = { "动态", "广场" };
+		private final String[] titles = { "活动", "资讯" };
 
 		@Override
 		public CharSequence getPageTitle(int position) {

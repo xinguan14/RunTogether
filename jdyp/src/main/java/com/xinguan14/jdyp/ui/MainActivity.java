@@ -2,31 +2,31 @@ package com.xinguan14.jdyp.ui;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
+import com.orhanobut.logger.Logger;
+import com.xinguan14.jdyp.GooeyMenu;
+import com.xinguan14.jdyp.R;
 import com.xinguan14.jdyp.base.BaseActivity;
 import com.xinguan14.jdyp.bean.User;
 import com.xinguan14.jdyp.db.NewFriendManager;
 import com.xinguan14.jdyp.event.RefreshEvent;
-import com.xinguan14.jdyp.ui.fragment.ContactFragment;
-import com.xinguan14.jdyp.ui.fragment.ConversationFragment;
+import com.xinguan14.jdyp.ui.fragment.ConnectFragment;
 import com.xinguan14.jdyp.ui.fragment.FindFragment;
 import com.xinguan14.jdyp.ui.fragment.RunFragment;
 import com.xinguan14.jdyp.ui.fragment.SetFragment;
 import com.xinguan14.jdyp.ui.fragment.SportsFragment;
 import com.xinguan14.jdyp.util.IMMLeaks;
-import com.orhanobut.logger.Logger;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.Bind;
-
-import com.xinguan14.jdyp.ui.fragment.ConnectFragment;
-
 import cn.bmob.newim.BmobIM;
 import cn.bmob.newim.core.ConnectionStatus;
 import cn.bmob.newim.event.MessageEvent;
@@ -43,7 +43,7 @@ import cn.bmob.v3.exception.BmobException;
  * @project:MainActivity
  * @date :2016-01-15-18:23
  */
-public class MainActivity extends BaseActivity implements ObseverListener{
+public class MainActivity extends BaseActivity implements ObseverListener, GooeyMenu.GooeyMenuInterface {
 
     @Bind(com.xinguan14.jdyp.R.id.btn_sports)
     Button btn_sports;
@@ -51,8 +51,8 @@ public class MainActivity extends BaseActivity implements ObseverListener{
     @Bind(com.xinguan14.jdyp.R.id.btn_find)
     Button btn_find;
 
-    @Bind(com.xinguan14.jdyp.R.id.btn_run)
-    Button btn_run;
+//    @Bind(com.xinguan14.jdyp.R.id.btn_run)
+//    Button btn_run;
 
     @Bind(com.xinguan14.jdyp.R.id.btn_connect)
     Button btn_connect;
@@ -66,17 +66,25 @@ public class MainActivity extends BaseActivity implements ObseverListener{
     @Bind(com.xinguan14.jdyp.R.id.iv_find_tips)
     ImageView iv_find_tips;
 
-    @Bind(com.xinguan14.jdyp.R.id.iv_run_tips)
+    //    @Bind(com.xinguan14.jdyp.R.id.iv_run_tips)
     ImageView iv_run_tips;
 
     @Bind(com.xinguan14.jdyp.R.id.iv_connect_tips)
     ImageView iv_connect_tips;
 
+    @Bind(R.id.sports)
+    LinearLayout sports;
+    @Bind(R.id.find)
+    LinearLayout find;
+    @Bind(R.id.connect)
+    LinearLayout connect;
+    @Bind(R.id.my)
+    LinearLayout my;
+
+    private GooeyMenu mGooeyMenu;
 
     private Button[] mTabs;
-    private ConversationFragment conversationFragment;
     private SetFragment setFragment;
-    private ContactFragment contactFragment;
     private ConnectFragment connectFragment;
     private SportsFragment sportsFragment;
     private RunFragment runFragment;
@@ -88,9 +96,11 @@ public class MainActivity extends BaseActivity implements ObseverListener{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(com.xinguan14.jdyp.R.layout.activity_main);
+        setContentView(com.xinguan14.jdyp.R.layout.acativity_test);
         //connect server
-        User user = BmobUser.getCurrentUser(this,User.class);
+        User user = BmobUser.getCurrentUser(this, User.class);
+        mGooeyMenu = (GooeyMenu) findViewById(R.id.gooey_menu);
+        mGooeyMenu.setOnMenuListener(this);
         BmobIM.connect(user.getObjectId(), new ConnectListener() {
             @Override
             public void done(String uid, BmobException e) {
@@ -117,32 +127,14 @@ public class MainActivity extends BaseActivity implements ObseverListener{
     @Override
     protected void initView() {
         super.initView();
-        mTabs = new Button[5];
+        mTabs = new Button[4];
         mTabs[0] = btn_sports;
         mTabs[1] = btn_find;
-        mTabs[2] = btn_run;
-        mTabs[3] = btn_connect;
-        mTabs[4] =btn_set;
+        mTabs[2] = btn_connect;
+        mTabs[3] = btn_set;
         mTabs[0].setSelected(true);
-        initTab();
     }
 
-    private void initTab(){
-        sportsFragment = new SportsFragment();
-        findFragment = new FindFragment();
-        runFragment = new RunFragment();
-        connectFragment = new ConnectFragment();
-        setFragment = new SetFragment();
-        fragments = new Fragment[] {sportsFragment,findFragment,runFragment,connectFragment,setFragment};
-        getSupportFragmentManager().beginTransaction()
-                .add(com.xinguan14.jdyp.R.id.fragment_container, sportsFragment).
-                add(com.xinguan14.jdyp.R.id.fragment_container, findFragment).
-                add(com.xinguan14.jdyp.R.id.fragment_container, runFragment).
-                add(com.xinguan14.jdyp.R.id.fragment_container, connectFragment)
-                .add(com.xinguan14.jdyp.R.id.fragment_container, setFragment)
-                .hide(findFragment).hide(runFragment).hide(connectFragment).hide(setFragment)
-                .show(sportsFragment).commit();
-    }
 
     public void onTabSelect(View view) {
         switch (view.getId()) {
@@ -152,31 +144,88 @@ public class MainActivity extends BaseActivity implements ObseverListener{
             case com.xinguan14.jdyp.R.id.btn_find:
                 index = 1;
                 break;
-            case com.xinguan14.jdyp.R.id.btn_run:
+            case com.xinguan14.jdyp.R.id.btn_connect:
                 index = 2;
                 break;
-            case com.xinguan14.jdyp.R.id.btn_connect:
+            case com.xinguan14.jdyp.R.id.btn_set:
                 index = 3;
                 break;
-            case com.xinguan14.jdyp.R.id.btn_set:
-                index = 4;
-                break;
         }
-        onTabIndex(index);
+        setSelect(index);
     }
 
-    private void onTabIndex(int index){
-        if (currentTabIndex != index) {
-            FragmentTransaction trx = getSupportFragmentManager().beginTransaction();
-            trx.hide(fragments[currentTabIndex]);
-            if (!fragments[index].isAdded()) {
-                trx.add(com.xinguan14.jdyp.R.id.fragment_container, fragments[index]);
-            }
-            trx.show(fragments[index]).commit();
+    private void setSelect(int index) {
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction transaction = fm.beginTransaction();
+        hideFragment(transaction);
+        switch (index){
+            case 0:
+                mTabs[0].setSelected(true);
+                mTabs[1].setSelected(false);
+                mTabs[2].setSelected(false);
+                mTabs[3].setSelected(false);
+                if (sportsFragment == null){
+                    sportsFragment = new SportsFragment();
+                    transaction.add(R.id.id_content,sportsFragment);
+                }else {
+                    transaction.show(sportsFragment);
+                }
+                break;
+            case 1:
+                mTabs[1].setSelected(true);
+                mTabs[0].setSelected(false);
+                mTabs[2].setSelected(false);
+                mTabs[3].setSelected(false);
+                if (findFragment == null){
+                    findFragment = new FindFragment();
+                    transaction.add(R.id.id_content,findFragment);
+                }else {
+                    transaction.show(findFragment);
+                }
+                break;
+            case 2:
+                mTabs[2].setSelected(true);
+                mTabs[1].setSelected(false);
+                mTabs[0].setSelected(false);
+                mTabs[3].setSelected(false);
+                if (connectFragment == null){
+                    connectFragment = new ConnectFragment();
+                    transaction.add(R.id.id_content,connectFragment);
+                }else {
+                    transaction.show(connectFragment);
+                }
+                break;
+            case 3:
+                mTabs[3].setSelected(true);
+                mTabs[1].setSelected(false);
+                mTabs[2].setSelected(false);
+                mTabs[0].setSelected(false);
+                if (setFragment == null){
+                    setFragment = new SetFragment();
+                    transaction.add(R.id.id_content,setFragment);
+                }else {
+                    transaction.show(setFragment);
+                }
+                break;
+            default:
+                break;
         }
-        mTabs[currentTabIndex].setSelected(false);
-        mTabs[index].setSelected(true);
-        currentTabIndex = index;
+        transaction.commit();
+    }
+
+    private void hideFragment(FragmentTransaction transaction) {
+        if (sportsFragment != null) {
+            transaction.hide(sportsFragment);
+        }
+        if (findFragment != null) {
+            transaction.hide(findFragment);
+        }
+        if (connectFragment != null) {
+            transaction.hide(connectFragment);
+        }
+        if (setFragment != null) {
+            transaction.hide(setFragment);
+        }
     }
 
     @Override
@@ -195,44 +244,65 @@ public class MainActivity extends BaseActivity implements ObseverListener{
         BmobIM.getInstance().clear();
     }
 
-    /**注册消息接收事件
+    /**
+     * 注册消息接收事件
+     *
      * @param event
      */
     @Subscribe
-    public void onEventMainThread(MessageEvent event){
+    public void onEventMainThread(MessageEvent event) {
         checkRedPoint();
     }
 
-    /**注册离线消息接收事件
+    /**
+     * 注册离线消息接收事件
+     *
      * @param event
      */
     @Subscribe
-    public void onEventMainThread(OfflineMessageEvent event){
+    public void onEventMainThread(OfflineMessageEvent event) {
         checkRedPoint();
     }
 
-    /**注册自定义消息接收事件
+    /**
+     * 注册自定义消息接收事件
+     *
      * @param event
      */
     @Subscribe
-    public void onEventMainThread(RefreshEvent event){
+    public void onEventMainThread(RefreshEvent event) {
         log("---主页接收到自定义消息---");
         checkRedPoint();
     }
 
-    private void checkRedPoint(){
-        int count = (int)BmobIM.getInstance().getAllUnReadCount();
-        if(count>0){
+    private void checkRedPoint() {
+        int count = (int) BmobIM.getInstance().getAllUnReadCount();
+        if (count > 0) {
             iv_sports_tips.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             iv_sports_tips.setVisibility(View.GONE);
         }
         //是否有好友添加的请求
-        if(NewFriendManager.getInstance(this).hasNewFriendInvitation()){
+        if (NewFriendManager.getInstance(this).hasNewFriendInvitation()) {
             iv_connect_tips.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             iv_connect_tips.setVisibility(View.GONE);
         }
     }
 
+
+    @Override
+    public void menuOpen() {
+
+    }
+
+    @Override
+    public void menuClose() {
+
+    }
+
+    @Override
+    public void menuItemClicked(int menuNumber) {
+
+    }
 }

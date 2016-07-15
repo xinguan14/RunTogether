@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/RunTogether.iml" filepath="$PROJECT_DIR$/RunTogether.iml" />
       <module fileurl="file://$PROJECT_DIR$/jdyp/app.iml" filepath="$PROJECT_DIR$/jdyp/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jdyp/jdyp.iml" filepath="$PROJECT_DIR$/jdyp/jdyp.iml" />
     </modules>
   </component>
 </project>
