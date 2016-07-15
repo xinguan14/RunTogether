@@ -46,6 +46,8 @@
         <activity android:name="com.xinguan14.jdyp.ui.SearchUserActivity" />
         <activity android:name="com.xinguan14.jdyp.ui.UserInfoActivity"/>
         <activity android:name="com.xinguan14.jdyp.ui.NewFriendActivity"/>
+        <activity android:name="com.xinguan14.jdyp.ui.fragment.AddNewsActivity"/>
+
 
         <activity
             android:name="com.xinguan14.jdyp.ui.ChatActivity"

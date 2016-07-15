@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:background="@color/base_bg"
     android:orientation="vertical" >
+
     <include layout="@layout/include_navi" />
 
     <com.xinguan14.jdyp.PagerSlidingTabStrip
