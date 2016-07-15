@@ -1,0 +1,11 @@
+CHANGED,E:\AndroidStudioProjects\RunTogether\app\build\intermediates\transforms\instantRun\debug\folders\4000\5\enhanced\cn\bmob\imdemo\R$integer$override.class
+CHANGED,E:\AndroidStudioProjects\RunTogether\app\build\intermediates\transforms\instantRun\debug\folders\4000\5\enhanced\cn\bmob\imdemo\R$style$override.class
+CHANGED,E:\AndroidStudioProjects\RunTogether\app\build\intermediates\transforms\instantRun\debug\folders\4000\5\enhanced\cn\bmob\imdemo\R$layout$override.class
+CHANGED,E:\AndroidStudioProjects\RunTogether\app\build\intermediates\transforms\instantRun\debug\folders\4000\5\enhanced\cn\bmob\imdemo\R$id$override.class
+CHANGED,E:\AndroidStudioProjects\RunTogether\app\build\intermediates\transforms\instantRun\debug\folders\4000\5\enhanced\cn\bmob\imdemo\R$menu$override.class
+CHANGED,E:\AndroidStudioProjects\RunTogether\app\build\intermediates\transforms\instantRun\debug\folders\4000\5\enhanced\cn\bmob\imdemo\R$drawable$override.class
+CHANGED,E:\AndroidStudioProjects\RunTogether\app\build\intermediates\transforms\instantRun\debug\folders\4000\5\enhanced\cn\bmob\imdemo\R$string$override.class
+CHANGED,E:\AndroidStudioProjects\RunTogether\app\build\intermediates\transforms\instantRun\debug\folders\4000\5\enhanced\android\support\v7\appcompat\R$drawable$override.class
+CHANGED,E:\AndroidStudioProjects\RunTogether\app\build\intermediates\transforms\instantRun\debug\folders\4000\5\enhanced\cn\bmob\imdemo\R$styleable$override.class
+CHANGED,E:\AndroidStudioProjects\RunTogether\app\build\intermediates\transforms\instantRun\debug\folders\4000\5\enhanced\com\android\tools\fd\runtime\AppPatchesLoaderImpl.class
+CHANGED,E:\AndroidStudioProjects\RunTogether\app\build\intermediates\transforms\instantRun\debug\folders\4000\5\enhanced\cn\bmob\imdemo\R$mipmap$override.class

@@ -6,16 +6,17 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import butterknife.Bind;
-import butterknife.OnClick;
 import com.xinguan14.jdyp.R;
 import com.xinguan14.jdyp.base.ImageLoaderFactory;
 import com.xinguan14.jdyp.base.ParentWithNaviActivity;
 import com.xinguan14.jdyp.bean.AddFriendMessage;
 import com.xinguan14.jdyp.bean.User;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import butterknife.Bind;
+import butterknife.OnClick;
 import cn.bmob.newim.BmobIM;
 import cn.bmob.newim.bean.BmobIMConversation;
 import cn.bmob.newim.bean.BmobIMMessage;
@@ -52,6 +53,7 @@ public class UserInfoActivity extends ParentWithNaviActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_info);
         initNaviView();
+        //如果个人资料显示的不是用户自己的个人资料，则显示添加好友和聊天的按钮
         user=(User)getBundle().getSerializable("u");
         if(user.getObjectId().equals(getCurrentUid())){
             btn_add_friend.setVisibility(View.GONE);
@@ -99,7 +101,7 @@ public class UserInfoActivity extends ParentWithNaviActivity {
             }
         });
     }
-
+//启动会话
     @OnClick(R.id.btn_chat)
     public void onChatClick(View view){
         //启动一个会话，设置isTransient设置为false,则会在本地数据库的会话列表中先创建（如果没有）与该用户的会话信息，且将用户信息存储到本地的用户表中

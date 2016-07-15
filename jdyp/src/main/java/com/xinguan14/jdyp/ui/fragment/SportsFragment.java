@@ -13,22 +13,52 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.xinguan14.jdyp.PagerSlidingTabStrip;
+import com.xinguan14.jdyp.R;
+import com.xinguan14.jdyp.base.ParentWithNaviActivity;
 import com.xinguan14.jdyp.base.ParentWithNaviFragment;
-import com.xinguan14.jdyp.ui.fragment.sportsfragment.ShuoFragment;
+import com.xinguan14.jdyp.ui.fragment.sportsfragment.SayFragment;
 import com.xinguan14.jdyp.ui.fragment.sportsfragment.SquareFragment;
 
 import butterknife.ButterKnife;
-
+/*
+* 运动圈界面
+* */
 public class SportsFragment extends ParentWithNaviFragment {
 
 	@Override
 	protected String title() {
 		return "运动圈";
 	}
+	//设置导航栏右边
+	@Override
+	public Object right() {
+		return R.drawable.base_action_bar_add_bg_selector;
+	}
+	/*@Override
+	public Object left(){
+		return null;
+	}*/
+/*
+* 给导航栏设置监听事件
+* */
+	@Override
+	public ParentWithNaviActivity.ToolBarListener setToolBarListener() {
+		return new ParentWithNaviActivity.ToolBarListener() {
+			@Override
+			public void clickLeft() {
 
-	private ShuoFragment shuoFragment;
+			}
+
+			@Override
+			public void clickRight()
+			{
+				startActivity(AddNewsActivity.class,null);
+			}
+		};
+	}
+
+	private SayFragment sayFragment;
 	private SquareFragment squareFragment;
-	//private SubFragment3 subFragment3;
 	/**
 	 * PagerSlidingTabStrip的实例
 	 */
@@ -51,8 +81,7 @@ public class SportsFragment extends ParentWithNaviFragment {
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-							 Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
 		rootView = inflater.inflate(com.xinguan14.jdyp.R.layout.fragment_message, null);
 		initNaviView();
 
@@ -126,11 +155,11 @@ public class SportsFragment extends ParentWithNaviFragment {
 			switch (position) {
 				case 0:
 
-					if (null == shuoFragment) {
-						shuoFragment = new ShuoFragment();
+					if (null == sayFragment) {
+						sayFragment = new SayFragment();
 					}
 
-					return shuoFragment;
+					return sayFragment;
 
 				case 1:
 

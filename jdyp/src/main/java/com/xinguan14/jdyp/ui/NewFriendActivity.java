@@ -45,6 +45,7 @@ public class NewFriendActivity extends ParentWithNaviActivity {
         return R.drawable.base_action_bar_add_bg_selector;
     }
 
+//给导航栏设置监听事件
     @Override
     public ParentWithNaviActivity.ToolBarListener setToolBarListener() {
         return new ParentWithNaviActivity.ToolBarListener() {

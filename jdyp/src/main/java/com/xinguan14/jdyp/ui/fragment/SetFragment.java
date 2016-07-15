@@ -58,7 +58,7 @@ public class SetFragment extends ParentWithNaviFragment {
         tv_set_name.setText(TextUtils.isEmpty(username)?"":username);
         return rootView;
     }
-
+    //点击进入个人信息
     @OnClick(R.id.layout_info)
     public void onInfoClick(View view){
         Bundle bundle = new Bundle();
