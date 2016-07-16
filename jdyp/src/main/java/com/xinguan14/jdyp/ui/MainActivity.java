@@ -1,13 +1,11 @@
 package com.xinguan14.jdyp.ui;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import com.orhanobut.logger.Logger;
 import com.xinguan14.jdyp.GooeyMenu;
@@ -18,7 +16,6 @@ import com.xinguan14.jdyp.db.NewFriendManager;
 import com.xinguan14.jdyp.event.RefreshEvent;
 import com.xinguan14.jdyp.ui.fragment.ConnectFragment;
 import com.xinguan14.jdyp.ui.fragment.FindFragment;
-import com.xinguan14.jdyp.ui.fragment.RunFragment;
 import com.xinguan14.jdyp.ui.fragment.SetFragment;
 import com.xinguan14.jdyp.ui.fragment.SportsFragment;
 import com.xinguan14.jdyp.util.IMMLeaks;
@@ -66,20 +63,10 @@ public class MainActivity extends BaseActivity implements ObseverListener, Gooey
     @Bind(com.xinguan14.jdyp.R.id.iv_find_tips)
     ImageView iv_find_tips;
 
-    //    @Bind(com.xinguan14.jdyp.R.id.iv_run_tips)
-    ImageView iv_run_tips;
+
 
     @Bind(com.xinguan14.jdyp.R.id.iv_connect_tips)
     ImageView iv_connect_tips;
-
-    @Bind(R.id.sports)
-    LinearLayout sports;
-    @Bind(R.id.find)
-    LinearLayout find;
-    @Bind(R.id.connect)
-    LinearLayout connect;
-    @Bind(R.id.my)
-    LinearLayout my;
 
     private GooeyMenu mGooeyMenu;
 
@@ -87,11 +74,8 @@ public class MainActivity extends BaseActivity implements ObseverListener, Gooey
     private SetFragment setFragment;
     private ConnectFragment connectFragment;
     private SportsFragment sportsFragment;
-    private RunFragment runFragment;
     private FindFragment findFragment;
-    private Fragment[] fragments;
     private int index;
-    private int currentTabIndex;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
