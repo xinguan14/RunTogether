@@ -34,18 +34,13 @@ public class AddNewsActivity extends ParentWithNaviActivity  {
 		setContentView(R.layout.add_news);
 		initNaviView();
 		userId = getCurrentUid();
-		//获取当前用户
-		//user=(User)getBundle().getSerializable("u");
-		//userId=user.getObjectId();
-		//User ID= ()
-		//构造聊天方的用户信息:传入用户id、用户名和用户头像三个参数
-		//info = new BmobIMUserInfo(user.getObjectId(),user.getUsername(),user.getAvatar());
-		//ImageLoaderFactory.getLoader().loadAvator(iv_avator,user.getAvatar(),R.mipmap.head);
+		
 	}
 
 
 	@OnClick(R.id.submit)
 	public void submitNewsClick(View view){
+
 		String contents = content.getText().toString();
 		Comments comments = new Comments();
 
