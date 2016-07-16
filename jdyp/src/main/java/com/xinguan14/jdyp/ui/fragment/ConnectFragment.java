@@ -14,7 +14,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.xinguan14.jdyp.PagerSlidingTabStrip;
+import com.xinguan14.jdyp.R;
+import com.xinguan14.jdyp.base.ParentWithNaviActivity;
 import com.xinguan14.jdyp.base.ParentWithNaviFragment;
+import com.xinguan14.jdyp.ui.SearchUserActivity;
 import com.xinguan14.jdyp.ui.fragment.connectfragment.ConnectPeopleFragment;
 import com.xinguan14.jdyp.ui.fragment.connectfragment.MessgaeFragment;
 
@@ -49,6 +52,26 @@ public class ConnectFragment extends ParentWithNaviFragment {
 		if (null != bundle) {
 			//
 		}
+	}
+
+	@Override
+	public Object right() {
+		return R.drawable.base_action_bar_add_bg_selector;
+	}
+
+	@Override
+	public ParentWithNaviActivity.ToolBarListener setToolBarListener() {
+		return new ParentWithNaviActivity.ToolBarListener() {
+			@Override
+			public void clickLeft() {
+
+			}
+
+			@Override
+			public void clickRight() {
+				startActivity(SearchUserActivity.class,null);
+			}
+		};
 	}
 
 	@Override

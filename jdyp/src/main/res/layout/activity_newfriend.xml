@@ -6,6 +6,7 @@
     android:background="@color/base_bg"
     android:orientation="vertical">
 
+    <include android:id="@+id/ll" layout="@layout/include_navi"/>
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/sw_refresh"

@@ -64,8 +64,8 @@ public class NewFriendActivity extends ParentWithNaviActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_conversation);
-        //initNaviView();
+        setContentView(R.layout.activity_newfriend);
+        initNaviView();
         //单一布局
         IMutlipleItem<NewFriend> mutlipleItem = new IMutlipleItem<NewFriend>() {
 

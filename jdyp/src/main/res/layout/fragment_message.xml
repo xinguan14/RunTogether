@@ -5,7 +5,8 @@
     android:background="@color/base_bg"
     android:orientation="vertical" >
 
-    <include layout="@layout/include_navi" />
+    <include android:id="@+id/ll" layout="@layout/include_navi"/>
+
 
     <com.xinguan14.jdyp.PagerSlidingTabStrip
         android:id="@+id/tabs"

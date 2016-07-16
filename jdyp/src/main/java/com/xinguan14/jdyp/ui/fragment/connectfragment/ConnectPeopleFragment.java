@@ -13,7 +13,6 @@ import com.xinguan14.jdyp.R;
 import com.xinguan14.jdyp.adapter.ContactAdapter;
 import com.xinguan14.jdyp.adapter.OnRecyclerViewListener;
 import com.xinguan14.jdyp.adapter.base.IMutlipleItem;
-import com.xinguan14.jdyp.base.ParentWithNaviActivity;
 import com.xinguan14.jdyp.base.ParentWithNaviFragment;
 import com.xinguan14.jdyp.bean.Friend;
 import com.xinguan14.jdyp.bean.User;
@@ -21,7 +20,6 @@ import com.xinguan14.jdyp.event.RefreshEvent;
 import com.xinguan14.jdyp.model.UserModel;
 import com.xinguan14.jdyp.ui.ChatActivity;
 import com.xinguan14.jdyp.ui.NewFriendActivity;
-import com.xinguan14.jdyp.ui.SearchUserActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -50,28 +48,9 @@ public class ConnectPeopleFragment extends ParentWithNaviFragment {
 
 	@Override
 	protected String title() {
-		return "联系人";
+		return "";
 	}
 
-	@Override
-	public Object right() {
-		return R.drawable.base_action_bar_add_bg_selector;
-	}
-
-	@Override
-	public ParentWithNaviActivity.ToolBarListener setToolBarListener() {
-		return new ParentWithNaviActivity.ToolBarListener() {
-			@Override
-			public void clickLeft() {
-
-			}
-
-			@Override
-			public void clickRight() {
-				startActivity(SearchUserActivity.class,null);
-			}
-		};
-	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
