@@ -15,7 +15,6 @@ import android.graphics.Path;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
@@ -244,7 +243,7 @@ public class GooeyMenu extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        if (isMenuVisible || gooeyMenuTouch ||isOpen) {
+        if (isMenuVisible || gooeyMenuTouch || isOpen) {
 
             for (int i = 0; i < mNumberOfMenu; i++) {
                 CirclePoint circlePoint = mMenuPoints.get(i);
@@ -258,7 +257,7 @@ public class GooeyMenu extends View {
                     canvas.restore();
                 }
             }
-            isOpen = true ;
+            isOpen = true;
         }
 
         canvas.save();
@@ -297,7 +296,6 @@ public class GooeyMenu extends View {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 if (isGooeyMenuTouch(event)) {
-                    Log.i("info", "11111111111111111111111111111111111111111111");
                     return true;
                 }
                 int menuItem = isMenuItemTouched(event);
@@ -306,41 +304,28 @@ public class GooeyMenu extends View {
                         mDrawableArray.get(mMenuPoints.size() - menuItem).setState(STATE_PRESSED);
                         invalidate();
                     }
-                    Log.i("info", "222222222222222222222222222222222222222222222");
-
                     return true;
                 }
-                Log.i("info", "33333333333333333333333333333333333333333333333");
             case MotionEvent.ACTION_UP:
                 if (isGooeyMenuTouch(event)) {
                     mBezierAnimation.start();
                     cancelAllAnimation();
-                    Log.i("info", "4144444444444444444444444444444444444444444444");
-
                     if (isMenuVisible) {
                         startHideAnimate();
-                        Log.i("info", "5555555555555555555555555555555555555555555555");
-
                         if (mGooeyMenuInterface != null) {
                             mGooeyMenuInterface.menuClose();
                         }
                     } else {
                         startShowAnimate();
-                        Log.i("info", "6666666666666666666666666666666666666666666666666");
-
                         if (mGooeyMenuInterface != null) {
                             mGooeyMenuInterface.menuOpen();
                         }
                     }
                     isMenuVisible = !isMenuVisible;
-                    Log.i("info", "77777777777777777777777777777777777777777777777777");
-
                     return true;
                 }
 
                 if (isMenuVisible) {
-                    Log.i("info", "``````````````````````````````````````````");
-
                     mBezierAnimation.start();
                     cancelAllAnimation();
                     startHideAnimate();
@@ -358,17 +343,11 @@ public class GooeyMenu extends View {
                         if (mGooeyMenuInterface != null) {
                             mGooeyMenuInterface.menuItemClicked(menuItem);
                         }
-                        Log.i("info", "8888888888888888888888888888888888888888");
-
                         return true;
                     }
                 }
-                Log.i("info", "9999999999999999999999999999999999999999999999999");
-
                 return false;
         }
-        Log.i("info", "0000000000000000000000000000000000000000000000000000000");
-
         return true;
     }
 

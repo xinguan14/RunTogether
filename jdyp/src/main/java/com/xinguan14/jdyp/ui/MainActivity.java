@@ -14,8 +14,8 @@ import com.xinguan14.jdyp.base.BaseActivity;
 import com.xinguan14.jdyp.bean.User;
 import com.xinguan14.jdyp.db.NewFriendManager;
 import com.xinguan14.jdyp.event.RefreshEvent;
-import com.xinguan14.jdyp.ui.fragment.ConnectFragment;
-import com.xinguan14.jdyp.ui.fragment.FindFragment;
+import com.xinguan14.jdyp.ui.fragment.ContactFragment;
+import com.xinguan14.jdyp.ui.fragment.MessageFragment;
 import com.xinguan14.jdyp.ui.fragment.SetFragment;
 import com.xinguan14.jdyp.ui.fragment.SportsFragment;
 import com.xinguan14.jdyp.util.IMMLeaks;
@@ -36,60 +36,53 @@ import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 
 /**
- * @author :smile
- * @project:MainActivity
- * @date :2016-01-15-18:23
+ * 四个tab加一个环形菜单
  */
 public class MainActivity extends BaseActivity implements ObseverListener, GooeyMenu.GooeyMenuInterface {
 
-    @Bind(com.xinguan14.jdyp.R.id.btn_sports)
-    Button btn_sports;
+    @Bind(R.id.btn_message)
+    Button btn_message;
 
-    @Bind(com.xinguan14.jdyp.R.id.btn_find)
-    Button btn_find;
+    @Bind(R.id.iv_message_tips)
+    ImageView iv_message_tips;
 
-//    @Bind(com.xinguan14.jdyp.R.id.btn_run)
-//    Button btn_run;
-
-    @Bind(com.xinguan14.jdyp.R.id.btn_connect)
+    @Bind(R.id.btn_connect)
     Button btn_connect;
 
-    @Bind(com.xinguan14.jdyp.R.id.btn_set)
-    Button btn_set;
-
-    @Bind(com.xinguan14.jdyp.R.id.iv_sports_tips)
-    ImageView iv_sports_tips;
-
-    @Bind(com.xinguan14.jdyp.R.id.iv_find_tips)
-    ImageView iv_find_tips;
-
-
-
-    @Bind(com.xinguan14.jdyp.R.id.iv_connect_tips)
+    @Bind(R.id.iv_connect_tips)
     ImageView iv_connect_tips;
 
-    private GooeyMenu mGooeyMenu;
+    @Bind(R.id.btn_sports)
+    Button btn_sports;
+
+    @Bind(R.id.iv_sports_tips)
+    ImageView iv_sports_tips;
+
+    @Bind(R.id.btn_set)
+    Button btn_set;
+
+    @Bind(R.id.gooey_menu)//环形菜单
+    GooeyMenu gooeyMenu;
 
     private Button[] mTabs;
     private SetFragment setFragment;
-    private ConnectFragment connectFragment;
+    private ContactFragment contactFragment;
     private SportsFragment sportsFragment;
-    private FindFragment findFragment;
+    private MessageFragment messageFragment;
     private int index;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(com.xinguan14.jdyp.R.layout.acativity_test);
+        setContentView(R.layout.activity_main);
         //connect server
         User user = BmobUser.getCurrentUser(this, User.class);
-        mGooeyMenu = (GooeyMenu) findViewById(R.id.gooey_menu);
-        mGooeyMenu.setOnMenuListener(this);
+        gooeyMenu.setOnMenuListener(this);
         BmobIM.connect(user.getObjectId(), new ConnectListener() {
             @Override
             public void done(String uid, BmobException e) {
                 if (e == null) {
-                    Logger.i("connect success");
+                    Logger.i("连接成功");
                     //服务器连接成功就发送一个更新事件，同步更新会话及主页的小红点
                     EventBus.getDefault().post(new RefreshEvent());
                 } else {
@@ -112,26 +105,25 @@ public class MainActivity extends BaseActivity implements ObseverListener, Gooey
     protected void initView() {
         super.initView();
         mTabs = new Button[4];
-        mTabs[0] = btn_sports;
-        mTabs[1] = btn_find;
-        mTabs[2] = btn_connect;
+        mTabs[0] = btn_message;
+        mTabs[1] = btn_connect;
+        mTabs[2] = btn_sports;
         mTabs[3] = btn_set;
-        mTabs[0].setSelected(true);
+        onTabSelect(mTabs[0]);
     }
-
 
     public void onTabSelect(View view) {
         switch (view.getId()) {
-            case com.xinguan14.jdyp.R.id.btn_sports:
+            case R.id.btn_message:
                 index = 0;
                 break;
-            case com.xinguan14.jdyp.R.id.btn_find:
+            case R.id.btn_connect:
                 index = 1;
                 break;
-            case com.xinguan14.jdyp.R.id.btn_connect:
+            case R.id.btn_sports:
                 index = 2;
                 break;
-            case com.xinguan14.jdyp.R.id.btn_set:
+            case R.id.btn_set:
                 index = 3;
                 break;
         }
@@ -142,17 +134,17 @@ public class MainActivity extends BaseActivity implements ObseverListener, Gooey
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
         hideFragment(transaction);
-        switch (index){
+        switch (index) {
             case 0:
                 mTabs[0].setSelected(true);
                 mTabs[1].setSelected(false);
                 mTabs[2].setSelected(false);
                 mTabs[3].setSelected(false);
-                if (sportsFragment == null){
-                    sportsFragment = new SportsFragment();
-                    transaction.add(R.id.id_content,sportsFragment);
-                }else {
-                    transaction.show(sportsFragment);
+                if (messageFragment == null) {
+                    messageFragment = new MessageFragment();
+                    transaction.add(R.id.id_content, messageFragment);
+                } else {
+                    transaction.show(messageFragment);
                 }
                 break;
             case 1:
@@ -160,11 +152,11 @@ public class MainActivity extends BaseActivity implements ObseverListener, Gooey
                 mTabs[0].setSelected(false);
                 mTabs[2].setSelected(false);
                 mTabs[3].setSelected(false);
-                if (findFragment == null){
-                    findFragment = new FindFragment();
-                    transaction.add(R.id.id_content,findFragment);
-                }else {
-                    transaction.show(findFragment);
+                if (contactFragment == null) {
+                    contactFragment = new ContactFragment();
+                    transaction.add(R.id.id_content, contactFragment);
+                } else {
+                    transaction.show(contactFragment);
                 }
                 break;
             case 2:
@@ -172,11 +164,11 @@ public class MainActivity extends BaseActivity implements ObseverListener, Gooey
                 mTabs[1].setSelected(false);
                 mTabs[0].setSelected(false);
                 mTabs[3].setSelected(false);
-                if (connectFragment == null){
-                    connectFragment = new ConnectFragment();
-                    transaction.add(R.id.id_content,connectFragment);
-                }else {
-                    transaction.show(connectFragment);
+                if (sportsFragment == null) {
+                    sportsFragment = new SportsFragment();
+                    transaction.add(R.id.id_content, sportsFragment);
+                } else {
+                    transaction.show(sportsFragment);
                 }
                 break;
             case 3:
@@ -184,10 +176,10 @@ public class MainActivity extends BaseActivity implements ObseverListener, Gooey
                 mTabs[1].setSelected(false);
                 mTabs[2].setSelected(false);
                 mTabs[0].setSelected(false);
-                if (setFragment == null){
+                if (setFragment == null) {
                     setFragment = new SetFragment();
-                    transaction.add(R.id.id_content,setFragment);
-                }else {
+                    transaction.add(R.id.id_content, setFragment);
+                } else {
                     transaction.show(setFragment);
                 }
                 break;
@@ -198,14 +190,14 @@ public class MainActivity extends BaseActivity implements ObseverListener, Gooey
     }
 
     private void hideFragment(FragmentTransaction transaction) {
+        if (messageFragment != null) {
+            transaction.hide(messageFragment);
+        }
+        if (contactFragment != null) {
+            transaction.hide(contactFragment);
+        }
         if (sportsFragment != null) {
             transaction.hide(sportsFragment);
-        }
-        if (findFragment != null) {
-            transaction.hide(findFragment);
-        }
-        if (connectFragment != null) {
-            transaction.hide(connectFragment);
         }
         if (setFragment != null) {
             transaction.hide(setFragment);
@@ -262,9 +254,9 @@ public class MainActivity extends BaseActivity implements ObseverListener, Gooey
     private void checkRedPoint() {
         int count = (int) BmobIM.getInstance().getAllUnReadCount();
         if (count > 0) {
-            iv_sports_tips.setVisibility(View.VISIBLE);
+            iv_message_tips.setVisibility(View.VISIBLE);
         } else {
-            iv_sports_tips.setVisibility(View.GONE);
+            iv_message_tips.setVisibility(View.GONE);
         }
         //是否有好友添加的请求
         if (NewFriendManager.getInstance(this).hasNewFriendInvitation()) {

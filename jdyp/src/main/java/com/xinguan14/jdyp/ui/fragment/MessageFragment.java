@@ -1,4 +1,4 @@
-package com.xinguan14.jdyp.ui.fragment.connectfragment;
+package com.xinguan14.jdyp.ui.fragment;
 
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -13,6 +13,7 @@ import com.xinguan14.jdyp.R;
 import com.xinguan14.jdyp.adapter.ConversationAdapter;
 import com.xinguan14.jdyp.adapter.OnRecyclerViewListener;
 import com.xinguan14.jdyp.adapter.base.IMutlipleItem;
+import com.xinguan14.jdyp.base.ParentWithNaviActivity;
 import com.xinguan14.jdyp.base.ParentWithNaviFragment;
 import com.xinguan14.jdyp.bean.Conversation;
 import com.xinguan14.jdyp.bean.NewFriendConversation;
@@ -20,6 +21,7 @@ import com.xinguan14.jdyp.bean.PrivateConversation;
 import com.xinguan14.jdyp.db.NewFriend;
 import com.xinguan14.jdyp.db.NewFriendManager;
 import com.xinguan14.jdyp.event.RefreshEvent;
+import com.xinguan14.jdyp.ui.SearchUserActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -35,11 +37,12 @@ import cn.bmob.newim.bean.BmobIMConversation;
 import cn.bmob.newim.event.MessageEvent;
 import cn.bmob.newim.event.OfflineMessageEvent;
 
-/**
- * 消息界面
+/**会话界面
+ * @author :smile
+ * @project:ConversationFragment
+ * @date :2016-01-25-18:23
  */
-public class MessgaeFragment extends ParentWithNaviFragment {
-
+public class MessageFragment extends ParentWithNaviFragment {
 
     @Bind(R.id.rc_view)
     RecyclerView rc_view;
@@ -50,13 +53,33 @@ public class MessgaeFragment extends ParentWithNaviFragment {
 
     @Override
     protected String title() {
-        return "";
+        return "消息";
     }
 
+    @Override
+    public Object right() {
+        return R.drawable.base_action_bar_add_bg_selector;
+    }
+
+    @Override
+    public ParentWithNaviActivity.ToolBarListener setToolBarListener() {
+        return new ParentWithNaviActivity.ToolBarListener() {
+            @Override
+            public void clickLeft() {
+
+            }
+
+            @Override
+            public void clickRight() {
+                startActivity(SearchUserActivity.class,null);
+            }
+        };
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView =inflater.inflate(R.layout.fragment_conversation, container, false);
+        initNaviView();
         ButterKnife.bind(this, rootView);
         //单一布局
         IMutlipleItem<Conversation> mutlipleItem = new IMutlipleItem<Conversation>() {
@@ -78,8 +101,10 @@ public class MessgaeFragment extends ParentWithNaviFragment {
         };
         adapter = new ConversationAdapter(getActivity(),mutlipleItem,null);
         rc_view.setAdapter(adapter);
+
         layoutManager = new LinearLayoutManager(getActivity());
         rc_view.setLayoutManager(layoutManager);
+
         sw_refresh.setEnabled(true);
         setListener();
         return rootView;
@@ -113,7 +138,7 @@ public class MessgaeFragment extends ParentWithNaviFragment {
                 return true;
             }
         });
-    }
+}
 
     @Override
     public void onResume() {
@@ -140,7 +165,7 @@ public class MessgaeFragment extends ParentWithNaviFragment {
     }
 
     /**
-     查询本地会话
+      查询本地会话
      */
     public void query(){
 //        adapter.bindDatas(BmobIM.getInstance().loadAllConversation());
@@ -157,7 +182,7 @@ public class MessgaeFragment extends ParentWithNaviFragment {
         //添加会话
         List<Conversation> conversationList = new ArrayList<>();
         conversationList.clear();
-        List<BmobIMConversation> list = BmobIM.getInstance().loadAllConversation();
+        List<BmobIMConversation> list =BmobIM.getInstance().loadAllConversation();
         if(list!=null && list.size()>0){
             for (BmobIMConversation item:list){
                 switch (item.getConversationType()){

@@ -12,10 +12,10 @@
     <string name="login_pwd">密码 </string>
     <string name="login_email">确认密码 </string>
 
-    <string name="main_tab_recent">运动圈</string>
+    <string name="main_tab_recent">消息</string>
     <string name="main_tab_contact">联系人</string>
     <string name="main_tab_run">约跑</string>
-    <string name="main_tab_find">发现</string>
+    <string name="main_tab_find">运动圈</string>
     <string name="mian_tab_set">我的</string>
 
     <string name="add_avator">头像</string>

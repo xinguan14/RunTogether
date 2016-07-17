@@ -16,6 +16,7 @@ import com.xinguan14.jdyp.PagerSlidingTabStrip;
 import com.xinguan14.jdyp.R;
 import com.xinguan14.jdyp.base.ParentWithNaviActivity;
 import com.xinguan14.jdyp.base.ParentWithNaviFragment;
+import com.xinguan14.jdyp.ui.fragment.sportsfragment.NearFragment;
 import com.xinguan14.jdyp.ui.fragment.sportsfragment.SayFragment;
 import com.xinguan14.jdyp.ui.fragment.sportsfragment.SquareFragment;
 
@@ -59,6 +60,7 @@ public class SportsFragment extends ParentWithNaviFragment {
 
 	private SayFragment sayFragment;
 	private SquareFragment squareFragment;
+	private NearFragment nearFragment;
 	/**
 	 * PagerSlidingTabStrip的实例
 	 */
@@ -138,7 +140,7 @@ public class SportsFragment extends ParentWithNaviFragment {
 			// TODO Auto-generated constructor stub
 		}
 
-		private final String[] titles = { "动态", "广场" };
+		private final String[] titles = { "动态","附近的人", "广场" };
 
 		@Override
 		public CharSequence getPageTitle(int position) {
@@ -162,6 +164,14 @@ public class SportsFragment extends ParentWithNaviFragment {
 					return sayFragment;
 
 				case 1:
+
+					if (null == nearFragment) {
+						nearFragment = new NearFragment();
+					}
+
+					return nearFragment;
+
+				case 2:
 
 					if (null == squareFragment) {
 						squareFragment = new SquareFragment();
