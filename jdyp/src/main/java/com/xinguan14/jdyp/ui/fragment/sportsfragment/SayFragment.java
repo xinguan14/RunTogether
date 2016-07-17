@@ -57,14 +57,14 @@ public class SayFragment extends ListFragment {
 						// TODO Auto-generated method stub
 						sps_refresh.setRefreshing(false);
 					}
-				}, 3000);
+				}, 1000);
 			}
 		});
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		 rootView = inflater.inflate(R.layout.fragment_sport_say_main, container, false);
+		 rootView = inflater.inflate(R.layout.fragment_sport_main, container, false);
 		return rootView;
 
 	}
