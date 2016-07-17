@@ -9,6 +9,7 @@ public class Comments extends BmobObject {
     private String content;
     //private User user;
     private String userId;
+    private String userName;
 
     public String getContent() {
         return content;
@@ -16,12 +17,12 @@ public class Comments extends BmobObject {
     public void setContent(String content) {
         this.content = content;
     }
-   /* public User getUser() {
-        return user;
+   public String getUserName(){
+      return userName;
+   }
+    public void setUserName(String userName){
+        this.userName=userName;
     }
-    public void setUser(User user) {
-        this.user = user;
-    }*/
    public String getUserId() {
        return userId;
    }
