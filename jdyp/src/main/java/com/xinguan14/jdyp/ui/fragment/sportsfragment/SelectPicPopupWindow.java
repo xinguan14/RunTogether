@@ -14,7 +14,7 @@ import android.widget.PopupWindow;
 import com.xinguan14.jdyp.R;
 
 /**
- * Created by yyz on 2016/7/17.
+ * Created by wm on 2016/7/17.
  */
 public class SelectPicPopupWindow extends PopupWindow {
     private Button takePhotoBtn, pickPhotoBtn, cancelBtn;

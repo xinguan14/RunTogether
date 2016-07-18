@@ -1,5 +1,6 @@
 package com.xinguan14.jdyp.ui.fragment;
 
+
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -54,6 +55,15 @@ public class SportsFragment extends ParentWithNaviFragment {
 			public void clickRight()
 			{
 				startActivity(AddNewsActivity.class,null);
+				/*Fragment newFragment = new AddNewsActivity();
+				FragmentManager fragmentManager =getFragmentManager();
+				FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//替换该界面中的Fragment
+				fragmentTransaction.replace(R.id.id_content, newFragment);
+//将事务调价到Back栈中，允许用户按返回键返回到替换前的界面
+				fragmentTransaction.addToBackStack(null);
+				fragmentTransaction.commit();*/
+
 			}
 		};
 	}

@@ -18,22 +18,25 @@ public class Comments extends BmobObject {
     public void setContent(String content) {
         this.content = content;
     }
+
     public String getUserName(){
       return userName;
    }
     public void setUserName(String userName){
         this.userName=userName;
     }
+
     public String getUserId() {
        return userId;
    }
     public void setUserId(String userId) {
         this.userId = userId;
     }
+
     public BmobFile getImage() {
         return image;
     }
-    public void setFile(BmobFile image) {
+    public void setImage(BmobFile image) {
         this.image = image;
     }
 

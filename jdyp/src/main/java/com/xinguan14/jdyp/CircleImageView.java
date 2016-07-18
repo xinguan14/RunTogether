@@ -17,7 +17,7 @@ import android.util.AttributeSet;
 import android.widget.ImageView;
 
 /**
- * Created by yyz on 2016/7/17.
+ * Created by wm on 2016/7/17.
  */
 
 public class CircleImageView extends ImageView {

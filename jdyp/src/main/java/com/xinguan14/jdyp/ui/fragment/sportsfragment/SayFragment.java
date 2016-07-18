@@ -104,14 +104,14 @@ public class SayFragment extends ListFragment {
 	   //查询要显示的用户的数组中的数据
 		query.addWhereContainedIn("userId", Arrays.asList(showUserId));
 		//判断是否有缓存，该方法必须放在查询条件（如果有的话）都设置完之后再来调用才有效，就像这里一样。
-		/*boolean isCache = query.hasCachedResult(getActivity(),Comments.class);
+		boolean isCache = query.hasCachedResult(getActivity(),Comments.class);
 		if(isCache){
 			// 如果有缓存的话，先从缓存读取数据，如果没有，再从网络获取。
 			query.setCachePolicy(BmobQuery.CachePolicy.CACHE_ELSE_NETWORK);
 		}else{
 			// 如果没有缓存的话，先从网络读取数据，如果没有，再从缓存中获取。
 			query.setCachePolicy(BmobQuery.CachePolicy.NETWORK_ELSE_CACHE);
-		}*/
+		}
 		query.findObjects(getActivity(), new FindListener<Comments>() {
 			@Override
 			public void onSuccess(List<Comments> list) {
@@ -158,8 +158,6 @@ public class SayFragment extends ListFragment {
 
 		setListAdapter(simpleAdapter);
 	}
-
-
 
 	public String getCurrentUid(){
 		return BmobUser.getCurrentUser(getActivity(),User.class).getObjectId();

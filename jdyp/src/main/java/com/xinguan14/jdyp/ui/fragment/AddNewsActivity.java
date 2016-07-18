@@ -1,16 +1,17 @@
 package com.xinguan14.jdyp.ui.fragment;
 
-import android.app.ProgressDialog;
+import android.app.AlertDialog;
+import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -25,6 +26,7 @@ import com.xinguan14.jdyp.bean.User;
 import com.xinguan14.jdyp.ui.fragment.sportsfragment.SelectPicPopupWindow;
 
 import java.io.File;
+import java.io.IOException;
 
 import butterknife.Bind;
 import cn.bmob.v3.BmobQuery;
@@ -33,7 +35,7 @@ import cn.bmob.v3.listener.GetListener;
 import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UploadFileListener;
 
-public class AddNewsActivity extends ParentWithNaviActivity  {
+public class AddNewsActivity extends ParentWithNaviActivity {
 
 	@Bind(R.id.content)
 	EditText content;
@@ -43,25 +45,28 @@ public class AddNewsActivity extends ParentWithNaviActivity  {
 	ImageView add_pic;
 
 	String userId;
-	private  String userName;
+	private String userName;
 	private BmobFile image;
 
 	private Context mContext;
 	private SelectPicPopupWindow menuWindow; // 上传图片弹出框
-
-
-	private Uri photoUri;
-
-	/** 使用照相机拍照获取图片 */
+	/**
+	 * 使用照相机拍照获取图片
+	 */
 	public static final int SELECT_PIC_BY_TACK_PHOTO = 1;
-	/** 使用相册中的图片 */
+	/**
+	 * 使用相册中的图片
+	 */
 	public static final int SELECT_PIC_BY_PICK_PHOTO = 2;
 
-	/** 获取到的图片路径 */
+	/**
+	 * 获取到的图片路径
+	 */
 	private String picPath = "";
-	private static ProgressDialog pd;
-	private String resultStr = "";	// 服务端返回结果集
-	private String imgUrl = "";
+	/*
+	* 图片的uri
+	* */
+	private Uri photoUri;
 
 
 	@Override
@@ -75,10 +80,11 @@ public class AddNewsActivity extends ParentWithNaviActivity  {
 
 		setContentView(R.layout.add_news);
 
-		mContext=AddNewsActivity.this;
+		mContext = AddNewsActivity.this;
 		initNaviView();
 		qury();
-		//上传动态
+
+		//上传动态按钮的监听事件
 		submit.setOnClickListener(new View.OnClickListener() {
 			Comments comments = new Comments();
 			String contents = content.getText().toString();
@@ -86,37 +92,28 @@ public class AddNewsActivity extends ParentWithNaviActivity  {
 			public void onClick(View view) {
 				//上传图片
 				final BmobFile file = new BmobFile(new File(picPath));
+
 				file.upload(AddNewsActivity.this, new UploadFileListener() {
 					@Override
 					public void onSuccess() {
-						comments.setFile(file);
-						comments.save(AddNewsActivity.this, new SaveListener() {
-							@Override
-							public void onSuccess() {
-								finish();
-							}
-
-							@Override
-							public void onFailure(int i, String s) {
-								Toast.makeText(getApplicationContext(), "上传成功!", Toast.LENGTH_SHORT).show();
-							}
-						});
+						comments.setImage(file);
+						comments.save(AddNewsActivity.this);
 					}
-
+					@Override
+					public void onProgress(Integer arg0) {
+						// TODO Auto-generated method stub
+					}
 					@Override
 					public void onFailure(int i, String s) {
 						Toast.makeText(getApplicationContext(), "上传失败!", Toast.LENGTH_SHORT).show();
 					}
 				});
 
-
 				//上传文字
-
-
 				comments.setContent(contents);
 				comments.setUserId(userId);
 				comments.setUserName(userName);
-				comments.save(AddNewsActivity.this,new SaveListener() {
+				comments.save(AddNewsActivity.this, new SaveListener() {
 					@Override
 					public void onSuccess() {
 						// TODO Auto-generated method stub
@@ -124,6 +121,7 @@ public class AddNewsActivity extends ParentWithNaviActivity  {
 						setResult(RESULT_OK);
 						finish();
 					}
+
 					@Override
 					public void onFailure(int code, String arg0) {
 						// TODO Auto-generated method stub
@@ -140,19 +138,20 @@ public class AddNewsActivity extends ParentWithNaviActivity  {
 			public void onClick(View view) {
 				menuWindow = new SelectPicPopupWindow(mContext, itemsOnClick);
 				menuWindow.showAtLocation(findViewById(R.id.uploadLayout),
-						Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 0);
+						Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
 			}
 		});
 
 	}
-	//查询数据
-	private void qury(){
+
+	//查询数据，得到当前用户的用户名
+	private void qury() {
 		userId = getCurrentUid();
 		final BmobQuery<User> userNameQuery = new BmobQuery<User>();
 		userNameQuery.getObject(this, userId, new GetListener<User>() {
 			@Override
 			public void onSuccess(User user) {
-				userName=user.getUsername();
+				userName = user.getUsername();
 			}
 
 			@Override
@@ -200,7 +199,9 @@ public class AddNewsActivity extends ParentWithNaviActivity  {
 			 * 如果不使用ContentValues存放照片路径的话，拍照后获取的图片为缩略图不清晰
 			 */
 			ContentValues values = new ContentValues();
+			//获取图片路径
 			photoUri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+
 			intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, photoUri);
 			startActivityForResult(intent, SELECT_PIC_BY_TACK_PHOTO);
 		} else {
@@ -219,10 +220,12 @@ public class AddNewsActivity extends ParentWithNaviActivity  {
 		startActivityForResult(getAlbum, SELECT_PIC_BY_PICK_PHOTO);
 	}
 
+	//重写startActivityForResult方法
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		// 点击取消按钮
-		if(resultCode == RESULT_CANCELED){
+		if (resultCode != RESULT_OK) {
+			Log.e("TAG->onresult","ActivityResult resultCode error");
 			return;
 		}
 		// 可以使用同一个方法，这里分开写为了防止以后扩展不同的需求
@@ -239,6 +242,7 @@ public class AddNewsActivity extends ParentWithNaviActivity  {
 
 	/**
 	 * 选择图片后，获取图片的路径
+	 *
 	 * @param requestCode
 	 * @param data
 	 */
@@ -250,62 +254,47 @@ public class AddNewsActivity extends ParentWithNaviActivity  {
 				Toast.makeText(this, "选择图片文件出错", Toast.LENGTH_LONG).show();
 				return;
 			}
-			//获得图片的uri
-			photoUri = data.getData();
+			Bitmap bm=null;
+
+			 photoUri = data.getData();
+
+			AlertDialog.Builder builder = new AlertDialog.Builder(AddNewsActivity.this);
+			builder.setMessage("图片的uri:"+photoUri);
+			builder.setTitle("提示");
+			builder.create().show();
+
 			if (photoUri == null) {
 				Toast.makeText(this, "选择图片文件出错", Toast.LENGTH_LONG).show();
 				return;
 			}
+			//外界的程序访问ContentProvider所提供数据 可以通过ContentResolver接口
+			ContentResolver resolver = getContentResolver();
+			try {
+
+				bm = MediaStore.Images.Media.getBitmap(resolver, photoUri);
+				// 显示在图片控件上
+				add_pic.setImageBitmap(bm);
+
+				String[] pojo = {MediaStore.MediaColumns.DATA};
+				Cursor cursor = managedQuery(photoUri, pojo, null, null, null);
+				//按我个人理解 这个是获得用户选择的图片的索引值
+				int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+				//将光标移至开头 ，这个很重要，不小心很容易引起越界
+				cursor.moveToFirst();
+				//最后根据索引值获取图片路径
+				picPath = cursor.getString(column_index);
+
+				AlertDialog.Builder builder2 = new AlertDialog.Builder(AddNewsActivity.this);
+				builder2.setMessage("图片的路径:"+picPath);
+				builder2.setTitle("提示");
+				builder2.create().show();
+
+			}catch (IOException e){
+				Log.e("TAG-->Error",e.toString());
+			}
+
+
 		}
 
-		BitmapFactory.Options option = new BitmapFactory.Options();
-		// 压缩图片:表示缩略图大小为原始图片大小的几分之一，1为原图
-		option.inSampleSize = 1;
-		// 根据图片的SDCard路径读出Bitmap
-		Bitmap bm = BitmapFactory.decodeFile(picPath, option);
-		// 显示在图片控件上
-		add_pic.setImageBitmap(bm);
-
-		String[] pojo = { MediaStore.MediaColumns.DATA };
-		Cursor cursor = managedQuery(	photoUri, pojo, null, null, null);
-		//按我个人理解 这个是获得用户选择的图片的索引值
-		int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-		//将光标移至开头 ，这个很重要，不小心很容易引起越界
-		cursor.moveToFirst();
-		//最后根据索引值获取图片路径
-		picPath= cursor.getString(column_index);
-
-		/*Cursor cursor = mContext.getContentResolver().query(photoUri, pojo, null, null, null);
-		if (cursor != null) {
-			int columnIndex = cursor.getColumnIndexOrThrow(pojo[0]);
-			cursor.moveToFirst();
-			picPath = cursor.getString(columnIndex);
-
-			// 4.0以上的版本会自动关闭 (4.0--14;; 4.0.3--15)
-			if (Integer.parseInt(Build.VERSION.SDK) < 14) {
-				cursor.close();
-			}
-		}*/
-
-		// 如果图片符合要求将其上传到服务器
-		/*if (picPath != null && (	picPath.endsWith(".png") ||
-				picPath.endsWith(".PNG") ||
-				picPath.endsWith(".jpg") ||
-				picPath.endsWith(".JPG"))) {
-
-			BitmapFactory.Options option = new BitmapFactory.Options();
-			// 压缩图片:表示缩略图大小为原始图片大小的几分之一，1为原图
-			option.inSampleSize = 1;
-			// 根据图片的SDCard路径读出Bitmap
-			Bitmap bm = BitmapFactory.decodeFile(picPath, option);
-			// 显示在图片控件上
-			add_pic.setImageBitmap(bm);
-
-			//pd = ProgressDialog.show(mContext, null, "正在上传图片，请稍候...");
-			//new Thread(uploadImageRunnable).start();
-		} else {
-			Toast.makeText(this, "选择图片文件不正确", Toast.LENGTH_LONG).show();
-		}*/
 	}
-
 }

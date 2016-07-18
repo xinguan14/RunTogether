@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
               android:id="@+id/container"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:background="@color/white"
               android:descendantFocusability="blocksDescendants"
               android:orientation="horizontal" >
-    <ImageView
+    <com.xinguan14.jdyp.CircleImageView
         android:id="@+id/user_image"
         android:layout_width="50dip"
         android:layout_height="50dip"
-        android:layout_marginLeft="10dip"
-        android:layout_marginTop="5dip"
-        android:background="@drawable/default_qq_avatar"
-        android:scaleType="fitXY" />
+        android:src="@drawable/love"
+        app:border_width="2dp"
+        app:border_color="@color/color_1e1e1e" />
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -28,8 +28,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="WeChat"
-            android:textColor="#7888a9"
-            android:textSize="18.0sp"
+            android:textColor="#444444"
+            android:textSize="15.0sp"
             android:textStyle="bold" />
 
         <RelativeLayout
@@ -106,6 +106,7 @@
                         android:src="@drawable/comment_select" />
                 </RelativeLayout>
             </RelativeLayout>
+
         </FrameLayout>
 
         <RelativeLayout
