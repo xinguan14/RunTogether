@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/rl_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:descendantFocusability="blocksDescendants">
+    <!--padding内边距-->
+    <!-- descendantFocusability
+    该属性是当一个为view获取焦点时，定义viewGroup和其子控件两者之间的关系。
+     属性的值有三种：
+     beforeDescendants：viewgroup会优先其子类控件而获取到焦点
+     afterDescendants：viewgroup只有当其子类控件不需要获取焦点时才获取焦点
+     blocksDescendants：viewgroup会覆盖子类控件而直接获得焦点-->
+    <ImageView
+        android:id="@+id/info_iv_head"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/love"/>
+    <RelativeLayout
+        android:id="@+id/rl1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/info_iv_head">
+        <TextView
+            android:id="@+id/info_tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:text="小仙女"
+            android:textColor="#444444"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/info_tv_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="一分钟前"
+            android:textColor="#BEBBB4"
+            android:textSize="12sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl3"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rl1"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:paddingBottom="5dp"
+        android:paddingRight="5dp"
+        android:paddingTop="5dp" >
+
+        <TextView
+            android:id="@+id/info_tv_content"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="50dp"
+            android:text="李睿豪是傻逼哦，李睿豪是傻逼哦，李睿豪是傻逼哦，李睿豪是傻逼哦，李睿豪是傻逼哦，李睿豪是傻逼哦"
+            android:textColor="#615150"
+            android:textSize="14sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl4"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rl3"
+        android:paddingRight="25dp"
+        android:visibility="gone" >
+        <!--   visibility此属性意思是此视图是否显示，
+           例如RelativeLayout中Android:visibility="gone"
+           其有三个属性：visible显示；invisible显示黑背景条；gone不显示
+           在类中，可以设置其显示与否，setVisibility(View.GONE);不显示
+           setVisibility(View.VISIBLE);显示-->
+        <com.xinguan14.jdyp.MyGridView
+            android:id="@+id/gv_images"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:horizontalSpacing="2dp"
+            android:listSelector="@null"
+            android:numColumns="3"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="2dp" >
+        </com.xinguan14.jdyp.MyGridView>
+
+    </RelativeLayout>
+
+</RelativeLayout>
