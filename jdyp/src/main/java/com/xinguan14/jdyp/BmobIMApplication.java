@@ -3,12 +3,12 @@ package com.xinguan14.jdyp;
 import android.app.Application;
 
 import com.orhanobut.logger.Logger;
+import com.xinguan14.jdyp.base.UniversalImageLoader;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 
-import com.xinguan14.jdyp.base.UniversalImageLoader;
 import cn.bmob.newim.BmobIM;
 
 /**
@@ -44,6 +44,7 @@ public class BmobIMApplication extends Application{
         }
         //uil初始化
         UniversalImageLoader.initImageLoader(this);
+        INSTANCE = this;
     }
 
     /**

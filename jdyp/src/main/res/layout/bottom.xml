@@ -2,54 +2,51 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="60dp"
-    android:orientation="horizontal"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:orientation="horizontal">
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/sports"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:orientation="vertical">
+        android:layout_weight="1">
 
-        <Button
-            android:id="@+id/btn_message"
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/btn_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:drawableTop="@drawable/tab_message_btn"
+                android:onClick="onTabSelect"
+                android:paddingBottom="2dip"
+                android:paddingTop="7dip"
+                android:scaleType="matrix"
+                android:text="@string/main_tab_recent"
+                android:textColor="@drawable/tab_textcolor"
+                android:textSize="12sp" />
+
+        </FrameLayout>
+
+        <include
+            layout="@layout/includeview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:drawableTop="@drawable/tab_message_btn"
-            android:onClick="onTabSelect"
-            android:paddingBottom="2dip"
-            android:paddingTop="7dip"
-            android:scaleType="matrix"
-            android:text="@string/main_tab_recent"
-            android:textColor="@drawable/tab_textcolor"
-            android:textSize="12sp" />
-
-        <ImageView
-            android:id="@+id/iv_message_tips"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
-            android:layout_marginRight="30dp"
-            android:layout_marginTop="7dp"
-            android:background="@mipmap/msg_tips"
-            android:contentDescription="@string/action_settings"
-            android:gravity="center"
-            android:textColor="@android:color/white"
-            android:textSize="12sp"
-            android:visibility="gone" />
-    </LinearLayout>
+            android:visibility="visible" />
 
-    <LinearLayout
+    </RelativeLayout>
+
+    <RelativeLayout
         android:id="@+id/connect"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:orientation="vertical">
+        android:layout_weight="1">
 
         <Button
             android:id="@+id/btn_connect"
@@ -79,24 +76,21 @@
             android:textColor="@android:color/white"
             android:textSize="12sp"
             android:visibility="gone" />
-    </LinearLayout>
-    <LinearLayout
+    </RelativeLayout>
+
+    <RelativeLayout
         android:id="@+id/run"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:orientation="vertical"
-        >
+        android:layout_weight="1">
 
-    </LinearLayout>
-    <LinearLayout
+    </RelativeLayout>
+
+    <RelativeLayout
         android:id="@+id/find"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:orientation="vertical">
+        android:layout_weight="1">
 
         <Button
             android:id="@+id/btn_sports"
@@ -126,19 +120,14 @@
             android:textColor="@android:color/white"
             android:textSize="12sp"
             android:visibility="gone" />
-    </LinearLayout>
+    </RelativeLayout>
 
 
-
-
-
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/my"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:orientation="vertical">
+        android:layout_weight="1">
 
         <Button
             android:id="@+id/btn_set"
@@ -153,6 +142,6 @@
             android:text="@string/mian_tab_set"
             android:textColor="@drawable/tab_textcolor"
             android:textSize="12sp" />
-    </LinearLayout>
+    </RelativeLayout>
 
 </LinearLayout>

@@ -2,11 +2,17 @@ package com.xinguan14.jdyp.adapter.base;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.BounceInterpolator;
+import android.view.animation.LinearInterpolator;
 import android.widget.Toast;
 
+import com.xinguan14.jdyp.SwipMenu.SwapWrapperUtils;
+import com.xinguan14.jdyp.SwipMenu.SwipeMenu;
+import com.xinguan14.jdyp.SwipMenu.SwipeMenuBuilder;
+import com.xinguan14.jdyp.SwipMenu.SwipeMenuLayout;
+import com.xinguan14.jdyp.SwipMenu.SwipeMenuView;
 import com.xinguan14.jdyp.adapter.OnRecyclerViewListener;
 import com.xinguan14.jdyp.base.BaseActivity;
 
@@ -14,11 +20,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-
 /**
  * 支持添加自定义头部布局；
  * 支持扩展多种item布局；
  * 支持设置recycleview点击/长按事件
+ *
  * @param <T>
  * @author smile
  * @link https://github.com/bodismile/BaseRecyclerAdapter
@@ -45,6 +51,10 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseRe
     protected List<T> lists;
     protected IMutlipleItem<T> items;
     protected OnRecyclerViewListener listener;
+    private SwipeMenu swipeMenu;
+    private SwipeMenuBuilder swipeMenuBuilder;
+
+
 
     /**
      * 支持一种或多种Item布局
@@ -57,10 +67,13 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseRe
         this.context = context;
         this.items = items;
         this.lists = datas == null ? new ArrayList<T>() : new ArrayList<T>(datas);
+        swipeMenuBuilder = (SwipeMenuBuilder) this.context;
+
     }
 
     /**
      * 绑定数据
+     *
      * @param datas
      * @return
      */
@@ -72,6 +85,7 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseRe
 
     /**
      * 删除数据
+     *
      * @param position
      */
     public void remove(int position) {
@@ -82,6 +96,7 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseRe
 
     /**
      * 获取指定position的Item
+     *
      * @param position
      * @return
      */
@@ -93,22 +108,28 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseRe
     @Override
     public BaseRecyclerHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         int layoutId = items.getItemLayoutId(viewType);
-        LayoutInflater inflater = LayoutInflater.from(context);
-        View root = inflater.inflate(layoutId, parent, false);
-        return new BaseRecyclerHolder(layoutId, root);
+
+
+        //根据数据创建右边的操作view
+        SwipeMenuView menuView = swipeMenuBuilder.create();
+        //包装用户的item布局
+        SwipeMenuLayout swipeMenuLayout = SwapWrapperUtils.wrap(parent,
+                layoutId, menuView, new BounceInterpolator(), new LinearInterpolator());
+        return new BaseRecyclerHolder(layoutId, swipeMenuLayout);
+
     }
 
     @Override
     public void onBindViewHolder(BaseRecyclerHolder holder, int position) {
         int type = getViewTypeByPosition(position);
-        if(type==TYPE_HEADER){
+        if (type == TYPE_HEADER) {
             bindView(holder, null, position);
-        }else if(type==TYPE_MUTIPLE){
+        } else if (type == TYPE_MUTIPLE) {
             bindView(holder, lists.get(position), position);
-        }else if(type==TYPE_MUTIPLE_HEADER){
+        } else if (type == TYPE_MUTIPLE_HEADER) {
             int headerCount = getItemCount() - lists.size();
             bindView(holder, lists.get(position - headerCount), position);
-        }else{
+        } else {
             bindView(holder, null, position);
         }
         holder.itemView.setOnClickListener(getOnClickListener(position));
@@ -126,19 +147,21 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseRe
     @Override
     public int getItemViewType(int position) {
         int type = getViewTypeByPosition(position);
-        if(type==TYPE_HEADER){
+        if (type == TYPE_HEADER) {
             return items.getItemViewType(position, null);
-        }else if(type==TYPE_MUTIPLE){
+        } else if (type == TYPE_MUTIPLE) {
             return items.getItemViewType(position, lists.get(position));
-        }else if(type==TYPE_MUTIPLE_HEADER){
+        } else if (type == TYPE_MUTIPLE_HEADER) {
             int headerCount = getItemCount() - lists.size();
             return items.getItemViewType(position, lists.get(position - headerCount));
-        }else{
+        } else {
             return 0;
         }
     }
 
-    /**获取指定position的布局类型
+    /**
+     * 获取指定position的布局类型
+     *
      * @param position
      */
     private int getViewTypeByPosition(int position) {
@@ -164,6 +187,7 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseRe
 
     /**
      * 设置点击/长按等事件监听器
+     *
      * @param onRecyclerViewListener
      */
     public void setOnRecyclerViewListener(OnRecyclerViewListener onRecyclerViewListener) {
@@ -194,22 +218,26 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseRe
         };
     }
 
+
+
     /**
      * 需实现此方法
+     *
      * @param holder
      * @param item
      */
     public abstract void bindView(BaseRecyclerHolder holder, T item, int position);
 
     private Toast toast;
+
     public void toast(final Object obj) {
         try {
-            ((BaseActivity)context).runOnUiThread(new Runnable() {
+            ((BaseActivity) context).runOnUiThread(new Runnable() {
 
                 @Override
                 public void run() {
                     if (toast == null)
-                        toast = Toast.makeText(context,"", Toast.LENGTH_SHORT);
+                        toast = Toast.makeText(context, "", Toast.LENGTH_SHORT);
                     toast.setText(obj.toString());
                     toast.show();
                 }

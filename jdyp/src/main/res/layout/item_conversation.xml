@@ -66,21 +66,15 @@
             android:padding="0.0dip"
             android:singleLine="true"
             android:textSize="@dimen/ts_10" />
-
-        <TextView
-            android:id="@+id/tv_recent_unread"
+        <include
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
             android:layout_below="@id/tv_recent_time"
-            style="@style/style_text_white"
-            android:layout_marginRight="10.0dip"
-            android:layout_marginBottom="@dimen/margin_5"
-            android:paddingLeft="@dimen/margin_5"
-            android:paddingRight="@dimen/margin_5"
-            android:paddingTop="@dimen/margin_3"
-            android:paddingBottom="@dimen/margin_3"
-            android:visibility="gone"
-            android:background="@drawable/list_newmessage2"
-            android:textSize="13.0dip" />
+            layout="@layout/includeview"
+            />
     </RelativeLayout>
 
     <View
@@ -90,5 +84,6 @@
         android:layout_marginLeft="@dimen/height_message"
         android:background="@color/color_line" >
     </View>
+
 
 </RelativeLayout>
