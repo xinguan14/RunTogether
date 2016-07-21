@@ -7,7 +7,7 @@ import android.view.MotionEvent;
 
 /**
  * Created by YYZ on 2016/7/20.
- * com.xinguan14.jdyp.MySwipeRefreshLayout
+ * 解决下拉刷新与左滑的冲突
  */
 
 

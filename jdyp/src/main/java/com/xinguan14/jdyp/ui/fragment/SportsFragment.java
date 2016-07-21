@@ -40,6 +40,7 @@ public class SportsFragment extends ParentWithNaviFragment {
 	public Object left(){
 		return null;
 	}*/
+
 /*
 * 给导航栏设置监听事件
 * */

@@ -1,13 +1,19 @@
 package com.xinguan14.jdyp.ui;
 
+import android.annotation.TargetApi;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.DisplayMetrics;
+import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,7 +52,7 @@ import cn.bmob.v3.exception.BmobException;
 /**
  * 四个tab加一个环形菜单
  */
-public class MainActivity extends BaseActivity implements ObseverListener, GooeyMenu.GooeyMenuInterface ,SwipeMenuBuilder ,MessageFragment.Check{
+public class MainActivity extends BaseActivity implements ObseverListener, GooeyMenu.GooeyMenuInterface, SwipeMenuBuilder, MessageFragment.Check {
 
     @Bind(R.id.btn_message)
     Button btn_message;
@@ -78,6 +84,8 @@ public class MainActivity extends BaseActivity implements ObseverListener, Gooey
     private SportsFragment sportsFragment;
     private MessageFragment messageFragment;
     private int index;
+    private int mScreenWidth;
+    private int mScreenHeight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -277,9 +285,37 @@ public class MainActivity extends BaseActivity implements ObseverListener, Gooey
     }
 
 
+    @TargetApi(Build.VERSION_CODES.KITKAT)
     @Override
     public void menuOpen() {
 
+        //获取当前屏幕宽高
+        DisplayMetrics metric = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metric);
+        mScreenWidth = metric.widthPixels;
+        mScreenHeight = metric.heightPixels;
+
+        View view = getLayoutInflater().inflate(R.layout.activity_gooey_menu, null);
+        PopupWindow popupWindow = new PopupWindow(view, mScreenWidth, mScreenHeight);
+        popupWindow.setAnimationStyle(R.style.AppTheme_PopupOverlay);
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setFocusable(true);
+        popupWindow.setTouchable(true);
+        WindowManager.LayoutParams params = getWindow().getAttributes();
+        params.alpha = 0.5f;
+        getWindow().setAttributes(params);
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+
+            @Override
+            public void onDismiss() {
+                WindowManager.LayoutParams lp = getWindow().getAttributes();
+                lp.alpha = 1f;
+                getWindow().setAttributes(lp);
+                gooeyMenu.close();
+            }
+        });
+
+        popupWindow.showAsDropDown(gooeyMenu, Gravity.BOTTOM, 0, 0);
     }
 
     @Override
@@ -307,11 +343,12 @@ public class MainActivity extends BaseActivity implements ObseverListener, Gooey
 
         SwipeMenuView menuView = new SwipeMenuView(menu);
 
-         menuView.setOnMenuItemClickListener(mOnSwipeItemClickListener);
+        menuView.setOnMenuItemClickListener(mOnSwipeItemClickListener);
 
         return menuView;
 
     }
+
     private SwipeMenuView.OnMenuItemClickListener mOnSwipeItemClickListener = new SwipeMenuView.OnMenuItemClickListener() {
 
         @Override
@@ -329,7 +366,9 @@ public class MainActivity extends BaseActivity implements ObseverListener, Gooey
         }
     };
 
-
+    /**
+     * 为了调用activity里的方法创建的
+     */
     @Override
     public void logout() {
         checkRedPoint();

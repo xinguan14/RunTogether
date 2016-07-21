@@ -19,6 +19,7 @@ import android.view.animation.OvershootInterpolator;
 
 /**
  * Created by mabeijianxi on 2016/1/19.
+ * 自定义控件小红点
  */
 public class StickyView extends View {
 
