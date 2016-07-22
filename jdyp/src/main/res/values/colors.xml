@@ -42,4 +42,10 @@
     <color name="color_red">#FF0000</color>
     <color name="green">#07ab61</color>
 
+
+    <color name="holo_blue_light">#ff0099cc</color>
+    <color name="holo_green_dark">#ff669900</color>
+    <color name="holo_green_light">#ff99cc00</color>
+    <color name="holo_red_light">#ffff4444</color>
+
 </resources>

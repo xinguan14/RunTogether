@@ -13,11 +13,13 @@
             android:layout_marginBottom="60dp"
             android:layout_weight="1"/>
         <include
+            android:id="@+id/bottom"
             layout="@layout/bottom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom" />
         <include
+            android:id="@+id/gooey"
             layout="@layout/activity_gooey_menu"
             />
     </FrameLayout>

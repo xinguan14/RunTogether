@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.xinguan14.jdyp">
-
     <uses-sdk
         android:minSdkVersion="9"
         android:targetSdkVersion="14" />
@@ -36,24 +35,21 @@
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
+
             </intent-filter>
         </activity>
         <activity android:name="com.xinguan14.jdyp.ui.LoginActivity" />
-        <activity android:name="com.xinguan14.jdyp.ui.MainActivity" />
         <activity android:name="com.xinguan14.jdyp.ui.RegisterActivity" />
         <activity android:name="com.xinguan14.jdyp.ui.SearchUserActivity" />
         <activity android:name="com.xinguan14.jdyp.ui.UserInfoActivity"/>
         <activity android:name="com.xinguan14.jdyp.ui.NewFriendActivity"/>
         <activity android:name="com.xinguan14.jdyp.ui.fragment.AddNewsActivity"/>
-
-
+        <activity android:name="com.xinguan14.jdyp.ui.MainActivity"/>
         <activity
             android:name="com.xinguan14.jdyp.ui.ChatActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
-
         <!-- bmobim start -->
         <receiver android:name="cn.bmob.newim.core.ConnectChangeReceiver">
             <intent-filter>

@@ -5,8 +5,8 @@ import android.os.Handler;
 import android.os.Looper;
 
 import com.xinguan14.jdyp.R;
-import com.xinguan14.jdyp.bean.User;
 import com.xinguan14.jdyp.base.BaseActivity;
+import com.xinguan14.jdyp.bean.User;
 import com.xinguan14.jdyp.model.UserModel;
 
 /**启动界面

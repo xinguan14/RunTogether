@@ -48,11 +48,10 @@ import cn.bmob.newim.listener.ObseverListener;
 import cn.bmob.newim.notification.BmobNotificationManager;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
-
 /**
  * 四个tab加一个环形菜单
  */
-public class MainActivity extends BaseActivity implements ObseverListener, GooeyMenu.GooeyMenuInterface, SwipeMenuBuilder, MessageFragment.Check {
+public class MainActivity extends BaseActivity implements ObseverListener,GooeyMenu.GooeyMenuInterface, SwipeMenuBuilder, MessageFragment.Check {
 
     @Bind(R.id.btn_message)
     Button btn_message;
@@ -91,6 +90,7 @@ public class MainActivity extends BaseActivity implements ObseverListener, Gooey
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         //connect server
         User user = BmobUser.getCurrentUser(this, User.class);
         gooeyMenu.setOnMenuListener(this);
@@ -118,6 +118,11 @@ public class MainActivity extends BaseActivity implements ObseverListener, Gooey
     }
 
     @Override
+    protected void onSaveInstanceState(Bundle outState) {
+
+    }
+
+    @Override
     protected void initView() {
         super.initView();
         mTabs = new Button[4];
@@ -141,6 +146,7 @@ public class MainActivity extends BaseActivity implements ObseverListener, Gooey
                 break;
             case R.id.btn_set:
                 index = 3;
+
                 break;
         }
         setSelect(index);

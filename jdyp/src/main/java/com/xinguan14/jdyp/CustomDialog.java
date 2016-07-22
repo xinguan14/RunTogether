@@ -14,7 +14,8 @@ import android.widget.TextView;
 import java.util.List;
 
 /**
- * ×Ô¶¨Òådialog
+ *
+ * ï¿½Ô¶ï¿½ï¿½ï¿½dialog
  * 
  * @author xwj
  * @date 2014/9/25
@@ -22,12 +23,11 @@ import java.util.List;
 public class CustomDialog extends Dialog {
 
 	private Context mContext;
-	private String title; // dialogµÄ±êÌâ
-	private List<String> list; // ´Ë´¦ÎªdilogÄÚÈÝ£¬ÔÝ¶¨ÎªstringÀàÐÍ
+	private String title; // dialogï¿½Ä±ï¿½ï¿½ï¿½
+	private List<String> list; // ï¿½Ë´ï¿½Îªdilogï¿½ï¿½ï¿½Ý£ï¿½ï¿½Ý¶ï¿½Îªstringï¿½ï¿½ï¿½ï¿½
 	private ListView mListView;
-
 	public CustomDialog(Context context, String title, List<String> list) {
-		super(context, R.style.customDialog); // È¡µÃdillog×Ô¶¨ÒåµÄÑùÊ½
+		super(context, R.style.customDialog); // È¡ï¿½ï¿½dillogï¿½Ô¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê½
 		this.mContext = context;
 		this.title = title;
 		this.list = list;
@@ -55,7 +55,7 @@ public class CustomDialog extends Dialog {
 	}
 
 	/**
-	 * mListViewµÄÄÚÈÝÊÊÅäÆ÷
+	 * mListViewï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * 
 	 * @author TY
 	 * 
