@@ -8,6 +8,9 @@ import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
 
 import com.xinguan14.jdyp.R;
+import com.xinguan14.jdyp.SwipMenu.SwipeMenu;
+import com.xinguan14.jdyp.SwipMenu.SwipeMenuBuilder;
+import com.xinguan14.jdyp.SwipMenu.SwipeMenuView;
 import com.xinguan14.jdyp.adapter.NewFriendAdapter;
 import com.xinguan14.jdyp.adapter.OnRecyclerViewListener;
 import com.xinguan14.jdyp.adapter.base.IMutlipleItem;
@@ -24,7 +27,7 @@ import butterknife.Bind;
  * @project:NewFriendActivity
  * @date :2016-01-25-18:23
  */
-public class NewFriendActivity extends ParentWithNaviActivity {
+public class NewFriendActivity extends ParentWithNaviActivity implements SwipeMenuBuilder {
 
     @Bind(R.id.ll_root)
     LinearLayout ll_root;
@@ -145,4 +148,10 @@ public class NewFriendActivity extends ParentWithNaviActivity {
         sw_refresh.setRefreshing(false);
     }
 
+    @Override
+    public SwipeMenuView create() {
+        SwipeMenu menu = new SwipeMenu(this);
+        SwipeMenuView menuView = new SwipeMenuView(menu);
+        return menuView;
+    }
 }

@@ -27,6 +27,7 @@ import java.util.List;
 
 /**
  * Created by Anshul on 24/06/15.
+ * 粘性环形菜单
  */
 public class GooeyMenu extends View {
 
@@ -326,13 +327,7 @@ public class GooeyMenu extends View {
                 }
 
                 if (isMenuVisible) {
-                    mBezierAnimation.start();
-                    cancelAllAnimation();
-                    startHideAnimate();
-                    mGooeyMenuInterface.menuClose();
                     isMenuVisible = !isMenuVisible;
-
-
                     menuItem = isMenuItemTouched(event);
                     invalidate();
                     if (menuItem > 0) {
@@ -492,6 +487,12 @@ public class GooeyMenu extends View {
         }
     };
 
+    public void close() {
+        mBezierAnimation.start();
+        cancelAllAnimation();
+        startHideAnimate();
+        isMenuVisible = false;
+    }
 
     public interface GooeyMenuInterface {
         /**

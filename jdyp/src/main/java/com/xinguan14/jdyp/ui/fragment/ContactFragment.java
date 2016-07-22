@@ -4,11 +4,13 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 
+import com.xinguan14.jdyp.CustomDialog;
 import com.xinguan14.jdyp.R;
 import com.xinguan14.jdyp.adapter.ContactAdapter;
 import com.xinguan14.jdyp.adapter.OnRecyclerViewListener;
@@ -26,6 +28,7 @@ import com.xinguan14.jdyp.ui.SearchUserActivity;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -36,7 +39,9 @@ import cn.bmob.newim.bean.BmobIMUserInfo;
 import cn.bmob.v3.listener.DeleteListener;
 import cn.bmob.v3.listener.FindListener;
 
-/**联系人界面
+/**
+ * 联系人界面
+ *
  * @author :smile
  * @project:ContactFragment
  * @date :2016-04-27-14:23
@@ -49,6 +54,7 @@ public class ContactFragment extends ParentWithNaviFragment {
     SwipeRefreshLayout sw_refresh;
     ContactAdapter adapter;
     LinearLayoutManager layoutManager;
+    private List<String> mDilogList;  // 删除
 
     @Override
     protected String title() {
@@ -70,51 +76,56 @@ public class ContactFragment extends ParentWithNaviFragment {
 
             @Override
             public void clickRight() {
-                startActivity(SearchUserActivity.class,null);
+                startActivity(SearchUserActivity.class, null);
             }
         };
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        rootView =inflater.inflate(R.layout.fragment_contact, container, false);
+        rootView = inflater.inflate(R.layout.fragment_contact, container, false);
         initNaviView();
         ButterKnife.bind(this, rootView);
         IMutlipleItem<Friend> mutlipleItem = new IMutlipleItem<Friend>() {
 
             @Override
             public int getItemViewType(int postion, Friend friend) {
-                if(postion==0){
+                if (postion == 0) {
                     return ContactAdapter.TYPE_NEW_FRIEND;
-                }else{
+                } else {
                     return ContactAdapter.TYPE_ITEM;
                 }
             }
 
             @Override
             public int getItemLayoutId(int viewtype) {
-                if(viewtype== ContactAdapter.TYPE_NEW_FRIEND){
+                if (viewtype == ContactAdapter.TYPE_NEW_FRIEND) {
                     return R.layout.header_new_friend;
-                }else{
+                } else {
                     return R.layout.item_contact;
                 }
             }
 
             @Override
             public int getItemCount(List<Friend> list) {
-                return list.size()+1;
+                return list.size() + 1;
             }
         };
-        adapter = new ContactAdapter(getActivity(),mutlipleItem,null);
-        rc_view.setAdapter(adapter);
+
+        mDilogList = new ArrayList<String>();
+        mDilogList.add("删除");
+
         layoutManager = new LinearLayoutManager(getActivity());
         rc_view.setLayoutManager(layoutManager);
+        adapter = new ContactAdapter(getActivity(), mutlipleItem, null);
+        rc_view.setAdapter(adapter);
+
         sw_refresh.setEnabled(true);
         setListener();
         return rootView;
     }
 
-    private void setListener(){
+    private void setListener() {
         rootView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
@@ -148,22 +159,35 @@ public class ContactFragment extends ParentWithNaviFragment {
 
             @Override
             public boolean onItemLongClick(final int position) {
-                log("长按" + position);
-                if(position==0){
+
+                Log.i("info", "长按" + position);
+                if (position == 0) {
                     return true;
                 }
-                UserModel.getInstance().deleteFriend(adapter.getItem(position), new DeleteListener() {
-                    @Override
-                    public void onSuccess() {
-                        toast("好友删除成功");
-                        adapter.remove(position);
-                    }
+                final CustomDialog customDialog = new CustomDialog(getActivity(), "提示", mDilogList);
+                customDialog.show();
+                customDialog.setItemOnClickListener(new CustomDialog.MyItemOnClickListener() {
 
                     @Override
-                    public void onFailure(int i, String s) {
-                        toast("好友删除失败：" + i + ",s =" + s);
+                    public void itemOnClick(int itemPosition) {
+
+                        UserModel.getInstance().deleteFriend(adapter.getItem(position), new DeleteListener() {
+                            @Override
+                            public void onSuccess() {
+                                toast("好友删除成功");
+                                adapter.remove(position);
+                            }
+
+                            @Override
+                            public void onFailure(int i, String s) {
+                                toast("好友删除失败：" + i + ",s =" + s);
+                            }
+                        });
+                        adapter.notifyDataSetChanged();
+                        customDialog.cancel();
                     }
                 });
+
                 return true;
             }
         });
@@ -188,20 +212,22 @@ public class ContactFragment extends ParentWithNaviFragment {
         super.onStop();
     }
 
-    /**注册自定义消息接收事件
+    /**
+     * 注册自定义消息接收事件
+     *
      * @param event
      */
     @Subscribe
-    public void onEventMainThread(RefreshEvent event){
+    public void onEventMainThread(RefreshEvent event) {
         //重新刷新列表
         log("---联系人界面接收到自定义消息---");
         adapter.notifyDataSetChanged();
     }
 
     /**
-      查询本地会话
+     * 查询本地会话
      */
-    public void query(){
+    public void query() {
         UserModel.getInstance().queryFriends(new FindListener<Friend>() {
             @Override
             public void onSuccess(List<Friend> list) {
@@ -218,5 +244,6 @@ public class ContactFragment extends ParentWithNaviFragment {
             }
         });
     }
+
 
 }

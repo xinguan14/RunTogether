@@ -6,18 +6,19 @@
     android:background="@color/base_bg"
     android:orientation="vertical">
 
-    <include android:id="@+id/ll" layout="@layout/include_navi"/>
+    <include
+        android:id="@+id/ll"
+        layout="@layout/include_navi" />
 
-    <android.support.v4.widget.SwipeRefreshLayout
+    <com.xinguan14.jdyp.MySwipeRefreshLayout
         android:id="@+id/sw_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.v7.widget.RecyclerView
+        <com.xinguan14.jdyp.SwipMenu.SwapRecyclerView
             android:id="@+id/rc_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-    </android.support.v4.widget.SwipeRefreshLayout>
-
+    </com.xinguan14.jdyp.MySwipeRefreshLayout>
 </LinearLayout>

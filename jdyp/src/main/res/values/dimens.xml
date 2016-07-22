@@ -32,8 +32,8 @@
 
     <dimen name="min_height">160dp</dimen>
     <dimen name="big_circle_radius">30dp</dimen>
-    <dimen name="small_circle_radius">20dp</dimen>
+    <dimen name="small_circle_radius">30dp</dimen>
 
-    <dimen name="min_gap">80dp</dimen>
+    <dimen name="min_gap">150dp</dimen>
 
 </resources>

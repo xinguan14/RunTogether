@@ -11,16 +11,15 @@ import com.xinguan14.jdyp.base.ImageLoaderFactory;
 
 /**
  * 与BaseRecyclerAdapter一起使用
- *
  */
 public class BaseRecyclerHolder extends RecyclerView.ViewHolder {
 
     private final SparseArray<View> mViews;
-    public  int layoutId;
-
-    public BaseRecyclerHolder(int layoutId,View itemView) {
+    public int layoutId;
+    TextView mDragView;
+    public BaseRecyclerHolder(int layoutId, View itemView) {
         super(itemView);
-        this.layoutId =layoutId;
+        this.layoutId = layoutId;
         this.mViews = new SparseArray<>(8);
     }
 
@@ -32,7 +31,7 @@ public class BaseRecyclerHolder extends RecyclerView.ViewHolder {
      * @param viewId
      * @return
      */
-    protected <T extends View> T getView(int viewId) {
+    public <T extends View> T getView(int viewId) {
         View view = mViews.get(viewId);
         if (view == null) {
             view = itemView.findViewById(viewId);
@@ -54,11 +53,12 @@ public class BaseRecyclerHolder extends RecyclerView.ViewHolder {
 
     /**
      * 设置Enabled
+     *
      * @param viewId
      * @param enable
      * @return
      */
-    public BaseRecyclerHolder setEnabled(int viewId,boolean enable){
+    public BaseRecyclerHolder setEnabled(int viewId, boolean enable) {
         View v = getView(viewId);
         v.setEnabled(enable);
         return this;
@@ -66,11 +66,12 @@ public class BaseRecyclerHolder extends RecyclerView.ViewHolder {
 
     /**
      * 点击事件
+     *
      * @param viewId
      * @param listener
      * @return
      */
-    public BaseRecyclerHolder setOnClickListener(int viewId, View.OnClickListener listener){
+    public BaseRecyclerHolder setOnClickListener(int viewId, View.OnClickListener listener) {
         View v = getView(viewId);
         v.setOnClickListener(listener);
         return this;
@@ -82,7 +83,7 @@ public class BaseRecyclerHolder extends RecyclerView.ViewHolder {
      * @param visibility
      * @return
      */
-    public BaseRecyclerHolder setVisible(int viewId,int visibility) {
+    public BaseRecyclerHolder setVisible(int viewId, int visibility) {
         View view = getView(viewId);
         view.setVisibility(visibility);
         return this;
@@ -118,7 +119,7 @@ public class BaseRecyclerHolder extends RecyclerView.ViewHolder {
      */
     public BaseRecyclerHolder setImageView(String avatar, int defaultRes, int viewId) {
         ImageView iv = getView(viewId);
-        ImageLoaderFactory.getLoader().loadAvator(iv,avatar, defaultRes);
+        ImageLoaderFactory.getLoader().loadAvator(iv, avatar, defaultRes);
         return this;
     }
 }

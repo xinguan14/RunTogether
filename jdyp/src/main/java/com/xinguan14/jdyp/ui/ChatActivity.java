@@ -660,7 +660,6 @@ public class ChatActivity extends ParentWithNaviActivity implements ObseverListe
         BmobNotificationManager.getInstance(this).cancelNotification();
         super.onResume();
     }
-
     /**
      * 添加未读的通知栏消息到聊天界面
      */
@@ -682,7 +681,6 @@ public class ChatActivity extends ParentWithNaviActivity implements ObseverListe
         BmobIM.getInstance().removeMessageListHandler(this);
         super.onPause();
     }
-
     @Override
     protected void onDestroy() {
         //清理资源
@@ -696,5 +694,4 @@ public class ChatActivity extends ParentWithNaviActivity implements ObseverListe
         hideSoftInputView();
         super.onDestroy();
     }
-
 }
