@@ -54,8 +54,8 @@ public class SportsFragment extends ParentWithNaviFragment {
 			@Override
 			public void clickRight()
 			{
-				startActivity(AddNewsActivity.class,null);
-				/*Fragment newFragment = new AddNewsActivity();
+				startActivity(AddPostActivity.class,null);
+				/*Fragment newFragment = new AddPostActivity();
 				FragmentManager fragmentManager =getFragmentManager();
 				FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 //替换该界面中的Fragment

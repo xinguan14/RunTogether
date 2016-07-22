@@ -13,7 +13,7 @@
         android:layout_height="50dip"
         android:src="@drawable/love"
         app:border_width="2dp"
-        app:border_color="@color/color_1e1e1e" />
+        app:border_color="@color/common_bg" />
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -46,6 +46,32 @@
                 android:textSize="16.0sp" />
         </RelativeLayout>
 
+        <!--显示图片的GridView-->
+        <RelativeLayout
+            android:id="@+id/rl4"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rl3"
+            android:paddingRight="25dp"
+            android:visibility="gone" >
+            <!--   visibility此属性意思是此视图是否显示，
+               例如RelativeLayout中Android:visibility="gone"
+               其有三个属性：visible显示；invisible显示黑背景条；gone不显示
+               在类中，可以设置其显示与否，setVisibility(View.GONE);不显示
+               setVisibility(View.VISIBLE);显示-->
+            <com.xinguan14.jdyp.MyGridView
+                android:id="@+id/gv_images"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:horizontalSpacing="2dp"
+                android:listSelector="@null"
+                android:numColumns="3"
+                android:stretchMode="columnWidth"
+                android:verticalSpacing="2dp" >
+            </com.xinguan14.jdyp.MyGridView>
+        </RelativeLayout>
+
+
         <FrameLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -67,6 +93,7 @@
                     android:textSize="14.0sp" />
 
                 <ImageButton
+                    android:id="@+id/comment_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -105,10 +132,12 @@
                         android:scaleType="fitXY"
                         android:src="@drawable/comment_select" />
                 </RelativeLayout>
+
             </RelativeLayout>
 
         </FrameLayout>
 
+        <!--显示评论界面-->
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="20dip"
@@ -136,82 +165,6 @@
                 android:textSize="13.0sp" />
         </RelativeLayout>
 
-        <ImageView
-            android:id="@+id/line"
-            android:layout_width="fill_parent"
-            android:layout_height="1dip"
-            android:background="@drawable/line" />
 
-        <LinearLayout
-            android:id="@+id/comment_container"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="#e6e6e6"
-            android:orientation="vertical" >
-
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal" >
-
-                <TextView
-                    android:id="@+id/tv_comment_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="2dip"
-                    android:text="评论一:"
-                    android:textColor="#7888a9"
-                    android:textSize="14.0sp" />
-
-                <TextView
-                    android:id="@+id/tv_comment_content"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="2dip"
-                    android:text="不错啊，很好。"
-                    android:textColor="@color/base_color_text_gray"
-                    android:textSize="14.0sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal" >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="2dip"
-                    android:text="WeChat"
-                    android:textColor="#7888a9"
-                    android:textSize="14.0sp" />
-
-                <TextView
-                    android:id="@+id/tv_comment_content1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="2dip"
-                    android:text="回复"
-                    android:textColor="@color/base_color_text_gray"
-                    android:textSize="14.0sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="2dip"
-                    android:text="评论一:"
-                    android:textColor="#7888a9"
-                    android:textSize="14.0sp" />
-
-                <TextView
-                    android:id="@+id/tv_comment_content2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="2dip"
-                    android:text="谢谢。"
-                    android:textColor="@color/base_color_text_gray"
-                    android:textSize="14.0sp" />
-            </LinearLayout>
-        </LinearLayout>
     </LinearLayout>
 </LinearLayout>
