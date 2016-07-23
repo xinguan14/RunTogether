@@ -7,6 +7,7 @@ import android.view.WindowManager;
 
 /**
  * Created by wm on 2016/7/18.
+ * 获取屏幕的大小以设定grideView显示的大小
  */
 public class SysUtils {
     public  static int Dp2Px(Context context, float dp){

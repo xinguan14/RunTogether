@@ -3,10 +3,10 @@ package com.xinguan14.jdyp.ui.fragment;
 import android.app.AlertDialog;
 import android.content.ContentResolver;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -21,34 +21,28 @@ import android.widget.Toast;
 
 import com.xinguan14.jdyp.R;
 import com.xinguan14.jdyp.base.ParentWithNaviActivity;
-import com.xinguan14.jdyp.bean.Comments;
+import com.xinguan14.jdyp.bean.Post;
 import com.xinguan14.jdyp.bean.User;
 import com.xinguan14.jdyp.ui.fragment.sportsfragment.SelectPicPopupWindow;
 
 import java.io.File;
-import java.io.IOException;
 
 import butterknife.Bind;
-import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobFile;
-import cn.bmob.v3.listener.GetListener;
 import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UploadFileListener;
 
-public class AddNewsActivity extends ParentWithNaviActivity {
+public class AddPostActivity extends ParentWithNaviActivity {
 
-	@Bind(R.id.content)
-	EditText content;
+	@Bind(R.id.edit_content)
+	EditText editContent;
 	@Bind(R.id.submit)
 	Button submit;
 	@Bind(R.id.add_pic)
 	ImageView add_pic;
 
-	String userId;
-	private String userName;
-	private BmobFile image;
 
-	private Context mContext;
 	private SelectPicPopupWindow menuWindow; // 上传图片弹出框
 	/**
 	 * 使用照相机拍照获取图片
@@ -79,88 +73,79 @@ public class AddNewsActivity extends ParentWithNaviActivity {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.add_news);
-
-		mContext = AddNewsActivity.this;
 		initNaviView();
-		qury();
 
 		//上传动态按钮的监听事件
 		submit.setOnClickListener(new View.OnClickListener() {
-			Comments comments = new Comments();
-			String contents = content.getText().toString();
+			//获取当前用户
+			User user = BmobUser.getCurrentUser(AddPostActivity.this,User.class);
+			//创建帖子信息
+			Post mPost = new Post();
+			//获取发布的动态的内容
 			@Override
 			public void onClick(View view) {
 				//上传图片
-				final BmobFile file = new BmobFile(new File(picPath));
+				if(picPath!="") {
+					final BmobFile file = new BmobFile(new File(picPath));
+					file.uploadblock(AddPostActivity.this, new UploadFileListener() {
+						@Override
+						public void onSuccess() {
+							//---返回的上传文件的地址（不带域名）
+							//String url = file.getUrl();
+							//--返回的上传文件的完整地址（带域名）
+							String url = file.getFileUrl(AddPostActivity.this);
+						}
 
-				file.upload(AddNewsActivity.this, new UploadFileListener() {
-					@Override
-					public void onSuccess() {
-						comments.setImage(file);
-						comments.save(AddNewsActivity.this);
-					}
-					@Override
-					public void onProgress(Integer arg0) {
-						// TODO Auto-generated method stub
-					}
-					@Override
-					public void onFailure(int i, String s) {
-						Toast.makeText(getApplicationContext(), "上传失败!", Toast.LENGTH_SHORT).show();
-					}
-				});
+						@Override
+						public void onProgress(Integer arg0) {
+							// TODO Auto-generated method stub
+						}
+
+						@Override
+						public void onFailure(int i, String s) {
+							Toast.makeText(getApplicationContext(), "上传图片失败!", Toast.LENGTH_SHORT).show();
+						}
+					});
+				}
 
 				//上传文字
-				comments.setContent(contents);
-				comments.setUserId(userId);
-				comments.setUserName(userName);
-				comments.save(AddNewsActivity.this, new SaveListener() {
-					@Override
-					public void onSuccess() {
-						// TODO Auto-generated method stub
-						Toast.makeText(getApplicationContext(), "发布成功!", Toast.LENGTH_SHORT).show();
-						setResult(RESULT_OK);
-						finish();
-					}
+				String contents = editContent.getText().toString();
+				if(contents!=null) {
+					mPost.setContent(contents);
+					//添加动态和用户之间的一对一关联
+					mPost.setAuthor(user);
+					mPost.save(AddPostActivity.this, new SaveListener() {
+						@Override
+						public void onSuccess() {
+							// TODO Auto-generated method stub
+							Toast.makeText(getApplicationContext(), "发布成功!", Toast.LENGTH_SHORT).show();
+							setResult(RESULT_OK);
+							finish();
+						}
 
-					@Override
-					public void onFailure(int code, String arg0) {
-						// TODO Auto-generated method stub
-						Toast.makeText(getApplicationContext(), "发布失败!", Toast.LENGTH_SHORT).show();
-					}
-				});
+						@Override
+						public void onFailure(int code, String arg0) {
+							// TODO Auto-generated method stub
+							Toast.makeText(getApplicationContext(), "发布失败!", Toast.LENGTH_SHORT).show();
+						}
+					});
+				}else {
+					Toast.makeText(getApplicationContext(), "内容不能为空!", Toast.LENGTH_SHORT).show();
+				}
 			}
 		});
-
 
 		//弹出选择图片的窗口
 		add_pic.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				menuWindow = new SelectPicPopupWindow(mContext, itemsOnClick);
+				menuWindow = new SelectPicPopupWindow(AddPostActivity.this, itemsOnClick);
 				menuWindow.showAtLocation(findViewById(R.id.uploadLayout),
 						Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
 			}
 		});
 
 	}
-
-	//查询数据，得到当前用户的用户名
-	private void qury() {
-		userId = getCurrentUid();
-		final BmobQuery<User> userNameQuery = new BmobQuery<User>();
-		userNameQuery.getObject(this, userId, new GetListener<User>() {
-			@Override
-			public void onSuccess(User user) {
-				userName = user.getUsername();
-			}
-
-			@Override
-			public void onFailure(int i, String s) {
-
-			}
-		});
-	}
-
 
 	//为弹出窗口实现监听类
 	private View.OnClickListener itemsOnClick = new View.OnClickListener() {
@@ -258,7 +243,7 @@ public class AddNewsActivity extends ParentWithNaviActivity {
 
 			 photoUri = data.getData();
 
-			AlertDialog.Builder builder = new AlertDialog.Builder(AddNewsActivity.this);
+			AlertDialog.Builder builder = new AlertDialog.Builder(AddPostActivity.this);
 			builder.setMessage("图片的uri:"+photoUri);
 			builder.setTitle("提示");
 			builder.create().show();
@@ -269,11 +254,10 @@ public class AddNewsActivity extends ParentWithNaviActivity {
 			}
 			//外界的程序访问ContentProvider所提供数据 可以通过ContentResolver接口
 			ContentResolver resolver = getContentResolver();
-			try {
+				/*bm = MediaStore.Images.Media.getBitmap(resolver, photoUri);
 
-				bm = MediaStore.Images.Media.getBitmap(resolver, photoUri);
 				// 显示在图片控件上
-				add_pic.setImageBitmap(bm);
+				add_pic.setImageBitmap(bm);*/
 
 				String[] pojo = {MediaStore.MediaColumns.DATA};
 				Cursor cursor = managedQuery(photoUri, pojo, null, null, null);
@@ -284,15 +268,18 @@ public class AddNewsActivity extends ParentWithNaviActivity {
 				//最后根据索引值获取图片路径
 				picPath = cursor.getString(column_index);
 
-				AlertDialog.Builder builder2 = new AlertDialog.Builder(AddNewsActivity.this);
+				BitmapFactory.Options option = new BitmapFactory.Options();
+				// 压缩图片:表示缩略图大小为原始图片大小的几分之一，1为原图
+				option.inSampleSize = 2;
+				// 根据图片的SDCard路径读出Bitmap
+				bm = BitmapFactory.decodeFile(picPath, option);
+				// 显示在图片控件上
+				add_pic.setImageBitmap(bm);
+
+				AlertDialog.Builder builder2 = new AlertDialog.Builder(AddPostActivity.this);
 				builder2.setMessage("图片的路径:"+picPath);
 				builder2.setTitle("提示");
 				builder2.create().show();
-
-			}catch (IOException e){
-				Log.e("TAG-->Error",e.toString());
-			}
-
 
 		}
 

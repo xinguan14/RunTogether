@@ -1,20 +1,18 @@
 package com.xinguan14.jdyp.adapter;
 
 import android.app.Activity;
-import android.text.util.Linkify;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.xinguan14.jdyp.MyGridView;
 import com.xinguan14.jdyp.R;
-import com.xinguan14.jdyp.bean.GridViewItem;
+import com.xinguan14.jdyp.adapter.base.BaseListAdapter;
+import com.xinguan14.jdyp.adapter.base.BaseListHolder;
+import com.xinguan14.jdyp.bean.Post;
 import com.xinguan14.jdyp.util.SysUtils;
 
 import net.tsz.afinal.FinalBitmap;
@@ -23,115 +21,91 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by yyz on 2016/7/18.
+ * Created by wm on 2016/7/18.
+ * 用来显示动态的数据
  */
-public class ListViewAdapter  extends BaseAdapter {
-    private LayoutInflater mInflater;
-    private Activity context;
-    private List<GridViewItem> list;
+public class SquareListViewAdapter extends BaseListAdapter<Post> {
+
     private FinalBitmap finalBitmap;
     private GridViewAdapter gridViewAdapter;
     private int wh;
-    public ListViewAdapter(Activity context, List<GridViewItem> list){
-        super();
-        this.mInflater = LayoutInflater.from(context);
-        this.context = context;
+
+    public SquareListViewAdapter(Activity context, List<Post> list){
+        super(context,list);
+
+        //根据屏幕的大小设置控件的大小
         this.wh=(SysUtils.getScreenWidth(context)- SysUtils.Dp2Px(context, 99))/3;
-        this.list = list;
+        //传递的动态数据
         this.finalBitmap = FinalBitmap.create(context);
+        //图片为加载成功显示的数据
         this.finalBitmap.configLoadfailImage(R.drawable.love);
     }
-    public List<GridViewItem> getlist(){
-        return  list;
-    }
-    @Override
-    public int getCount() {
 
-        return list == null ? 0 : list.size();
-    }
-
-    @Override
-    public Object getItem(int position) {
-
-        return list == null ? null : list.get(position);
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return list == null ? null : position;
-    }
-
+    //给控件绑定数据
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+
         if (list.size()==0){
             return null;
         }
-        final ViewHolder holder;
-        if(convertView==null){
-            convertView = mInflater.inflate(R.layout.fragment_sport_square_item,null);
-            holder = new ViewHolder();
-            holder.headphoto = (ImageView) convertView.findViewById(R.id.info_iv_head);//头像
-            holder.disName = (TextView) convertView.findViewById(R.id.info_tv_name);//昵称
-            holder.time = (TextView) convertView.findViewById(R.id.info_tv_time);//时间
-            holder.content = (TextView) convertView.findViewById(R.id.info_tv_content);//发布内容
-            holder.rl4=(RelativeLayout) convertView.findViewById(R.id.rl4);//图片布局
-            holder.gv_images = (MyGridView) convertView.findViewById(R.id.gv_images);//图片
-            convertView.setTag(holder);
-        }else {
-            holder = (ViewHolder)convertView.getTag();
-        }
-        final GridViewItem gridViewItem = list.get(position);
+
+        final BaseListHolder holder = BaseListHolder.get(mContext,convertView,
+                parent, R.layout.fragment_sport_square_item,position);
+
+        ImageView headPhoto = holder.getView(R.id.info_iv_head);
+        RelativeLayout rL = holder.getView(R.id.rl4);
+        MyGridView gv_images = holder.getView(R.id.gv_images);
+
+        final Post gridViewItem = list.get(position);
         String name = null,time = null,content = null,headpath = null,contentimage = null;
         if(gridViewItem !=null){
-            name = gridViewItem.getUsername();
-            time = gridViewItem.getTime();
+            name = gridViewItem.getName();
+            // time = gridViewItem.getTime();
             content = gridViewItem.getContent();
-            headpath = gridViewItem.getHeadphoto();
-            contentimage = gridViewItem.getImage();
+            headpath = gridViewItem.getHeadPhoto();
+            //contentimage = gridViewItem.getImage();
         }
         //昵称
         if (name!=null&&!name.equals("")) {
-            holder.disName.setText(name);
+            holder.setTextView(R.id.info_tv_name,name);
         }
-        //是否含有图片
+        //是否含有图片，有图片则显示gridview
         if (contentimage!=null&&!contentimage.equals("")) {
-            holder.rl4.setVisibility(View.VISIBLE);
-            initInfoImages(holder.gv_images,contentimage);
+            rL.setVisibility(View.VISIBLE);
+            initInfoImages(gv_images,contentimage);
         } else {
-            holder.rl4.setVisibility(View.GONE);
+            rL.setVisibility(View.GONE);
         }
         //发布时间
         if (time!=null&&!time.equals("")) {
-            holder.time.setText(time);
+            holder.setTextView(R.id.info_tv_time,time);
         }
         //内容
         if (content!=null&&!content.equals("")) {
-            holder.content.setText(content);
-            Linkify.addLinks(holder.content, Linkify.WEB_URLS);
+            holder.setTextView(R.id.info_tv_content,content);
+            //infoContent.setText(content);
+            //Linkify.addLinks(infoContent, Linkify.WEB_URLS);
         }
         //头像
         if (headpath!=null&&!headpath.equals("")) {
-            finalBitmap.display(holder.headphoto,headpath);
+            finalBitmap.display(headPhoto,headpath);
         } else {
-            holder.headphoto.setImageResource(R.drawable.love);
+            headPhoto.setImageResource(R.drawable.love);
         }
-        holder.headphoto.setOnClickListener(new View.OnClickListener() {
+        //点击头像的点击事件
+        headPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                Toast.makeText(context, "点击了头像", Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext, "点击了头像", Toast.LENGTH_LONG).show();
             }
         });
 
-        return convertView;
+        return holder.getConvertView();
+
     }
-    static class ViewHolder {
-        ImageView headphoto;
-        TextView disName;
-        TextView time;
-        TextView content;
-        MyGridView gv_images;
-        RelativeLayout rl4;
-    }
+
+
+    //初始化图片集，设定GridView的列数
     public void initInfoImages(MyGridView gv_images,final String imgspath){
         if(imgspath!=null&&!imgspath.equals("")){
             String[] imgs=imgspath.split("#");
@@ -147,13 +121,13 @@ public class ListViewAdapter  extends BaseAdapter {
                     break;
                 case 2:
                 case 4:
-                    w=2*wh+SysUtils.Dp2Px(context, 2);
+                    w=2*wh+SysUtils.Dp2Px(mContext, 2);
                     gv_images.setNumColumns(2);
                     break;
                 case 3:
                 case 5:
                 case 6:
-                    w=wh*3+ SysUtils.Dp2Px(context, 2)*2;
+                    w=wh*3+ SysUtils.Dp2Px(mContext, 2)*2;
                     gv_images.setNumColumns(3);
                     break;
             }
@@ -165,12 +139,14 @@ public class ListViewAdapter  extends BaseAdapter {
             1，一个确定的值；
             2，FILL_PARENT，即填满（和父容器一样大小）；
             3，WRAP_CONTENT，即包裹住组件就好。。*/
-            gridViewAdapter=new GridViewAdapter(context, list);
+
+            gridViewAdapter=new GridViewAdapter(mContext, list);
             gv_images.setAdapter(gridViewAdapter);
+            //点击图片的点击事件
             gv_images.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-                    Toast.makeText(context, "点击了第"+(arg2+1)+"张图片", Toast.LENGTH_LONG).show();
+                    Toast.makeText(mContext, "点击了第"+(arg2+1)+"张图片", Toast.LENGTH_LONG).show();
                 }
             });
         }

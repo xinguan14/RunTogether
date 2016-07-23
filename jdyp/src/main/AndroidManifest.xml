@@ -44,8 +44,14 @@
         <activity android:name="com.xinguan14.jdyp.ui.SearchUserActivity" />
         <activity android:name="com.xinguan14.jdyp.ui.UserInfoActivity"/>
         <activity android:name="com.xinguan14.jdyp.ui.NewFriendActivity"/>
+<<<<<<< HEAD
         <activity android:name="com.xinguan14.jdyp.ui.fragment.AddNewsActivity"/>
         <activity android:name="com.xinguan14.jdyp.ui.MainActivity"/>
+=======
+        <activity android:name=".ui.fragment.AddPostActivity"/>
+
+
+>>>>>>> 58c80c68b4ef106d12aa985a58951e89ddc2db75
         <activity
             android:name="com.xinguan14.jdyp.ui.ChatActivity"
             android:screenOrientation="portrait"

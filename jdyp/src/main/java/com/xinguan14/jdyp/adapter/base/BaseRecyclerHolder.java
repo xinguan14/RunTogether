@@ -78,6 +78,7 @@ public class BaseRecyclerHolder extends RecyclerView.ViewHolder {
     }
 
     /**
+     * 设置传入View的可见性
      * @param viewId
      * @param visibility
      * @return
