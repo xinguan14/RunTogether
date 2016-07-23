@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:id="@+id/layout_container"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <ListView
+        android:id="@+id/listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <FrameLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/max_height_header"
+        android:background="@color/holo_blue_light"
+        android:orientation="vertical">
+
+        <View
+            android:id="@+id/header_image"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
+            android:layout_gravity="center_horizontal|bottom"
+            android:layout_marginBottom="15dp"
+            android:alpha="0.5"
+            android:background="@color/holo_green_dark"/>
+
+    </FrameLayout>
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:alpha="0.5"
+        android:background="@color/holo_blue_light"
+        android:elevation="4dp">
+
+        <TextView
+            android:id="@+id/title_toolbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingRight="10dp"
+            android:text="最近成就"
+            android:textSize="18sp"/>
+
+    </android.support.v7.widget.Toolbar>
+
+</FrameLayout>
