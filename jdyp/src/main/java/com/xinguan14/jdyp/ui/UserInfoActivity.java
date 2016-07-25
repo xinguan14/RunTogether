@@ -31,6 +31,7 @@ import cn.bmob.v3.exception.BmobException;
  */
 public class UserInfoActivity extends ParentWithNaviActivity {
 
+
     @Bind(R.id.iv_avator)
     ImageView iv_avator;
     @Bind(R.id.tv_name)
@@ -53,14 +54,15 @@ public class UserInfoActivity extends ParentWithNaviActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_info);
         initNaviView();
+
         //如果个人资料显示的不是用户自己的个人资料，则显示添加好友和聊天的按钮
         user=(User)getBundle().getSerializable("u");
         if(user.getObjectId().equals(getCurrentUid())){
             btn_add_friend.setVisibility(View.GONE);
             btn_chat.setVisibility(View.GONE);
         }else{
-            btn_add_friend.setVisibility(View.VISIBLE);
             btn_chat.setVisibility(View.VISIBLE);
+            btn_add_friend.setVisibility(View.VISIBLE);
         }
         //构造聊天方的用户信息:传入用户id、用户名和用户头像三个参数
         info = new BmobIMUserInfo(user.getObjectId(),user.getUsername(),user.getAvatar());

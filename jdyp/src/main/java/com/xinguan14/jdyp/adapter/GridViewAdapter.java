@@ -1,18 +1,14 @@
 package com.xinguan14.jdyp.adapter;
 
-import android.app.Activity;
-import android.graphics.Bitmap;
-import android.view.View;
-import android.view.ViewGroup;
+import android.content.Context;
 import android.widget.AbsListView;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.xinguan14.jdyp.R;
-import com.xinguan14.jdyp.adapter.base.BaseListAdapter;
 import com.xinguan14.jdyp.adapter.base.BaseListHolder;
+import com.xinguan14.jdyp.adapter.base.CommonAdapter;
 import com.xinguan14.jdyp.util.SysUtils;
-
-import net.tsz.afinal.FinalBitmap;
 
 import java.util.ArrayList;
 
@@ -20,43 +16,32 @@ import java.util.ArrayList;
  * Created by wm on 2016/7/18.
  * 用来显示动态中的图片
  */
-public class GridViewAdapter extends BaseListAdapter<String> {
+public class GridViewAdapter extends CommonAdapter<String> {
 
-
-    public Bitmap bitmaps[];
-    private FinalBitmap finaImageLoader;
     private int wh;
 
-    //构造GridView时需要传递两个参数，一个是需要使用的Activity，一个是显示的数组数据
-    public GridViewAdapter(Activity context,ArrayList<String> list){
-        super(context,list);
-        //根据屏幕的宽度设定显示的图片的宽度
-        this.wh=(SysUtils.getScreenWidth(context)-SysUtils.Dp2Px(context, 99))/3;
-
-        this.finaImageLoader = FinalBitmap.create(context);/*获取一个FinalBitmap对象*/
-
-        this.finaImageLoader.configLoadfailImage(R.drawable.love);/*图片加载完成前显示的图片*/
+    //构造GridView时需要传递三个参数，一个是需要使用的Activity，一个是显示的数组数据，一个是item的布局文件
+    public GridViewAdapter(Context context, ArrayList<String> list,int itemLayoutId){
+        super(context,list,itemLayoutId);
+        //根据屏幕的大小设置控件的大小
+        this.wh=(SysUtils.getScreenWidth(context)- SysUtils.Dp2Px(context, 99))/3;
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public void convert(BaseListHolder holder, String item) {
 
-        if (list.size()==0){
-            return null;
-        }
-
-        final BaseListHolder holder = BaseListHolder.get(mContext,convertView,
-                parent, R.layout.fragment_sport_square_item_grid,position);
         ImageView imageView = holder.getView(R.id.imageView);
+        Glide
+                .with(mContext)
+                .load(item)
+                .placeholder(R.drawable.pictures_no)
+                .into(imageView);
 
-
-        finaImageLoader.display(imageView, list.get(position));
         AbsListView.LayoutParams param = new AbsListView.LayoutParams(wh,wh);
        /* 创建一个布局（LayoutParams）的实例 param。
         AbsListView.LayoutParams(wh,wh) 指定了该布局的宽和高；*/
-        convertView.setLayoutParams(param);
+        holder.getConvertView().setLayoutParams(param);
 
-        return holder.getConvertView();
 
     }
 

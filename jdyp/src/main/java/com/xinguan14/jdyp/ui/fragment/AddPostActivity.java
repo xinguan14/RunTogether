@@ -1,67 +1,78 @@
 package com.xinguan14.jdyp.ui.fragment;
 
 import android.app.AlertDialog;
-import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import com.xinguan14.jdyp.R;
 import com.xinguan14.jdyp.base.ParentWithNaviActivity;
 import com.xinguan14.jdyp.bean.Post;
 import com.xinguan14.jdyp.bean.User;
+import com.xinguan14.jdyp.ui.ChooseImageActivity;
 import com.xinguan14.jdyp.ui.fragment.sportsfragment.SelectPicPopupWindow;
 
-import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import butterknife.Bind;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.listener.SaveListener;
-import cn.bmob.v3.listener.UploadFileListener;
+import cn.bmob.v3.listener.UploadBatchListener;
 
 public class AddPostActivity extends ParentWithNaviActivity {
 
+	//内容文本框
 	@Bind(R.id.edit_content)
 	EditText editContent;
+	//发布按钮
 	@Bind(R.id.submit)
 	Button submit;
-	@Bind(R.id.add_pic)
-	ImageView add_pic;
+	//加载动画
+	@Bind(R.id.progressBar)
+	ProgressBar mProgressBar;
+	//显示图片的布局
+	@Bind(R.id.show_pic_grid)
+	GridView showPicGrid;
 
-
-	private SelectPicPopupWindow menuWindow; // 上传图片弹出框
-	/**
-	 * 使用照相机拍照获取图片
-	 */
+	// 上传图片弹出框
+	private SelectPicPopupWindow menuWindow;
+	//使用照相机拍照获取图片
 	public static final int SELECT_PIC_BY_TACK_PHOTO = 1;
-	/**
-	 * 使用相册中的图片
-	 */
+	 //使用相册中的图片
 	public static final int SELECT_PIC_BY_PICK_PHOTO = 2;
 
-	/**
-	 * 获取到的图片路径
-	 */
-	private String picPath = "";
-	/*
-	* 图片的uri
-	* */
-	private Uri photoUri;
+	//存放图片路径的数组
+	private String[] imagePath ;
 
+	//图片的uri
+	private Uri photoUri;
+	//导入临时图片
+	private Bitmap bmp;
+
+	//显示图片的集合
+	private ArrayList<HashMap<String, Object>> imageItem;
+	private SimpleAdapter simpleAdapter;     //适配器
 
 	@Override
 	protected String title() {
@@ -71,83 +82,119 @@ public class AddPostActivity extends ParentWithNaviActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
 		setContentView(R.layout.add_news);
 		initNaviView();
 
+		 /*
+         * 载入默认图片添加图片加号
+         * 通过适配器实现
+         * SimpleAdapter参数imageItem为数据源 R.layout.fragment_sport_square_item_grid为布局
+         */
+		bmp = BitmapFactory.decodeResource(getResources(), R.drawable.ic_add_pic); //加号
+		imageItem = new ArrayList<HashMap<String, Object>>();
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("itemImage", bmp);
+		imageItem.add(map);
+		simpleAdapter = new SimpleAdapter(this,
+				imageItem, R.layout.add_image_grid_item,
+				new String[] { "itemImage"}, new int[] { R.id.imageView});
+
+		simpleAdapter.setViewBinder(new SimpleAdapter.ViewBinder() {
+			@Override
+			public boolean setViewValue(View view, Object data, String textRepresentation) {
+				// TODO Auto-generated method stub
+				if(view instanceof ImageView && data instanceof Bitmap){
+					ImageView i = (ImageView)view;
+					i.setImageBitmap((Bitmap) data);
+					return true;
+				}
+				return false;
+			}
+		});
+		showPicGrid.setAdapter(simpleAdapter);
+
+        /*
+         * 监听GridView点击事件
+         * 报错:该函数必须抽象方法 故需要手动导入import android.view.View;
+         */
+		showPicGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View v, int position, long id)
+			{
+				 if(position == 0) { //点击图片位置为+ 0对应0张图片
+					 if( imageItem.size() == 7) { //第一张为默认图片
+						 Toast.makeText(AddPostActivity.this, "最多添加六张图片", Toast.LENGTH_SHORT).show();
+						 return;
+					 }else {
+						 //弹出选择图片弹出框
+						 menuWindow = new SelectPicPopupWindow(AddPostActivity.this, itemsOnClick);
+						 menuWindow.showAtLocation(findViewById(R.id.uploadLayout),
+								 Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+						 //通过onResume()刷新数据
+					 }
+				}else {
+					 //删除图片
+					 dialog(position);
+				 }
+
+			}
+		});
+
 		//上传动态按钮的监听事件
 		submit.setOnClickListener(new View.OnClickListener() {
-			//获取当前用户
-			User user = BmobUser.getCurrentUser(AddPostActivity.this,User.class);
-			//创建帖子信息
-			Post mPost = new Post();
-			//获取发布的动态的内容
+
 			@Override
 			public void onClick(View view) {
-				//上传图片
-				if(picPath!="") {
-					final BmobFile file = new BmobFile(new File(picPath));
-					file.uploadblock(AddPostActivity.this, new UploadFileListener() {
-						@Override
-						public void onSuccess() {
-							//---返回的上传文件的地址（不带域名）
-							//String url = file.getUrl();
-							//--返回的上传文件的完整地址（带域名）
-							String url = file.getFileUrl(AddPostActivity.this);
-						}
+				//有图片的动态上传
+				if(imageItem.size()>1) {
+					//获取发布的动态的内容
+					String contents = editContent.getText().toString();
 
-						@Override
-						public void onProgress(Integer arg0) {
-							// TODO Auto-generated method stub
-						}
+					for (int i=0;i<imagePath.length;i++) {
+						String uploadImg = imagePath[i];
 
-						@Override
-						public void onFailure(int i, String s) {
-							Toast.makeText(getApplicationContext(), "上传图片失败!", Toast.LENGTH_SHORT).show();
+						if (uploadImg != null && uploadImg.length() > 0) {
+							new UploadFileTask(contents).execute(uploadImg);
 						}
-					});
-				}
+					}
+				}else {//没有图片的动态上传
 
-				//上传文字
-				String contents = editContent.getText().toString();
-				if(contents!=null) {
-					mPost.setContent(contents);
-					//添加动态和用户之间的一对一关联
-					mPost.setAuthor(user);
-					mPost.save(AddPostActivity.this, new SaveListener() {
-						@Override
-						public void onSuccess() {
-							// TODO Auto-generated method stub
-							Toast.makeText(getApplicationContext(), "发布成功!", Toast.LENGTH_SHORT).show();
-							setResult(RESULT_OK);
-							finish();
-						}
+					//获取当前用户
+					User user = BmobUser.getCurrentUser(AddPostActivity.this, User.class);
+					//创建帖子信息
+					Post mPost = new Post();
+					String contents = editContent.getText().toString();
+					//判断内容是否为空
+					String length = editContent.getText().toString().trim();
+					if(length.length()!=0) {
+						mPost.setContent(contents);
+						//添加动态和用户之间的一对一关联
+						mPost.setAuthor(user);
+						mPost.save(AddPostActivity.this, new SaveListener() {
+							@Override
+							public void onSuccess() {
+								// TODO Auto-generated method stub
+								Toast.makeText(getApplicationContext(), "发布成功!", Toast.LENGTH_SHORT).show();
+								setResult(RESULT_OK);
+								finish();
+							}
+							@Override
+							public void onFailure(int code, String arg0) {
+								// TODO Auto-generated method stub
+								Toast.makeText(getApplicationContext(), "发布失败!", Toast.LENGTH_SHORT).show();
+							}
+						});
+					}else {
+						Toast.makeText(getApplicationContext(), "内容不能为空!", Toast.LENGTH_SHORT).show();
+					}
 
-						@Override
-						public void onFailure(int code, String arg0) {
-							// TODO Auto-generated method stub
-							Toast.makeText(getApplicationContext(), "发布失败!", Toast.LENGTH_SHORT).show();
-						}
-					});
-				}else {
-					Toast.makeText(getApplicationContext(), "内容不能为空!", Toast.LENGTH_SHORT).show();
 				}
 			}
 		});
-
-		//弹出选择图片的窗口
-		add_pic.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				menuWindow = new SelectPicPopupWindow(AddPostActivity.this, itemsOnClick);
-				menuWindow.showAtLocation(findViewById(R.id.uploadLayout),
-						Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
-			}
-		});
-
 	}
 
-	//为弹出窗口实现监听类
+
+	//为弹出的窗口实现监听类
 	private View.OnClickListener itemsOnClick = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
@@ -159,7 +206,9 @@ public class AddPostActivity extends ParentWithNaviActivity {
 					takePhoto();
 					break;
 				case R.id.pickPhotoBtn:// 相册选择图片
-					pickPhoto();
+					//得到新打开Activity关闭后返回的数据
+					//第二个参数为请求码，可以根据业务需求自己编号
+					startActivityForResult(new Intent(AddPostActivity.this, ChooseImageActivity.class), 1);
 					break;
 				case R.id.cancelBtn:// 取消
 					break;
@@ -168,6 +217,63 @@ public class AddPostActivity extends ParentWithNaviActivity {
 			}
 		}
 	};
+
+
+	/**
+	 * 为了得到传回的数据，必须在前面的Activity中（指MainActivity类）重写onActivityResult方法
+	 *
+	 * requestCode 请求码，即调用startActivityForResult()传递过去的值
+	 * resultCode 结果码，结果码用于标识返回数据来自哪个新Activity
+	 */
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// 取出Intent里的Extras数据
+		Bundle bundle = data.getExtras();
+		// 取出Bundle中的数据,即传递进来的图片路径数组
+		imagePath= bundle.getStringArray("imagePath");
+
+		//显示要上传的图片
+		if(imagePath.length!=0) {
+			BitmapFactory.Options option = new BitmapFactory.Options();
+			// 压缩图片:表示缩略图大小为原始图片大小的几分之一，1为原图
+			option.inSampleSize = 2;
+			// 根据图片的SDCard路径读出Bitmap,
+			Bitmap[] bm = new Bitmap[imagePath.length];
+			for (int i = 0; i < imagePath.length; i++) {
+				bm[i] = BitmapFactory.decodeFile(imagePath[i], option);
+				Log.i("info",imagePath[i]);
+
+			}
+			//将如偏的bitMap添加到集合中
+			HashMap<String, Object> map = new HashMap<String, Object>();
+			for (int i = 0; i < bm.length; i++) {
+				map.put("itemImage", bm[i]);
+				imageItem.add(map);
+			}
+
+			simpleAdapter = new SimpleAdapter(this,
+					imageItem, R.layout.fragment_sport_square_item_grid,
+					new String[]{"itemImage"}, new int[]{R.id.imageView});
+
+			simpleAdapter.setViewBinder(new SimpleAdapter.ViewBinder() {
+				@Override
+				public boolean setViewValue(View view, Object data,
+											String textRepresentation) {
+					// TODO Auto-generated method stub
+					if (view instanceof ImageView && data instanceof Bitmap) {
+						ImageView i = (ImageView) view;
+						i.setImageBitmap((Bitmap) data);
+						return true;
+					}
+					return false;
+				}
+			});
+			showPicGrid.setAdapter(simpleAdapter);
+			//simpleAdapter.notifyDataSetChanged();
+		}
+	}
+
+
 
 	/**
 	 * 拍照获取图片
@@ -186,7 +292,6 @@ public class AddPostActivity extends ParentWithNaviActivity {
 			ContentValues values = new ContentValues();
 			//获取图片路径
 			photoUri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
-
 			intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, photoUri);
 			startActivityForResult(intent, SELECT_PIC_BY_TACK_PHOTO);
 		} else {
@@ -194,94 +299,108 @@ public class AddPostActivity extends ParentWithNaviActivity {
 		}
 	}
 
-	/***
-	 * 从相册中取图片
-	 */
-	private void pickPhoto() {
-		//使用intent调用系统提供的相册功能，使用startActivityForResult是为了获取用户选择的图片
-		Intent getAlbum = new Intent(Intent.ACTION_GET_CONTENT);
-		// 如果要限制上传到服务器的图片类型时可以直接写如："image/jpeg 、 image/png等的类型"
-		getAlbum.setType("image/*");
-		startActivityForResult(getAlbum, SELECT_PIC_BY_PICK_PHOTO);
+
+	/*
+    * Dialog对话框提示用户删除操作
+    * position为删除图片位置
+    */
+	protected void dialog(final int position) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(AddPostActivity.this);
+		builder.setMessage("确认移除已添加图片吗？");
+		builder.setTitle("提示");
+		builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.dismiss();
+				imageItem.remove(position);
+				simpleAdapter.notifyDataSetChanged();
+			}
+		});
+		builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.dismiss();
+			}
+		});
+		builder.create().show();
 	}
 
-	//重写startActivityForResult方法
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		// 点击取消按钮
-		if (resultCode != RESULT_OK) {
-			Log.e("TAG->onresult","ActivityResult resultCode error");
-			return;
-		}
-		// 可以使用同一个方法，这里分开写为了防止以后扩展不同的需求
-		switch (requestCode) {
-			case SELECT_PIC_BY_PICK_PHOTO:// 如果是直接从相册获取
-				doPhoto(requestCode, data);
-				break;
-			case SELECT_PIC_BY_TACK_PHOTO:// 如果是调用相机拍照时
-				doPhoto(requestCode, data);
-				break;
-		}
-		super.onActivityResult(requestCode, resultCode, data);
-	}
+	/*
+	* 上传动态，放在异步处理中
+	* */
+	 class UploadFileTask extends AsyncTask<String,Void,String> {
+		private String content;
 
-	/**
-	 * 选择图片后，获取图片的路径
-	 *
-	 * @param requestCode
-	 * @param data
-	 */
-	private void doPhoto(int requestCode, Intent data) {
-
-		// 从相册取图片，有些手机有异常情况，请注意
-		if (requestCode == SELECT_PIC_BY_PICK_PHOTO) {
-			if (data == null) {
-				Toast.makeText(this, "选择图片文件出错", Toast.LENGTH_LONG).show();
-				return;
-			}
-			Bitmap bm=null;
-
-			 photoUri = data.getData();
-
-			AlertDialog.Builder builder = new AlertDialog.Builder(AddPostActivity.this);
-			builder.setMessage("图片的uri:"+photoUri);
-			builder.setTitle("提示");
-			builder.create().show();
-
-			if (photoUri == null) {
-				Toast.makeText(this, "选择图片文件出错", Toast.LENGTH_LONG).show();
-				return;
-			}
-			//外界的程序访问ContentProvider所提供数据 可以通过ContentResolver接口
-			ContentResolver resolver = getContentResolver();
-				/*bm = MediaStore.Images.Media.getBitmap(resolver, photoUri);
-
-				// 显示在图片控件上
-				add_pic.setImageBitmap(bm);*/
-
-				String[] pojo = {MediaStore.MediaColumns.DATA};
-				Cursor cursor = managedQuery(photoUri, pojo, null, null, null);
-				//按我个人理解 这个是获得用户选择的图片的索引值
-				int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-				//将光标移至开头 ，这个很重要，不小心很容易引起越界
-				cursor.moveToFirst();
-				//最后根据索引值获取图片路径
-				picPath = cursor.getString(column_index);
-
-				BitmapFactory.Options option = new BitmapFactory.Options();
-				// 压缩图片:表示缩略图大小为原始图片大小的几分之一，1为原图
-				option.inSampleSize = 2;
-				// 根据图片的SDCard路径读出Bitmap
-				bm = BitmapFactory.decodeFile(picPath, option);
-				// 显示在图片控件上
-				add_pic.setImageBitmap(bm);
-
-				AlertDialog.Builder builder2 = new AlertDialog.Builder(AddPostActivity.this);
-				builder2.setMessage("图片的路径:"+picPath);
-				builder2.setTitle("提示");
-				builder2.create().show();
-
+		public UploadFileTask(String content) {
+			this.content = content;
 		}
 
+		@Override
+		protected String doInBackground(String... strings) {
+			BmobFile.uploadBatch(AddPostActivity.this,imagePath, new UploadBatchListener() {
+				@Override
+				public void onSuccess(List<BmobFile> files, List<String> url) {
+					//1、files-上传完成后的BmobFile集合，是为了方便大家对其上传后的数据进行操作，例如你可以将该文件保存到表中
+					//2、urls-上传文件的完整url地址
+					if(url.size()==imagePath.length){//如果数量相等，则代表文件全部上传完成
+						//判断内容是否为空
+						String length =content.trim();
+						if(length.length()!=0) {
+							//获取当前用户
+							User user = BmobUser.getCurrentUser(AddPostActivity.this, User.class);
+							//创建帖子信息
+							Post mPost = new Post();
+							//获取上传到Bmob后台的图片的路径
+							String urlString = "";
+							for (int i = 0; i < url.size(); i++) {
+								urlString += url.get(i) + "#";
+							}
+							//创建帖子信息
+							mPost = new Post();
+							mPost.setImageurl(urlString);
+							mPost.setContent(content);
+							//添加动态和用户之间的一对一关联
+							mPost.setAuthor(user);
+							mPost.save(AddPostActivity.this, new SaveListener() {
+								@Override
+								public void onSuccess() {
+									Toast.makeText(getApplicationContext(), "发布成功!", Toast.LENGTH_SHORT).show();
+									setResult(RESULT_OK);
+									finish();
+								}
+
+								@Override
+								public void onFailure(int code, String arg0) {
+									Toast.makeText(getApplicationContext(), "发布失败!", Toast.LENGTH_SHORT).show();
+								}
+							});
+						}else {
+							Toast.makeText(getApplicationContext(), "内容不能为空!", Toast.LENGTH_SHORT).show();
+						}
+
+					}
+				}
+
+				@Override
+				public void onProgress(int curIndex, int curPercent, int total, int totalPercent) {
+					//1、curIndex--表示当前第几个文件正在上传
+					//2、curPercent--表示当前上传文件的进度值（百分比）
+					//3、total--表示总的上传文件数
+					//4、totalPercent--表示总的上传进度（百分比）
+				}
+
+				@Override
+				public void onError(int i, String s) {
+					Log.i("info","错误码"+i +",错误描述："+s);
+				}
+			});
+			return null;
+		}
+
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			mProgressBar.setVisibility(View.VISIBLE);
+		}
 	}
 }

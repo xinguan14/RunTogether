@@ -12,7 +12,7 @@ import com.xinguan14.jdyp.StikkyHeader.DynamicAnimator;
 import com.xinguan14.jdyp.StikkyHeader.Utils;
 import com.xinguan14.jdyp.StikkyHeader.core.StikkyHeaderBuilder;
 
-
+//我的动态页面
 public class DynamicFragment extends Fragment {
 
     private ListView mListView;

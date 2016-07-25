@@ -47,6 +47,7 @@
         <activity android:name="com.xinguan14.jdyp.ui.UserInfoActivity"/>
         <activity android:name="com.xinguan14.jdyp.ui.NewFriendActivity"/>
         <activity android:name=".ui.fragment.AddPostActivity"/>
+        <activity android:name=".ui.ChooseImageActivity"/>
 
 
         <activity

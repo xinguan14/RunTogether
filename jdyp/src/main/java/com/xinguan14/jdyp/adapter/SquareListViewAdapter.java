@@ -1,21 +1,19 @@
 package com.xinguan14.jdyp.adapter;
 
-import android.app.Activity;
+import android.content.Context;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.xinguan14.jdyp.MyGridView;
 import com.xinguan14.jdyp.R;
-import com.xinguan14.jdyp.adapter.base.BaseListAdapter;
 import com.xinguan14.jdyp.adapter.base.BaseListHolder;
+import com.xinguan14.jdyp.adapter.base.CommonAdapter;
 import com.xinguan14.jdyp.bean.Post;
 import com.xinguan14.jdyp.util.SysUtils;
-
-import net.tsz.afinal.FinalBitmap;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,55 +22,49 @@ import java.util.List;
  * Created by wm on 2016/7/18.
  * 用来显示动态的数据
  */
-public class SquareListViewAdapter extends BaseListAdapter<Post> {
+public class SquareListViewAdapter extends CommonAdapter<Post> {
 
-    private FinalBitmap finalBitmap;
+    //private FinalBitmap finalBitmap;
     private GridViewAdapter gridViewAdapter;
     private int wh;
 
-    public SquareListViewAdapter(Activity context, List<Post> list){
-        super(context,list);
+    //要传入的参数有当前的Activity，数据集。item的布局文件
+    public SquareListViewAdapter(Context context, List<Post> list,int itemLayoutId){
 
+        super(context,list,itemLayoutId);
         //根据屏幕的大小设置控件的大小
         this.wh=(SysUtils.getScreenWidth(context)- SysUtils.Dp2Px(context, 99))/3;
         //传递的动态数据
-        this.finalBitmap = FinalBitmap.create(context);
+       /* this.finalBitmap = FinalBitmap.create(context);
         //图片为加载成功显示的数据
-        this.finalBitmap.configLoadfailImage(R.drawable.love);
+        this.finalBitmap.configLoadfailImage(R.drawable.love);*/
     }
 
     //给控件绑定数据
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public void convert(BaseListHolder holder, Post item) {
 
-        if (list.size()==0){
-            return null;
-        }
-
-        final BaseListHolder holder = BaseListHolder.get(mContext,convertView,
-                parent, R.layout.fragment_sport_square_item,position);
-
-        ImageView headPhoto = holder.getView(R.id.info_iv_head);
+        //ImageView headPhoto = holder.getView(R.id.info_iv_head);
         RelativeLayout rL = holder.getView(R.id.rl4);
         MyGridView gv_images = holder.getView(R.id.gv_images);
 
-        final Post gridViewItem = list.get(position);
-        String name = null,time = null,content = null,headpath = null,contentimage = null;
-        if(gridViewItem !=null){
-            name = gridViewItem.getName();
+       // final Post gridViewItem = mDatas.get(position);
+        String name = null,time = null,content = null,headpath = null,contentImageUrl = null;
+        if(item !=null){
+            name = item.getName();
             // time = gridViewItem.getTime();
-            content = gridViewItem.getContent();
-            headpath = gridViewItem.getHeadPhoto();
-            //contentimage = gridViewItem.getImage();
+            content = item.getContent();
+            headpath = item.getHeadPhoto();
+            contentImageUrl = item.getImageurl();
         }
         //昵称
         if (name!=null&&!name.equals("")) {
             holder.setTextView(R.id.info_tv_name,name);
         }
         //是否含有图片，有图片则显示gridview
-        if (contentimage!=null&&!contentimage.equals("")) {
+        if (contentImageUrl!=null&&!contentImageUrl.equals("")) {
             rL.setVisibility(View.VISIBLE);
-            initInfoImages(gv_images,contentimage);
+            initInfoImages(gv_images,contentImageUrl);
         } else {
             rL.setVisibility(View.GONE);
         }
@@ -83,25 +75,24 @@ public class SquareListViewAdapter extends BaseListAdapter<Post> {
         //内容
         if (content!=null&&!content.equals("")) {
             holder.setTextView(R.id.info_tv_content,content);
-            //infoContent.setText(content);
-            //Linkify.addLinks(infoContent, Linkify.WEB_URLS);
         }
         //头像
         if (headpath!=null&&!headpath.equals("")) {
-            finalBitmap.display(headPhoto,headpath);
+            Glide
+                    .with(mContext)
+                    .load(headpath)
+                    .placeholder(R.drawable.love)
+                    .into((ImageView)holder.getView(R.id.info_iv_head));
         } else {
-            headPhoto.setImageResource(R.drawable.love);
+            holder.setImageResource(R.id.info_iv_head,R.drawable.love);
         }
         //点击头像的点击事件
-        headPhoto.setOnClickListener(new View.OnClickListener() {
+        holder.getView(R.id.info_iv_head).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
                 Toast.makeText(mContext, "点击了头像", Toast.LENGTH_LONG).show();
             }
         });
-
-        return holder.getConvertView();
-
     }
 
 
@@ -140,7 +131,7 @@ public class SquareListViewAdapter extends BaseListAdapter<Post> {
             2，FILL_PARENT，即填满（和父容器一样大小）；
             3，WRAP_CONTENT，即包裹住组件就好。。*/
 
-            gridViewAdapter=new GridViewAdapter(mContext, list);
+            gridViewAdapter=new GridViewAdapter(mContext, list,R.layout.fragment_sport_square_item_grid);
             gv_images.setAdapter(gridViewAdapter);
             //点击图片的点击事件
             gv_images.setOnItemClickListener(new AdapterView.OnItemClickListener() {

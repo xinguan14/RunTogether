@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 22
-    buildToolsVersion '22.0.1'
+    buildToolsVersion '24.0.1'
 
     aaptOptions.cruncherEnabled = false
     aaptOptions.useNewCruncher = false
@@ -56,5 +56,7 @@ dependencies {
     compile 'cn.bmob.android:bmob-im:2.0.5@aar'
     //bmob-sdk:3.4.7
     compile 'cn.bmob.android:bmob-sdk:3.4.7-aar'
-    compile files('libs/afinal_0.5.1_bin.jar')
+    //加载图片
+    compile 'com.github.bumptech.glide:glide:3.6.1'
+    compile files('libs/glide-3.7.0.jar')
 }

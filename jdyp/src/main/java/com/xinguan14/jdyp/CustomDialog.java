@@ -14,8 +14,7 @@ import android.widget.TextView;
 import java.util.List;
 
 /**
- *
- * �Զ���dialog
+ * 自定义dialog
  * 
  * @author xwj
  * @date 2014/9/25
@@ -23,11 +22,12 @@ import java.util.List;
 public class CustomDialog extends Dialog {
 
 	private Context mContext;
-	private String title; // dialog�ı���
-	private List<String> list; // �˴�Ϊdilog���ݣ��ݶ�Ϊstring����
+	private String title; // dialog标题
+	private List<String> list; // 此处为dilog内容，暂定为Ϊstring类型
 	private ListView mListView;
+
 	public CustomDialog(Context context, String title, List<String> list) {
-		super(context, R.style.customDialog); // ȡ��dillog�Զ������ʽ
+		super(context, R.style.customDialog); // 取得dillog自定义样式ʽ
 		this.mContext = context;
 		this.title = title;
 		this.list = list;
@@ -55,7 +55,7 @@ public class CustomDialog extends Dialog {
 	}
 
 	/**
-	 * mListView������������
+	 * mListView 的内容适配器
 	 * 
 	 * @author TY
 	 * 
