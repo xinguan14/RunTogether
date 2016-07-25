@@ -12,7 +12,9 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,10 +50,11 @@ import cn.bmob.newim.listener.ObseverListener;
 import cn.bmob.newim.notification.BmobNotificationManager;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
+
 /**
  * 四个tab加一个环形菜单
  */
-public class MainActivity extends BaseActivity implements ObseverListener,GooeyMenu.GooeyMenuInterface, SwipeMenuBuilder, MessageFragment.Check {
+public class MainActivity extends BaseActivity implements ObseverListener, GooeyMenu.GooeyMenuInterface, SwipeMenuBuilder, MessageFragment.Check, SetFragment.HideTab {
 
     @Bind(R.id.btn_message)
     Button btn_message;
@@ -63,7 +66,7 @@ public class MainActivity extends BaseActivity implements ObseverListener,GooeyM
     Button btn_connect;
 
     @Bind(R.id.iv_connect_tips)
-    ImageView iv_connect_tips;
+    TextView iv_connect_tips;
 
     @Bind(R.id.btn_sports)
     Button btn_sports;
@@ -76,6 +79,15 @@ public class MainActivity extends BaseActivity implements ObseverListener,GooeyM
 
     @Bind(R.id.gooey_menu)//环形菜单
             GooeyMenu gooeyMenu;
+
+    @Bind(R.id.bottom)
+    LinearLayout bottom;
+
+    @Bind(R.id.gooey)
+    LinearLayout gooey;
+
+    @Bind(R.id.id_content)
+    FrameLayout content;
 
     private Button[] mTabs;
     private SetFragment setFragment;
@@ -242,6 +254,12 @@ public class MainActivity extends BaseActivity implements ObseverListener,GooeyM
         BmobIM.getInstance().clear();
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        showTab();
+    }
+
     /**
      * 注册消息接收事件
      *
@@ -278,7 +296,11 @@ public class MainActivity extends BaseActivity implements ObseverListener,GooeyM
 //        int count = messageFragment.count;
         if (count > 0) {
             tv_recent_unread.setVisibility(View.VISIBLE);
-            tv_recent_unread.setText(String.valueOf(count));
+            if (count > 99) {
+                tv_recent_unread.setText(String.valueOf(count) + "+");
+            } else {
+                tv_recent_unread.setText(String.valueOf(count));
+            }
         } else {
             tv_recent_unread.setVisibility(View.GONE);
         }
@@ -290,6 +312,24 @@ public class MainActivity extends BaseActivity implements ObseverListener,GooeyM
         }
     }
 
+
+    public void hideTab() {
+        bottom.setVisibility(View.GONE);
+        gooey.setVisibility(View.GONE);
+        FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) content.getLayoutParams();
+        layoutParams.bottomMargin = 0;
+        content.setLayoutParams(layoutParams);
+
+    }
+
+    public void showTab() {
+        bottom.setVisibility(View.VISIBLE);
+        gooey.setVisibility(View.VISIBLE);
+        FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) content.getLayoutParams();
+        layoutParams.bottomMargin = 60;
+        content.setLayoutParams(layoutParams);
+
+    }
 
     @TargetApi(Build.VERSION_CODES.KITKAT)
     @Override
@@ -378,5 +418,10 @@ public class MainActivity extends BaseActivity implements ObseverListener,GooeyM
     @Override
     public void logout() {
         checkRedPoint();
+    }
+
+    @Override
+    public void hide() {
+        hideTab();
     }
 }

@@ -4,21 +4,21 @@ import android.content.Context;
 import android.view.View;
 
 import com.orhanobut.logger.Logger;
-
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-
-import com.xinguan14.jdyp.Config;
 import com.xinguan14.jdyp.R;
 import com.xinguan14.jdyp.adapter.base.BaseRecyclerAdapter;
 import com.xinguan14.jdyp.adapter.base.BaseRecyclerHolder;
 import com.xinguan14.jdyp.adapter.base.IMutlipleItem;
 import com.xinguan14.jdyp.bean.AgreeAddFriendMessage;
 import com.xinguan14.jdyp.bean.User;
+import com.xinguan14.jdyp.config.Config;
 import com.xinguan14.jdyp.db.NewFriend;
 import com.xinguan14.jdyp.db.NewFriendManager;
 import com.xinguan14.jdyp.model.UserModel;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
 import cn.bmob.newim.BmobIM;
 import cn.bmob.newim.bean.BmobIMConversation;
 import cn.bmob.newim.bean.BmobIMMessage;

@@ -4,16 +4,15 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.text.TextUtils;
 
+import com.xinguan14.jdyp.bean.User;
+import com.xinguan14.jdyp.config.Config;
+import com.xinguan14.jdyp.db.dao.DaoMaster;
+import com.xinguan14.jdyp.db.dao.DaoSession;
 import com.xinguan14.jdyp.db.dao.NewFriendDao;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import com.xinguan14.jdyp.Config;
-import com.xinguan14.jdyp.bean.User;
-import com.xinguan14.jdyp.db.dao.DaoMaster;
-import com.xinguan14.jdyp.db.dao.DaoSession;
 
 import cn.bmob.v3.BmobUser;
 

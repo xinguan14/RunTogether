@@ -13,5 +13,5 @@
         app:gap_between_menu_fab="@dimen/min_gap"
         app:menu_drawable="@array/drawable_array"
         app:menu_radius="@dimen/small_circle_radius"
-        app:no_of_menu="2" />
+        app:no_of_menu="3" />
 </LinearLayout>

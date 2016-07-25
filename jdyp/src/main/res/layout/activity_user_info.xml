@@ -40,7 +40,7 @@
                 android:layout_marginTop="@dimen/margin_12"
                 android:layout_marginBottom="@dimen/margin_12"
                 android:layout_marginLeft="@dimen/margin_16"
-                android:src="@mipmap/head" />
+                />
         </LinearLayout>
 
     </RelativeLayout>

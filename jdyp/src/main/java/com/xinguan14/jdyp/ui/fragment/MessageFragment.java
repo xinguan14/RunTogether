@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,10 +19,7 @@ import com.xinguan14.jdyp.adapter.base.IMutlipleItem;
 import com.xinguan14.jdyp.base.ParentWithNaviActivity;
 import com.xinguan14.jdyp.base.ParentWithNaviFragment;
 import com.xinguan14.jdyp.bean.Conversation;
-import com.xinguan14.jdyp.bean.NewFriendConversation;
 import com.xinguan14.jdyp.bean.PrivateConversation;
-import com.xinguan14.jdyp.db.NewFriend;
-import com.xinguan14.jdyp.db.NewFriendManager;
 import com.xinguan14.jdyp.event.RefreshEvent;
 import com.xinguan14.jdyp.reddot.DisplayUtils;
 import com.xinguan14.jdyp.reddot.StickyViewHelper;
@@ -146,20 +142,15 @@ public class MessageFragment extends ParentWithNaviFragment {
             @Override
             public void onItemClick(int position) {
                 adapter.getItem(position).onClick(getActivity());
-                //查询指定未读消息数
-                long unread = adapter.getItem(position).getUnReadCount();
-                //查询所有未读消息数
-                int count = (int) BmobIM.getInstance().getAllUnReadCount();
-                Log.i("info", "点击。。。。。");
-                System.out.println("单个" + unread);
-                System.out.println("总" + count);
             }
 
             @Override
             public boolean onItemLongClick(int position) {
-                adapter.getItem(position).onLongClick(getActivity());
-                adapter.remove(position);
-//                adapter.notifyDataSetChanged();
+//                adapter.getItem(position).onLongClick(getActivity());
+//                adapter.remove(position);
+//                List<Conversation> conversationList = new ArrayList<>();
+//                conversationList.remove(position);
+
                 return true;
             }
         });
@@ -220,11 +211,11 @@ public class MessageFragment extends ParentWithNaviFragment {
                 }
             }
         }
-        //添加新朋友会话-获取好友请求表中最新一条记录
-        List<NewFriend> friends = NewFriendManager.getInstance(getActivity()).getAllNewFriend();
-        if (friends != null && friends.size() > 0) {
-            conversationList.add(new NewFriendConversation(friends.get(0)));
-        }
+//        //添加新朋友会话-获取好友请求表中最新一条记录
+//        List<NewFriend> friends = NewFriendManager.getInstance(getActivity()).getAllNewFriend();
+//        if (friends != null && friends.size() > 0) {
+//            conversationList.add(new NewFriendConversation(friends.get(0)));
+//        }
         //重新排序
         Collections.sort(conversationList);
         return conversationList;
@@ -298,10 +289,15 @@ public class MessageFragment extends ParentWithNaviFragment {
             holder.setText(R.id.tv_recent_time, TimeUtil.getChatTime(false, conversation.getLastMessageTime()));
             //会话图标
             Object obj = conversation.getAvatar();
+//
+//            final BmobIMUserInfo info = message.getBmobIMUserInfo();
+
             if (obj instanceof String) {
-                String avatar = (String) obj;
+                String avatar = conversation.getcAvatar();
                 holder.setImageView(avatar, R.mipmap.head, R.id.iv_recent_avatar);
             } else {
+//              Log.i("info",avatar);
+//                System.out.println(avatar);
                 int defaultRes = (int) obj;
                 holder.setImageView(null, defaultRes, R.id.iv_recent_avatar);
             }

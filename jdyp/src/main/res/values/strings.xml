@@ -59,4 +59,6 @@
         <attr name="pstsTextAllCaps" format="boolean" />
         <attr name="selectedTabTextColor" format="color" />
     </declare-styleable>
+    <string name="pop_photo">拍照</string>
+    <string name="pop_choose">从手机相册选中</string>
 </resources>

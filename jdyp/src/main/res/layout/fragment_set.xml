@@ -3,17 +3,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/theme_bg_color"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:id="@+id/set">
 
     <include layout="@layout/include_navi" />
+    <Button
+        android:id="@+id/btn_logout"
+        style="@style/style_button_logout"
+        android:layout_width="fill_parent"
+        android:layout_height="45dp"
+        android:layout_margin="@dimen/activity_vertical_margin"
+        android:text="@string/logout" />
+
     <com.xinguan14.jdyp.CircleImageView
         android:id="@+id/iv_avatar"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_margin="20dp"
         android:layout_gravity="center_horizontal"
-        android:src="@drawable/image1" />
+        android:src="@mipmap/head"
+        />
     <TextView
+        android:id="@+id/tv_user_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -24,7 +35,8 @@
         android:layout_gravity="center_horizontal"
         android:background="#000000"
         />
-    <ListView xmlns:android="http://schemas.android.com/apk/res/android"
+    <ListView
+        xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/listview"
         android:layout_width="match_parent"
@@ -223,12 +235,6 @@
         <!--android:background="@drawable/base_horizontal_line" >-->
     <!--</View>-->
 
-    <Button
-        android:id="@+id/btn_logout"
-        style="@style/style_button_logout"
-        android:layout_width="fill_parent"
-        android:layout_height="45dp"
-        android:layout_margin="@dimen/activity_vertical_margin"
-        android:text="@string/logout" />
+
 
 </LinearLayout>

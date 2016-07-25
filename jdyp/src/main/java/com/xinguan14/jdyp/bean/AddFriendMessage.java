@@ -2,13 +2,14 @@ package com.xinguan14.jdyp.bean;
 
 import android.text.TextUtils;
 
+import com.orhanobut.logger.Logger;
+import com.xinguan14.jdyp.config.Config;
+import com.xinguan14.jdyp.db.NewFriend;
+
 import org.json.JSONObject;
 
-import com.xinguan14.jdyp.Config;
-import com.xinguan14.jdyp.db.NewFriend;
 import cn.bmob.newim.bean.BmobIMExtraMessage;
 import cn.bmob.newim.bean.BmobIMMessage;
-import com.orhanobut.logger.Logger;
 
 /**添加好友请求
  * @author :smile

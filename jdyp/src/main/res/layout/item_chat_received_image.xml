@@ -28,7 +28,6 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_marginLeft="@dimen/margin_5"
-            android:background="@mipmap/head"
             android:scaleType="fitXY" />
 
         <ImageView

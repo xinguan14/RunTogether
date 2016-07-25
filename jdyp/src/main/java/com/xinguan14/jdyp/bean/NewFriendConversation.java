@@ -4,8 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
 
-import com.xinguan14.jdyp.BmobIMApplication;
-import com.xinguan14.jdyp.Config;
+import com.xinguan14.jdyp.MyApplication;
+import com.xinguan14.jdyp.config.Config;
 import com.xinguan14.jdyp.R;
 import com.xinguan14.jdyp.db.NewFriend;
 import com.xinguan14.jdyp.db.NewFriendManager;
@@ -59,13 +59,13 @@ public class NewFriendConversation extends Conversation{
 
     @Override
     public int getUnReadCount() {
-        return NewFriendManager.getInstance(BmobIMApplication.INSTANCE()).getNewInvitationCount();
+        return NewFriendManager.getInstance(MyApplication.INSTANCE()).getNewInvitationCount();
     }
 
     @Override
     public void readAllMessages() {
         //批量更新未读未认证的消息为已读状态
-        NewFriendManager.getInstance(BmobIMApplication.INSTANCE()).updateBatchStatus();
+        NewFriendManager.getInstance(MyApplication.INSTANCE()).updateBatchStatus();
     }
 
     @Override

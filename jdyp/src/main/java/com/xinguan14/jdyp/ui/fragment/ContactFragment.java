@@ -1,5 +1,6 @@
 package com.xinguan14.jdyp.ui.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,13 +13,15 @@ import android.view.ViewTreeObserver;
 
 import com.xinguan14.jdyp.CustomDialog;
 import com.xinguan14.jdyp.R;
-import com.xinguan14.jdyp.adapter.ContactAdapter;
 import com.xinguan14.jdyp.adapter.OnRecyclerViewListener;
+import com.xinguan14.jdyp.adapter.base.BaseRecyclerAdapter;
+import com.xinguan14.jdyp.adapter.base.BaseRecyclerHolder;
 import com.xinguan14.jdyp.adapter.base.IMutlipleItem;
 import com.xinguan14.jdyp.base.ParentWithNaviActivity;
 import com.xinguan14.jdyp.base.ParentWithNaviFragment;
 import com.xinguan14.jdyp.bean.Friend;
 import com.xinguan14.jdyp.bean.User;
+import com.xinguan14.jdyp.db.NewFriendManager;
 import com.xinguan14.jdyp.event.RefreshEvent;
 import com.xinguan14.jdyp.model.UserModel;
 import com.xinguan14.jdyp.ui.ChatActivity;
@@ -29,6 +32,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import butterknife.Bind;
@@ -245,5 +249,40 @@ public class ContactFragment extends ParentWithNaviFragment {
         });
     }
 
+    /**
+     * 联系人
+     * 一种简洁的Adapter实现方式，可用于多种Item布局的recycleView实现，不用再写ViewHolder啦
+     *
+     * @author :smile
+     * @project:ContactNewAdapter
+     * @date :2016-04-27-14:18
+     */
+    class ContactAdapter extends BaseRecyclerAdapter<Friend> {
+
+        public static final int TYPE_NEW_FRIEND = 0;
+        public static final int TYPE_ITEM = 1;
+
+        public ContactAdapter(Context context, IMutlipleItem<Friend> items, Collection<Friend> datas) {
+            super(context, items, datas);
+        }
+
+        @Override
+        public void bindView(BaseRecyclerHolder holder, Friend friend, int position) {
+            if (holder.layoutId == R.layout.item_contact) {
+                User user = friend.getFriendUser();
+                //好友头像
+                holder.setImageView(user == null ? null : user.getAvatar(), R.mipmap.head, R.id.iv_recent_avatar);
+                //好友名称
+                holder.setText(R.id.tv_recent_name, user == null ? "未知" : user.getUsername());
+            } else if (holder.layoutId == R.layout.header_new_friend) {
+                if (NewFriendManager.getInstance(context).hasNewFriendInvitation()) {
+                    holder.setVisible(R.id.iv_msg_tips, View.VISIBLE);
+                } else {
+                    holder.setVisible(R.id.iv_msg_tips, View.GONE);
+                }
+            }
+        }
+
+    }
 
 }

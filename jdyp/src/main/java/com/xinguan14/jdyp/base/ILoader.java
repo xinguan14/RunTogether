@@ -20,11 +20,11 @@ public interface ILoader {
 
     /**
      * 加载图片，添加监听器
-     * @param iv
      * @param url
      * @param defaultRes
      * @param listener
      */
     void load(ImageView iv,String url,int defaultRes,ImageLoadingListener listener);
+
 
 }
