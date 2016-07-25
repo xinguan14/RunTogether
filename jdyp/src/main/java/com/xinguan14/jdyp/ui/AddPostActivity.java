@@ -1,7 +1,8 @@
-package com.xinguan14.jdyp.ui.fragment;
+package com.xinguan14.jdyp.ui;
 
 import android.app.AlertDialog;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -20,18 +21,16 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import com.xinguan14.jdyp.R;
+import com.xinguan14.jdyp.adapter.base.BaseListHolder;
+import com.xinguan14.jdyp.adapter.base.CommonAdapter;
 import com.xinguan14.jdyp.base.ParentWithNaviActivity;
 import com.xinguan14.jdyp.bean.Post;
 import com.xinguan14.jdyp.bean.User;
-import com.xinguan14.jdyp.ui.ChooseImageActivity;
-import com.xinguan14.jdyp.ui.fragment.sportsfragment.SelectPicPopupWindow;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import butterknife.Bind;
@@ -67,12 +66,12 @@ public class AddPostActivity extends ParentWithNaviActivity {
 
 	//图片的uri
 	private Uri photoUri;
-	//导入临时图片
-	private Bitmap bmp;
 
 	//显示图片的集合
-	private ArrayList<HashMap<String, Object>> imageItem;
-	private SimpleAdapter simpleAdapter;     //适配器
+	//private ArrayList<HashMap<String, Object>> imageItem;
+	private List<Bitmap> imageItem;
+
+	//private SimpleAdapter simpleAdapter;     //适配器
 
 	@Override
 	protected String title() {
@@ -84,35 +83,16 @@ public class AddPostActivity extends ParentWithNaviActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.add_news);
 		initNaviView();
+		//GridView的初始界面
+		Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.ic_add_pic); //加号
+		//imageItem = new ArrayList<HashMap<String, Object>>();
+		imageItem = new ArrayList<Bitmap>();
+		//HashMap<String, Object> map = new HashMap<String, Object>();
+		//map.put("itemImage", bmp);
+		imageItem.add(bmp);
 
-		 /*
-         * 载入默认图片添加图片加号
-         * 通过适配器实现
-         * SimpleAdapter参数imageItem为数据源 R.layout.fragment_sport_square_item_grid为布局
-         */
-		bmp = BitmapFactory.decodeResource(getResources(), R.drawable.ic_add_pic); //加号
-		imageItem = new ArrayList<HashMap<String, Object>>();
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put("itemImage", bmp);
-		imageItem.add(map);
-		simpleAdapter = new SimpleAdapter(this,
-				imageItem, R.layout.add_image_grid_item,
-				new String[] { "itemImage"}, new int[] { R.id.imageView});
-
-		simpleAdapter.setViewBinder(new SimpleAdapter.ViewBinder() {
-			@Override
-			public boolean setViewValue(View view, Object data, String textRepresentation) {
-				// TODO Auto-generated method stub
-				if(view instanceof ImageView && data instanceof Bitmap){
-					ImageView i = (ImageView)view;
-					i.setImageBitmap((Bitmap) data);
-					return true;
-				}
-				return false;
-			}
-		});
-		showPicGrid.setAdapter(simpleAdapter);
-
+		AddGridViewAdapter gridViewAdapter=new AddGridViewAdapter(AddPostActivity.this, imageItem,R.layout.add_image_grid_item);
+		showPicGrid.setAdapter(gridViewAdapter);
         /*
          * 监听GridView点击事件
          * 报错:该函数必须抽象方法 故需要手动导入import android.view.View;
@@ -121,7 +101,7 @@ public class AddPostActivity extends ParentWithNaviActivity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View v, int position, long id)
 			{
-				 if(position == 0) { //点击图片位置为+ 0对应0张图片
+				 if(position == imageItem.size()-1) { //点击图片位置为+ 0对应0张图片
 					 if( imageItem.size() == 7) { //第一张为默认图片
 						 Toast.makeText(AddPostActivity.this, "最多添加六张图片", Toast.LENGTH_SHORT).show();
 						 return;
@@ -149,13 +129,9 @@ public class AddPostActivity extends ParentWithNaviActivity {
 				if(imageItem.size()>1) {
 					//获取发布的动态的内容
 					String contents = editContent.getText().toString();
+						if (imagePath != null && imagePath.length> 0) {
+							new UploadFileTask(contents).execute(imagePath);
 
-					for (int i=0;i<imagePath.length;i++) {
-						String uploadImg = imagePath[i];
-
-						if (uploadImg != null && uploadImg.length() > 0) {
-							new UploadFileTask(contents).execute(uploadImg);
-						}
 					}
 				}else {//没有图片的动态上传
 
@@ -192,6 +168,46 @@ public class AddPostActivity extends ParentWithNaviActivity {
 			}
 		});
 	}
+	/**
+	 * 为了得到传回的数据，必须在前面的Activity中（指MainActivity类）重写onActivityResult方法
+	 *
+	 * requestCode 请求码，即调用startActivityForResult()传递过去的值
+	 * resultCode 结果码，结果码用于标识返回数据来自哪个新Activity
+	 */
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// 取出Intent里的Extras数据
+		Bundle bundle = data.getExtras();
+		// 取出Bundle中的数据,即传递进来的图片路径数组
+		 imagePath= bundle.getStringArray("imagePath");
+
+		//显示要上传的图片
+		imageItem = new ArrayList<Bitmap>();
+
+		if(imagePath.length!=0) {
+			Bitmap add = BitmapFactory.decodeResource(getResources(), R.drawable.ic_add_pic); //加号
+			BitmapFactory.Options option = new BitmapFactory.Options();
+			// 压缩图片:表示缩略图大小为原始图片大小的几分之一，1为原图
+			option.inSampleSize = 2;
+			// 根据图片的SDCard路径读出Bitmap,
+			Bitmap[] bm = new Bitmap[imagePath.length+1];
+			for (int i = 0; i < imagePath.length+1; i++) {
+				if(i==imagePath.length){
+					bm[i]=add;
+				}else {
+					bm[i] = BitmapFactory.decodeFile(imagePath[i], option);
+					Log.i("info", imagePath[i]);
+				}
+
+			}
+
+			for (int i = 0; i < bm.length; i++) {
+				imageItem.add(bm[i]);
+			}
+			AddGridViewAdapter gridViewAdapter=new AddGridViewAdapter(AddPostActivity.this, imageItem,R.layout.add_image_grid_item);
+			showPicGrid.setAdapter(gridViewAdapter);
+		}
+	}
 
 
 	//为弹出的窗口实现监听类
@@ -211,67 +227,13 @@ public class AddPostActivity extends ParentWithNaviActivity {
 					startActivityForResult(new Intent(AddPostActivity.this, ChooseImageActivity.class), 1);
 					break;
 				case R.id.cancelBtn:// 取消
+
 					break;
 				default:
 					break;
 			}
 		}
 	};
-
-
-	/**
-	 * 为了得到传回的数据，必须在前面的Activity中（指MainActivity类）重写onActivityResult方法
-	 *
-	 * requestCode 请求码，即调用startActivityForResult()传递过去的值
-	 * resultCode 结果码，结果码用于标识返回数据来自哪个新Activity
-	 */
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		// 取出Intent里的Extras数据
-		Bundle bundle = data.getExtras();
-		// 取出Bundle中的数据,即传递进来的图片路径数组
-		imagePath= bundle.getStringArray("imagePath");
-
-		//显示要上传的图片
-		if(imagePath.length!=0) {
-			BitmapFactory.Options option = new BitmapFactory.Options();
-			// 压缩图片:表示缩略图大小为原始图片大小的几分之一，1为原图
-			option.inSampleSize = 2;
-			// 根据图片的SDCard路径读出Bitmap,
-			Bitmap[] bm = new Bitmap[imagePath.length];
-			for (int i = 0; i < imagePath.length; i++) {
-				bm[i] = BitmapFactory.decodeFile(imagePath[i], option);
-				Log.i("info",imagePath[i]);
-
-			}
-			//将如偏的bitMap添加到集合中
-			HashMap<String, Object> map = new HashMap<String, Object>();
-			for (int i = 0; i < bm.length; i++) {
-				map.put("itemImage", bm[i]);
-				imageItem.add(map);
-			}
-
-			simpleAdapter = new SimpleAdapter(this,
-					imageItem, R.layout.fragment_sport_square_item_grid,
-					new String[]{"itemImage"}, new int[]{R.id.imageView});
-
-			simpleAdapter.setViewBinder(new SimpleAdapter.ViewBinder() {
-				@Override
-				public boolean setViewValue(View view, Object data,
-											String textRepresentation) {
-					// TODO Auto-generated method stub
-					if (view instanceof ImageView && data instanceof Bitmap) {
-						ImageView i = (ImageView) view;
-						i.setImageBitmap((Bitmap) data);
-						return true;
-					}
-					return false;
-				}
-			});
-			showPicGrid.setAdapter(simpleAdapter);
-			//simpleAdapter.notifyDataSetChanged();
-		}
-	}
 
 
 
@@ -313,7 +275,8 @@ public class AddPostActivity extends ParentWithNaviActivity {
 			public void onClick(DialogInterface dialog, int which) {
 				dialog.dismiss();
 				imageItem.remove(position);
-				simpleAdapter.notifyDataSetChanged();
+				AddGridViewAdapter gridViewAdapter=new AddGridViewAdapter(AddPostActivity.this, imageItem,R.layout.add_image_grid_item);
+				showPicGrid.setAdapter(gridViewAdapter);
 			}
 		});
 		builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -328,7 +291,7 @@ public class AddPostActivity extends ParentWithNaviActivity {
 	/*
 	* 上传动态，放在异步处理中
 	* */
-	 class UploadFileTask extends AsyncTask<String,Void,String> {
+	 class UploadFileTask extends AsyncTask<String[],Void,String> {
 		private String content;
 
 		public UploadFileTask(String content) {
@@ -336,7 +299,7 @@ public class AddPostActivity extends ParentWithNaviActivity {
 		}
 
 		@Override
-		protected String doInBackground(String... strings) {
+		protected String doInBackground(String[]... strings) {
 			BmobFile.uploadBatch(AddPostActivity.this,imagePath, new UploadBatchListener() {
 				@Override
 				public void onSuccess(List<BmobFile> files, List<String> url) {
@@ -403,4 +366,18 @@ public class AddPostActivity extends ParentWithNaviActivity {
 			mProgressBar.setVisibility(View.VISIBLE);
 		}
 	}
+
+
+	 class AddGridViewAdapter extends CommonAdapter<Bitmap>{
+
+		 private AddGridViewAdapter(Context context,List<Bitmap> bm,int itemLayoutId){
+			 super(context,bm,itemLayoutId);
+
+		 }
+		 @Override
+		 public void convert(BaseListHolder holder, Bitmap item) {
+			 ImageView imageView = holder.getView(R.id.imageView);
+			 imageView.setImageBitmap(item);
+		 }
+	 }
 }

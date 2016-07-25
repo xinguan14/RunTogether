@@ -27,7 +27,6 @@ import android.widget.Toast;
 import com.xinguan14.jdyp.R;
 import com.xinguan14.jdyp.adapter.MyAdapter;
 import com.xinguan14.jdyp.bean.ImageFloder;
-import com.xinguan14.jdyp.ui.fragment.AddPostActivity;
 
 import java.io.File;
 import java.io.FilenameFilter;
@@ -190,15 +189,23 @@ public class ChooseImageActivity extends Activity {
         DisplayMetrics outMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(outMetrics);
         mScreenHeight = outMetrics.heightPixels;
-
         initView();
         initDatas();
+
+        if (isFinishing()) {
+            Intent intent = new Intent();
+            intent.putExtra("no","没有数据");
+            ChooseImageActivity.this.setResult(RESULT_CANCELED, intent);
+        }
         //弹出widow
         initEvent();
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(ChooseImageActivity.this,AddPostActivity.class));
+                //startActivity(new Intent(ChooseImageActivity.this,AddPostActivity.class));
+                Intent intent = new Intent();
+                intent.putExtra("imagePath","");
+                ChooseImageActivity.this.setResult(RESULT_CANCELED, intent);
                 finish();
             }
         });
@@ -218,14 +225,6 @@ public class ChooseImageActivity extends Activity {
                 ChooseImageActivity.this.setResult(RESULT_OK, intent);
                 //关闭Activity
                 ChooseImageActivity.this.finish();
-                /*AlertDialog.Builder builder = new AlertDialog.Builder(ChooseImageActivity.this);
-                String str="选中图片路径";
-                for(int i=0;i<imagePath.length;i++){
-                    str +=imagePath[i]+"下一张";
-                }
-                builder.setMessage(str);
-                builder.setTitle("提示");
-                builder.create().show();*/
 
             }
         });

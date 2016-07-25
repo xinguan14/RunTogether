@@ -1,4 +1,4 @@
-package com.xinguan14.jdyp.ui.fragment.sportsfragment;
+package com.xinguan14.jdyp.ui;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
