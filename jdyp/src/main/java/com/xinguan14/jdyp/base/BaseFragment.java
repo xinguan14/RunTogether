@@ -9,7 +9,7 @@ import android.support.v4.app.Fragment;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
-import com.xinguan14.jdyp.Config;
+import com.xinguan14.jdyp.config.Config;
 import com.orhanobut.logger.Logger;
 
 /**基类

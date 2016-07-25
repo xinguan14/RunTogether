@@ -1,4 +1,4 @@
-package com.xinguan14.jdyp;
+package com.xinguan14.jdyp.config;
 
 /**
  * @author :smile

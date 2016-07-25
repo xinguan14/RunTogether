@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.xinguan14.jdyp.R;
 import com.xinguan14.jdyp.adapter.base.BaseViewHolder;
 import com.xinguan14.jdyp.base.ImageLoaderFactory;
 
@@ -46,18 +47,19 @@ public class ReceiveTextHolder extends BaseViewHolder {
     String time = dateFormat.format(message.getCreateTime());
     tv_time.setText(time);
     final BmobIMUserInfo info = message.getBmobIMUserInfo();
-    ImageLoaderFactory.getLoader().loadAvator(iv_avatar,info != null ? info.getAvatar() : null, com.xinguan14.jdyp.R.mipmap.head);
+    ImageLoaderFactory.getLoader().loadAvator(iv_avatar,info != null ? info.getAvatar() : null, R.mipmap.head);
     String content =  message.getContent();
     tv_message.setText(content);
     iv_avatar.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        toast("点击" + info.getName() + "的头像");
+        toast("点击" + info.getAvatar() + "的头像");
       }
     });
     tv_message.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+
           toast("点击"+message.getContent());
           if(onRecyclerViewListener!=null){
             onRecyclerViewListener.onItemClick(getAdapterPosition());

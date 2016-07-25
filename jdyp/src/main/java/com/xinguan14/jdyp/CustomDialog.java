@@ -15,109 +15,102 @@ import java.util.List;
 
 /**
  *
- * �Զ���dialog
- * 
  * @author xwj
  * @date 2014/9/25
  */
 public class CustomDialog extends Dialog {
 
-	private Context mContext;
-	private String title; // dialog�ı���
-	private List<String> list; // �˴�Ϊdilog���ݣ��ݶ�Ϊstring����
-	private ListView mListView;
-	public CustomDialog(Context context, String title, List<String> list) {
-		super(context, R.style.customDialog); // ȡ��dillog�Զ������ʽ
-		this.mContext = context;
-		this.title = title;
-		this.list = list;
-		initComponent();
+    private Context mContext;
+    private String title;
+    private List<String> list;
+    private ListView mListView;
 
-	}
+    public CustomDialog(Context context, String title, List<String> list) {
+        super(context, R.style.customDialog);
+        this.mContext = context;
+        this.title = title;
+        this.list = list;
+        initComponent();
 
-	private void initComponent() {
-		View view = LayoutInflater.from(mContext).inflate(
-				R.layout.custom_dialog, null);
-		((TextView) view.findViewById(R.id.item_dialog_title_tv))
-				.setText(title);
-		mListView = (ListView) view.findViewById(R.id.item_dialog_list_lv);
-		mListView.setAdapter(new MyAdapter());
-		mListView.setOnItemClickListener(new OnItemClickListener() {
+    }
 
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-									int position, long id) {
-				itemOnClickListener.itemOnClick(position);
-			}
+    private void initComponent() {
+        View view = LayoutInflater.from(mContext).inflate(
+                R.layout.custom_dialog, null);
+        ((TextView) view.findViewById(R.id.item_dialog_title_tv))
+                .setText(title);
+        mListView = (ListView) view.findViewById(R.id.item_dialog_list_lv);
+        mListView.setAdapter(new MyAdapter());
+        mListView.setOnItemClickListener(new OnItemClickListener() {
 
-		});
-		this.setContentView(view);
-	}
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                itemOnClickListener.itemOnClick(position);
+            }
 
-	/**
-	 * mListView������������
-	 * 
-	 * @author TY
-	 * 
-	 */
-	public class MyAdapter extends BaseAdapter {
+        });
+        this.setContentView(view);
+    }
 
-		@Override
-		public int getCount() {
 
-			return list.size();
-		}
+    public class MyAdapter extends BaseAdapter {
 
-		@Override
-		public Object getItem(int position) {
+        @Override
+        public int getCount() {
 
-			return list.get(position);
-		}
+            return list.size();
+        }
 
-		@Override
-		public long getItemId(int position) {
+        @Override
+        public Object getItem(int position) {
 
-			return position;
-		}
+            return list.get(position);
+        }
 
-		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
+        @Override
+        public long getItemId(int position) {
 
-			ViewHolder viewHolder = null;
+            return position;
+        }
 
-			if (convertView == null) {
-				viewHolder = new ViewHolder();
-				convertView = View.inflate(mContext,
-						R.layout.custom_dialog_item, null);
-				viewHolder.textView = (TextView) convertView
-						.findViewById(R.id.item);
-				convertView.setTag(viewHolder);
-			} else {
-				viewHolder = (ViewHolder) convertView.getTag();
-			}
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
 
-			viewHolder.textView.setText(list.get(position));
+            ViewHolder viewHolder = null;
 
-			return convertView;
-		}
+            if (convertView == null) {
+                viewHolder = new ViewHolder();
+                convertView = View.inflate(mContext,
+                        R.layout.custom_dialog_item, null);
+                viewHolder.textView = (TextView) convertView
+                        .findViewById(R.id.item);
+                convertView.setTag(viewHolder);
+            } else {
+                viewHolder = (ViewHolder) convertView.getTag();
+            }
 
-		private class ViewHolder {
-			private TextView textView;
-		}
+            viewHolder.textView.setText(list.get(position));
 
-	}
+            return convertView;
+        }
 
-	private MyItemOnClickListener itemOnClickListener;
+        private class ViewHolder {
+            private TextView textView;
+        }
 
-	
-	public interface MyItemOnClickListener {
-		public void itemOnClick(int itemPosition);
-	}
-	
-	public void setItemOnClickListener(MyItemOnClickListener myItemOnClickListener){
-		this.itemOnClickListener = myItemOnClickListener;
-	}
-	
-	
+    }
+
+    private MyItemOnClickListener itemOnClickListener;
+
+
+    public interface MyItemOnClickListener {
+        public void itemOnClick(int itemPosition);
+    }
+
+    public void setItemOnClickListener(MyItemOnClickListener myItemOnClickListener) {
+        this.itemOnClickListener = myItemOnClickListener;
+    }
+
 
 }

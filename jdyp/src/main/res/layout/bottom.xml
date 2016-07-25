@@ -48,34 +48,35 @@
         android:layout_height="match_parent"
         android:layout_weight="1">
 
-        <Button
-            android:id="@+id/btn_connect"
+        <FrameLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:drawableTop="@drawable/tab_contact_btn"
-            android:onClick="onTabSelect"
-            android:paddingBottom="2dip"
-            android:paddingTop="7dip"
-            android:scaleType="matrix"
-            android:text="@string/main_tab_contact"
-            android:textColor="@drawable/tab_textcolor"
-            android:textSize="12sp" />
+            android:layout_height="wrap_content">
 
-        <ImageView
+            <Button
+                android:id="@+id/btn_connect"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:drawableTop="@drawable/tab_contact_btn"
+                android:onClick="onTabSelect"
+                android:paddingBottom="2dip"
+                android:paddingTop="7dip"
+                android:scaleType="matrix"
+                android:text="@string/main_tab_contact"
+                android:textColor="@drawable/tab_textcolor"
+                android:textSize="12sp" />
+        </FrameLayout>
+
+        <TextView
             android:id="@+id/iv_connect_tips"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
-            android:layout_marginRight="30dp"
-            android:layout_marginTop="7dp"
-            android:background="@mipmap/msg_tips"
-            android:contentDescription="@string/action_settings"
-            android:gravity="center"
-            android:textColor="@android:color/white"
-            android:textSize="12sp"
+            android:background="@drawable/red_bg"
             android:visibility="gone" />
+
     </RelativeLayout>
 
     <RelativeLayout

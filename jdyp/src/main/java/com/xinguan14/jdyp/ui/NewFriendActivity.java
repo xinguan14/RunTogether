@@ -22,7 +22,9 @@ import java.util.List;
 
 import butterknife.Bind;
 
-/**新朋友
+/**
+ * 新朋友
+ *
  * @author :smile
  * @project:NewFriendActivity
  * @date :2016-01-25-18:23
@@ -48,7 +50,7 @@ public class NewFriendActivity extends ParentWithNaviActivity implements SwipeMe
         return R.drawable.base_action_bar_add_bg_selector;
     }
 
-//给导航栏设置监听事件
+    //给导航栏设置监听事件
     @Override
     public ParentWithNaviActivity.ToolBarListener setToolBarListener() {
         return new ParentWithNaviActivity.ToolBarListener() {
@@ -59,7 +61,7 @@ public class NewFriendActivity extends ParentWithNaviActivity implements SwipeMe
 
             @Override
             public void clickRight() {
-                startActivity(SearchUserActivity.class,null);
+                startActivity(SearchUserActivity.class, null);
             }
         };
     }
@@ -87,7 +89,7 @@ public class NewFriendActivity extends ParentWithNaviActivity implements SwipeMe
                 return list.size();
             }
         };
-        adapter = new NewFriendAdapter(this,mutlipleItem,null);
+        adapter = new NewFriendAdapter(this, mutlipleItem, null);
         rc_view.setAdapter(adapter);
         layoutManager = new LinearLayoutManager(this);
         rc_view.setLayoutManager(layoutManager);
@@ -97,7 +99,7 @@ public class NewFriendActivity extends ParentWithNaviActivity implements SwipeMe
         setListener();
     }
 
-    private void setListener(){
+    private void setListener() {
         ll_root.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
@@ -115,7 +117,7 @@ public class NewFriendActivity extends ParentWithNaviActivity implements SwipeMe
         adapter.setOnRecyclerViewListener(new OnRecyclerViewListener() {
             @Override
             public void onItemClick(int position) {
-                log("点击："+position);
+                log("点击：" + position);
             }
 
             @Override
@@ -140,9 +142,9 @@ public class NewFriendActivity extends ParentWithNaviActivity implements SwipeMe
     }
 
     /**
-      查询本地会话
+     * 查询本地会话
      */
-    public void query(){
+    public void query() {
         adapter.bindDatas(NewFriendManager.getInstance(this).getAllNewFriend());
         adapter.notifyDataSetChanged();
         sw_refresh.setRefreshing(false);

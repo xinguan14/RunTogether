@@ -2,7 +2,7 @@ package com.xinguan14.jdyp.model;
 
 import android.content.Context;
 
-import com.xinguan14.jdyp.BmobIMApplication;
+import com.xinguan14.jdyp.MyApplication;
 
 /**
  * @author :smile
@@ -17,6 +17,6 @@ public abstract class BaseModel {
     public static final int DEFAULT_LIMIT=20;
 
     public Context getContext(){
-        return BmobIMApplication.INSTANCE();
+        return MyApplication.INSTANCE();
     }
 }

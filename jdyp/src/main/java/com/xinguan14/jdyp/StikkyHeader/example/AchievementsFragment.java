@@ -16,6 +16,10 @@ import com.xinguan14.jdyp.StikkyHeader.core.HeaderStikkyAnimator;
 import com.xinguan14.jdyp.StikkyHeader.core.StikkyHeaderBuilder;
 
 
+/**
+ * 最近成就
+ * @author 徐玲
+ */
 public class AchievementsFragment extends Fragment {
 
     private View mToolbar;

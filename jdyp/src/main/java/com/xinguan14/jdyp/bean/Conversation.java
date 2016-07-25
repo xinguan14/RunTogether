@@ -17,6 +17,11 @@ public abstract class Conversation implements Serializable,Comparable{
      * 会话id
      */
     protected String cId;
+
+    /**
+     * 会话Avatar
+     */
+    protected String cAvatar;
     /**
      * 会话类型
      */
@@ -67,6 +72,9 @@ public abstract class Conversation implements Serializable,Comparable{
 
     public String getcName() {
         return cName;
+    }
+    public String getcAvatar() {
+        return cAvatar;
     }
 
     public String getcId(){

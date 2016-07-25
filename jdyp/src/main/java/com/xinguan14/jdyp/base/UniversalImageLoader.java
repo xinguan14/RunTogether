@@ -56,7 +56,6 @@ public class UniversalImageLoader implements ILoader{
             ImageLoader.getInstance().displayImage(url, imageAware, DisplayConfig.getDefaultOptions(isCircle,defaultRes),listener);
         }
     }
-
     /**
      * 初始化ImageLoader
      * @param context

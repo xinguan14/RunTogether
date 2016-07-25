@@ -2,6 +2,7 @@ package com.xinguan14.jdyp.base;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -13,12 +14,20 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import com.orhanobut.logger.Logger;
+import com.xinguan14.jdyp.MyApplication;
+import com.xinguan14.jdyp.bean.User;
+import com.xinguan14.jdyp.config.Config;
+import com.xinguan14.jdyp.dialog.DialogTips;
+import com.xinguan14.jdyp.model.UserModel;
+import com.xinguan14.jdyp.ui.LoginActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.ButterKnife;
-import com.xinguan14.jdyp.Config;
+import cn.bmob.newim.BmobIM;
+import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.listener.UpdateListener;
 
 /**基类
  * @author :smile
@@ -26,6 +35,8 @@ import com.xinguan14.jdyp.Config;
  * @date :2016-01-15-18:23
  */
 public class BaseActivity extends FragmentActivity {
+
+    MyApplication mApplication;
 
     @Override
     protected void onStart() {
@@ -133,6 +144,104 @@ public class BaseActivity extends FragmentActivity {
     public void log(String msg){
         if(Config.DEBUG){
             Logger.i(msg);
+        }
+    }
+    /** 显示下线的对话框
+     * showOfflineDialog
+     * @return void
+     * @throws
+     */
+    public void showOfflineDialog(final Context context) {
+        DialogTips dialog = new DialogTips(this,"您的账号已在其他设备上登录!", "重新登录");
+        // 设置成功事件
+        dialog.SetOnSuccessListener(new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialogInterface, int userId) {
+//                MyApplication.INSTANCE().logout();
+                UserModel.getInstance().logout();
+                //可断开连接
+                BmobIM.getInstance().disConnect();
+                startActivity(new Intent(context, LoginActivity.class));
+//                startActivity(LoginActivity.class, null);
+                finish();
+                dialogInterface.dismiss();
+            }
+        });
+        // 显示确认对话框
+        dialog.show();
+        dialog = null;
+    }
+
+
+    /** 用于登陆或者自动登陆情况下的用户资料及好友资料的检测更新
+     * @Title: updateUserInfos
+     * @Description: TODO
+     * @param
+     * @return void
+     * @throws
+     */
+    public void updateUserInfos(){
+        //更新地理位置信息
+        updateUserLocation();
+        //查询该用户的好友列表(这个好友列表是去除黑名单用户的哦),目前支持的查询好友个数为100，如需修改请在调用这个方法前设置BmobConfig.LIMIT_CONTACTS即可。
+        //这里默认采取的是登陆成功之后即将好于列表存储到数据库中，并更新到当前内存中,
+//        userManager.queryCurrentContactList(new FindListener<BmobChatUser>() {
+//
+//            @Override
+//            public void onError(int arg0, String arg1) {
+//                // TODO Auto-generated method stub
+//                if(arg0== BmobConstants.CODE_COMMON_NONE){
+//                    ShowLog(arg1);
+//                }else{
+//                    ShowLog("查询好友列表失败："+arg1);
+//                }
+//            }
+//
+//            @Override
+//            public void onSuccess(List<BmobChatUser> arg0) {
+//                // TODO Auto-generated method stub
+//                // 保存到application中方便比较
+//                MyApplication.getInstance().setContactList(CollectionUtils.list2map(arg0));
+//            }
+//        });
+    }
+
+    /** 更新用户的经纬度信息
+     * @Title: uploadLocation
+     * @Description: TODO
+     * @param
+     * @return void
+     * @throws
+     */
+    public void updateUserLocation(){
+        if(MyApplication.lastPoint!=null){
+            String saveLatitude  = mApplication.getLatitude();
+            String saveLongtitude = mApplication.getLongtitude();
+            String newLat = String.valueOf(MyApplication.lastPoint.getLatitude());
+            String newLong = String.valueOf(MyApplication.lastPoint.getLongitude());
+//			ShowLog("saveLatitude ="+saveLatitude+",saveLongtitude = "+saveLongtitude);
+//			ShowLog("newLat ="+newLat+",newLong = "+newLong);
+            if(!saveLatitude.equals(newLat)|| !saveLongtitude.equals(newLong)){//只有位置有变化就更新当前位置，达到实时更新的目的
+                User u = BmobUser.getCurrentUser(this,User.class);
+                final User user = new User();
+                user.setLocation(MyApplication.lastPoint);
+                user.setObjectId(u.getObjectId());
+                user.update(this,new UpdateListener() {
+                    @Override
+                    public void onSuccess() {
+                        // TODO Auto-generated method stub
+                        MyApplication.INSTANCE().setLatitude(String.valueOf(user.getLocation().getLatitude()));
+                        MyApplication.INSTANCE().setLongtitude(String.valueOf(user.getLocation().getLongitude()));
+//						ShowLog("经纬度更新成功");
+                    }
+                    @Override
+                    public void onFailure(int code, String msg) {
+                        // TODO Auto-generated method stub
+//						ShowLog("经纬度更新 失败:"+msg);
+                    }
+                });
+            }else{
+//				ShowLog("用户位置未发生过变化");
+            }
         }
     }
 

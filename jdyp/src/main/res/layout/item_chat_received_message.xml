@@ -27,7 +27,6 @@
             android:layout_height="@dimen/height_50"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:src="@mipmap/head"
             android:scaleType="fitXY" />
 
         <TextView
