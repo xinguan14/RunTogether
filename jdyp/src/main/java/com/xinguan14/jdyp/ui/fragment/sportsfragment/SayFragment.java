@@ -29,11 +29,12 @@ public class SayFragment extends android.support.v4.app.ListFragment {
 
 	private View rootView;
 	//存放动态的集合
-	//private List<Post> mPostList;
+	private List<Post> mPostList;
 	//存放评论的集合
 	private View mCommentView;
-
+	//适配器
 	private SayListViewAdapter mSayListViewAdapter;
+	//刷新的动画
 	private SwipeRefreshLayout sps_refresh;
 
 	@Override
@@ -71,7 +72,6 @@ public class SayFragment extends android.support.v4.app.ListFragment {
 
 		//获取当前的用户
 		User user  = BmobUser.getCurrentUser(getActivity(),User.class);
-
 		BmobQuery<Friend> userFriends = new BmobQuery<Friend>();
 		userFriends.addWhereEqualTo("user", user);//查询当前用户的朋友
 		userFriends.findObjects(getActivity(), new FindListener<Friend>() {
@@ -115,7 +115,7 @@ public class SayFragment extends android.support.v4.app.ListFragment {
 	/*	String str = "要显示有"+showUserId.length+"个人";
 				Toast.makeText(getActivity(), str,
 						Toast.LENGTH_SHORT).show();*/
-
+		//查询动态信息
 		final BmobQuery<Post> query = new BmobQuery<Post>();
 		query.order("-createdAt");// 按照时间降序
 	   //查询要显示的用户的所有动态
@@ -127,15 +127,17 @@ public class SayFragment extends android.support.v4.app.ListFragment {
 			@Override
 			public void onSuccess(List<Post> list) {
 				if(list!=null) {
-
 					int length = list.size();
 					String[] names = new String[length];
 					String[] contents = new String[length];
+					String[] avatar = new String[length];
+					String[] images = new String[length];
 					for (int i = 0; i < list.size(); i++) {
 						Post post = list.get(i);
 						contents[i] = post.getContent();
 						names[i] = post.getAuthor().getUsername();
-
+						avatar[i]= post.getAuthor().getAvatar();
+						images[i]= post.getImageurl();
 					}
 
 					/*String str = "显示的内容"+list.size();
@@ -144,7 +146,7 @@ public class SayFragment extends android.support.v4.app.ListFragment {
 					}
 					Toast.makeText(getActivity(), str,
 							Toast.LENGTH_SHORT).show();*/
-					initData(names,contents);
+					initData(names,contents,avatar,images);
 
 				}else {
 					AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -162,16 +164,18 @@ public class SayFragment extends android.support.v4.app.ListFragment {
 	}
 
 	//绑定数据
-	private void initData(String[]names,String[] contents){
+	private void initData(String[]names,String[] contents,String[] avatar,String[] images){
 		List<Post> mPostList = new ArrayList<Post>();
 		Post post =null;
 		for(int i=0;i<names.length;i++) {
 			post = new Post();
 			post.setName(names[i]);
 			post.setContent(contents[i]);
+			post.setImageurl(images[i]);
+			post.setHeadPhoto(avatar[i]);
 			mPostList.add(post);
 		}
-		mSayListViewAdapter = new SayListViewAdapter(getActivity(), mPostList);
+		mSayListViewAdapter = new SayListViewAdapter(getActivity(), mPostList,R.layout.fragment_sport_say_item);
 		setListAdapter(mSayListViewAdapter);
 		//关闭刷新
 		sps_refresh.setRefreshing(false);
