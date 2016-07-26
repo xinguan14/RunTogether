@@ -10,7 +10,7 @@
         android:id="@+id/ll"
         layout="@layout/include_navi" />
 
-    <com.xinguan14.jdyp.MySwipeRefreshLayout
+    <com.xinguan14.jdyp.MyVeiw.MySwipeRefreshLayout
         android:id="@+id/sw_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -20,5 +20,5 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-    </com.xinguan14.jdyp.MySwipeRefreshLayout>
+    </com.xinguan14.jdyp.MyVeiw.MySwipeRefreshLayout>
 </LinearLayout>

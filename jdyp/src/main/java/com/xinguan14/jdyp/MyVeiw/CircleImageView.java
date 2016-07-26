@@ -1,4 +1,4 @@
-package com.xinguan14.jdyp;
+package com.xinguan14.jdyp.MyVeiw;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -15,6 +15,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.widget.ImageView;
+
+import com.xinguan14.jdyp.R;
 
 /**
  * Created by wm on 2016/7/17.

@@ -179,11 +179,14 @@ public class MyApplication extends Application {
         @Override
         public void onReceiveLocation(BDLocation location) {
             // Receive Location
-            double latitude = location.getLatitude();
-            double longtitude = location.getLongitude();
+            double latitude_d = location.getLatitude();
+            double longtitude_d = location.getLongitude();
+            latitude = Double.toString(latitude_d);
+            longtitude = Double.toString(longtitude_d);
+
             User u = BmobUser.getCurrentUser(getApplicationContext(),User.class);
             final User user = new User();
-            BmobGeoPoint bmobGeoPoint = new BmobGeoPoint(longtitude,latitude);
+            BmobGeoPoint bmobGeoPoint = new BmobGeoPoint(longtitude_d,latitude_d);
             user.setLocation(bmobGeoPoint);
             user.setObjectId(u.getObjectId());
             user.update(getApplicationContext(),new UpdateListener() {
@@ -208,7 +211,7 @@ public class MyApplication extends Application {
                     return;
                 }
             }
-            lastPoint = new BmobGeoPoint(longtitude, latitude);
+            lastPoint = new BmobGeoPoint(longtitude_d, latitude_d);
         }
     }
 }

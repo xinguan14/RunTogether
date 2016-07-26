@@ -1,4 +1,4 @@
-package com.xinguan14.jdyp;
+package com.xinguan14.jdyp.MyVeiw;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -10,6 +10,8 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.xinguan14.jdyp.R;
 
 import java.util.List;
 

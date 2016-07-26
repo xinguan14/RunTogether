@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 
-import com.xinguan14.jdyp.CustomDialog;
+import com.xinguan14.jdyp.MyVeiw.CustomDialog;
 import com.xinguan14.jdyp.R;
 import com.xinguan14.jdyp.adapter.OnRecyclerViewListener;
 import com.xinguan14.jdyp.adapter.base.BaseRecyclerAdapter;

@@ -7,7 +7,7 @@
               android:background="@color/white"
               android:descendantFocusability="blocksDescendants"
               android:orientation="horizontal" >
-    <com.xinguan14.jdyp.CircleImageView
+    <com.xinguan14.jdyp.MyVeiw.CircleImageView
         android:id="@+id/user_image"
         android:layout_width="50dip"
         android:layout_height="50dip"
@@ -59,7 +59,7 @@
                其有三个属性：visible显示；invisible显示黑背景条；gone不显示
                在类中，可以设置其显示与否，setVisibility(View.GONE);不显示
                setVisibility(View.VISIBLE);显示-->
-            <com.xinguan14.jdyp.MyGridView
+            <com.xinguan14.jdyp.MyVeiw.MyGridView
                 android:id="@+id/gv_images"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -68,7 +68,7 @@
                 android:numColumns="3"
                 android:stretchMode="columnWidth"
                 android:verticalSpacing="2dp" >
-            </com.xinguan14.jdyp.MyGridView>
+            </com.xinguan14.jdyp.MyVeiw.MyGridView>
         </RelativeLayout>
 
 

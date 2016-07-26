@@ -8,7 +8,7 @@
     <include android:id="@+id/ll" layout="@layout/include_navi"/>
 
 
-    <com.xinguan14.jdyp.PagerSlidingTabStrip
+    <com.xinguan14.jdyp.MyVeiw.PagerSlidingTabStrip
         android:id="@+id/tabs"
         android:layout_width="match_parent"
         android:layout_height="40dp" />

@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 
-import com.xinguan14.jdyp.MySwipeRefreshLayout;
+import com.xinguan14.jdyp.MyVeiw.MySwipeRefreshLayout;
 import com.xinguan14.jdyp.R;
 import com.xinguan14.jdyp.SwipMenu.SwapRecyclerView;
 import com.xinguan14.jdyp.adapter.OnRecyclerViewListener;

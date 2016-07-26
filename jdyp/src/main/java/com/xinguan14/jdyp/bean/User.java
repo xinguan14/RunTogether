@@ -15,7 +15,8 @@ public class User extends BmobUser {
     private String avatar;
     private Boolean sex;//性别-true-男
     private BmobGeoPoint location;//地理坐标
-    //private String userName;
+    private String nick;//昵称
+    private Integer age;//年龄
 
     public User() {}
 
@@ -24,32 +25,16 @@ public class User extends BmobUser {
         setUsername(friend.getName());
         setAvatar(friend.getAvatar());
     }
-
+    public String getNick() {return this.nick;}
+    public void setNick(String nick) {this.nick = nick;}
+    public Integer getAge() {return age;}
+    public void setAge(Integer age) {this.age = age;}
     public Boolean getSex() { return sex; }
     public void setSex(boolean sex) {
         this.sex = sex;
     }
-
     public String getAvatar() { return avatar; }
     public void setAvatar(String avatar) {this.avatar = avatar;}
-
-    public BmobGeoPoint getLocation() {
-        return location;
-    }
-    public void setLocation(BmobGeoPoint location) {
-        this.location = location;
-    }
-
-
-
-
-    /*public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }*/
-
-
+    public BmobGeoPoint getLocation() {return location;}
+    public void setLocation(BmobGeoPoint location) {this.location = location;}
 }

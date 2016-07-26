@@ -20,7 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.orhanobut.logger.Logger;
-import com.xinguan14.jdyp.GooeyMenu;
+import com.xinguan14.jdyp.MyVeiw.GooeyMenu;
 import com.xinguan14.jdyp.R;
 import com.xinguan14.jdyp.SwipMenu.SwipeMenu;
 import com.xinguan14.jdyp.SwipMenu.SwipeMenuBuilder;

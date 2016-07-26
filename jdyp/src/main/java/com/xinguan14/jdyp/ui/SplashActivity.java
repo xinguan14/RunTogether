@@ -12,7 +12,9 @@ import com.xinguan14.jdyp.base.BaseActivity;
 import com.xinguan14.jdyp.bean.User;
 import com.xinguan14.jdyp.model.UserModel;
 
-/**启动界面
+/**
+ * 启动界面
+ *
  * @author :smile
  * @project:SplashActivity
  * @date :2016-01-15-18:23
@@ -20,32 +22,34 @@ import com.xinguan14.jdyp.model.UserModel;
 public class SplashActivity extends BaseActivity {
     // 定位获取当前用户的地理位置
     private LocationClient mLocationClient;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        Handler handler =new Handler(Looper.getMainLooper());
+        Handler handler = new Handler(Looper.getMainLooper());
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 User user = UserModel.getInstance().getCurrentUser();
                 if (user == null) {
-                    startActivity(LoginActivity.class,null,true);
-                }else{
-                    startActivity(MainActivity.class,null,true);
+                    startActivity(LoginActivity.class, null, true);
+                } else {
+                    startActivity(MainActivity.class, null, true);
                 }
             }
-        },1000);
+        }, 1000);
         initLocClient();
     }
 
     /**
      * 开启定位，更新当前用户的经纬度坐标
-     * @Title: initLocClient
-     * @Description: TODO
+     *
      * @param
      * @return void
      * @throws
+     * @Title: initLocClient
+     * @Description: TODO
      */
     private void initLocClient() {
         mLocationClient = MyApplication.INSTANCE().mLocationClient;
@@ -58,4 +62,12 @@ public class SplashActivity extends BaseActivity {
         mLocationClient.start();
     }
 
+    @Override
+    protected void onDestroy() {
+        // 退出时销毁定位
+        if (mLocationClient != null && mLocationClient.isStarted()) {
+            mLocationClient.stop();
+        }
+        super.onDestroy();
+    }
 }

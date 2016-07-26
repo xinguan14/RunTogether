@@ -1,4 +1,4 @@
-package com.xinguan14.jdyp;
+package com.xinguan14.jdyp.MyVeiw;
 
 import android.content.Context;
 import android.support.v4.widget.SwipeRefreshLayout;

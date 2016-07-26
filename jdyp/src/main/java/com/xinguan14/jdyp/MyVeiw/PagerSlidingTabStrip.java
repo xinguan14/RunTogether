@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.xinguan14.jdyp;
+package com.xinguan14.jdyp.MyVeiw;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -37,6 +37,8 @@ import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.xinguan14.jdyp.R;
 
 import java.util.Locale;
 
