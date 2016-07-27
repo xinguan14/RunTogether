@@ -191,10 +191,10 @@ public class ChooseImageActivity extends Activity {
         mScreenHeight = outMetrics.heightPixels;
         initView();
         initDatas();
-
         if (isFinishing()) {
             Intent intent = new Intent();
             intent.putExtra("no","没有数据");
+            Log.i("info","执行了");
             ChooseImageActivity.this.setResult(RESULT_CANCELED, intent);
         }
         //弹出widow
@@ -204,7 +204,7 @@ public class ChooseImageActivity extends Activity {
             public void onClick(View view) {
                 //startActivity(new Intent(ChooseImageActivity.this,AddPostActivity.class));
                 Intent intent = new Intent();
-                intent.putExtra("imagePath","");
+                intent.putExtra("no","没有数据");
                 ChooseImageActivity.this.setResult(RESULT_CANCELED, intent);
                 finish();
             }

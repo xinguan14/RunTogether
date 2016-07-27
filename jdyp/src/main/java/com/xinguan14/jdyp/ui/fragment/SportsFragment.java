@@ -57,14 +57,6 @@ public class SportsFragment extends ParentWithNaviFragment {
 			public void clickRight()
 			{
 				startActivity(AddPostActivity.class,null);
-				/*Fragment newFragment = new AddPostActivity();
-				FragmentManager fragmentManager =getFragmentManager();
-				FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//替换该界面中的Fragment
-				fragmentTransaction.replace(R.id.id_content, newFragment);
-//将事务调价到Back栈中，允许用户按返回键返回到替换前的界面
-				fragmentTransaction.addToBackStack(null);
-				fragmentTransaction.commit();*/
 
 			}
 		};

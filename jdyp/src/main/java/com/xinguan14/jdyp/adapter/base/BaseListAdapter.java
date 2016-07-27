@@ -1,6 +1,6 @@
 package com.xinguan14.jdyp.adapter.base;
 
-import android.app.Activity;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,46 +8,57 @@ import android.widget.BaseAdapter;
 
 import java.util.List;
 
-/**
- * Created by wm on 2016/7/21.
- */
-public abstract class BaseListAdapter<T> extends BaseAdapter {
+public abstract class BaseListAdapter<T> extends BaseAdapter
+{
+	protected LayoutInflater mInflater;
+	protected Context mContext;
+	protected List<T> mDatas;
+	protected final int mItemLayoutId;
 
-    protected LayoutInflater mInflater;
-    protected Activity mContext;
-    //显示的动态的数据的集合
-    protected List<T> list;
+	public BaseListAdapter(Context context, List<T> mDatas, int itemLayoutId)
+	{
+		this.mContext = context;
+		this.mInflater = LayoutInflater.from(mContext);
+		this.mDatas = mDatas;
+		this.mItemLayoutId = itemLayoutId;
+	}
 
-    public BaseListAdapter(Activity context, List<T> list){
-        //获取布局文件
-        this.mInflater = LayoutInflater.from(context);
-        this.mContext = context;
-        this.list = list;
+	@Override
+	public int getCount()
+	{
+		return mDatas.size();
+	}
 
-    }
+	@Override
+	public T getItem(int position)
+	{
+		return mDatas.get(position);
+	}
 
-    public List<T> getlist(){
-        return  list;
-    }
+	@Override
+	public long getItemId(int position)
+	{
+		return position;
+	}
 
-    @Override
-    public int getCount() {
-        //如何list不为空则返回list的长度
-        return list == null ? 0 : list.size();
-    }
+	@Override
+	public View getView(int position, View convertView, ViewGroup parent)
+	{
+		final BaseListHolder viewHolder = getViewHolder(position, convertView, parent);
 
-    @Override
-    public T getItem(int position) {
+		//子类要重写的方法，给指定控件绑定数据
+		convert(viewHolder, getItem(position));
 
-        return list == null ? null : list.get(position);
-    }
+		return viewHolder.getConvertView();
 
-    @Override
-    public long getItemId(int position) {
-        return list == null ? null : position;
-    }
+	}
 
-    @Override
-    public  abstract View getView(int position, View convertView, ViewGroup parent) ;
+	public abstract void convert(BaseListHolder helper, T item);
+
+	private BaseListHolder getViewHolder(int position, View convertView,ViewGroup parent)
+	{
+		return BaseListHolder.get(mContext, convertView, parent, mItemLayoutId,
+				position);
+	}
 
 }

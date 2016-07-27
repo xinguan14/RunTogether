@@ -48,7 +48,6 @@ public class SayFragment extends android.support.v4.app.ListFragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		//mPostList = new ArrayList<Post>();
-		mCommentView = getActivity().findViewById(R.id.rl_good_comment);
 		//查询数据并绑定数据
 		friendQuery();
 		//刷新监听

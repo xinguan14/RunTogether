@@ -7,7 +7,7 @@ import android.widget.ListView;
 
 import com.xinguan14.jdyp.R;
 import com.xinguan14.jdyp.adapter.base.BaseListHolder;
-import com.xinguan14.jdyp.adapter.base.CommonAdapter;
+import com.xinguan14.jdyp.adapter.base.BaseListAdapter;
 import com.xinguan14.jdyp.bean.ImageFloder;
 import com.xinguan14.jdyp.util.BasePopupWindowForListView;
 
@@ -28,7 +28,7 @@ public class ListImageDirPopupWindow extends BasePopupWindowForListView<ImageFlo
 	public void initViews()
 	{
 	mListView = (ListView) findViewById(R.id.id_list_dir);
-		mListView.setAdapter(new CommonAdapter<ImageFloder>(context, mDatas,
+		mListView.setAdapter(new BaseListAdapter<ImageFloder>(context, mDatas,
 				R.layout.list_dir_item)
 		{
 			@Override

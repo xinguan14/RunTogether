@@ -11,7 +11,7 @@ import com.bumptech.glide.Glide;
 import com.xinguan14.jdyp.MyGridView;
 import com.xinguan14.jdyp.R;
 import com.xinguan14.jdyp.adapter.base.BaseListHolder;
-import com.xinguan14.jdyp.adapter.base.CommonAdapter;
+import com.xinguan14.jdyp.adapter.base.BaseListAdapter;
 import com.xinguan14.jdyp.bean.Post;
 import com.xinguan14.jdyp.util.SysUtils;
 
@@ -22,7 +22,7 @@ import java.util.List;
  * Created by wm on 2016/7/18.
  * 用来显示动态的数据
  */
-public class SquareListViewAdapter extends CommonAdapter<Post> {
+public class SquareListViewAdapter extends BaseListAdapter<Post> {
 
     //private FinalBitmap finalBitmap;
     private GridViewAdapter gridViewAdapter;

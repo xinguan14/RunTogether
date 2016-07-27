@@ -7,7 +7,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.xinguan14.jdyp.R;
 import com.xinguan14.jdyp.adapter.base.BaseListHolder;
-import com.xinguan14.jdyp.adapter.base.CommonAdapter;
+import com.xinguan14.jdyp.adapter.base.BaseListAdapter;
 import com.xinguan14.jdyp.util.SysUtils;
 
 import java.util.ArrayList;
@@ -16,7 +16,7 @@ import java.util.ArrayList;
  * Created by wm on 2016/7/18.
  * 用来显示动态中的图片
  */
-public class GridViewAdapter extends CommonAdapter<String> {
+public class GridViewAdapter extends BaseListAdapter<String> {
 
     private int wh;
 

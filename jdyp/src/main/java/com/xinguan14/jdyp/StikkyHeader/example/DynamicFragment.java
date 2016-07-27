@@ -13,7 +13,7 @@ import com.xinguan14.jdyp.StikkyHeader.Utils;
 import com.xinguan14.jdyp.StikkyHeader.core.StikkyHeaderBuilder;
 
 /**
- * 动态
+ * 我的动态
  * @author 徐玲
  */
 public class DynamicFragment extends Fragment {
