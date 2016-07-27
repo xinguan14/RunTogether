@@ -24,7 +24,7 @@
             android:textColor="#353535"
             android:textSize="16sp" />
 
-        <com.xinguan14.jdyp.CircleImageView
+        <com.xinguan14.jdyp.MyVeiw.CircleImageView
             android:id="@+id/img_my_avatar"
             android:layout_width="64dp"
             android:layout_height="64dp"
@@ -38,7 +38,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="0.25dp"
+        android:layout_height="0.3dp"
         android:layout_marginLeft="14dp"
         android:layout_marginRight="14dp"
         android:background="#dfdfdd" />

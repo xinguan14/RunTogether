@@ -6,6 +6,7 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.xinguan14.jdyp.R;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import butterknife.Bind;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.listener.FindListener;
@@ -26,6 +28,9 @@ import cn.bmob.v3.listener.FindListener;
  * @描述 在Fragment中要使用ListView，必须要用ListFragment
  * */
 public class SayFragment extends android.support.v4.app.ListFragment {
+
+	@Bind(R.id.progress_load)
+	ProgressBar progress_load;
 
 	private View rootView;
 	//存放动态的集合
@@ -82,11 +87,6 @@ public class SayFragment extends android.support.v4.app.ListFragment {
 
 					userId[i] = list.get(i).getFriendUser();
 				}
-
-				/*String str = "找到到"+length+"个好友";
-				Toast.makeText(getActivity(), str,
-						Toast.LENGTH_SHORT).show();*/
-
 				userQuery(userId);
 			}
 			@Override
@@ -139,12 +139,6 @@ public class SayFragment extends android.support.v4.app.ListFragment {
 						images[i]= post.getImageurl();
 					}
 
-					/*String str = "显示的内容"+list.size();
-					for (int i=0;i<names.length;i++){
-						str+=names[i]+": "+contents[i]+" ";
-					}
-					Toast.makeText(getActivity(), str,
-							Toast.LENGTH_SHORT).show();*/
 					initData(names,contents,avatar,images);
 
 				}else {

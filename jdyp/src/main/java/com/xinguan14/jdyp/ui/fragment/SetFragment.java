@@ -32,8 +32,7 @@ import android.widget.Toast;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.xinguan14.jdyp.MyVeiw.CircleImageView;
 import com.xinguan14.jdyp.R;
-import com.xinguan14.jdyp.StikkyHeader.example.AchievementsFragment;
-import com.xinguan14.jdyp.StikkyHeader.example.DynamicFragment;
+import com.xinguan14.jdyp.StikkyHeader.example.ChangeMyInfoFragment;
 import com.xinguan14.jdyp.base.ParentWithNaviFragment;
 import com.xinguan14.jdyp.bean.User;
 import com.xinguan14.jdyp.config.BmobConstants;
@@ -54,6 +53,8 @@ import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.listener.UpdateListener;
 import cn.bmob.v3.listener.UploadFileListener;
+
+;
 
 /**
  * 设置
@@ -130,7 +131,7 @@ public class SetFragment extends ParentWithNaviFragment {
         super.onActivityCreated(savedInstanceState);
         ListView listView = (ListView) getActivity().findViewById(R.id.listview);
         manager = getFragmentManager();
-        String[] mFrags = {"最新成就", "我的动态",};
+        String[] mFrags = {"最新成就", "我的动态","个人资料"};
 
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, mFrags);
 
@@ -145,10 +146,13 @@ public class SetFragment extends ParentWithNaviFragment {
                 }
                 switch (position) {
                     case 0:
-                        fragment = new AchievementsFragment();
+                        fragment = new com.xinguan14.jdyp.StikkyHeader.example.AchievementsFragment();
                         break;
                     case 1:
-                        fragment = new DynamicFragment();
+                        fragment = new com.xinguan14.jdyp.StikkyHeader.example.DynamicFragment();
+                        break;
+                    case 2:
+                        fragment = new ChangeMyInfoFragment();
                         break;
                 }
                 ft = manager.beginTransaction();
