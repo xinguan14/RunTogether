@@ -7,19 +7,19 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.xinguan14.jdyp.R;
+import com.xinguan14.jdyp.adapter.base.BaseViewHolder;
 import com.xinguan14.jdyp.base.ImageLoaderFactory;
+import com.xinguan14.jdyp.bean.User;
 
 import java.text.SimpleDateFormat;
 
 import butterknife.Bind;
-import com.xinguan14.jdyp.R;
-import com.xinguan14.jdyp.adapter.base.BaseViewHolder;
-
 import cn.bmob.newim.bean.BmobIMConversation;
 import cn.bmob.newim.bean.BmobIMMessage;
 import cn.bmob.newim.bean.BmobIMSendStatus;
-import cn.bmob.newim.bean.BmobIMUserInfo;
 import cn.bmob.newim.listener.MessageSendListener;
+import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 
 /**
@@ -55,8 +55,9 @@ public class SendTextHolder extends BaseViewHolder implements View.OnClickListen
   public void bindData(Object o) {
     final BmobIMMessage message = (BmobIMMessage)o;
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-    final BmobIMUserInfo info = message.getBmobIMUserInfo();
-    ImageLoaderFactory.getLoader().loadAvator(iv_avatar,info != null ? info.getAvatar() : null, R.mipmap.head);
+
+    final User user  = BmobUser.getCurrentUser(context,User.class);
+    ImageLoaderFactory.getLoader().loadAvator(iv_avatar,user != null ? user.getAvatar() : null, R.mipmap.head);
     String time = dateFormat.format(message.getCreateTime());
     String content = message.getContent();
     tv_message.setText(content);
@@ -97,7 +98,7 @@ public class SendTextHolder extends BaseViewHolder implements View.OnClickListen
     iv_avatar.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        toast("点击" + info.getName() + "的头像");
+        toast("点击我的头像");
       }
     });
 

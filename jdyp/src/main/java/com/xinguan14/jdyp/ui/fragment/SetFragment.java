@@ -2,6 +2,7 @@ package com.xinguan14.jdyp.ui.fragment;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -10,16 +11,21 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,14 +33,12 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.xinguan14.jdyp.MyVeiw.CircleImageView;
 import com.xinguan14.jdyp.R;
 import com.xinguan14.jdyp.StikkyHeader.example.AchievementsFragment;
-import com.xinguan14.jdyp.StikkyHeader.example.ChangeMyInfoFragment;
 import com.xinguan14.jdyp.StikkyHeader.example.DynamicFragment;
 import com.xinguan14.jdyp.base.ParentWithNaviFragment;
 import com.xinguan14.jdyp.bean.User;
 import com.xinguan14.jdyp.config.BmobConstants;
 import com.xinguan14.jdyp.model.UserModel;
 import com.xinguan14.jdyp.ui.LoginActivity;
-import com.xinguan14.jdyp.ui.SelectPicPopupWindow;
 import com.xinguan14.jdyp.util.ImageLoadOptions;
 import com.xinguan14.jdyp.util.PhotoUtil;
 
@@ -60,19 +64,24 @@ import cn.bmob.v3.listener.UploadFileListener;
  */
 //
 public class SetFragment extends ParentWithNaviFragment {
-
+    private SetFragment setFragment;
+    ImageView iv_set_avator;
 
     @Bind(R.id.tv_user_name)
     TextView tv_user_name;
-
+    //
+//    @Bind(R.id.layout_info)
+//    RelativeLayout layout_info;
     @Bind(R.id.iv_avatar)
     CircleImageView circleImageView;
 
     @Bind(R.id.set)
     LinearLayout layout_all;
 
+    protected int mScreenWidth;
+    protected int mScreenHeight;
 
-    private SelectPicPopupWindow menuWindow;
+
     private FragmentManager manager;
     private FragmentTransaction ft;
 
@@ -89,7 +98,6 @@ public class SetFragment extends ParentWithNaviFragment {
     }
 
     public SetFragment() {
-
     }
 
     @Override
@@ -106,10 +114,12 @@ public class SetFragment extends ParentWithNaviFragment {
         circleImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //弹出选择图片弹出框
-                menuWindow = new SelectPicPopupWindow(getActivity(), itemsOnClick);
-                menuWindow.showAtLocation(getActivity().findViewById(R.id.set),
-                        Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+                //获取当前屏幕宽高
+                DisplayMetrics metric = new DisplayMetrics();
+                getActivity().getWindowManager().getDefaultDisplay().getMetrics(metric);
+                mScreenWidth = metric.widthPixels;
+                mScreenHeight = metric.heightPixels;
+                showAvatarPop();
             }
         });
         return rootView;
@@ -120,13 +130,12 @@ public class SetFragment extends ParentWithNaviFragment {
         super.onActivityCreated(savedInstanceState);
         ListView listView = (ListView) getActivity().findViewById(R.id.listview);
         manager = getFragmentManager();
-        String[] mFrags = {"最新成就", "我的动态","个人资料"};
+        String[] mFrags = {"最新成就", "我的动态",};
 
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, mFrags);
 
         listView.setAdapter(arrayAdapter);
 
-        //页面跳转
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -140,9 +149,6 @@ public class SetFragment extends ParentWithNaviFragment {
                         break;
                     case 1:
                         fragment = new DynamicFragment();
-                        break;
-                    case 2:
-                        fragment = new ChangeMyInfoFragment();
                         break;
                 }
                 ft = manager.beginTransaction();
@@ -171,56 +177,84 @@ public class SetFragment extends ParentWithNaviFragment {
         startActivity(LoginActivity.class, null);
     }
 
+
+    RelativeLayout layout_choose;
+    RelativeLayout layout_photo;
     PopupWindow avatorPop;
 
     public String filePath = "";
 
-    //为弹出的窗口实现监听类
-    private View.OnClickListener itemsOnClick = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            // 隐藏弹出窗口
-            menuWindow.dismiss();
-            switch (v.getId()) {
-                case R.id.takePhotoBtn:// 拍照
-                    takePhoto();
-                    break;
-                case R.id.pickPhotoBtn:// 相册选择图片
-                    chooseImage();
-                    break;
-                case R.id.cancelBtn:// 取消
-                    break;
-                default:
-                    break;
+    @SuppressWarnings("deprecation")
+    private void showAvatarPop() {
+
+        View view = getActivity().getLayoutInflater().inflate(R.layout.pop_showavator, null);
+        layout_choose = (RelativeLayout) view.findViewById(R.id.layout_choose);
+        layout_photo = (RelativeLayout) view.findViewById(R.id.layout_photo);
+        layout_photo.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+//                ShowLog("点击拍照");
+                layout_choose.setBackgroundColor(getResources().getColor(
+                        R.color.base_color_text_white));
+                layout_photo.setBackgroundDrawable(getResources().getDrawable(
+                        R.drawable.pop_bg_press));
+                File dir = new File(BmobConstants.MyAvatarDir);
+                if (!dir.exists()) {
+                    dir.mkdirs();
+                }
+                // 原图
+                File file = new File(dir, new SimpleDateFormat("yyMMddHHmmss")
+                        .format(new Date()));
+                filePath = file.getAbsolutePath();// 获取相片的保存路径
+                Uri imageUri = Uri.fromFile(file);
+
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+                startActivityForResult(intent,
+                        BmobConstants.REQUESTCODE_UPLOADAVATAR_CAMERA);
             }
-        }
-    };
+        });
+        layout_choose.setOnClickListener(new View.OnClickListener() {
 
-    private void takePhoto(){
-        File dir = new File(BmobConstants.MyAvatarDir);
-        if (!dir.exists()) {
-            dir.mkdirs();
-        }
-        // 原图
-        File file = new File(dir, new SimpleDateFormat("yyMMddHHmmss")
-                .format(new Date()));
-        filePath = file.getAbsolutePath();// 获取相片的保存路径
-        Uri imageUri = Uri.fromFile(file);
+            @Override
+            public void onClick(View arg0) {
+                // TODO Auto-generated method stub
+//                ShowLog("点击相册");
+                layout_photo.setBackgroundColor(getResources().getColor(
+                        R.color.base_color_text_white));
+                layout_choose.setBackgroundDrawable(getResources().getDrawable(
+                        R.drawable.pop_bg_press));
+                Intent intent = new Intent(Intent.ACTION_PICK, null);
+                intent.setDataAndType(
+                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+                startActivityForResult(intent,
+                        BmobConstants.REQUESTCODE_UPLOADAVATAR_LOCATION);
+            }
+        });
 
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-        startActivityForResult(intent,
-                BmobConstants.REQUESTCODE_UPLOADAVATAR_CAMERA);
+        avatorPop = new PopupWindow(view, mScreenWidth, mScreenHeight);
+        avatorPop.setTouchInterceptor(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_OUTSIDE) {
+                    avatorPop.dismiss();
+                    return true;
+                }
+                return false;
+            }
+        });
+
+        avatorPop.setWidth(WindowManager.LayoutParams.MATCH_PARENT);
+        avatorPop.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
+        avatorPop.setTouchable(true);
+        avatorPop.setFocusable(true);
+        avatorPop.setOutsideTouchable(true);
+        avatorPop.setBackgroundDrawable(new BitmapDrawable());
+        // 动画效果 从底部弹起
+        avatorPop.setAnimationStyle(R.style.Animations_GrowFromBottom);
+        avatorPop.showAtLocation(layout_all, Gravity.BOTTOM, 0, 0);
     }
-
-    public void chooseImage(){
-        Intent intent = new Intent(Intent.ACTION_PICK, null);
-        intent.setDataAndType(
-                MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
-        startActivityForResult(intent,
-                BmobConstants.REQUESTCODE_UPLOADAVATAR_LOCATION);
-    }
-
 
     /**
      * @return void

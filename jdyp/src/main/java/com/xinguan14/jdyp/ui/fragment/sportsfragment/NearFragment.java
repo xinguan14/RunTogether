@@ -2,7 +2,6 @@ package com.xinguan14.jdyp.ui.fragment.sportsfragment;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,10 +15,15 @@ import com.xinguan14.jdyp.adapter.OnRecyclerViewListener;
 import com.xinguan14.jdyp.adapter.base.BaseRecyclerAdapter;
 import com.xinguan14.jdyp.adapter.base.BaseRecyclerHolder;
 import com.xinguan14.jdyp.adapter.base.IMutlipleItem;
+import com.xinguan14.jdyp.base.BaseFragment;
 import com.xinguan14.jdyp.bean.User;
+import com.xinguan14.jdyp.ui.UserInfoActivity;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.Bind;
@@ -29,7 +33,7 @@ import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobGeoPoint;
 import cn.bmob.v3.listener.FindListener;
 
-public class NearFragment extends Fragment {
+public class NearFragment extends BaseFragment {
 
     private View rootView;
 
@@ -59,7 +63,7 @@ public class NearFragment extends Fragment {
 
             @Override
             public int getItemCount(List<User> list) {
-                return list.size() + 1;
+                return list.size();
             }
 
         };
@@ -68,7 +72,6 @@ public class NearFragment extends Fragment {
         rc_view.setLayoutManager(layoutManager);
         adapter = new NearPeopleAdapter(getActivity(), mutlipleItem, null);
         rc_view.setAdapter(adapter);
-
         sw_refresh.setEnabled(true);
         setListener();
         return rootView;
@@ -92,7 +95,10 @@ public class NearFragment extends Fragment {
         adapter.setOnRecyclerViewListener(new OnRecyclerViewListener() {
             @Override
             public void onItemClick(int position) {
-
+                User user = adapter.getItem(position);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("u", user);
+                startActivity(UserInfoActivity.class, bundle);
             }
 
             @Override
@@ -121,7 +127,6 @@ public class NearFragment extends Fragment {
             @Override
             public void onSuccess(final List<User> object) {
                 adapter.bindDatas(object);
-
             }
 
             public void onError(int i, String s) {
@@ -149,9 +154,6 @@ public class NearFragment extends Fragment {
             @Override
             public void onSuccess(final List<User> object) {
 
-//						for (int i = 0; i<object.size();i++){
-//							userList[i] = object[i];
-//						}
                 for (User item : object) {
                     userList.add(item);
                     System.out.println("内部" + userList);
@@ -164,18 +166,6 @@ public class NearFragment extends Fragment {
         });
         System.out.println("外部" + userList.size());
         userList.clear();
-
-
-//		if (list != null && list.size() > 0) {
-//			for (BmobIMConversation item : list) {
-//				switch (item.getConversationType()) {
-//					case 1://私聊
-//						userList.add(new PrivateConversation(item));
-//						break;
-//					default:
-//						break;
-//				}
-//			}
         return userList;
     }
 
@@ -226,46 +216,51 @@ public class NearFragment extends Fragment {
         @Override
         public void bindView(BaseRecyclerHolder holder, User user, int position) {
 
-            //好友头像
-            holder.setImageView(user == null ? null : user.getAvatar(), R.mipmap.head, R.id.iv_near_avatar);
-            //好友名称
-            holder.setText(R.id.tv_near_name, user == null ? "未知" : user.getUsername());
-            holder.setText(R.id.tv_logintime, user == null ? "未知" : user.getUpdatedAt());
-
             if (user != null) {
+                //头像
+                holder.setImageView(user == null ? null : user.getAvatar(), R.mipmap.head, R.id.iv_near_avatar);
+                //名称
+                holder.setText(R.id.tv_near_name,user.getUsername());
+
+                DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                try {
+                    Date curDate = new Date(System.currentTimeMillis());//获取当前时间
+                    String str = df.format(curDate);
+                    Date d1 = df.parse(str);
+                    Date d2 = df.parse(user.getUpdatedAt());
+                    long diff = d1.getTime() - d2.getTime();//这样得到的差值是微秒级别
+                    long days = diff / (1000 * 60 * 60 * 24);
+                    long hours = (diff - days * (1000 * 60 * 60 * 24)) / (1000 * 60 * 60);
+                    long minutes = (diff - days * (1000 * 60 * 60 * 24) - hours * (1000 * 60 * 60)) / (1000 * 60);
+                    System.out.println("" + days + "天" + hours + "小时" + minutes + "分");
+                    if (days > 0) {
+                        holder.setText(R.id.tv_logintime, days+"天前");
+
+                    } else if (hours > 0) {
+                        holder.setText(R.id.tv_logintime, hours+"小时前");
+
+                    } else if (minutes > 0) {
+                        holder.setText(R.id.tv_logintime, minutes+"分钟前");
+                    }
+                    else {
+                        holder.setText(R.id.tv_logintime, "刚刚");
+                    }
+                } catch (Exception e) {
+                    //时间
+                    holder.setText(R.id.tv_logintime, "未知" );
+                }
+
+
 
                 BmobGeoPoint location = me.getLocation();
                 double currentLat = location.getLatitude();
                 double currentLong = location.getLongitude();
                 double distance = DistanceOfTwoPoints(currentLat, currentLong, user.getLocation().getLatitude(),
                         user.getLocation().getLongitude());
-                holder.setText(R.id.tv_distance, user == null ? "未知1" : String.valueOf(distance) + "米");
-            }else {
-                holder.setText(R.id.tv_distance, "未知");
+                double distance_km = distance / 1000;//km
+                //距离
+                holder.setText(R.id.tv_distance, user == null ? "未知1" : String.valueOf(distance_km) + "km");
             }
-
-//			TextView tv_name = ViewHolder.get(convertView, R.id.tv_name);
-//			TextView tv_distance = ViewHolder.get(convertView, R.id.tv_distance);
-//			TextView tv_logintime = ViewHolder.get(convertView, R.id.tv_logintime);
-//			ImageView iv_avatar = ViewHolder.get(convertView, R.id.iv_avatar);
-//			String avatar = contract.getAvatar();
-//			if (avatar != null && !avatar.equals("")) {
-//				ImageLoader.getInstance().displayImage(avatar, iv_avatar,
-//						ImageLoadOptions.getOptions());
-//			} else {
-//				iv_avatar.setImageResource(R.drawable.default_head);
-//			}
-//			BmobGeoPoint location = contract.getLocation();
-//			String currentLat = CustomApplcation.getInstance().getLatitude();
-//			String currentLong = CustomApplcation.getInstance().getLongtitude();
-//			if(location!=null && !currentLat.equals("") && !currentLong.equals("")){
-//				double distance = DistanceOfTwoPoints(Double.parseDouble(currentLat),Double.parseDouble(currentLong),contract.getLocation().getLatitude(),
-//						contract.getLocation().getLongitude());
-//				tv_distance.setText(String.valueOf(distance)+"米");
-//			}else{
-//				tv_distance.setText("未知");
-//			}
         }
     }
-
 }

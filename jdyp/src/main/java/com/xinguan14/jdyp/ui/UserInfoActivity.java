@@ -137,7 +137,6 @@ public class UserInfoActivity extends ParentWithNaviActivity {
             }
             @Override
             public void onError(int i, String s) {
-
             }
         });
     }

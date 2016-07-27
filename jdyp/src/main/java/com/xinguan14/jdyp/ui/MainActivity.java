@@ -245,6 +245,7 @@ public class MainActivity extends BaseActivity implements ObseverListener, Gooey
         checkRedPoint();
         //进入应用后，通知栏应取消
         BmobNotificationManager.getInstance(this).cancelNotification();
+
     }
 
     @Override

@@ -288,19 +288,8 @@ public class MessageFragment extends ParentWithNaviFragment {
             holder.setText(R.id.tv_recent_msg, conversation.getLastMessageContent());
             holder.setText(R.id.tv_recent_time, TimeUtil.getChatTime(false, conversation.getLastMessageTime()));
             //会话图标
-            Object obj = conversation.getAvatar();
-//
-//            final BmobIMUserInfo info = message.getBmobIMUserInfo();
+            holder.setImageView(conversation == null ? null : conversation.getAvatar().toString(), R.mipmap.head, R.id.iv_recent_avatar);
 
-            if (obj instanceof String) {
-                String avatar = conversation.getcAvatar();
-                holder.setImageView(avatar, R.mipmap.head, R.id.iv_recent_avatar);
-            } else {
-//              Log.i("info",avatar);
-//                System.out.println(avatar);
-                int defaultRes = (int) obj;
-                holder.setImageView(null, defaultRes, R.id.iv_recent_avatar);
-            }
             //会话标题
             holder.setText(R.id.tv_recent_name, conversation.getcName());
             //查询指定未读消息数

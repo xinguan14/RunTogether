@@ -31,16 +31,19 @@
             android:layout_marginLeft="10dp"
             android:paddingLeft="5dp"
             android:singleLine="true"
-            android:textSize="15sp" />
+            android:textSize="15sp"
+            android:text="距离"/>
 
         <TextView
             android:id="@+id/tv_logintime"
             style="@style/Smile.TextView._Gray"
-            android:text="11"
+            android:text="时间"
             android:paddingLeft="5dp"
             android:singleLine="true"
             android:textSize="13sp"
-            android:layout_below="@+id/tv_near_name" />
+            android:layout_alignBottom="@+id/tv_distance"
+            android:layout_toLeftOf="@+id/tv_distance"
+            android:layout_toStartOf="@+id/tv_distance" />
     </RelativeLayout>
 
 </LinearLayout>

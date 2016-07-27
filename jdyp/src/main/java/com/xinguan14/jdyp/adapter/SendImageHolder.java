@@ -8,20 +8,20 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.xinguan14.jdyp.R;
+import com.xinguan14.jdyp.adapter.base.BaseViewHolder;
 import com.xinguan14.jdyp.base.ImageLoaderFactory;
+import com.xinguan14.jdyp.bean.User;
 
 import java.text.SimpleDateFormat;
 
 import butterknife.Bind;
-import com.xinguan14.jdyp.R;
-import com.xinguan14.jdyp.adapter.base.BaseViewHolder;
-
 import cn.bmob.newim.bean.BmobIMConversation;
 import cn.bmob.newim.bean.BmobIMImageMessage;
 import cn.bmob.newim.bean.BmobIMMessage;
 import cn.bmob.newim.bean.BmobIMSendStatus;
-import cn.bmob.newim.bean.BmobIMUserInfo;
 import cn.bmob.newim.listener.MessageSendListener;
+import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 
 /**
@@ -57,8 +57,9 @@ public class SendImageHolder extends BaseViewHolder {
   public void bindData(Object o) {
     BmobIMMessage msg = (BmobIMMessage)o;
     //用户信息的获取必须在buildFromDB之前，否则会报错'Entity is detached from DAO context'
-    final BmobIMUserInfo info = msg.getBmobIMUserInfo();
-    ImageLoaderFactory.getLoader().loadAvator(iv_avatar,info != null ? info.getAvatar() : null,R.mipmap.head);
+
+    final User user  = BmobUser.getCurrentUser(context,User.class);
+    ImageLoaderFactory.getLoader().loadAvator(iv_avatar,user != null ? user.getAvatar() : null,R.mipmap.head);
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy年MM月dd日 HH:mm");
     String time = dateFormat.format(msg.getCreateTime());
     tv_time.setText(time);
@@ -87,7 +88,7 @@ public class SendImageHolder extends BaseViewHolder {
     iv_avatar.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        toast("点击" + info.getName() + "的头像");
+        toast("点击的头像");
       }
     });
     iv_picture.setOnClickListener(new View.OnClickListener() {
