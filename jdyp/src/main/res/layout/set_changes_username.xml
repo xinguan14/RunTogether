@@ -5,6 +5,8 @@
               android:background="#f0f0f6"
               android:layout_height="match_parent">
 
+    <include layout="@layout/include_navi" />
+
     <com.xinguan14.jdyp.ClearWriteEditText
         android:id="@+id/update_name"
         android:layout_width="match_parent"

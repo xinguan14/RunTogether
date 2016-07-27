@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.orhanobut.logger.Logger;
 import com.xinguan14.jdyp.MyVeiw.GooeyMenu;
 import com.xinguan14.jdyp.R;
+import com.xinguan14.jdyp.StikkyHeader.example.ChangeMyInfoFragment;
 import com.xinguan14.jdyp.SwipMenu.SwipeMenu;
 import com.xinguan14.jdyp.SwipMenu.SwipeMenuBuilder;
 import com.xinguan14.jdyp.SwipMenu.SwipeMenuItem;
@@ -54,7 +55,7 @@ import cn.bmob.v3.exception.BmobException;
 /**
  * 四个tab加一个环形菜单
  */
-public class MainActivity extends BaseActivity implements ObseverListener, GooeyMenu.GooeyMenuInterface, SwipeMenuBuilder, MessageFragment.Check, SetFragment.HideTab {
+public class MainActivity extends BaseActivity implements ObseverListener, GooeyMenu.GooeyMenuInterface, SwipeMenuBuilder, MessageFragment.Check, SetFragment.HideTab ,ChangeMyInfoFragment.Return{
 
     @Bind(R.id.btn_message)
     Button btn_message;
@@ -258,6 +259,7 @@ public class MainActivity extends BaseActivity implements ObseverListener, Gooey
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+
         showTab();
     }
 
@@ -424,5 +426,10 @@ public class MainActivity extends BaseActivity implements ObseverListener, Gooey
     @Override
     public void hide() {
         hideTab();
+    }
+
+    @Override
+    public void returnSetFragment() {
+        onBackPressed();
     }
 }
