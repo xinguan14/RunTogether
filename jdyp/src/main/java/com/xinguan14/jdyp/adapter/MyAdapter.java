@@ -9,12 +9,12 @@ import android.widget.ImageView;
 
 import com.xinguan14.jdyp.R;
 import com.xinguan14.jdyp.adapter.base.BaseListHolder;
-import com.xinguan14.jdyp.adapter.base.CommonAdapter;
+import com.xinguan14.jdyp.adapter.base.BaseListAdapter;
 
 import java.util.LinkedList;
 import java.util.List;
 
-public class MyAdapter extends CommonAdapter<String> {
+public class MyAdapter extends BaseListAdapter<String> {
 
 
 	/**

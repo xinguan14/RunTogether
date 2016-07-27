@@ -9,6 +9,7 @@ import android.view.WindowManager;
  * 获取屏幕的大小以设定grideView显示的大小
  */
 public class SysUtils {
+
     public  static int Dp2Px(Context context, float dp){
 
         final float scale = context.getResources().getDisplayMetrics().density;
@@ -28,6 +29,16 @@ public class SysUtils {
       /*  获取默认的显示对象返回值
         默认的Display对象*/
         return display.getWidth();
+    }
+
+    public static int getScreenHeight(Context context){
+        WindowManager manager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+
+       /* WindowManager主要用来管理窗口的一些状态、属性、view增加、删除、更新、窗口顺序、消息收集和处理等。*/
+        Display display = manager.getDefaultDisplay();
+      /*  获取默认的显示对象返回值
+        默认的Display对象*/
+        return display.getHeight();
     }
 
 

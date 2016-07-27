@@ -24,8 +24,9 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.xinguan14.jdyp.R;
+import com.xinguan14.jdyp.adapter.MyAdapter;
 import com.xinguan14.jdyp.adapter.base.BaseListHolder;
-import com.xinguan14.jdyp.adapter.base.CommonAdapter;
+import com.xinguan14.jdyp.adapter.base.BaseListAdapter;
 import com.xinguan14.jdyp.base.ParentWithNaviActivity;
 import com.xinguan14.jdyp.bean.Post;
 import com.xinguan14.jdyp.bean.User;
@@ -176,36 +177,38 @@ public class AddPostActivity extends ParentWithNaviActivity {
 	 */
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		// 取出Intent里的Extras数据
-		Bundle bundle = data.getExtras();
-		// 取出Bundle中的数据,即传递进来的图片路径数组
-		 imagePath= bundle.getStringArray("imagePath");
+		if(resultCode==RESULT_OK) {
+			// 取出Intent里的Extras数据
+			Bundle bundle = data.getExtras();
+			// 取出Bundle中的数据,即传递进来的图片路径数组
+			imagePath = bundle.getStringArray("imagePath");
 
-		//显示要上传的图片
-		imageItem = new ArrayList<Bitmap>();
+			//显示要上传的图片
+			imageItem = new ArrayList<Bitmap>();
 
-		if(imagePath.length!=0) {
-			Bitmap add = BitmapFactory.decodeResource(getResources(), R.drawable.ic_add_pic); //加号
-			BitmapFactory.Options option = new BitmapFactory.Options();
-			// 压缩图片:表示缩略图大小为原始图片大小的几分之一，1为原图
-			option.inSampleSize = 2;
-			// 根据图片的SDCard路径读出Bitmap,
-			Bitmap[] bm = new Bitmap[imagePath.length+1];
-			for (int i = 0; i < imagePath.length+1; i++) {
-				if(i==imagePath.length){
-					bm[i]=add;
-				}else {
-					bm[i] = BitmapFactory.decodeFile(imagePath[i], option);
-					Log.i("info", imagePath[i]);
+			if (imagePath.length != 0) {
+				Bitmap add = BitmapFactory.decodeResource(getResources(), R.drawable.ic_add_pic); //加号
+				BitmapFactory.Options option = new BitmapFactory.Options();
+				// 压缩图片:表示缩略图大小为原始图片大小的几分之一，1为原图
+				option.inSampleSize = 2;
+				// 根据图片的SDCard路径读出Bitmap,
+				Bitmap[] bm = new Bitmap[imagePath.length + 1];
+				for (int i = 0; i < imagePath.length + 1; i++) {
+					if (i == imagePath.length) {
+						bm[i] = add;
+					} else {
+						bm[i] = BitmapFactory.decodeFile(imagePath[i], option);
+						Log.i("info", imagePath[i]);
+					}
+
 				}
 
+				for (int i = 0; i < bm.length; i++) {
+					imageItem.add(bm[i]);
+				}
+				AddGridViewAdapter gridViewAdapter = new AddGridViewAdapter(AddPostActivity.this, imageItem, R.layout.add_image_grid_item);
+				showPicGrid.setAdapter(gridViewAdapter);
 			}
-
-			for (int i = 0; i < bm.length; i++) {
-				imageItem.add(bm[i]);
-			}
-			AddGridViewAdapter gridViewAdapter=new AddGridViewAdapter(AddPostActivity.this, imageItem,R.layout.add_image_grid_item);
-			showPicGrid.setAdapter(gridViewAdapter);
 		}
 	}
 
@@ -274,7 +277,10 @@ public class AddPostActivity extends ParentWithNaviActivity {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				dialog.dismiss();
+				//从显示的集合中删除
 				imageItem.remove(position);
+				//从上传的数组中删除
+
 				AddGridViewAdapter gridViewAdapter=new AddGridViewAdapter(AddPostActivity.this, imageItem,R.layout.add_image_grid_item);
 				showPicGrid.setAdapter(gridViewAdapter);
 			}
@@ -329,6 +335,8 @@ public class AddPostActivity extends ParentWithNaviActivity {
 								public void onSuccess() {
 									Toast.makeText(getApplicationContext(), "发布成功!", Toast.LENGTH_SHORT).show();
 									setResult(RESULT_OK);
+									//发布之后清空选中图片
+									MyAdapter.mSelectedImage.clear();
 									finish();
 								}
 
@@ -368,7 +376,7 @@ public class AddPostActivity extends ParentWithNaviActivity {
 	}
 
 
-	 class AddGridViewAdapter extends CommonAdapter<Bitmap>{
+	 class AddGridViewAdapter extends BaseListAdapter<Bitmap> {
 
 		 private AddGridViewAdapter(Context context,List<Bitmap> bm,int itemLayoutId){
 			 super(context,bm,itemLayoutId);

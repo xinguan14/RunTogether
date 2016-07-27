@@ -7,7 +7,6 @@ import android.preference.PreferenceManager;
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
-import com.baidu.mapapi.SDKInitializer;
 import com.orhanobut.logger.Logger;
 import com.xinguan14.jdyp.base.UniversalImageLoader;
 import com.xinguan14.jdyp.bean.User;
@@ -102,7 +101,7 @@ public class MyApplication extends Application {
     /**
      * 设置维度
      *
-     * @param pwd
+     * @param lat
      */
     public void setLatitude(String lat) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -130,7 +129,7 @@ public class MyApplication extends Application {
     /**
      * 设置经度
      *
-     * @param pwd
+     * @param lon
      */
     public void setLongtitude(String lon) {
         SharedPreferences preferences = PreferenceManager
@@ -151,7 +150,7 @@ public class MyApplication extends Application {
      */
     private void initBaidu() {
         // 初始化地图Sdk
-        SDKInitializer.initialize(this);
+//        SDKInitializer.initialize(this);
         // 初始化定位sdk
         initBaiduLocClient();
     }

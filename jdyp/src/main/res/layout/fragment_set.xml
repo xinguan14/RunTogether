@@ -29,11 +29,12 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:text="用户名"/>
-    <TextView
+    <ImageView
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:background="#000000"
+        android:src="@drawable/line"
         />
     <ListView
         xmlns:android="http://schemas.android.com/apk/res/android"

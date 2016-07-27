@@ -5,17 +5,22 @@ package com.xinguan14.jdyp.adapter;
  */
 
 import android.app.Activity;
+import android.content.Context;
+import android.graphics.drawable.BitmapDrawable;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.xinguan14.jdyp.MyGridView;
 import com.xinguan14.jdyp.R;
+import com.xinguan14.jdyp.adapter.base.BaseListAdapter;
 import com.xinguan14.jdyp.adapter.base.BaseListHolder;
-import com.xinguan14.jdyp.adapter.base.CommonAdapter;
 import com.xinguan14.jdyp.bean.Post;
 import com.xinguan14.jdyp.util.SysUtils;
 
@@ -26,30 +31,31 @@ import java.util.List;
  * Created by wm on 2016/7/18.
  * 用来显示动态的数据
  */
-public class SayListViewAdapter extends CommonAdapter<Post> {
+public class SayListViewAdapter extends BaseListAdapter<Post> implements View.OnClickListener {
+
+
 
     private GridViewAdapter gridViewAdapter;
+
+    private PopupWindow mMorePopupWindow;
+    private int mShowMorePopupWindowWidth;
+    private int mShowMorePopupWindowHeight;
+
     private int wh;
+
 
     public SayListViewAdapter(Activity context, List<Post> list,int itemLayoutId){
         super(context,list,itemLayoutId);
         //根据屏幕的大小设置控件的大小
         this.wh=(SysUtils.getScreenWidth(context)- SysUtils.Dp2Px(context, 99))/3;
-        /*//传递的动态数据
-        this.finalBitmap = FinalBitmap.create(context);
-        //图片未加载成功显示的数据
-        this.finalBitmap.configLoadfailImage(R.drawable.love);*/
+
     }
 
     @Override
-    public void convert(BaseListHolder holder, Post item) {
-        //ImageView headPhoto = holder.getView(R.id.user_image);//头像
-
-        RelativeLayout rL = holder.getView(R.id.rl4);//图片布局
+    public void convert( final BaseListHolder holder, Post item) {
+        //图片布局
+        RelativeLayout rL = holder.getView(R.id.rl4);
         MyGridView gv_images = holder.getView(R.id.gv_images);
-
-       // ImageView commentView = holder.getView(R.id.comment_view) ;//显示评论和点赞的按钮
-        final  RelativeLayout rLCommentView = holder.getView(R.id.rl_good_comment);
 
         String name = null,time = null,content = null,headpath = null,contentImageUrl = null;
         if(item !=null){
@@ -90,32 +96,82 @@ public class SayListViewAdapter extends CommonAdapter<Post> {
             holder.setImageResource(R.id.user_image,R.drawable.love);
         }
         //点击头像的点击事件
-        holder.getView(R.id.user_image).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                Toast.makeText(mContext, "点击了头像", Toast.LENGTH_LONG).show();
-            }
-        });
-        holder.getView(R.id.comment_view).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //设置评论弹出框的显示
-                rLCommentView.setVisibility(View.VISIBLE);
-                rLCommentView.findViewById(R.id.good_img).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Toast.makeText(mContext, "点了赞", Toast.LENGTH_LONG).show();
-                    }
-                });
-                rLCommentView.findViewById(R.id.comment_img).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Toast.makeText(mContext, "点了评论", Toast.LENGTH_LONG).show();
-                    }
-                });
-            }
-        });
+        holder.getView(R.id.user_image).setOnClickListener(this);
+        //弹出评论和点赞的按钮
+        holder.getView(R.id.more_img).setOnClickListener(this);
     }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            //如果点击头像
+            case  R.id.user_image:
+                Toast.makeText(mContext, "点击了头像", Toast.LENGTH_LONG).show();
+                break;
+            //如果点击了评论和点赞图片
+            case R.id.more_img:
+                showMore(v);
+                break;
+            //点击了评论
+            case R.id.comment_img:
+                Toast.makeText(mContext, "点了评论", Toast.LENGTH_SHORT).show();
+                    if (mMorePopupWindow != null && mMorePopupWindow.isShowing()) {
+                        mMorePopupWindow.dismiss();
+                    }
+
+                break;
+            //点击了点赞
+            case R.id.good_img:
+                Toast.makeText(mContext, "点了赞", Toast.LENGTH_SHORT).show();
+                if (mMorePopupWindow != null && mMorePopupWindow.isShowing()) {
+                    mMorePopupWindow.dismiss();
+                }
+                break;
+
+        }
+    }
+
+    /**
+     * 弹出点赞和评论框
+     *
+     * @param moreBtnView
+     */
+    private void showMore(View moreBtnView) {
+        if (mMorePopupWindow == null) {
+
+            LayoutInflater li = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View content = li.inflate(R.layout.add_comment_good_layout, null, false);
+
+            mMorePopupWindow = new PopupWindow(content, ViewGroup.LayoutParams.WRAP_CONTENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT);
+            mMorePopupWindow.setBackgroundDrawable(new BitmapDrawable());
+            mMorePopupWindow.setOutsideTouchable(true);
+            mMorePopupWindow.setTouchable(true);
+
+            content.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
+              mShowMorePopupWindowWidth = content.getMeasuredWidth();
+              mShowMorePopupWindowHeight = content.getMeasuredHeight();
+
+            View parent = mMorePopupWindow.getContentView();
+
+            ImageView good = (ImageView) parent.findViewById(R.id.good_img);
+            ImageView comment = (ImageView) parent.findViewById(R.id.comment_img);
+
+            // 点赞的监听器
+            comment.setOnClickListener(this);
+            good.setOnClickListener(this);
+        }
+
+        if (mMorePopupWindow.isShowing()) {
+            mMorePopupWindow.dismiss();
+        } else {
+            int heightMoreBtnView = moreBtnView.getHeight();
+
+            mMorePopupWindow.showAsDropDown(moreBtnView, -mShowMorePopupWindowWidth,
+                    -(mShowMorePopupWindowHeight + heightMoreBtnView) / 2);
+        }
+    }
+
 
 
     //初始化图片集，设定GridView的列数

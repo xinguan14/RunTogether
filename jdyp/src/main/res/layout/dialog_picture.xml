@@ -10,7 +10,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="#312E3F"
+        android:background="#999999"
         android:gravity="center_horizontal"
         android:orientation="vertical">
 
@@ -21,10 +21,10 @@
             android:layout_marginLeft="10dip"
             android:layout_marginRight="10dip"
             android:layout_marginTop="10dp"
-            android:background="#373447"
+            android:background="@color/color_line"
             android:padding="10dp"
             android:text="拍照"
-            android:textColor="#CEC9E7"
+            android:textColor="@color/color_theme"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -35,10 +35,10 @@
             android:layout_marginLeft="10dip"
             android:layout_marginRight="10dip"
             android:layout_marginTop="5dp"
-            android:background="#373447"
+            android:background="@color/color_line"
             android:padding="10dp"
             android:text="从相册选择"
-            android:textColor="#CEC9E7"
+            android:textColor="@color/color_theme"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -53,7 +53,7 @@
             android:background="@android:color/white"
             android:padding="10dp"
             android:text="取消"
-            android:textColor="#373447"
+            android:textColor="@color/color_theme"
             android:textSize="18sp"
             android:textStyle="bold" />
     </LinearLayout>
