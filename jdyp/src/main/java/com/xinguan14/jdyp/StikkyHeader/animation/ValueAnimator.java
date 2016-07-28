@@ -250,7 +250,7 @@ public class ValueAnimator extends Animator {
     PropertyValuesHolder[] mValues;
 
     /**
-     * A hashmap of the PropertyValuesHolder objects. This map is used to lookup animated values
+     * BackHandledInterface hashmap of the PropertyValuesHolder objects. This map is used to lookup animated values
      * by property name during calls to getAnimatedValue(String).
      */
     HashMap<String, PropertyValuesHolder> mValuesMap;
@@ -284,15 +284,15 @@ public class ValueAnimator extends Animator {
     }
 
     /**
-     * Constructs and returns a ValueAnimator that animates between int values. A single
+     * Constructs and returns a ValueAnimator that animates between int values. BackHandledInterface single
      * value implies that that value is the one being animated to. However, this is not typically
      * useful in a ValueAnimator object because there is no way for the object to determine the
      * starting value for the animation (unlike ObjectAnimator, which can derive that value
      * from the target object and property being animated). Therefore, there should typically
      * be two or more values.
      *
-     * @param values A set of values that the animation will animate between over time.
-     * @return A ValueAnimator object that is set up to animate between the given values.
+     * @param values BackHandledInterface set of values that the animation will animate between over time.
+     * @return BackHandledInterface ValueAnimator object that is set up to animate between the given values.
      */
     public static ValueAnimator ofInt(int... values) {
         ValueAnimator anim = new ValueAnimator();
@@ -301,15 +301,15 @@ public class ValueAnimator extends Animator {
     }
 
     /**
-     * Constructs and returns a ValueAnimator that animates between float values. A single
+     * Constructs and returns a ValueAnimator that animates between float values. BackHandledInterface single
      * value implies that that value is the one being animated to. However, this is not typically
      * useful in a ValueAnimator object because there is no way for the object to determine the
      * starting value for the animation (unlike ObjectAnimator, which can derive that value
      * from the target object and property being animated). Therefore, there should typically
      * be two or more values.
      *
-     * @param values A set of values that the animation will animate between over time.
-     * @return A ValueAnimator object that is set up to animate between the given values.
+     * @param values BackHandledInterface set of values that the animation will animate between over time.
+     * @return BackHandledInterface ValueAnimator object that is set up to animate between the given values.
      */
     public static ValueAnimator ofFloat(float... values) {
         ValueAnimator anim = new ValueAnimator();
@@ -321,9 +321,9 @@ public class ValueAnimator extends Animator {
      * Constructs and returns a ValueAnimator that animates between the values
      * specified in the PropertyValuesHolder objects.
      *
-     * @param values A set of PropertyValuesHolder objects whose values will be animated
+     * @param values BackHandledInterface set of PropertyValuesHolder objects whose values will be animated
      * between over time.
-     * @return A ValueAnimator object that is set up to animate between the given values.
+     * @return BackHandledInterface ValueAnimator object that is set up to animate between the given values.
      */
     public static ValueAnimator ofPropertyValuesHolder(PropertyValuesHolder... values) {
         ValueAnimator anim = new ValueAnimator();
@@ -331,7 +331,7 @@ public class ValueAnimator extends Animator {
         return anim;
     }
     /**
-     * Constructs and returns a ValueAnimator that animates between Object values. A single
+     * Constructs and returns a ValueAnimator that animates between Object values. BackHandledInterface single
      * value implies that that value is the one being animated to. However, this is not typically
      * useful in a ValueAnimator object because there is no way for the object to determine the
      * starting value for the animation (unlike ObjectAnimator, which can derive that value
@@ -342,11 +342,11 @@ public class ValueAnimator extends Animator {
      * factory method also takes a TypeEvaluator object that the ValueAnimator will use
      * to perform that interpolation.
      *
-     * @param evaluator A TypeEvaluator that will be called on each animation frame to
+     * @param evaluator BackHandledInterface TypeEvaluator that will be called on each animation frame to
      * provide the ncessry interpolation between the Object values to derive the animated
      * value.
-     * @param values A set of values that the animation will animate between over time.
-     * @return A ValueAnimator object that is set up to animate between the given values.
+     * @param values BackHandledInterface set of values that the animation will animate between over time.
+     * @return BackHandledInterface ValueAnimator object that is set up to animate between the given values.
      */
     public static ValueAnimator ofObject(TypeEvaluator evaluator, Object... values) {
         ValueAnimator anim = new ValueAnimator();
@@ -356,7 +356,7 @@ public class ValueAnimator extends Animator {
     }
 
     /**
-     * Sets int values that will be animated between. A single
+     * Sets int values that will be animated between. BackHandledInterface single
      * value implies that that value is the one being animated to. However, this is not typically
      * useful in a ValueAnimator object because there is no way for the object to determine the
      * starting value for the animation (unlike ObjectAnimator, which can derive that value
@@ -367,7 +367,7 @@ public class ValueAnimator extends Animator {
      * than one PropertyValuesHolder object, this method will set the values for the first
      * of those objects.</p>
      *
-     * @param values A set of values that the animation will animate between over time.
+     * @param values BackHandledInterface set of values that the animation will animate between over time.
      */
     public void setIntValues(int... values) {
         if (values == null || values.length == 0) {
@@ -384,7 +384,7 @@ public class ValueAnimator extends Animator {
     }
 
     /**
-     * Sets float values that will be animated between. A single
+     * Sets float values that will be animated between. BackHandledInterface single
      * value implies that that value is the one being animated to. However, this is not typically
      * useful in a ValueAnimator object because there is no way for the object to determine the
      * starting value for the animation (unlike ObjectAnimator, which can derive that value
@@ -395,7 +395,7 @@ public class ValueAnimator extends Animator {
      * than one PropertyValuesHolder object, this method will set the values for the first
      * of those objects.</p>
      *
-     * @param values A set of values that the animation will animate between over time.
+     * @param values BackHandledInterface set of values that the animation will animate between over time.
      */
     public void setFloatValues(float... values) {
         if (values == null || values.length == 0) {
@@ -412,7 +412,7 @@ public class ValueAnimator extends Animator {
     }
 
     /**
-     * Sets the values to animate between for this animation. A single
+     * Sets the values to animate between for this animation. BackHandledInterface single
      * value implies that that value is the one being animated to. However, this is not typically
      * useful in a ValueAnimator object because there is no way for the object to determine the
      * starting value for the animation (unlike ObjectAnimator, which can derive that value
@@ -857,7 +857,7 @@ public class ValueAnimator extends Animator {
      * such as acceleration and deceleration. The default value is
      * {@link AccelerateDecelerateInterpolator}
      *
-     * @param value the interpolator to be used by this animation. A value of <code>null</code>
+     * @param value the interpolator to be used by this animation. BackHandledInterface value of <code>null</code>
      * will result in linear interpolation.
      */
     @Override

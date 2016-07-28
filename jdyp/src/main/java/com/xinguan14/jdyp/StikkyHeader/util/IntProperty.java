@@ -33,7 +33,7 @@ public abstract class IntProperty<T> extends Property<T, Integer> {
     }
 
     /**
-     * A type-specific override of the {@link #set(Object, Integer)} that is faster when dealing
+     * BackHandledInterface type-specific override of the {@link #set(Object, Integer)} that is faster when dealing
      * with fields of type <code>int</code>.
      */
     public abstract void setValue(T object, int value);

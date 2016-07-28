@@ -9,13 +9,13 @@ import java.lang.ref.WeakReference;
 
  class ViewPropertyAnimatorICS extends ViewPropertyAnimator {
     /**
-     * A value to be returned when the WeakReference holding the native implementation
+     * BackHandledInterface value to be returned when the WeakReference holding the native implementation
      * returns <code>null</code>
      */
     private final static long RETURN_WHEN_NULL = -1L;
 
     /**
-     * A WeakReference holding the native implementation of ViewPropertyAnimator
+     * BackHandledInterface WeakReference holding the native implementation of ViewPropertyAnimator
      */
     private final WeakReference<android.view.ViewPropertyAnimator> mNative;
 

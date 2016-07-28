@@ -17,7 +17,7 @@ package com.xinguan14.jdyp.StikkyHeader.util;
 
 
 /**
- * A property is an abstraction that can be used to represent a <emb>mutable</em> value that is held
+ * BackHandledInterface property is an abstraction that can be used to represent a <emb>mutable</em> value that is held
  * in a <em>host</em> object. The Property's {@link #set(Object, Object)} or {@link #get(Object)}
  * methods can be implemented in terms of the private fields of the host object, or via "setter" and
  * "getter" methods or by some other mechanism, as appropriate.
@@ -56,7 +56,7 @@ public abstract class Property<T, V> {
     }
 
     /**
-     * A constructor that takes an identifying name and {@link #getType() type} for the property.
+     * BackHandledInterface constructor that takes an identifying name and {@link #getType() type} for the property.
      */
     public Property(Class<V> type, String name) {
         mName = name;

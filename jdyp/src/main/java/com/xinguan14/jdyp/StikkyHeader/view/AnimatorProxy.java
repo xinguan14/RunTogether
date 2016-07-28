@@ -12,7 +12,7 @@ import java.lang.ref.WeakReference;
 import java.util.WeakHashMap;
 
 /**
- * A proxy class to allow for modifying post-3.0 view properties on all pre-3.0
+ * BackHandledInterface proxy class to allow for modifying post-3.0 view properties on all pre-3.0
  * platforms. <strong>DO NOT</strong> wrap your views with this class if you
  * are using {@code ObjectAnimator} as it will handle that itself.
  */

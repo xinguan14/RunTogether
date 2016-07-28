@@ -48,7 +48,7 @@ public abstract class Keyframe implements Cloneable {
     Class mValueType;
 
     /**
-     * The optional time interpolator for the interval preceding this keyframe. A null interpolator
+     * The optional time interpolator for the interval preceding this keyframe. BackHandledInterface null interpolator
      * (the default) results in linear interpolation over the interval.
      */
     private /*Time*/Interpolator mInterpolator = null;
@@ -202,7 +202,7 @@ public abstract class Keyframe implements Cloneable {
     }
 
     /**
-     * Gets the optional interpolator for this Keyframe. A value of <code>null</code> indicates
+     * Gets the optional interpolator for this Keyframe. BackHandledInterface value of <code>null</code> indicates
      * that there is no interpolation, which is the same as linear interpolation.
      *
      * @return The optional interpolator for this Keyframe.
@@ -212,7 +212,7 @@ public abstract class Keyframe implements Cloneable {
     }
 
     /**
-     * Sets the optional interpolator for this Keyframe. A value of <code>null</code> indicates
+     * Sets the optional interpolator for this Keyframe. BackHandledInterface value of <code>null</code> indicates
      * that there is no interpolation, which is the same as linear interpolation.
      *
      * @return The optional interpolator for this Keyframe.

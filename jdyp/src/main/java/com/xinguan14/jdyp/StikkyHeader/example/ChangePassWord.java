@@ -6,8 +6,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.xinguan14.jdyp.R;
+import com.xinguan14.jdyp.base.BackHandledInterface;
 import com.xinguan14.jdyp.base.ParentWithNaviActivity;
 import com.xinguan14.jdyp.base.ParentWithNaviFragment;
+import com.xinguan14.jdyp.ui.fragment.SetFragment;
 
 import butterknife.ButterKnife;
 
@@ -15,6 +17,11 @@ import butterknife.ButterKnife;
  * Created by wm on 2016/7/27.
  */
 public class ChangePassWord extends ParentWithNaviFragment {
+
+    protected BackHandledInterface mBackHandledInterface;
+    private boolean hadIntercept;
+
+
     @Override
     protected String title() {
         return "修改密码";
@@ -55,8 +62,18 @@ public class ChangePassWord extends ParentWithNaviFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
 
         super.onActivityCreated(savedInstanceState);
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (getActivity() instanceof SetFragment.HideTab) {
+            ((SetFragment.HideTab) getActivity()).hide();
+        }
+    }
 
-
+    @Override
+    public void onPause() {
+        super.onPause();
     }
 }

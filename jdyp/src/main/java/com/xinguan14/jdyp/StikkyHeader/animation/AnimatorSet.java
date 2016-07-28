@@ -258,7 +258,7 @@ public final class AnimatorSet extends Animator {
      * <code>a2</code> and <code>a3</code>.</p>
      *
      * @param anim The animation that is the dependency used in later calls to the
-     * methods in the returned <code>Builder</code> object. A null parameter will result
+     * methods in the returned <code>Builder</code> object. BackHandledInterface null parameter will result
      * in a null <code>Builder</code> return value.
      * @return Builder The object that constructs the AnimatorSet based on the dependencies
      * outlined in the calls to <code>play</code> and the other methods in the
@@ -662,7 +662,7 @@ public final class AnimatorSet extends Animator {
         }
 
         /**
-         * A start event is received - see if this is an event we are listening for
+         * BackHandledInterface start event is received - see if this is an event we are listening for
          */
         public void onAnimationStart(Animator animation) {
             if (mRule == Dependency.WITH) {
@@ -866,7 +866,7 @@ public final class AnimatorSet extends Animator {
     }
 
     /**
-     * A Node is an embodiment of both the Animator that it wraps as well as
+     * BackHandledInterface Node is an embodiment of both the Animator that it wraps as well as
      * any dependencies that are associated with that Animation. This includes
      * both dependencies upon other nodes (in the dependencies list) as
      * well as dependencies of other nodes upon this (in the nodeDependents list).
@@ -914,7 +914,7 @@ public final class AnimatorSet extends Animator {
         public boolean done = false;
 
         /**
-         * Constructs the Node with the animation that it encapsulates. A Node has no
+         * Constructs the Node with the animation that it encapsulates. BackHandledInterface Node has no
          * dependencies by default; dependencies are added via the addDependency()
          * method.
          *

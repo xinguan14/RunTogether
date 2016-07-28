@@ -1,4 +1,5 @@
 package com.xinguan14.jdyp.StikkyHeader.example;
+
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -14,10 +15,12 @@ import com.xinguan14.jdyp.StikkyHeader.core.AnimatorBuilder;
 import com.xinguan14.jdyp.StikkyHeader.core.BaseStickyHeaderAnimator;
 import com.xinguan14.jdyp.StikkyHeader.core.HeaderStikkyAnimator;
 import com.xinguan14.jdyp.StikkyHeader.core.StikkyHeaderBuilder;
+import com.xinguan14.jdyp.ui.fragment.SetFragment;
 
 
 /**
  * 最近成就
+ *
  * @author 徐玲
  */
 public class AchievementsFragment extends Fragment {
@@ -71,6 +74,22 @@ public class AchievementsFragment extends Fragment {
                 .build();
 
         Utils.populateListView(mListView);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (getActivity()instanceof SetFragment.AddMenu){
+            ((SetFragment.AddMenu) getActivity()).showMenu();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (getActivity() instanceof SetFragment.HideTab) {
+            ((SetFragment.HideTab) getActivity()).hide();
+        }
     }
 
 }

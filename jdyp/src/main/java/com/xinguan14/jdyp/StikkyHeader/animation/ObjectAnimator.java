@@ -176,7 +176,7 @@ public final class ObjectAnimator extends ValueAnimator {
     }
 
     /**
-     * Constructs and returns an ObjectAnimator that animates between int values. A single
+     * Constructs and returns an ObjectAnimator that animates between int values. BackHandledInterface single
      * value implies that that value is the one being animated to. Two values imply a starting
      * and ending values. More than two values imply a starting value, values to animate through
      * along the way, and an ending value (these values will be distributed evenly across
@@ -186,7 +186,7 @@ public final class ObjectAnimator extends ValueAnimator {
      * have a public method on it called <code>setName()</code>, where <code>name</code> is
      * the value of the <code>propertyName</code> parameter.
      * @param propertyName The name of the property being animated.
-     * @param values A set of values that the animation will animate between over time.
+     * @param values BackHandledInterface set of values that the animation will animate between over time.
      * @return An ObjectAnimator object that is set up to animate between the given values.
      */
     public static ObjectAnimator ofInt(Object target, String propertyName, int... values) {
@@ -196,7 +196,7 @@ public final class ObjectAnimator extends ValueAnimator {
     }
 
     /**
-     * Constructs and returns an ObjectAnimator that animates between int values. A single
+     * Constructs and returns an ObjectAnimator that animates between int values. BackHandledInterface single
      * value implies that that value is the one being animated to. Two values imply a starting
      * and ending values. More than two values imply a starting value, values to animate through
      * along the way, and an ending value (these values will be distributed evenly across
@@ -204,7 +204,7 @@ public final class ObjectAnimator extends ValueAnimator {
      *
      * @param target The object whose property is to be animated.
      * @param property The property being animated.
-     * @param values A set of values that the animation will animate between over time.
+     * @param values BackHandledInterface set of values that the animation will animate between over time.
      * @return An ObjectAnimator object that is set up to animate between the given values.
      */
     public static <T> ObjectAnimator ofInt(T target, Property<T, Integer> property, int... values) {
@@ -214,7 +214,7 @@ public final class ObjectAnimator extends ValueAnimator {
     }
 
     /**
-     * Constructs and returns an ObjectAnimator that animates between float values. A single
+     * Constructs and returns an ObjectAnimator that animates between float values. BackHandledInterface single
      * value implies that that value is the one being animated to. Two values imply a starting
      * and ending values. More than two values imply a starting value, values to animate through
      * along the way, and an ending value (these values will be distributed evenly across
@@ -224,7 +224,7 @@ public final class ObjectAnimator extends ValueAnimator {
      * have a public method on it called <code>setName()</code>, where <code>name</code> is
      * the value of the <code>propertyName</code> parameter.
      * @param propertyName The name of the property being animated.
-     * @param values A set of values that the animation will animate between over time.
+     * @param values BackHandledInterface set of values that the animation will animate between over time.
      * @return An ObjectAnimator object that is set up to animate between the given values.
      */
     public static ObjectAnimator ofFloat(Object target, String propertyName, float... values) {
@@ -234,7 +234,7 @@ public final class ObjectAnimator extends ValueAnimator {
     }
 
     /**
-     * Constructs and returns an ObjectAnimator that animates between float values. A single
+     * Constructs and returns an ObjectAnimator that animates between float values. BackHandledInterface single
      * value implies that that value is the one being animated to. Two values imply a starting
      * and ending values. More than two values imply a starting value, values to animate through
      * along the way, and an ending value (these values will be distributed evenly across
@@ -242,7 +242,7 @@ public final class ObjectAnimator extends ValueAnimator {
      *
      * @param target The object whose property is to be animated.
      * @param property The property being animated.
-     * @param values A set of values that the animation will animate between over time.
+     * @param values BackHandledInterface set of values that the animation will animate between over time.
      * @return An ObjectAnimator object that is set up to animate between the given values.
      */
     public static <T> ObjectAnimator ofFloat(T target, Property<T, Float> property,
@@ -253,7 +253,7 @@ public final class ObjectAnimator extends ValueAnimator {
     }
 
     /**
-     * Constructs and returns an ObjectAnimator that animates between Object values. A single
+     * Constructs and returns an ObjectAnimator that animates between Object values. BackHandledInterface single
      * value implies that that value is the one being animated to. Two values imply a starting
      * and ending values. More than two values imply a starting value, values to animate through
      * along the way, and an ending value (these values will be distributed evenly across
@@ -263,10 +263,10 @@ public final class ObjectAnimator extends ValueAnimator {
      * have a public method on it called <code>setName()</code>, where <code>name</code> is
      * the value of the <code>propertyName</code> parameter.
      * @param propertyName The name of the property being animated.
-     * @param evaluator A TypeEvaluator that will be called on each animation frame to
+     * @param evaluator BackHandledInterface TypeEvaluator that will be called on each animation frame to
      * provide the necessary interpolation between the Object values to derive the animated
      * value.
-     * @param values A set of values that the animation will animate between over time.
+     * @param values BackHandledInterface set of values that the animation will animate between over time.
      * @return An ObjectAnimator object that is set up to animate between the given values.
      */
     public static ObjectAnimator ofObject(Object target, String propertyName,
@@ -278,7 +278,7 @@ public final class ObjectAnimator extends ValueAnimator {
     }
 
     /**
-     * Constructs and returns an ObjectAnimator that animates between Object values. A single
+     * Constructs and returns an ObjectAnimator that animates between Object values. BackHandledInterface single
      * value implies that that value is the one being animated to. Two values imply a starting
      * and ending values. More than two values imply a starting value, values to animate through
      * along the way, and an ending value (these values will be distributed evenly across
@@ -286,10 +286,10 @@ public final class ObjectAnimator extends ValueAnimator {
      *
      * @param target The object whose property is to be animated.
      * @param property The property being animated.
-     * @param evaluator A TypeEvaluator that will be called on each animation frame to
+     * @param evaluator BackHandledInterface TypeEvaluator that will be called on each animation frame to
      * provide the necessary interpolation between the Object values to derive the animated
      * value.
-     * @param values A set of values that the animation will animate between over time.
+     * @param values BackHandledInterface set of values that the animation will animate between over time.
      * @return An ObjectAnimator object that is set up to animate between the given values.
      */
     public static <T, V> ObjectAnimator ofObject(T target, Property<T, V> property,
@@ -313,7 +313,7 @@ public final class ObjectAnimator extends ValueAnimator {
      * public methods on it called <code>setName()</code>, where <code>name</code> is the name of
      * the property passed in as the <code>propertyName</code> parameter for each of the
      * PropertyValuesHolder objects.
-     * @param values A set of PropertyValuesHolder objects whose values will be animated between
+     * @param values BackHandledInterface set of PropertyValuesHolder objects whose values will be animated between
      * over time.
      * @return An ObjectAnimator object that is set up to animate between the given values.
      */

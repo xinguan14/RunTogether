@@ -30,7 +30,7 @@ import java.util.Set;
 class ViewPropertyAnimatorHC extends ViewPropertyAnimator {
 
     /**
-     * A WeakReference holding the View whose properties are being animated by this class.
+     * BackHandledInterface WeakReference holding the View whose properties are being animated by this class.
      * This is set at construction time.
      */
     private final WeakReference<View> mView;
@@ -43,7 +43,7 @@ class ViewPropertyAnimatorHC extends ViewPropertyAnimator {
     private long mDuration;
 
     /**
-     * A flag indicating whether the duration has been set on this object. If not, we don't set
+     * BackHandledInterface flag indicating whether the duration has been set on this object. If not, we don't set
      * the duration on the underlying Animator, but instead just use its default duration.
      */
     private boolean mDurationSet = false;
@@ -56,7 +56,7 @@ class ViewPropertyAnimatorHC extends ViewPropertyAnimator {
     private long mStartDelay = 0;
 
     /**
-     * A flag indicating whether the startDelay has been set on this object. If not, we don't set
+     * BackHandledInterface flag indicating whether the startDelay has been set on this object. If not, we don't set
      * the startDelay on the underlying Animator, but instead just use its default startDelay.
      */
     private boolean mStartDelaySet = false;
@@ -69,7 +69,7 @@ class ViewPropertyAnimatorHC extends ViewPropertyAnimator {
     private /*Time*/Interpolator mInterpolator;
 
     /**
-     * A flag indicating whether the interpolator has been set on this object. If not, we don't set
+     * BackHandledInterface flag indicating whether the interpolator has been set on this object. If not, we don't set
      * the interpolator on the underlying Animator, but instead just use its default interpolator.
      */
     private boolean mInterpolatorSet = false;
@@ -457,7 +457,7 @@ class ViewPropertyAnimatorHC extends ViewPropertyAnimator {
      * Utility function, called by the various x(), y(), etc. methods. This stores the
      * constant name for the property along with the from/delta values that will be used to
      * calculate and set the property during the animation. This structure is added to the
-     * pending animations, awaiting the eventual start() of the underlying animator. A
+     * pending animations, awaiting the eventual start() of the underlying animator. BackHandledInterface
      * Runnable is posted to start the animation, and any pending such Runnable is canceled
      * (which enables us to end up starting just one animator for all of the properties
      * specified at one time).

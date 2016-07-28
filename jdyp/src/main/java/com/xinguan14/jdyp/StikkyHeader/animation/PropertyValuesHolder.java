@@ -193,7 +193,7 @@ public class PropertyValuesHolder implements Cloneable {
      * cannot automatically interpolate between objects of unknown type.
      *
      * @param propertyName The name of the property being animated.
-     * @param evaluator A TypeEvaluator that will be called on each animation frame to
+     * @param evaluator BackHandledInterface TypeEvaluator that will be called on each animation frame to
      * provide the necessary interpolation between the Object values to derive the animated
      * value.
      * @param values The values that the named property will animate between.
@@ -213,7 +213,7 @@ public class PropertyValuesHolder implements Cloneable {
      * cannot automatically interpolate between objects of unknown type.
      *
      * @param property The property being animated. Should not be null.
-     * @param evaluator A TypeEvaluator that will be called on each animation frame to
+     * @param evaluator BackHandledInterface TypeEvaluator that will be called on each animation frame to
      * provide the necessary interpolation between the Object values to derive the animated
      * value.
      * @param values The values that the property will animate between.

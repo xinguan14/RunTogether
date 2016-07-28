@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
     <com.xinguan14.jdyp.MyVeiw.GooeyMenu
         android:id="@+id/gooey_menu"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="bottom"
         app:fab_radius="@dimen/big_circle_radius"
+        android:layout_gravity="bottom"
         app:gap_between_menu_fab="@dimen/min_gap"
         app:menu_drawable="@array/drawable_array"
         app:menu_radius="@dimen/small_circle_radius"

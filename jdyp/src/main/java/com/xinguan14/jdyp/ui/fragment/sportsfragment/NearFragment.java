@@ -33,6 +33,9 @@ import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobGeoPoint;
 import cn.bmob.v3.listener.FindListener;
 
+/**
+ * 附近的人界面
+ */
 public class NearFragment extends BaseFragment {
 
     private View rootView;
@@ -65,7 +68,6 @@ public class NearFragment extends BaseFragment {
             public int getItemCount(List<User> list) {
                 return list.size();
             }
-
         };
 
         layoutManager = new LinearLayoutManager(getActivity());
@@ -144,10 +146,7 @@ public class NearFragment extends BaseFragment {
     private List<User> getNearPeople() {
         User me = BmobUser.getCurrentUser(getActivity(), User.class);
 
-        final User user = new User();
-        //BmobIMUserInfo
         final List<User> userList = new ArrayList<>();
-//		userBmobQuery.addWhereWithinKilometers("location",me.getLocation(),1000);
         BmobQuery<User> bmobQuery = new BmobQuery<User>();
         bmobQuery.addWhereWithinKilometers("location", me.getLocation(), 1000);
         bmobQuery.findObjects(getActivity(), new FindListener<User>() {
@@ -220,7 +219,7 @@ public class NearFragment extends BaseFragment {
                 //头像
                 holder.setImageView(user == null ? null : user.getAvatar(), R.mipmap.head, R.id.iv_near_avatar);
                 //名称
-                holder.setText(R.id.tv_near_name,user.getUsername());
+                holder.setText(R.id.tv_near_name, user.getUsername());
 
                 DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 try {
@@ -232,25 +231,21 @@ public class NearFragment extends BaseFragment {
                     long days = diff / (1000 * 60 * 60 * 24);
                     long hours = (diff - days * (1000 * 60 * 60 * 24)) / (1000 * 60 * 60);
                     long minutes = (diff - days * (1000 * 60 * 60 * 24) - hours * (1000 * 60 * 60)) / (1000 * 60);
-                    System.out.println("" + days + "天" + hours + "小时" + minutes + "分");
                     if (days > 0) {
-                        holder.setText(R.id.tv_logintime, days+"天前");
+                        holder.setText(R.id.tv_logintime, days + "天前");
 
                     } else if (hours > 0) {
-                        holder.setText(R.id.tv_logintime, hours+"小时前");
+                        holder.setText(R.id.tv_logintime, hours + "小时前");
 
                     } else if (minutes > 0) {
-                        holder.setText(R.id.tv_logintime, minutes+"分钟前");
-                    }
-                    else {
+                        holder.setText(R.id.tv_logintime, minutes + "分钟前");
+                    } else {
                         holder.setText(R.id.tv_logintime, "刚刚");
                     }
                 } catch (Exception e) {
                     //时间
-                    holder.setText(R.id.tv_logintime, "未知" );
+                    holder.setText(R.id.tv_logintime, "未知");
                 }
-
-
 
                 BmobGeoPoint location = me.getLocation();
                 double currentLat = location.getLatitude();

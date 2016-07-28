@@ -168,6 +168,7 @@ public class MessageFragment extends ParentWithNaviFragment {
         super.onPause();
     }
 
+
     @Override
     public void onStart() {
         super.onStart();

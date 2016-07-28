@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import com.xinguan14.jdyp.R;
 import com.xinguan14.jdyp.base.ParentWithNaviActivity;
 import com.xinguan14.jdyp.base.ParentWithNaviFragment;
+import com.xinguan14.jdyp.ui.fragment.SetFragment;
 
 import butterknife.ButterKnife;
 
@@ -15,6 +16,7 @@ import butterknife.ButterKnife;
  * Created by wm on 2016/7/27.
  */
 public class ChangeUserName extends ParentWithNaviFragment {
+
     @Override
     protected String title() {
         return "更改名字";
@@ -35,8 +37,7 @@ public class ChangeUserName extends ParentWithNaviFragment {
             }
 
             @Override
-            public void clickRight()
-            {
+            public void clickRight() {
 
             }
         };
@@ -56,7 +57,17 @@ public class ChangeUserName extends ParentWithNaviFragment {
 
         super.onActivityCreated(savedInstanceState);
 
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (getActivity() instanceof SetFragment.HideTab) {
+            ((SetFragment.HideTab) getActivity()).hide();
+        }
+    }
 
-
+    @Override
+    public void onPause() {
+        super.onPause();
     }
 }

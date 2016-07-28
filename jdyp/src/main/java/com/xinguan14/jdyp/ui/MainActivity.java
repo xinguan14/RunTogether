@@ -22,12 +22,12 @@ import android.widget.Toast;
 import com.orhanobut.logger.Logger;
 import com.xinguan14.jdyp.MyVeiw.GooeyMenu;
 import com.xinguan14.jdyp.R;
-import com.xinguan14.jdyp.StikkyHeader.example.ChangeMyInfoFragment;
 import com.xinguan14.jdyp.SwipMenu.SwipeMenu;
 import com.xinguan14.jdyp.SwipMenu.SwipeMenuBuilder;
 import com.xinguan14.jdyp.SwipMenu.SwipeMenuItem;
 import com.xinguan14.jdyp.SwipMenu.SwipeMenuView;
 import com.xinguan14.jdyp.base.BaseActivity;
+import com.xinguan14.jdyp.base.ParentWithNaviFragment;
 import com.xinguan14.jdyp.bean.User;
 import com.xinguan14.jdyp.db.NewFriendManager;
 import com.xinguan14.jdyp.event.RefreshEvent;
@@ -55,7 +55,8 @@ import cn.bmob.v3.exception.BmobException;
 /**
  * 四个tab加一个环形菜单
  */
-public class MainActivity extends BaseActivity implements ObseverListener, GooeyMenu.GooeyMenuInterface, SwipeMenuBuilder, MessageFragment.Check, SetFragment.HideTab ,ChangeMyInfoFragment.Return{
+public class MainActivity extends BaseActivity implements ObseverListener, GooeyMenu.GooeyMenuInterface,
+        SwipeMenuBuilder, MessageFragment.Check, SetFragment.HideTab , SetFragment.AddMenu{
 
     @Bind(R.id.btn_message)
     Button btn_message;
@@ -90,6 +91,7 @@ public class MainActivity extends BaseActivity implements ObseverListener, Gooey
     @Bind(R.id.id_content)
     FrameLayout content;
 
+    private ParentWithNaviFragment parentWithNaviFragment;
     private Button[] mTabs;
     private SetFragment setFragment;
     private ContactFragment contactFragment;
@@ -103,6 +105,8 @@ public class MainActivity extends BaseActivity implements ObseverListener, Gooey
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+//        showTab();
 
         //connect server
         User user = BmobUser.getCurrentUser(this, User.class);
@@ -259,8 +263,6 @@ public class MainActivity extends BaseActivity implements ObseverListener, Gooey
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-
-        showTab();
     }
 
     /**
@@ -427,9 +429,7 @@ public class MainActivity extends BaseActivity implements ObseverListener, Gooey
     public void hide() {
         hideTab();
     }
-
     @Override
-    public void returnSetFragment() {
-        onBackPressed();
-    }
+    public void showMenu() {showTab();}
+
 }

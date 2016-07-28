@@ -34,7 +34,7 @@ public abstract class Animator implements Cloneable {
 
     /**
      * Starts this animation. If the animation has a nonzero startDelay, the animation will start
-     * running after that delay elapses. A non-delayed animation will have its initial
+     * running after that delay elapses. BackHandledInterface non-delayed animation will have its initial
      * value(s) set immediately, followed by calls to
      * {@link AnimatorListener#onAnimationStart(Animator)} for any listeners of this animator.
      *
@@ -207,7 +207,7 @@ public abstract class Animator implements Cloneable {
     /**
      * This method tells the object to use appropriate information to extract
      * starting values for the animation. For example, a AnimatorSet object will pass
-     * this call to its child objects to tell them to set up the values. A
+     * this call to its child objects to tell them to set up the values. BackHandledInterface
      * ObjectAnimator object will use the information it has about its target object
      * and PropertyValuesHolder objects to get the start values for its properties.
      * An ValueAnimator object will ignore the request since it does not have enough
@@ -219,7 +219,7 @@ public abstract class Animator implements Cloneable {
     /**
      * This method tells the object to use appropriate information to extract
      * ending values for the animation. For example, a AnimatorSet object will pass
-     * this call to its child objects to tell them to set up the values. A
+     * this call to its child objects to tell them to set up the values. BackHandledInterface
      * ObjectAnimator object will use the information it has about its target object
      * and PropertyValuesHolder objects to get the start values for its properties.
      * An ValueAnimator object will ignore the request since it does not have enough

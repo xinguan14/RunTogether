@@ -204,6 +204,7 @@ public class ContactFragment extends ParentWithNaviFragment {
         query();
     }
 
+
     @Override
     public void onStart() {
         super.onStart();

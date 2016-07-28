@@ -21,7 +21,6 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
@@ -33,12 +32,12 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.xinguan14.jdyp.MyVeiw.CircleImageView;
 import com.xinguan14.jdyp.R;
 import com.xinguan14.jdyp.StikkyHeader.example.AchievementsFragment;
+import com.xinguan14.jdyp.StikkyHeader.example.ChangeMyInfoFragment;
 import com.xinguan14.jdyp.StikkyHeader.example.DynamicFragment;
 import com.xinguan14.jdyp.base.ParentWithNaviFragment;
 import com.xinguan14.jdyp.bean.User;
 import com.xinguan14.jdyp.config.BmobConstants;
 import com.xinguan14.jdyp.model.UserModel;
-import com.xinguan14.jdyp.ui.LoginActivity;
 import com.xinguan14.jdyp.util.ImageLoadOptions;
 import com.xinguan14.jdyp.util.PhotoUtil;
 
@@ -48,8 +47,6 @@ import java.util.Date;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
-import cn.bmob.newim.BmobIM;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.listener.UpdateListener;
@@ -64,8 +61,7 @@ import cn.bmob.v3.listener.UploadFileListener;
  */
 //
 public class SetFragment extends ParentWithNaviFragment {
-    private SetFragment setFragment;
-    ImageView iv_set_avator;
+
 
     @Bind(R.id.tv_user_name)
     TextView tv_user_name;
@@ -84,6 +80,7 @@ public class SetFragment extends ParentWithNaviFragment {
 
     private FragmentManager manager;
     private FragmentTransaction ft;
+
 
     @Override
     protected String title() {
@@ -108,9 +105,10 @@ public class SetFragment extends ParentWithNaviFragment {
         String username = UserModel.getInstance().getCurrentUser().getUsername();
         tv_user_name.setText(TextUtils.isEmpty(username) ? "" : username);
 
-//        User user  = BmobUser.getCurrentUser(getActivity(),User.class);
-//        ImageLoaderFactory.getLoader().loadAvator(circleImageView,user.getAvatar(),R.mipmap.head);
-//        circleImageView.setTag(user.getAvatar());
+        //更新头像
+        User user = BmobUser.getCurrentUser(getActivity(), User.class);
+        refreshAvatar(user.getAvatar());
+
         circleImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -130,7 +128,7 @@ public class SetFragment extends ParentWithNaviFragment {
         super.onActivityCreated(savedInstanceState);
         ListView listView = (ListView) getActivity().findViewById(R.id.listview);
         manager = getFragmentManager();
-        String[] mFrags = {"最新成就", "我的动态",};
+        String[] mFrags = {"最新成就", "我的动态", "个人资料"};
 
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, mFrags);
 
@@ -140,9 +138,6 @@ public class SetFragment extends ParentWithNaviFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Fragment fragment = null;
-                if (getActivity() instanceof HideTab) {
-                    ((HideTab) getActivity()).hide();
-                }
                 switch (position) {
                     case 0:
                         fragment = new AchievementsFragment();
@@ -150,6 +145,8 @@ public class SetFragment extends ParentWithNaviFragment {
                     case 1:
                         fragment = new DynamicFragment();
                         break;
+                    case 2:
+                        fragment = new ChangeMyInfoFragment();
                 }
                 ft = manager.beginTransaction();
                 ft.replace(R.id.id_content, fragment);
@@ -159,23 +156,27 @@ public class SetFragment extends ParentWithNaviFragment {
         });
     }
 
-    /*
-        // /点击进入个人信息
-        @OnClick(R.id.layout_info)
-        public void onInfoClick(View view){
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("u", BmobUser.getCurrentUser(getActivity(),User.class));
-            startActivity(UserInfoActivity.class,bundle);
-        }
-    */
-    @OnClick(R.id.btn_logout)
-    public void onLogoutClick(View view) {
-        UserModel.getInstance().logout();
-        //可断开连接
-        BmobIM.getInstance().disConnect();
-        getActivity().finish();
-        startActivity(LoginActivity.class, null);
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (getActivity() instanceof AddMenu)
+            ((AddMenu) getActivity()).showMenu();
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (getActivity() instanceof HideTab) {
+            ((HideTab) getActivity()).hide();
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+    }
+
 
 
     RelativeLayout layout_choose;
@@ -184,7 +185,6 @@ public class SetFragment extends ParentWithNaviFragment {
 
     public String filePath = "";
 
-    @SuppressWarnings("deprecation")
     private void showAvatarPop() {
 
         View view = getActivity().getLayoutInflater().inflate(R.layout.pop_showavator, null);
@@ -318,16 +318,16 @@ public class SetFragment extends ParentWithNaviFragment {
                     return;
                 }
 //                if (resultCode == 1) {
-                    if (!Environment.getExternalStorageState().equals(
-                            Environment.MEDIA_MOUNTED)) {
+                if (!Environment.getExternalStorageState().equals(
+                        Environment.MEDIA_MOUNTED)) {
 //                        ShowToast("SD不可用");
-                        Toast.makeText(getActivity(), "SD不可用", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                    isFromCamera = false;
-                    uri = data.getData();
-                    startImageAction(uri, 200, 200,
-                            BmobConstants.REQUESTCODE_UPLOADAVATAR_CROP, true);
+                    Toast.makeText(getActivity(), "SD不可用", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                isFromCamera = false;
+                uri = data.getData();
+                startImageAction(uri, 200, 200,
+                        BmobConstants.REQUESTCODE_UPLOADAVATAR_CROP, true);
 //                } else {
 //                    Toast.makeText(getActivity(), "照片获取失败", Toast.LENGTH_SHORT).show();
 
@@ -470,5 +470,9 @@ public class SetFragment extends ParentWithNaviFragment {
      */
     public interface HideTab {
         void hide();
+    }
+
+    public interface AddMenu {
+        void showMenu();
     }
 }

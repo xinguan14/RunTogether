@@ -32,7 +32,7 @@ public class FloatEvaluator implements TypeEvaluator<Number> {
      * @param startValue The start value; should be of type <code>float</code> or
      *                   <code>Float</code>
      * @param endValue   The end value; should be of type <code>float</code> or <code>Float</code>
-     * @return A linear interpolation between the start and end values, given the
+     * @return BackHandledInterface linear interpolation between the start and end values, given the
      *         <code>fraction</code> parameter.
      */
     public Float evaluate(float fraction, Number startValue, Number endValue) {

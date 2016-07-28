@@ -32,7 +32,7 @@ public class IntEvaluator implements TypeEvaluator<Integer> {
      * @param startValue The start value; should be of type <code>int</code> or
      *                   <code>Integer</code>
      * @param endValue   The end value; should be of type <code>int</code> or <code>Integer</code>
-     * @return A linear interpolation between the start and end values, given the
+     * @return BackHandledInterface linear interpolation between the start and end values, given the
      *         <code>fraction</code> parameter.
      */
     public Integer evaluate(float fraction, Integer startValue, Integer endValue) {

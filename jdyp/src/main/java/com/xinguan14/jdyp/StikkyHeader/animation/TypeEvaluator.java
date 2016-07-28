@@ -36,7 +36,7 @@ public interface TypeEvaluator<T> {
      * @param fraction   The fraction from the starting to the ending values
      * @param startValue The start value.
      * @param endValue   The end value.
-     * @return A linear interpolation between the start and end values, given the
+     * @return BackHandledInterface linear interpolation between the start and end values, given the
      *         <code>fraction</code> parameter.
      */
     public T evaluate(float fraction, T startValue, T endValue);

@@ -11,6 +11,7 @@ import com.xinguan14.jdyp.R;
 import com.xinguan14.jdyp.StikkyHeader.DynamicAnimator;
 import com.xinguan14.jdyp.StikkyHeader.Utils;
 import com.xinguan14.jdyp.StikkyHeader.core.StikkyHeaderBuilder;
+import com.xinguan14.jdyp.ui.fragment.SetFragment;
 
 /**
  * 我的动态
@@ -51,6 +52,23 @@ public class DynamicFragment extends Fragment {
                 .build();
 
         Utils.populateListView(mListView);
+    }
+
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (getActivity()instanceof SetFragment.AddMenu){
+            ((SetFragment.AddMenu) getActivity()).showMenu();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (getActivity() instanceof SetFragment.HideTab) {
+            ((SetFragment.HideTab) getActivity()).hide();
+        }
     }
 
 }
