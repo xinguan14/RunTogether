@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import com.xinguan14.jdyp.R;
 import com.xinguan14.jdyp.base.ParentWithNaviActivity;
 import com.xinguan14.jdyp.base.ParentWithNaviFragment;
+import com.xinguan14.jdyp.ui.fragment.SetFragment;
 
 import butterknife.ButterKnife;
 
