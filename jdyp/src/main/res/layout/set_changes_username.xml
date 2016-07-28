@@ -7,7 +7,7 @@
 
     <include layout="@layout/include_navi" />
 
-    <com.xinguan14.jdyp.ClearWriteEditText
+    <com.xinguan14.jdyp.MyVeiw.ClearWriteEditText
         android:id="@+id/update_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -19,6 +19,7 @@
         android:textSize="16sp" />
 
     <TextView
+        android:id="@+id/tips"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="14dp"

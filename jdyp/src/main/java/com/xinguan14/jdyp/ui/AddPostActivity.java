@@ -25,8 +25,8 @@ import android.widget.Toast;
 
 import com.xinguan14.jdyp.R;
 import com.xinguan14.jdyp.adapter.MyAdapter;
-import com.xinguan14.jdyp.adapter.base.BaseListHolder;
 import com.xinguan14.jdyp.adapter.base.BaseListAdapter;
+import com.xinguan14.jdyp.adapter.base.BaseListHolder;
 import com.xinguan14.jdyp.base.ParentWithNaviActivity;
 import com.xinguan14.jdyp.bean.Post;
 import com.xinguan14.jdyp.bean.User;
@@ -86,10 +86,7 @@ public class AddPostActivity extends ParentWithNaviActivity {
 		initNaviView();
 		//GridView的初始界面
 		Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.ic_add_pic); //加号
-		//imageItem = new ArrayList<HashMap<String, Object>>();
 		imageItem = new ArrayList<Bitmap>();
-		//HashMap<String, Object> map = new HashMap<String, Object>();
-		//map.put("itemImage", bmp);
 		imageItem.add(bmp);
 
 		AddGridViewAdapter gridViewAdapter=new AddGridViewAdapter(AddPostActivity.this, imageItem,R.layout.add_image_grid_item);
@@ -169,6 +166,7 @@ public class AddPostActivity extends ParentWithNaviActivity {
 			}
 		});
 	}
+
 	/**
 	 * 为了得到传回的数据，必须在前面的Activity中（指MainActivity类）重写onActivityResult方法
 	 *
@@ -209,6 +207,15 @@ public class AddPostActivity extends ParentWithNaviActivity {
 				AddGridViewAdapter gridViewAdapter = new AddGridViewAdapter(AddPostActivity.this, imageItem, R.layout.add_image_grid_item);
 				showPicGrid.setAdapter(gridViewAdapter);
 			}
+		}
+		if (requestCode==SELECT_PIC_BY_TACK_PHOTO){
+			/*try {
+				Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), photoUri);
+				imageItem.add(bitmap);
+				String imagePath = photoUri.getPath();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}*/
 		}
 	}
 
@@ -263,7 +270,6 @@ public class AddPostActivity extends ParentWithNaviActivity {
 			Toast.makeText(this, "内存卡不存在", Toast.LENGTH_LONG).show();
 		}
 	}
-
 
 	/*
     * Dialog对话框提示用户删除操作

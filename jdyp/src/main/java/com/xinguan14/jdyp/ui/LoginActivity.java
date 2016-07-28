@@ -52,7 +52,7 @@ public class LoginActivity extends BaseActivity {
                 if (e == null) {
                     User user =(User)o;
                     BmobIM.getInstance().updateUserInfo(new BmobIMUserInfo(user.getObjectId(), user.getUsername(), user.getAvatar()));
-//                    updateUserInfos();
+                    updateUserInfos();
                     startActivity(MainActivity.class, null, true);
                 } else {
                     toast(e.getMessage() + "(" + e.getErrorCode() + ")");
