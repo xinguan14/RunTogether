@@ -11,7 +11,6 @@ import com.xinguan14.jdyp.R;
 import com.xinguan14.jdyp.adapter.SquareListViewAdapter;
 import com.xinguan14.jdyp.bean.Post;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -55,19 +54,7 @@ public class SquareFragment extends android.support.v4.app.ListFragment {
             @Override
             public void onSuccess(List<Post> list) {
                 if (list != null) {
-                    int length = list.size();
-                    String[] names = new String[length];
-                    String[] contents = new String[length];
-                    String[] avatar = new String[length];
-                    String[] images = new String[length];
-                    for (int i = 0; i < list.size(); i++) {
-                        Post post = list.get(i);
-                        contents[i] = post.getContent();
-                        names[i] = post.getAuthor().getUsername();
-                        avatar[i] = post.getAuthor().getAvatar();
-                        images[i] = post.getImageurl();
-                    }
-                    initData(names, contents, avatar, images);
+                    initData(list);
                 }
             }
 
@@ -80,18 +67,9 @@ public class SquareFragment extends android.support.v4.app.ListFragment {
     }
 
     //获得数据
-    private void initData(String[] names, String[] contents, String[] avatar, String[] images) {
-        List<Post> mPostList = new ArrayList<Post>();
-        Post post = null;
-        for (int i = 0; i < names.length; i++) {
-            post = new Post();
-            post.setName(names[i]);
-            post.setContent(contents[i]);
-            post.setImageurl(images[i]);
-            post.setHeadPhoto(avatar[i]);
-            mPostList.add(post);
-        }
-        mSquareListViewAdapter = new SquareListViewAdapter(getActivity(), mPostList, R.layout.fragment_sport_square_item);
+    private void initData(List<Post> list) {
+
+        mSquareListViewAdapter = new SquareListViewAdapter(getActivity(), list, R.layout.fragment_sport_square_item);
         setListAdapter(mSquareListViewAdapter);
         sps_refresh.setRefreshing(false);
     }

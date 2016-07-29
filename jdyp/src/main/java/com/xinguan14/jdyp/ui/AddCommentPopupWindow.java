@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -71,14 +70,14 @@ public class AddCommentPopupWindow extends PopupWindow {
                         @Override
                         public void onSuccess() {
                             // TODO Auto-generated method stub
-                            Log.i("life","评论发表成功");
+                            Toast.makeText(context, "评论成功", Toast.LENGTH_SHORT).show();
                             dismiss();
                         }
 
                         @Override
                         public void onFailure(int code, String msg) {
                             // TODO Auto-generated method stub
-                            Log.i("life","评论失败");
+                            Toast.makeText(context, "评论失败", Toast.LENGTH_SHORT).show();
                             dismiss();
                         }
                     });

@@ -50,7 +50,7 @@ public class SquareListViewAdapter extends BaseListAdapter<Post> {
 
     //给控件绑定数据
     @Override
-    public void convert( BaseListHolder holder, Post item) {
+    public void convert( final BaseListHolder holder, Post item) {
 
         this.holder =holder;
         this.postId = item.getObjectId();
@@ -93,7 +93,7 @@ public class SquareListViewAdapter extends BaseListAdapter<Post> {
 
                 }
                 if (likesUser.length()!=0) {
-                   // holder.setTextView(R.id.tv_likes_names,likesUser);
+                    holder.setTextView(R.id.tv_likes_names,likesUser);
                 }
                 Log.i("info","点赞用户："+likesUser);
             }
@@ -145,14 +145,13 @@ public class SquareListViewAdapter extends BaseListAdapter<Post> {
 
                     @Override
                     public void onSuccess() {
-                        // TODO Auto-generated method stub
-                        Log.i("life","点赞成功");
+                        Toast.makeText(mContext, "点赞成功", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void onFailure(int arg0, String arg1) {
                         // TODO Auto-generated method stub
-                        Log.i("life","点赞成功");
+                        Toast.makeText(mContext, "点赞失败", Toast.LENGTH_SHORT).show();
                     }
                 });
             }

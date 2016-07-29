@@ -5,42 +5,12 @@ package com.xinguan14.jdyp.adapter;
  *
  */
 
-import android.app.Activity;
-import android.content.Context;
-import android.graphics.drawable.BitmapDrawable;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
-import android.widget.Toast;
-
-import com.bumptech.glide.Glide;
-import com.xinguan14.jdyp.MyVeiw.MyGridView;
-import com.xinguan14.jdyp.R;
-import com.xinguan14.jdyp.adapter.base.BaseListAdapter;
-import com.xinguan14.jdyp.adapter.base.BaseListHolder;
-import com.xinguan14.jdyp.bean.Post;
-import com.xinguan14.jdyp.ui.AddCommentPopupWindow;
-import com.xinguan14.jdyp.util.SysUtils;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 /**
  * Created by wm on 2016/7/18.
  * @deprecated
  * 用来显示动态的数据
  */
-public class SayListViewAdapter extends BaseListAdapter<Post> implements View.OnClickListener {
+/*public class SayListViewAdapter extends BaseListAdapter<Post> implements View.OnClickListener {
 
 
 
@@ -185,11 +155,11 @@ public class SayListViewAdapter extends BaseListAdapter<Post> implements View.On
         }
     };
 
-    /**
+    *//**
      * 弹出点赞和评论框
      *
      * @param moreBtnView
-     */
+     *//*
     private void showMore(View moreBtnView) {
         if (mMorePopupWindow == null) {
 
@@ -255,12 +225,12 @@ public class SayListViewAdapter extends BaseListAdapter<Post> implements View.On
             }
             RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(w, RelativeLayout.LayoutParams.WRAP_CONTENT);
             gv_images.setLayoutParams(lp);
-            /*第一个参数为宽的设置，第二个参数为高的设置。
+            *//*第一个参数为宽的设置，第二个参数为高的设置。
             如果将一个View添加到一个Layout中，最好告诉Layout用户期望的布局方式，也就是将一个认可的layoutParams传递进去
             但LayoutParams类也只是简单的描述了宽高，宽和高都可以设置成三种值：
             1，一个确定的值；
             2，FILL_PARENT，即填满（和父容器一样大小）；
-            3，WRAP_CONTENT，即包裹住组件就好。。*/
+            3，WRAP_CONTENT，即包裹住组件就好。。*//*
             //传递的数据是当前的Activity，显示图片的集合。显示图片的布局
             gridViewAdapter=new GridViewAdapter(mContext, list,R.layout.fragment_sport_square_item_grid);
             gv_images.setAdapter(gridViewAdapter);
@@ -275,4 +245,4 @@ public class SayListViewAdapter extends BaseListAdapter<Post> implements View.On
 
     }
 
-}
+}*/
