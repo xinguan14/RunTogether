@@ -1,17 +1,26 @@
 package com.xinguan14.jdyp.ui.fragment;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.FrameLayout;
 
 import com.xinguan14.jdyp.MyVeiw.MySwipeRefreshLayout;
 import com.xinguan14.jdyp.R;
 import com.xinguan14.jdyp.SwipMenu.SwapRecyclerView;
+import com.xinguan14.jdyp.SwipMenu.SwipeMenu;
+import com.xinguan14.jdyp.SwipMenu.SwipeMenuBuilder;
+import com.xinguan14.jdyp.SwipMenu.SwipeMenuItem;
+import com.xinguan14.jdyp.SwipMenu.SwipeMenuView;
 import com.xinguan14.jdyp.adapter.OnRecyclerViewListener;
 import com.xinguan14.jdyp.adapter.base.BaseRecyclerAdapter;
 import com.xinguan14.jdyp.adapter.base.BaseRecyclerHolder;
@@ -49,7 +58,7 @@ import cn.bmob.newim.event.OfflineMessageEvent;
  * @project:ConversationFragment
  * @date :2016-01-25-18:23
  */
-public class MessageFragment extends ParentWithNaviFragment {
+public class MessageFragment extends ParentWithNaviFragment implements SwipeMenuBuilder {
 
     @Bind(R.id.rc_view)
     public SwapRecyclerView rc_view;
@@ -57,6 +66,8 @@ public class MessageFragment extends ParentWithNaviFragment {
     @Bind(R.id.sw_refresh)
     MySwipeRefreshLayout sw_refresh;
 
+    @Bind(R.id.no_message)
+    FrameLayout noMessage;
     public ConversationAdapter adapter;
     LinearLayoutManager layoutManager;
     private int pos;
@@ -109,7 +120,10 @@ public class MessageFragment extends ParentWithNaviFragment {
                 return list.size();
             }
         };
-        adapter = new ConversationAdapter(getActivity(), mutlipleItem, null);
+
+        showNoMessage();
+        System.out.println("期初" + getConversations().size());
+        adapter = new ConversationAdapter(getActivity(), mutlipleItem, null, this);
 
         rc_view.setItemAnimator(new DefaultItemAnimator());
         rc_view.setAdapter(adapter);
@@ -131,13 +145,12 @@ public class MessageFragment extends ParentWithNaviFragment {
                 query();
             }
         });
-        sw_refresh.setOnRefreshListener(new MySwipeRefreshLayout.OnRefreshListener() {
+        sw_refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 query();
             }
         });
-
         adapter.setOnRecyclerViewListener(new OnRecyclerViewListener() {
             @Override
             public void onItemClick(int position) {
@@ -146,14 +159,20 @@ public class MessageFragment extends ParentWithNaviFragment {
 
             @Override
             public boolean onItemLongClick(int position) {
-//                adapter.getItem(position).onLongClick(getActivity());
-//                adapter.remove(position);
-//                List<Conversation> conversationList = new ArrayList<>();
-//                conversationList.remove(position);
-
+                adapter.getItem(position).onLongClick(getActivity());
+                adapter.remove(position);
+                showNoMessage();
                 return true;
             }
         });
+    }
+
+    private void showNoMessage() {
+        if (getConversations().size() == 0) {
+            noMessage.setVisibility(View.VISIBLE);
+        } else {
+            noMessage.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -161,13 +180,13 @@ public class MessageFragment extends ParentWithNaviFragment {
         super.onResume();
         sw_refresh.setRefreshing(true);
         query();
+        showNoMessage();
     }
 
     @Override
     public void onPause() {
         super.onPause();
     }
-
 
     @Override
     public void onStart() {
@@ -212,19 +231,9 @@ public class MessageFragment extends ParentWithNaviFragment {
                 }
             }
         }
-//        //添加新朋友会话-获取好友请求表中最新一条记录
-//        List<NewFriend> friends = NewFriendManager.getInstance(getActivity()).getAllNewFriend();
-//        if (friends != null && friends.size() > 0) {
-//            conversationList.add(new NewFriendConversation(friends.get(0)));
-//        }
         //重新排序
         Collections.sort(conversationList);
         return conversationList;
-    }
-
-    public void close(int position) {
-        rc_view.smoothCloseMenu(position);
-        adapter.remove(position);
     }
 
     /**
@@ -265,6 +274,30 @@ public class MessageFragment extends ParentWithNaviFragment {
         adapter.notifyDataSetChanged();
     }
 
+    @Override
+    public SwipeMenuView create() {
+        SwipeMenu menu = new SwipeMenu(getActivity());
+
+        SwipeMenuItem item = new SwipeMenuItem(getActivity());
+        item.setTitle("删除")
+                .setTitleColor(Color.WHITE)
+                .setBackground(new ColorDrawable(Color.RED));
+        menu.addMenuItem(item);
+
+        SwipeMenuView menuView = new SwipeMenuView(menu);
+
+        menuView.setOnMenuItemClickListener(new SwipeMenuView.OnMenuItemClickListener() {
+            @Override
+            public void onMenuItemClick(int position, SwipeMenu menu, int index) {
+                rc_view.smoothCloseMenu(position);
+                adapter.getItem(pos).onLongClick(getActivity());
+                adapter.remove(pos);
+                showNoMessage();
+            }
+        });
+
+        return menuView;
+    }
 
     /**
      * 使用进一步封装的Conversation,教大家怎么自定义会话列表
@@ -279,9 +312,10 @@ public class MessageFragment extends ParentWithNaviFragment {
         ArrayList<Integer> removeList = new ArrayList<Integer>();
         protected final Context context;
 
-        public ConversationAdapter(Context context, IMutlipleItem<Conversation> items, Collection<Conversation> datas) {
-            super(context, items, datas);
+        public ConversationAdapter(Context context, IMutlipleItem<Conversation> items, Collection<Conversation> datas, Fragment fragment) {
+            super(context, items, datas, fragment);
             this.context = context;
+
         }
 
         @Override

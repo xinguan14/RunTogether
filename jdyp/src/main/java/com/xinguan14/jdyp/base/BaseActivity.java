@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.os.PersistableBundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,14 +30,21 @@ import cn.bmob.newim.BmobIM;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.listener.UpdateListener;
 
-/**基类
+/**
+ * 基类
+ *
  * @author :smile
  * @project:BaseActivity
  * @date :2016-01-15-18:23
  */
 public class BaseActivity extends FragmentActivity {
 
-    MyApplication mApplication;
+    MyApplication mApplication = MyApplication.INSTANCE();
+
+    @Override
+    public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
+        super.onCreate(savedInstanceState, persistentState);
+    }
 
     @Override
     protected void onStart() {
@@ -71,11 +79,12 @@ public class BaseActivity extends FragmentActivity {
     }
 
     @Subscribe
-    public void onEvent(Boolean empty){
+    public void onEvent(Boolean empty) {
 
     }
 
-    protected void initView() {}
+    protected void initView() {
+    }
 
     protected void runOnMain(Runnable runnable) {
         runOnUiThread(runnable);
@@ -83,6 +92,7 @@ public class BaseActivity extends FragmentActivity {
 
     protected final static String NULL = "";
     private Toast toast;
+
     public void toast(final Object obj) {
         try {
             runOnMain(new Runnable() {
@@ -90,7 +100,7 @@ public class BaseActivity extends FragmentActivity {
                 @Override
                 public void run() {
                     if (toast == null)
-                        toast = Toast.makeText(BaseActivity.this, NULL,Toast.LENGTH_SHORT);
+                        toast = Toast.makeText(BaseActivity.this, NULL, Toast.LENGTH_SHORT);
                     toast.setText(obj.toString());
                     toast.show();
                 }
@@ -100,7 +110,7 @@ public class BaseActivity extends FragmentActivity {
         }
     }
 
-    public void startActivity(Class<? extends Activity> target, Bundle bundle,boolean finish) {
+    public void startActivity(Class<? extends Activity> target, Bundle bundle, boolean finish) {
         Intent intent = new Intent();
         intent.setClass(this, target);
         if (bundle != null)
@@ -128,31 +138,38 @@ public class BaseActivity extends FragmentActivity {
         }
     }
 
-    /**隐藏软键盘-一般是EditText.getWindowToken()
+    /**
+     * 隐藏软键盘-一般是EditText.getWindowToken()
+     *
      * @param token
      */
     public void hideSoftInput(IBinder token) {
         if (token != null) {
             InputMethodManager im = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            im.hideSoftInputFromWindow(token,InputMethodManager.HIDE_NOT_ALWAYS);
+            im.hideSoftInputFromWindow(token, InputMethodManager.HIDE_NOT_ALWAYS);
         }
     }
 
-    /**Log日志
+    /**
+     * Log日志
+     *
      * @param msg
      */
-    public void log(String msg){
-        if(Config.DEBUG){
+    public void log(String msg) {
+        if (Config.DEBUG) {
             Logger.i(msg);
         }
     }
-    /** 显示下线的对话框
+
+    /**
+     * 显示下线的对话框
      * showOfflineDialog
+     *
      * @return void
      * @throws
      */
     public void showOfflineDialog(final Context context) {
-        DialogTips dialog = new DialogTips(this,"您的账号已在其他设备上登录!", "重新登录");
+        DialogTips dialog = new DialogTips(this, "您的账号已在其他设备上登录!", "重新登录");
         // 设置成功事件
         dialog.SetOnSuccessListener(new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialogInterface, int userId) {
@@ -172,14 +189,16 @@ public class BaseActivity extends FragmentActivity {
     }
 
 
-    /** 用于登陆或者自动登陆情况下的用户资料及好友资料的检测更新
-     * @Title: updateUserInfos
-     * @Description: TODO
+    /**
+     * 用于登陆或者自动登陆情况下的用户资料及好友资料的检测更新
+     *
      * @param
      * @return void
      * @throws
+     * @Title: updateUserInfos
+     * @Description: TODO
      */
-    public void updateUserInfos(){
+    public void updateUserInfos() {
         //更新地理位置信息
         updateUserLocation();
         //查询该用户的好友列表(这个好友列表是去除黑名单用户的哦),目前支持的查询好友个数为100，如需修改请在调用这个方法前设置BmobConfig.LIMIT_CONTACTS即可。
@@ -205,41 +224,39 @@ public class BaseActivity extends FragmentActivity {
 //        });
     }
 
-    /** 更新用户的经纬度信息
-     * @Title: uploadLocation
-     * @Description: TODO
+    /**
+     * 更新用户的经纬度信息
+     *
      * @param
      * @return void
      * @throws
+     * @Title: uploadLocation
+     * @Description: TODO
      */
-    public void updateUserLocation(){
-        if(MyApplication.lastPoint!=null){
-            String saveLatitude  = mApplication.getLatitude();
+    public void updateUserLocation() {
+        if (MyApplication.lastPoint != null) {
+            String saveLatitude = mApplication.getLatitude();
             String saveLongtitude = mApplication.getLongtitude();
             String newLat = String.valueOf(MyApplication.lastPoint.getLatitude());
             String newLong = String.valueOf(MyApplication.lastPoint.getLongitude());
-//			ShowLog("saveLatitude ="+saveLatitude+",saveLongtitude = "+saveLongtitude);
-//			ShowLog("newLat ="+newLat+",newLong = "+newLong);
-            if(!saveLatitude.equals(newLat)|| !saveLongtitude.equals(newLong)){//只有位置有变化就更新当前位置，达到实时更新的目的
-                User u = BmobUser.getCurrentUser(this,User.class);
+
+            if (!saveLatitude.equals(newLat) || !saveLongtitude.equals(newLong)) {//只有位置有变化就更新当前位置，达到实时更新的目的
+                User u = BmobUser.getCurrentUser(this, User.class);
                 final User user = new User();
                 user.setLocation(MyApplication.lastPoint);
                 user.setObjectId(u.getObjectId());
-                user.update(this,new UpdateListener() {
+                user.update(this, new UpdateListener() {
                     @Override
                     public void onSuccess() {
-                        // TODO Auto-generated method stub
-                        MyApplication.INSTANCE().setLatitude(String.valueOf(user.getLocation().getLatitude()));
-                        MyApplication.INSTANCE().setLongtitude(String.valueOf(user.getLocation().getLongitude()));
-//						ShowLog("经纬度更新成功");
+                        mApplication.setLatitude(String.valueOf(user.getLocation().getLatitude()));
+                        mApplication.setLongtitude(String.valueOf(user.getLocation().getLongitude()));
                     }
+
                     @Override
                     public void onFailure(int code, String msg) {
-                        // TODO Auto-generated method stub
-//						ShowLog("经纬度更新 失败:"+msg);
                     }
                 });
-            }else{
+            } else {
 //				ShowLog("用户位置未发生过变化");
             }
         }

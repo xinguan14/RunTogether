@@ -53,15 +53,6 @@ public class ChangePassWord extends ParentWithNaviFragment {
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-
-        super.onActivityCreated(savedInstanceState);
-
-
-
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
         if (getActivity() instanceof SetFragment.HideTab) {

@@ -3,6 +3,7 @@ package com.xinguan14.jdyp.ui.fragment.sportsfragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -70,10 +71,14 @@ public class NearFragment extends BaseFragment {
             }
         };
 
-        layoutManager = new LinearLayoutManager(getActivity());
-        rc_view.setLayoutManager(layoutManager);
+
         adapter = new NearPeopleAdapter(getActivity(), mutlipleItem, null);
         rc_view.setAdapter(adapter);
+        rc_view.setItemAnimator(new DefaultItemAnimator());
+
+        layoutManager = new LinearLayoutManager(getActivity());
+        rc_view.setLayoutManager(layoutManager);
+
         sw_refresh.setEnabled(true);
         setListener();
         return rootView;
@@ -122,18 +127,7 @@ public class NearFragment extends BaseFragment {
      * 查询人
      */
     public void query() {
-        User me = BmobUser.getCurrentUser(getActivity(), User.class);
-        BmobQuery<User> bmobQuery = new BmobQuery<User>();
-        bmobQuery.addWhereWithinKilometers("location", me.getLocation(), 1000);
-        bmobQuery.findObjects(getActivity(), new FindListener<User>() {
-            @Override
-            public void onSuccess(final List<User> object) {
-                adapter.bindDatas(object);
-            }
-
-            public void onError(int i, String s) {
-            }
-        });
+        adapter.bindDatas(getNearPeople());
         adapter.notifyDataSetChanged();
         sw_refresh.setRefreshing(false);
     }
@@ -143,28 +137,26 @@ public class NearFragment extends BaseFragment {
      *
      * @return
      */
-    private List<User> getNearPeople() {
-        User me = BmobUser.getCurrentUser(getActivity(), User.class);
+    List<User> userList = new ArrayList<>();
 
-        final List<User> userList = new ArrayList<>();
+    private List<User> getNearPeople() {
+
+        User me = BmobUser.getCurrentUser(getActivity(), User.class);
         BmobQuery<User> bmobQuery = new BmobQuery<User>();
         bmobQuery.addWhereWithinKilometers("location", me.getLocation(), 1000);
         bmobQuery.findObjects(getActivity(), new FindListener<User>() {
             @Override
-            public void onSuccess(final List<User> object) {
-
+            public void onSuccess(List<User> object) {
+                userList.clear();
                 for (User item : object) {
                     userList.add(item);
-                    System.out.println("内部" + userList);
-                    System.out.println("内部object" + object.size());
                 }
             }
 
             public void onError(int i, String s) {
             }
         });
-        System.out.println("外部" + userList.size());
-        userList.clear();
+
         return userList;
     }
 

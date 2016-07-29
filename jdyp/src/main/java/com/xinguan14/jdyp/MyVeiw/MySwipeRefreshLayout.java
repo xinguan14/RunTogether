@@ -41,7 +41,7 @@ public class MySwipeRefreshLayout extends SwipeRefreshLayout {
                 float endX = ev.getX();
                 float distanceX = Math.abs(endX - startX);
                 float distanceY = Math.abs(endY - startY);
-                // 如果X轴位移大于Y轴位移，那么将事件交给viewPager处理。
+                // 如果X轴位移大于Y轴位移，那么将事件交给左滑处理。
                 if (distanceX >= distanceY) {
                     mIsVpDragger = true;
                     return false;

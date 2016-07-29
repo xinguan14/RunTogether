@@ -38,7 +38,7 @@ public class SplashActivity extends BaseActivity {
                     startActivity(MainActivity.class, null, true);
                 }
             }
-        }, 1000);
+        }, 3000);
         initLocClient();
     }
 

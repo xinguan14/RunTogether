@@ -1,84 +1,144 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@mipmap/login_bg" >
+    android:layout_height="match_parent">
+
+    <!--<LinearLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:gravity="center"-->
+    <!--android:orientation="vertical">-->
+
+
+    <FrameLayout
+        android:id="@+id/de_frm_backgroud"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/de_img_backgroud"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="-50dp"
+            android:layout_marginRight="-300dp"
+            android:scaleType="center"
+            android:src="@mipmap/de_bg" />
+    </FrameLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical" >
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <ImageView
-            android:id="@+id/iv_icon"
+            android:id="@+id/de_login_logo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="91dip"
             android:src="@mipmap/login_logo" />
+
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:background="@drawable/input_bg"
-            android:orientation="vertical" >
+            android:layout_marginTop="72dip"
+            android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/et_username"
-                android:layout_width="fill_parent"
-                android:layout_height="@dimen/height_title"
-                android:background="@color/transparent"
-                android:drawableLeft="@mipmap/login_icon_account"
-                android:drawablePadding="25dip"
-                android:hint="@string/login_username_hint"
-                android:paddingLeft="15dip"
-                android:shadowDx="0.0"
-                android:shadowDy="1.0"
-                android:shadowRadius="1.0"
-                android:textColorHint="#ffdddddd" />
 
-            <View
+            <RelativeLayout
+                android:id="@+id/liner1"
                 android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@mipmap/base_horization_line" />
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dip"
+                android:layout_marginRight="30dip"
+                android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/et_password"
-                android:layout_width="fill_parent"
-                android:layout_height="@dimen/height_title"
-                android:background="@color/transparent"
-                android:drawableLeft="@mipmap/login_icon_password"
-                android:drawablePadding="25dip"
-                android:hint="@string/login_password_hint"
-                android:inputType="textPassword"
-                android:paddingLeft="15dip"
-                android:textColorHint="#ffdddddd" />
+
+                <com.xinguan14.jdyp.MyVeiw.ClearWriteEditText
+
+                    android:id="@+id/et_username"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rc_ed_public_service_search_selector"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:hint="@string/login_username_hint"
+                    android:maxLength="11"
+                    android:singleLine="true"
+                    android:textColor="#FFFFFF"
+                    android:textColorHint="#FFFFFF" />
+
+                <FrameLayout
+                    android:id="@+id/fr_username_delete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignRight="@+id/et_username"
+                    android:layout_centerVertical="true"
+                    android:visibility="gone"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/liner2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="37dp"
+                android:orientation="horizontal">
+
+
+                <com.xinguan14.jdyp.MyVeiw.ClearWriteEditText
+                    android:id="@+id/et_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rc_ed_public_service_search_selector"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:hint="@string/login_password_hint"
+                    android:inputType="textPassword"
+                    android:singleLine="true"
+                    android:textColor="#FFFFFF"
+                    android:textColorHint="#FFFFFF" />
+
+                <FrameLayout
+                    android:id="@+id/fr_pass_delete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignRight="@+id/et_password"
+                    android:layout_centerVertical="true"
+                    android:visibility="gone">
+
+                </FrameLayout>
+            </RelativeLayout>
+
+
+            <Button
+                android:id="@+id/btn_login"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dip"
+                android:layout_marginRight="30dip"
+                android:layout_marginTop="34dip"
+                android:background="@drawable/rs_select_btn_blue"
+                android:text="@string/login"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp" />
+
+
         </LinearLayout>
-
-        <Button
-            android:id="@+id/btn_login"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/height_title"
-            android:layout_margin="@dimen/activity_vertical_margin"
-            android:background="@drawable/btn_login_selector"
-            android:gravity="center"
-            android:text="@string/login"
-            android:textColor="@color/base_color_text_white"
-            android:textSize="@dimen/text_size_large" />
     </LinearLayout>
-
     <LinearLayout
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="20dp"
         android:gravity="center"
-        android:orientation="horizontal" >
+        android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
+            android:layout_height="match_parent"
             android:gravity="center_vertical"
             android:text="@string/register_txt1"
             android:textColor="@color/base_color_text_gray"
@@ -87,7 +147,7 @@
         <TextView
             android:id="@+id/tv_register"
             android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
+            android:layout_height="match_parent"
             android:layout_marginLeft="5dp"
             android:gravity="center_vertical"
             android:text="@string/register_txt2"

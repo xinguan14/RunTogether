@@ -10,15 +10,46 @@
         android:id="@+id/ll"
         layout="@layout/include_navi" />
 
+
     <com.xinguan14.jdyp.MyVeiw.MySwipeRefreshLayout
         android:id="@+id/sw_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.xinguan14.jdyp.SwipMenu.SwapRecyclerView
-            android:id="@+id/rc_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <FrameLayout
+                android:id="@+id/no_message"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center">
+
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@mipmap/no_message"
+                    android:visibility="visible" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginBottom="180dp"
+                    android:text="暂时没有新消息" />
+            </FrameLayout>
+
+
+            <com.xinguan14.jdyp.SwipMenu.SwapRecyclerView
+                android:id="@+id/rc_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center" />
+        </FrameLayout>
+
 
     </com.xinguan14.jdyp.MyVeiw.MySwipeRefreshLayout>
 </LinearLayout>

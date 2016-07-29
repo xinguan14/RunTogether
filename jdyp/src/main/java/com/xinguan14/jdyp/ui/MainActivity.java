@@ -1,8 +1,6 @@
 package com.xinguan14.jdyp.ui;
 
 import android.annotation.TargetApi;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -17,15 +15,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.orhanobut.logger.Logger;
 import com.xinguan14.jdyp.MyVeiw.GooeyMenu;
 import com.xinguan14.jdyp.R;
-import com.xinguan14.jdyp.SwipMenu.SwipeMenu;
-import com.xinguan14.jdyp.SwipMenu.SwipeMenuBuilder;
-import com.xinguan14.jdyp.SwipMenu.SwipeMenuItem;
-import com.xinguan14.jdyp.SwipMenu.SwipeMenuView;
 import com.xinguan14.jdyp.base.BaseActivity;
 import com.xinguan14.jdyp.base.ParentWithNaviFragment;
 import com.xinguan14.jdyp.bean.User;
@@ -56,7 +49,7 @@ import cn.bmob.v3.exception.BmobException;
  * 四个tab加一个环形菜单
  */
 public class MainActivity extends BaseActivity implements ObseverListener, GooeyMenu.GooeyMenuInterface,
-        SwipeMenuBuilder, MessageFragment.Check, SetFragment.HideTab , SetFragment.AddMenu{
+         MessageFragment.Check, SetFragment.HideTab, SetFragment.AddMenu {
 
     @Bind(R.id.btn_message)
     Button btn_message;
@@ -317,7 +310,9 @@ public class MainActivity extends BaseActivity implements ObseverListener, Gooey
         }
     }
 
-
+    /**
+     * 隐藏底部tab
+     */
     public void hideTab() {
         bottom.setVisibility(View.GONE);
         gooey.setVisibility(View.GONE);
@@ -327,6 +322,9 @@ public class MainActivity extends BaseActivity implements ObseverListener, Gooey
 
     }
 
+    /**
+     * 显示底部tab
+     */
     public void showTab() {
         bottom.setVisibility(View.VISIBLE);
         gooey.setVisibility(View.VISIBLE);
@@ -379,43 +377,41 @@ public class MainActivity extends BaseActivity implements ObseverListener, Gooey
 
     }
 
-    @Override
-    public SwipeMenuView create() {
+//    @Override
+//    public SwipeMenuView create() {
+//
+//        SwipeMenu menu = new SwipeMenu(this);
+//
+//        SwipeMenuItem item = new SwipeMenuItem(this);
+//        item.setTitle("删除")
+//                .setTitleColor(Color.WHITE)
+//                .setBackground(new ColorDrawable(Color.RED));
+//        menu.addMenuItem(item);
+//
+//        SwipeMenuView menuView = new SwipeMenuView(menu);
+//
+//        menuView.setOnMenuItemClickListener(mOnSwipeItemClickListener);
+//
+//        return menuView;
+//
+//    }
 
-        SwipeMenu menu = new SwipeMenu(this);
-
-        SwipeMenuItem item = new SwipeMenuItem(this);
-
-
-        item.setTitle("删除")
-                .setTitleColor(Color.WHITE)
-                .setBackground(new ColorDrawable(Color.RED));
-        menu.addMenuItem(item);
-
-        SwipeMenuView menuView = new SwipeMenuView(menu);
-
-        menuView.setOnMenuItemClickListener(mOnSwipeItemClickListener);
-
-        return menuView;
-
-    }
-
-    private SwipeMenuView.OnMenuItemClickListener mOnSwipeItemClickListener = new SwipeMenuView.OnMenuItemClickListener() {
-
-        @Override
-        public void onMenuItemClick(int pos, SwipeMenu menu, int index) {
-            Toast.makeText(MainActivity.this, menu.getMenuItem(index).getTitle(), Toast.LENGTH_LONG).show();
-            messageFragment.close(pos);
-
-            if (index == 1) {
-                messageFragment.close(pos);
-//                messageFragment.rc_view.smoothCloseMenu(pos);
-////                recyclerView.smoothCloseMenu(pos);
-////                list.remove(pos);
-//                messageFragment.adapter.remove(pos);
-            }
-        }
-    };
+//    private SwipeMenuView.OnMenuItemClickListener mOnSwipeItemClickListener = new SwipeMenuView.OnMenuItemClickListener() {
+//
+//        @Override
+//        public void onMenuItemClick(int pos, SwipeMenu menu, int index) {
+//            Toast.makeText(MainActivity.this, menu.getMenuItem(index).getTitle(), Toast.LENGTH_LONG).show();
+//            messageFragment.close(pos);
+//
+//            if (index == 1) {
+//                messageFragment.close(pos);
+////                messageFragment.rc_view.smoothCloseMenu(pos);
+//////                recyclerView.smoothCloseMenu(pos);
+//////                list.remove(pos);
+////                messageFragment.adapter.remove(pos);
+//            }
+//        }
+//    };
 
     /**
      * 为了调用activity里的方法创建的
@@ -429,7 +425,10 @@ public class MainActivity extends BaseActivity implements ObseverListener, Gooey
     public void hide() {
         hideTab();
     }
+
     @Override
-    public void showMenu() {showTab();}
+    public void showMenu() {
+        showTab();
+    }
 
 }

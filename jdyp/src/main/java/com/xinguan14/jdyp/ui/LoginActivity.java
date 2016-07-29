@@ -1,11 +1,15 @@
 package com.xinguan14.jdyp.ui;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.xinguan14.jdyp.MyVeiw.ClearWriteEditText;
 import com.xinguan14.jdyp.R;
 import com.xinguan14.jdyp.base.BaseActivity;
 import com.xinguan14.jdyp.bean.User;
@@ -29,18 +33,28 @@ import cn.bmob.v3.listener.LogInListener;
 public class LoginActivity extends BaseActivity {
 
     @Bind(R.id.et_username)
-    EditText et_username;
+    ClearWriteEditText et_username;
     @Bind(R.id.et_password)
-    EditText et_password;
+    ClearWriteEditText et_password;
     @Bind(R.id.btn_login)
     Button btn_login;
     @Bind(R.id.tv_register)
     TextView tv_register;
+    @Bind(R.id.de_img_backgroud)
+    ImageView mImgBackgroud;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        //背景浮动
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Animation animation = AnimationUtils.loadAnimation(LoginActivity.this, R.anim.translate_anim);
+                mImgBackgroud.startAnimation(animation);
+            }
+        }, 200);
     }
 
     @OnClick(R.id.btn_login)
@@ -52,7 +66,9 @@ public class LoginActivity extends BaseActivity {
                 if (e == null) {
                     User user =(User)o;
                     BmobIM.getInstance().updateUserInfo(new BmobIMUserInfo(user.getObjectId(), user.getUsername(), user.getAvatar()));
-                    updateUserInfos();
+
+                    updateUserLocation();
+
                     startActivity(MainActivity.class, null, true);
                 } else {
                     toast(e.getMessage() + "(" + e.getErrorCode() + ")");

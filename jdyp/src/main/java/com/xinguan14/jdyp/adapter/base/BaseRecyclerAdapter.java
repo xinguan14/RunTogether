@@ -1,7 +1,9 @@
 package com.xinguan14.jdyp.adapter.base;
 
 import android.content.Context;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.BounceInterpolator;
@@ -11,7 +13,6 @@ import android.widget.Toast;
 import com.xinguan14.jdyp.SwipMenu.SwapWrapperUtils;
 import com.xinguan14.jdyp.SwipMenu.SwipeMenu;
 import com.xinguan14.jdyp.SwipMenu.SwipeMenuBuilder;
-import com.xinguan14.jdyp.SwipMenu.SwipeMenuLayout;
 import com.xinguan14.jdyp.SwipMenu.SwipeMenuView;
 import com.xinguan14.jdyp.adapter.OnRecyclerViewListener;
 import com.xinguan14.jdyp.base.BaseActivity;
@@ -55,7 +56,6 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseRe
     private SwipeMenuBuilder swipeMenuBuilder;
 
 
-
     /**
      * 支持一种或多种Item布局
      *
@@ -67,7 +67,13 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseRe
         this.context = context;
         this.items = items;
         this.lists = datas == null ? new ArrayList<T>() : new ArrayList<T>(datas);
-        swipeMenuBuilder = (SwipeMenuBuilder) this.context;
+    }
+
+    public BaseRecyclerAdapter(Context context, IMutlipleItem<T> items, Collection<T> datas, Fragment fragment) {
+        this.context = context;
+        this.items = items;
+        this.lists = datas == null ? new ArrayList<T>() : new ArrayList<T>(datas);
+        swipeMenuBuilder = (SwipeMenuBuilder) fragment;
 
     }
 
@@ -108,15 +114,18 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseRe
     @Override
     public BaseRecyclerHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         int layoutId = items.getItemLayoutId(viewType);
-
-
-        //根据数据创建右边的操作view
-        SwipeMenuView menuView = swipeMenuBuilder.create();
-        //包装用户的item布局
-        SwipeMenuLayout swipeMenuLayout = SwapWrapperUtils.wrap(parent,
-                layoutId, menuView, new BounceInterpolator(), new LinearInterpolator());
-        return new BaseRecyclerHolder(layoutId, swipeMenuLayout);
-
+        View root;
+        if (swipeMenuBuilder != null) {
+            //根据数据创建右边的操作view
+            SwipeMenuView menuView = swipeMenuBuilder.create();
+            //包装用户的item布局
+            root = SwapWrapperUtils.wrap(parent,
+                    layoutId, menuView, new BounceInterpolator(), new LinearInterpolator());
+        } else {
+            LayoutInflater inflater = LayoutInflater.from(context);
+            root = inflater.inflate(layoutId, parent, false);
+        }
+        return new BaseRecyclerHolder(layoutId, root);
     }
 
     @Override
@@ -184,7 +193,6 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseRe
             }
         }
     }
-
     /**
      * 设置点击/长按等事件监听器
      *
@@ -217,7 +225,6 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseRe
             }
         };
     }
-
 
 
     /**

@@ -7,18 +7,16 @@ import android.preference.PreferenceManager;
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
+import com.baidu.mapapi.SDKInitializer;
 import com.orhanobut.logger.Logger;
 import com.xinguan14.jdyp.base.UniversalImageLoader;
-import com.xinguan14.jdyp.bean.User;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 
 import cn.bmob.newim.BmobIM;
-import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobGeoPoint;
-import cn.bmob.v3.listener.UpdateListener;
 
 /**
  * @author :smile
@@ -51,6 +49,7 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         setInstance(this);
+        INSTANCE = this;
         //初始化
         Logger.init("smile");
         //只有主进程运行的时候才需要初始化
@@ -62,7 +61,6 @@ public class MyApplication extends Application {
         }
         //uil初始化
         UniversalImageLoader.initImageLoader(this);
-        INSTANCE = this;
         initBaidu();
     }
 
@@ -95,6 +93,8 @@ public class MyApplication extends Application {
     public String getLatitude() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         latitude = preferences.getString(PREF_LATITUDE, "");
+//        latitude = Double.toString(latitude_d);
+
         return latitude;
     }
 
@@ -113,6 +113,7 @@ public class MyApplication extends Application {
 
     public final String PREF_LONGTITUDE = "longtitude";// 经度
     private String longtitude = "";
+    double latitude_d,longtitude_d;
 
     /**
      * 获取经度
@@ -122,6 +123,7 @@ public class MyApplication extends Application {
     public String getLongtitude() {
         SharedPreferences preferences = PreferenceManager
                 .getDefaultSharedPreferences(this);
+//        longtitude = Double.toString(longtitude_d);
         longtitude = preferences.getString(PREF_LONGTITUDE, "");
         return longtitude;
     }
@@ -150,7 +152,7 @@ public class MyApplication extends Application {
      */
     private void initBaidu() {
         // 初始化地图Sdk
-//        SDKInitializer.initialize(this);
+        SDKInitializer.initialize(this);
         // 初始化定位sdk
         initBaiduLocClient();
     }
@@ -178,30 +180,8 @@ public class MyApplication extends Application {
         @Override
         public void onReceiveLocation(BDLocation location) {
             // Receive Location
-            double latitude_d = location.getLatitude();
-            double longtitude_d = location.getLongitude();
-            latitude = Double.toString(latitude_d);
-            longtitude = Double.toString(longtitude_d);
-
-            User u = BmobUser.getCurrentUser(getApplicationContext(),User.class);
-            final User user = new User();
-            BmobGeoPoint bmobGeoPoint = new BmobGeoPoint(longtitude_d,latitude_d);
-            user.setLocation(bmobGeoPoint);
-            user.setObjectId(u.getObjectId());
-            user.update(getApplicationContext(),new UpdateListener() {
-                @Override
-                public void onSuccess() {
-                    // TODO Auto-generated method stub
-                    setLatitude(String.valueOf(user.getLocation().getLatitude()));
-                    //getInstance().setLongtitude(String.valueOf(user.getLocation().getLongitude()));
-//						ShowLog("经纬度更新成功");
-                }
-                @Override
-                public void onFailure(int code, String msg) {
-                    // TODO Auto-generated method stub
-//						ShowLog("经纬度更新 失败:"+msg);
-                }
-            });
+            double latitude = location.getLatitude();
+            double longtitude = location.getLongitude();
             if (lastPoint != null) {
                 if (lastPoint.getLatitude() == location.getLatitude()
                         && lastPoint.getLongitude() == location.getLongitude()) {
@@ -210,7 +190,49 @@ public class MyApplication extends Application {
                     return;
                 }
             }
-            lastPoint = new BmobGeoPoint(longtitude_d, latitude_d);
+            lastPoint = new BmobGeoPoint(longtitude, latitude);
         }
     }
+//    /**
+//     * 实现实位回调监听
+//     */
+//    public class MyLocationListener implements BDLocationListener {
+//
+//        @Override
+//        public void onReceiveLocation(BDLocation location) {
+//            // Receive Location
+//            latitude_d = location.getLatitude();
+//            longtitude_d = location.getLongitude();
+//
+////
+////            User u = BmobUser.getCurrentUser(getApplicationContext(),User.class);
+////            final User user = new User();
+////            BmobGeoPoint bmobGeoPoint = new BmobGeoPoint(longtitude_d,latitude_d);
+////            user.setLocation(bmobGeoPoint);
+////            user.setObjectId(u.getObjectId());
+////            user.update(getApplicationContext(),new UpdateListener() {
+////                @Override
+////                public void onSuccess() {
+////                    // TODO Auto-generated method stub
+////                    setLatitude(String.valueOf(user.getLocation().getLatitude()));
+////                    //getInstance().setLongtitude(String.valueOf(user.getLocation().getLongitude()));
+//////						ShowLog("经纬度更新成功");
+////                }
+////                @Override
+////                public void onFailure(int code, String msg) {
+////                    // TODO Auto-generated method stub
+//////						ShowLog("经纬度更新 失败:"+msg);
+////                }
+////            });
+//            if (lastPoint != null) {
+//                if (lastPoint.getLatitude() == location.getLatitude()
+//                        && lastPoint.getLongitude() == location.getLongitude()) {
+////					BmobLog.i("两次获取坐标相同");// 若两次请求获取到的地理位置坐标是相同的，则不再定位
+//                    mLocationClient.stop();
+//                    return;
+//                }
+//            }
+//            lastPoint = new BmobGeoPoint(longtitude_d, latitude_d);
+//        }
+//    }
 }
