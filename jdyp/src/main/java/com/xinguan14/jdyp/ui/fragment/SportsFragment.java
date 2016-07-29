@@ -18,7 +18,7 @@ import com.xinguan14.jdyp.MyVeiw.PagerSlidingTabStrip;
 import com.xinguan14.jdyp.R;
 import com.xinguan14.jdyp.base.ParentWithNaviActivity;
 import com.xinguan14.jdyp.base.ParentWithNaviFragment;
-import com.xinguan14.jdyp.ui.AddPostActivity;
+import com.xinguan14.jdyp.ui.activity.AddPostActivity;
 import com.xinguan14.jdyp.ui.fragment.sportsfragment.NearFragment;
 import com.xinguan14.jdyp.ui.fragment.sportsfragment.SayFragment;
 import com.xinguan14.jdyp.ui.fragment.sportsfragment.SquareFragment;

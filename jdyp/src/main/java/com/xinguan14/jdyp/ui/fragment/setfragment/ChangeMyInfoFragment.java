@@ -1,8 +1,7 @@
-package com.xinguan14.jdyp.StikkyHeader.example;
+package com.xinguan14.jdyp.ui.fragment.setfragment;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
@@ -20,7 +19,7 @@ import com.xinguan14.jdyp.base.ParentWithNaviActivity;
 import com.xinguan14.jdyp.base.ParentWithNaviFragment;
 import com.xinguan14.jdyp.bean.User;
 import com.xinguan14.jdyp.model.UserModel;
-import com.xinguan14.jdyp.ui.LoginActivity;
+import com.xinguan14.jdyp.ui.activity.LoginActivity;
 import com.xinguan14.jdyp.ui.fragment.SetFragment;
 import com.xinguan14.jdyp.util.ImageLoadOptions;
 
@@ -33,7 +32,7 @@ import cn.bmob.v3.listener.UpdateListener;
 /**
  * Created by wm on 2016/7/26.
  */
-public class ChangeMyInfoFragment extends ParentWithNaviFragment {
+public class ChangeMyInfoFragment extends ParentWithNaviFragment implements View.OnClickListener {
 
     @Bind(R.id.img_my_avatar)
     CircleImageView img_my_avatar;
@@ -71,8 +70,12 @@ public class ChangeMyInfoFragment extends ParentWithNaviFragment {
     private Boolean userSex;
     private String userPhone;
     private String userEmail;
-    private FragmentManager manager;
-    private FragmentTransaction ft;
+    private FragmentManager fragmentManager;
+    private FragmentTransaction fragmentTransaction;
+    ChangeUserNameFragment changeUserNamefragment;
+    ChangeEmailFragment changeEmailFragment;
+    ChangePassWordFragment changePassWordFragment;
+
 
     @Override
     protected String title() {
@@ -113,59 +116,13 @@ public class ChangeMyInfoFragment extends ParentWithNaviFragment {
     }
 
     public void setListener() {
-        //rl_my_avatar.setOnClickListener(this);
-        rl_my_phone.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-        rl_my_userEmail.setOnClickListener(new View.OnClickListener() {
-            ChangeEmailFragment changeEmailFragment;
-            @Override
-            public void onClick(View v) {
-                if (changeEmailFragment == null) {
-                    changeEmailFragment = new ChangeEmailFragment();
-                }
-                changeFragment(changeEmailFragment);
-            }
-        });
-        rl_my_username.setOnClickListener(new View.OnClickListener() {
-            ChangeUserNameFragment changeUserNamefragment;
-            @Override
-            public void onClick(View v) {
-                if (changeUserNamefragment == null) {
-                    changeUserNamefragment = new ChangeUserNameFragment();
-                }
-                changeFragment(changeUserNamefragment);
-            }
-        });
-        rl_my_userSex.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                chooseSex();
-            }
-        });
-        rl_set_change_pswd.setOnClickListener(new View.OnClickListener() {
-            ChangePassWordFragment changePassWordFragment;
-            @Override
-            public void onClick(View v) {
-                if (changePassWordFragment==null){
-                    changePassWordFragment = new ChangePassWordFragment();
-                }
-                changeFragment(changePassWordFragment);
-            }
-        });
-        rl_set_exit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                UserModel.getInstance().logout();
-                //可断开连接
-                BmobIM.getInstance().disConnect();
-                getActivity().finish();
-                startActivity(LoginActivity.class, null);
-            }
-        });
+        rl_my_avatar.setOnClickListener(this);
+        rl_my_phone.setOnClickListener(this);
+        rl_my_userEmail.setOnClickListener(this);
+        rl_my_username.setOnClickListener(this);
+        rl_my_userSex.setOnClickListener(this);
+        rl_set_change_pswd.setOnClickListener(this);
+        rl_set_exit.setOnClickListener(this);
     }
 
     @Override
@@ -186,8 +143,6 @@ public class ChangeMyInfoFragment extends ParentWithNaviFragment {
 
 
     private void dataBind() {
-
-        manager = getFragmentManager();
 
         //获取当前的用户
         User user = BmobUser.getCurrentUser(getActivity(), User.class);
@@ -222,12 +177,6 @@ public class ChangeMyInfoFragment extends ParentWithNaviFragment {
         }
     }
 
-    public void changeFragment(Fragment fragment) {
-        ft = manager.beginTransaction();
-        ft.replace(R.id.id_content, fragment);
-        ft.addToBackStack(null);
-        ft.commit();
-    }
 
     private Boolean sex;//true为男
     private int checkedItem = 0;
@@ -286,5 +235,47 @@ public class ChangeMyInfoFragment extends ParentWithNaviFragment {
             }
         });
         builder.create().show();
+    }
+
+    @Override
+    public void onClick(View v) {
+        fragmentManager = getFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.addToBackStack(null);
+        switch (v.getId()) {
+            case R.id.rl_my_avatar:
+                break;
+            case R.id.rl_my_username:
+                if (changeUserNamefragment == null)
+                    changeUserNamefragment = new ChangeUserNameFragment();
+
+                fragmentTransaction.replace(R.id.id_content, changeUserNamefragment);
+                break;
+            case R.id.rl_my_sex:
+                chooseSex();
+                break;
+            case R.id.rl_my_userEmail:
+
+                if (changeEmailFragment == null)
+                    changeEmailFragment = new ChangeEmailFragment();
+                fragmentTransaction.replace(R.id.id_content, changeEmailFragment);
+
+                break;
+            case R.id.rl_my_phone:
+                break;
+            case R.id.ac_set_change_pswd:
+                if (changePassWordFragment == null)
+                    changePassWordFragment = new ChangePassWordFragment();
+                fragmentTransaction.replace(R.id.id_content, changePassWordFragment);
+                break;
+            case R.id.ac_set_exit:
+                UserModel.getInstance().logout();
+                //可断开连接
+                BmobIM.getInstance().disConnect();
+                getActivity().finish();
+                startActivity(LoginActivity.class, null);
+                break;
+        }
+        fragmentTransaction.commit();
     }
 }

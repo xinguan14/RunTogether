@@ -1,4 +1,4 @@
-package com.xinguan14.jdyp.StikkyHeader.example;
+package com.xinguan14.jdyp.ui.fragment.setfragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -15,6 +15,7 @@ import com.xinguan14.jdyp.R;
 import com.xinguan14.jdyp.base.ParentWithNaviActivity;
 import com.xinguan14.jdyp.base.ParentWithNaviFragment;
 import com.xinguan14.jdyp.bean.User;
+import com.xinguan14.jdyp.ui.fragment.SetFragment;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -114,7 +115,6 @@ public class ChangeEmailFragment extends ParentWithNaviFragment {
         manager = getFragmentManager();
         tips.setText("请输入正确的邮箱地址");
     }
-
     /**
      * 判断邮箱是否合法
      * @param email
@@ -127,6 +127,13 @@ public class ChangeEmailFragment extends ParentWithNaviFragment {
         Pattern p =  Pattern.compile("\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*");//复杂匹配
         Matcher m = p.matcher(email);
         return m.matches();
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (getActivity() instanceof SetFragment.HideTab) {
+            ((SetFragment.HideTab) getActivity()).hide();
+        }
     }
 }
 

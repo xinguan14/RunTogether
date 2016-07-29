@@ -20,7 +20,7 @@ import com.xinguan14.jdyp.bean.User;
 import com.xinguan14.jdyp.config.Config;
 import com.xinguan14.jdyp.dialog.DialogTips;
 import com.xinguan14.jdyp.model.UserModel;
-import com.xinguan14.jdyp.ui.LoginActivity;
+import com.xinguan14.jdyp.ui.activity.LoginActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

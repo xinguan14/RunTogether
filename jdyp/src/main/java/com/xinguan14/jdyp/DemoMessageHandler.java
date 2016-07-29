@@ -8,7 +8,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.orhanobut.logger.Logger;
-import com.xinguan14.jdyp.ui.MainActivity;
+import com.xinguan14.jdyp.ui.activity.MainActivity;
 import com.xinguan14.jdyp.bean.AddFriendMessage;
 import com.xinguan14.jdyp.bean.AgreeAddFriendMessage;
 import com.xinguan14.jdyp.bean.User;

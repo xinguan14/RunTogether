@@ -1,4 +1,4 @@
-package com.xinguan14.jdyp.StikkyHeader.example;
+package com.xinguan14.jdyp.ui.fragment.setfragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,6 +9,7 @@ import android.widget.EditText;
 import com.xinguan14.jdyp.R;
 import com.xinguan14.jdyp.base.ParentWithNaviActivity;
 import com.xinguan14.jdyp.base.ParentWithNaviFragment;
+import com.xinguan14.jdyp.ui.fragment.SetFragment;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -81,8 +82,12 @@ public class ChangeUserNameFragment extends ParentWithNaviFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
 
         super.onActivityCreated(savedInstanceState);
-
-
-
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (getActivity() instanceof SetFragment.HideTab) {
+            ((SetFragment.HideTab) getActivity()).hide();
+        }
     }
 }

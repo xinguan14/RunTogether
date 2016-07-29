@@ -1,4 +1,4 @@
-package com.xinguan14.jdyp.ui;
+package com.xinguan14.jdyp.ui.activity;
 
 import android.os.Bundle;
 import android.os.Handler;

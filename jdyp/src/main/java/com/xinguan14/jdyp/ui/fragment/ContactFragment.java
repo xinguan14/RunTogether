@@ -24,9 +24,9 @@ import com.xinguan14.jdyp.bean.User;
 import com.xinguan14.jdyp.db.NewFriendManager;
 import com.xinguan14.jdyp.event.RefreshEvent;
 import com.xinguan14.jdyp.model.UserModel;
-import com.xinguan14.jdyp.ui.ChatActivity;
-import com.xinguan14.jdyp.ui.NewFriendActivity;
-import com.xinguan14.jdyp.ui.SearchUserActivity;
+import com.xinguan14.jdyp.ui.activity.ChatActivity;
+import com.xinguan14.jdyp.ui.activity.NewFriendActivity;
+import com.xinguan14.jdyp.ui.activity.SearchUserActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

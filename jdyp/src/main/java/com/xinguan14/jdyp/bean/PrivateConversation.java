@@ -8,7 +8,7 @@ import android.text.TextUtils;
 import java.util.List;
 
 import com.xinguan14.jdyp.R;
-import com.xinguan14.jdyp.ui.ChatActivity;
+import com.xinguan14.jdyp.ui.activity.ChatActivity;
 import cn.bmob.newim.BmobIM;
 import cn.bmob.newim.bean.BmobIMConversation;
 import cn.bmob.newim.bean.BmobIMConversationType;

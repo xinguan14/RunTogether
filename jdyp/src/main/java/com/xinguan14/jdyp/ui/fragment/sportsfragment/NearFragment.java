@@ -18,7 +18,7 @@ import com.xinguan14.jdyp.adapter.base.BaseRecyclerHolder;
 import com.xinguan14.jdyp.adapter.base.IMutlipleItem;
 import com.xinguan14.jdyp.base.BaseFragment;
 import com.xinguan14.jdyp.bean.User;
-import com.xinguan14.jdyp.ui.UserInfoActivity;
+import com.xinguan14.jdyp.ui.activity.UserInfoActivity;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

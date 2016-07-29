@@ -1,4 +1,4 @@
-package com.xinguan14.jdyp.ui;
+package com.xinguan14.jdyp.MyVeiw;
 
 import android.view.View;
 import android.widget.AdapterView;

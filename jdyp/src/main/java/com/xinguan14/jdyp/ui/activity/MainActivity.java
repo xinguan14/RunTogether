@@ -1,4 +1,4 @@
-package com.xinguan14.jdyp.ui;
+package com.xinguan14.jdyp.ui.activity;
 
 import android.annotation.TargetApi;
 import android.os.Build;
@@ -98,8 +98,6 @@ public class MainActivity extends BaseActivity implements ObseverListener, Gooey
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-//        showTab();
 
         //connect server
         User user = BmobUser.getCurrentUser(this, User.class);

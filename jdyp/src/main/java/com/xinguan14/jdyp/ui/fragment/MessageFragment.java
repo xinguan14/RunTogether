@@ -32,7 +32,7 @@ import com.xinguan14.jdyp.bean.PrivateConversation;
 import com.xinguan14.jdyp.event.RefreshEvent;
 import com.xinguan14.jdyp.reddot.DisplayUtils;
 import com.xinguan14.jdyp.reddot.StickyViewHelper;
-import com.xinguan14.jdyp.ui.SearchUserActivity;
+import com.xinguan14.jdyp.ui.activity.SearchUserActivity;
 import com.xinguan14.jdyp.util.TimeUtil;
 
 import org.greenrobot.eventbus.EventBus;

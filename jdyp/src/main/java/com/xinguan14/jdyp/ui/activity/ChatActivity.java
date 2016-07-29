@@ -1,4 +1,4 @@
-package com.xinguan14.jdyp.ui;
+package com.xinguan14.jdyp.ui.activity;
 
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
