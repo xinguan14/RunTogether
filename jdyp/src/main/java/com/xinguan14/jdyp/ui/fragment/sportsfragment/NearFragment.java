@@ -224,19 +224,19 @@ public class NearFragment extends BaseFragment {
                     long hours = (diff - days * (1000 * 60 * 60 * 24)) / (1000 * 60 * 60);
                     long minutes = (diff - days * (1000 * 60 * 60 * 24) - hours * (1000 * 60 * 60)) / (1000 * 60);
                     if (days > 0) {
-                        holder.setText(R.id.tv_logintime, days + "天前");
+                        holder.setText(R.id.add_say_time, days + "天前");
 
                     } else if (hours > 0) {
-                        holder.setText(R.id.tv_logintime, hours + "小时前");
+                        holder.setText(R.id.add_say_time, hours + "小时前");
 
                     } else if (minutes > 0) {
-                        holder.setText(R.id.tv_logintime, minutes + "分钟前");
+                        holder.setText(R.id.add_say_time, minutes + "分钟前");
                     } else {
-                        holder.setText(R.id.tv_logintime, "刚刚");
+                        holder.setText(R.id.add_say_time, "刚刚");
                     }
                 } catch (Exception e) {
                     //时间
-                    holder.setText(R.id.tv_logintime, "未知");
+                    holder.setText(R.id.add_say_time, "未知");
                 }
 
                 BmobGeoPoint location = me.getLocation();

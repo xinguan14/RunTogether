@@ -33,7 +33,7 @@ import cn.bmob.v3.listener.UpdateListener;
 /**
  * Created by wm on 2016/7/26.
  */
-public class ChangeMyInfoFragment extends ParentWithNaviFragment implements View.OnClickListener {
+public class ChangeMyInfoFragment extends ParentWithNaviFragment {
 
     @Bind(R.id.img_my_avatar)
     CircleImageView img_my_avatar;
@@ -114,12 +114,58 @@ public class ChangeMyInfoFragment extends ParentWithNaviFragment implements View
 
     public void setListener() {
         //rl_my_avatar.setOnClickListener(this);
-        rl_my_phone.setOnClickListener(this);
-        rl_my_userEmail.setOnClickListener(this);
-        rl_my_username.setOnClickListener(this);
-        rl_my_userSex.setOnClickListener(this);
-        rl_set_change_pswd.setOnClickListener(this);
-        rl_set_exit.setOnClickListener(this);
+        rl_my_phone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        rl_my_userEmail.setOnClickListener(new View.OnClickListener() {
+            ChangeEmailFragment changeEmailFragment;
+            @Override
+            public void onClick(View v) {
+                if (changeEmailFragment == null) {
+                    changeEmailFragment = new ChangeEmailFragment();
+                }
+                changeFragment(changeEmailFragment);
+            }
+        });
+        rl_my_username.setOnClickListener(new View.OnClickListener() {
+            ChangeUserNameFragment changeUserNamefragment;
+            @Override
+            public void onClick(View v) {
+                if (changeUserNamefragment == null) {
+                    changeUserNamefragment = new ChangeUserNameFragment();
+                }
+                changeFragment(changeUserNamefragment);
+            }
+        });
+        rl_my_userSex.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                chooseSex();
+            }
+        });
+        rl_set_change_pswd.setOnClickListener(new View.OnClickListener() {
+            ChangePassWordFragment changePassWordFragment;
+            @Override
+            public void onClick(View v) {
+                if (changePassWordFragment==null){
+                    changePassWordFragment = new ChangePassWordFragment();
+                }
+                changeFragment(changePassWordFragment);
+            }
+        });
+        rl_set_exit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UserModel.getInstance().logout();
+                //可断开连接
+                BmobIM.getInstance().disConnect();
+                getActivity().finish();
+                startActivity(LoginActivity.class, null);
+            }
+        });
     }
 
     @Override
@@ -176,50 +222,12 @@ public class ChangeMyInfoFragment extends ParentWithNaviFragment implements View
         }
     }
 
-
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.rl_my_avatar:
-                break;
-            case R.id.rl_my_userEmail:
-//                Fragment changeEmailfragment = new ChangeEmail();
-//                ft = manager.beginTransaction();
-//                ft.replace(R.id.id_content, changeEmailfragment);
-//                ft.addToBackStack(null);
-//                ft.commit();
-                break;
-            case R.id.rl_my_username:
-                Fragment changeUserNamefragment = new ChangeUserName();
-                ft = manager.beginTransaction();
-                ft.replace(R.id.id_content, changeUserNamefragment);
-                ft.addToBackStack(null);
-                ft.commit();
-                break;
-            case R.id.rl_my_sex:
-                chooseSex();
-                break;
-            case R.id.rl_my_phone:
-
-                break;
-            case R.id.ac_set_change_pswd:
-                Fragment changePassWordfragment = new ChangePassWord();
-                ft = manager.beginTransaction();
-                ft.replace(R.id.id_content, changePassWordfragment);
-                ft.addToBackStack(null);
-                ft.commit();
-                break;
-            case R.id.ac_set_exit:
-                UserModel.getInstance().logout();
-                //可断开连接
-                BmobIM.getInstance().disConnect();
-                getActivity().finish();
-                startActivity(LoginActivity.class, null);
-                break;
-        }
-
+    public void changeFragment(Fragment fragment) {
+        ft = manager.beginTransaction();
+        ft.replace(R.id.id_content, fragment);
+        ft.addToBackStack(null);
+        ft.commit();
     }
-
 
     private Boolean sex;//true为男
     private int checkedItem = 0;

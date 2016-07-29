@@ -27,7 +27,7 @@ import cn.bmob.v3.listener.UpdateListener;
 /**
  * Created by wm on 2016/7/27.
  */
-public class ChangeEmail extends ParentWithNaviFragment {
+public class ChangeEmailFragment extends ParentWithNaviFragment {
     @Bind(R.id.update_name)
     EditText updateEmail;
     @Bind(R.id.tips)
@@ -54,11 +54,11 @@ public class ChangeEmail extends ParentWithNaviFragment {
         return new ParentWithNaviActivity.ToolBarListener() {
             @Override
             public void clickLeft() {
-                Fragment changeUserNamefragment = new ChangeMyInfoFragment();
-                ft = manager.beginTransaction();
-                ft.replace(R.id.id_content, changeUserNamefragment);
-                ft.addToBackStack(null);
-                ft.commit();
+//                Fragment changeUserNamefragment = new ChangeMyInfoFragment();
+//                ft = manager.beginTransaction();
+//                ft.replace(R.id.id_content, changeUserNamefragment);
+//                ft.addToBackStack(null);
+//                ft.commit();
             }
 
             @Override

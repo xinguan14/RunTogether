@@ -4,17 +4,25 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import com.xinguan14.jdyp.R;
 import com.xinguan14.jdyp.base.ParentWithNaviActivity;
 import com.xinguan14.jdyp.base.ParentWithNaviFragment;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
+import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.listener.UpdateListener;
 
 /**
  * Created by wm on 2016/7/27.
  */
-public class ChangeUserName extends ParentWithNaviFragment {
+public class ChangeUserNameFragment extends ParentWithNaviFragment {
+
+    @Bind(R.id.update_name)
+    EditText updateName;
+    private String newName;
     @Override
     protected String title() {
         return "更改名字";
@@ -35,9 +43,27 @@ public class ChangeUserName extends ParentWithNaviFragment {
             }
 
             @Override
-            public void clickRight()
-            {
-
+            public void clickRight() {
+                newName = updateName.getText().toString();
+                if (newName.length() != 0) {
+                    BmobUser newUser = new BmobUser();
+                    newUser.setUsername(newName);
+                    BmobUser bmobUser = BmobUser.getCurrentUser(getActivity());
+                    newUser.update(getActivity(),bmobUser.getObjectId(),new UpdateListener() {
+                        @Override
+                        public void onSuccess() {
+                            // TODO Auto-generated method stub
+                            toast("更新用户信息成功:");
+                        }
+                        @Override
+                        public void onFailure(int code, String msg) {
+                            // TODO Auto-generated method stub
+                            toast("更新用户信息失败:" + msg);
+                        }
+                    });
+                }else {
+                    toast("用户名不能为空");
+                }
             }
         };
     }

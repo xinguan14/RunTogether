@@ -122,7 +122,6 @@ public class MessageFragment extends ParentWithNaviFragment implements SwipeMenu
         };
 
         showNoMessage();
-        System.out.println("期初" + getConversations().size());
         adapter = new ConversationAdapter(getActivity(), mutlipleItem, null, this);
 
         rc_view.setItemAnimator(new DefaultItemAnimator());
@@ -365,9 +364,6 @@ public class MessageFragment extends ParentWithNaviFragment implements SwipeMenu
                     DisplayUtils.showToast(context, "ViewOutRangeMove");
                 }
             });
-            //sw_refresh.setEnabled(false);
-//            sw_refresh.setRefreshing(false);
-
         }
 
         /**
@@ -397,7 +393,6 @@ public class MessageFragment extends ParentWithNaviFragment implements SwipeMenu
                 public void run() {
                     DisplayUtils.showToast(context, "ViewInRangeUp");
                     notifyDataSetChanged();
-//                    sw_refresh.setEnabled(true);
 
                 }
             });
@@ -415,7 +410,6 @@ public class MessageFragment extends ParentWithNaviFragment implements SwipeMenu
                 public void run() {
                     DisplayUtils.showToast(context, "ViewOutRangeUp");
                     removeList.add(position);
-//                    sw_refresh.setEnabled(true);
                     notifyDataSetChanged();
                 }
             });
@@ -431,7 +425,6 @@ public class MessageFragment extends ParentWithNaviFragment implements SwipeMenu
                 @Override
                 public void run() {
                     DisplayUtils.showToast(context, "ViewOut2InRangeUp");
-//                    sw_refresh.setEnabled(true);
                     notifyDataSetChanged();
                 }
             });

@@ -2,7 +2,6 @@ package com.xinguan14.jdyp.ui.fragment;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -11,24 +10,20 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.xinguan14.jdyp.MyVeiw.ChangeAvatarPopupWindow;
 import com.xinguan14.jdyp.MyVeiw.CircleImageView;
 import com.xinguan14.jdyp.R;
 import com.xinguan14.jdyp.StikkyHeader.example.AchievementsFragment;
@@ -74,12 +69,11 @@ public class SetFragment extends ParentWithNaviFragment {
     @Bind(R.id.set)
     LinearLayout layout_all;
 
-    protected int mScreenWidth;
-    protected int mScreenHeight;
-
 
     private FragmentManager manager;
     private FragmentTransaction ft;
+    // 上传图片弹出框
+    private ChangeAvatarPopupWindow menuWindow;
 
 
     @Override
@@ -112,12 +106,11 @@ public class SetFragment extends ParentWithNaviFragment {
         circleImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //获取当前屏幕宽高
-                DisplayMetrics metric = new DisplayMetrics();
-                getActivity().getWindowManager().getDefaultDisplay().getMetrics(metric);
-                mScreenWidth = metric.widthPixels;
-                mScreenHeight = metric.heightPixels;
-                showAvatarPop();
+
+                //弹出选择图片弹出框
+                menuWindow = new ChangeAvatarPopupWindow(getActivity(), itemsOnClick);
+                menuWindow.showAtLocation(getActivity().findViewById(R.id.set),
+                        Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
             }
         });
         return rootView;
@@ -147,6 +140,7 @@ public class SetFragment extends ParentWithNaviFragment {
                         break;
                     case 2:
                         fragment = new ChangeMyInfoFragment();
+                        break;
                 }
                 ft = manager.beginTransaction();
                 ft.replace(R.id.id_content, fragment);
@@ -179,82 +173,51 @@ public class SetFragment extends ParentWithNaviFragment {
 
 
 
-    RelativeLayout layout_choose;
-    RelativeLayout layout_photo;
-    PopupWindow avatorPop;
 
     public String filePath = "";
 
-    private void showAvatarPop() {
 
-        View view = getActivity().getLayoutInflater().inflate(R.layout.pop_showavator, null);
-        layout_choose = (RelativeLayout) view.findViewById(R.id.layout_choose);
-        layout_photo = (RelativeLayout) view.findViewById(R.id.layout_photo);
-        layout_photo.setOnClickListener(new View.OnClickListener() {
+    //为弹出的窗口实现监听类
+    private View.OnClickListener itemsOnClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            // 隐藏弹出窗口
+            menuWindow.dismiss();
 
-            @Override
-            public void onClick(View arg0) {
-//                ShowLog("点击拍照");
-                layout_choose.setBackgroundColor(getResources().getColor(
-                        R.color.base_color_text_white));
-                layout_photo.setBackgroundDrawable(getResources().getDrawable(
-                        R.drawable.pop_bg_press));
-                File dir = new File(BmobConstants.MyAvatarDir);
-                if (!dir.exists()) {
-                    dir.mkdirs();
-                }
-                // 原图
-                File file = new File(dir, new SimpleDateFormat("yyMMddHHmmss")
-                        .format(new Date()));
-                filePath = file.getAbsolutePath();// 获取相片的保存路径
-                Uri imageUri = Uri.fromFile(file);
+            switch (v.getId()) {
+				case R.id.takePhotoBtn:// 拍照
+                    File dir = new File(BmobConstants.MyAvatarDir);
+                    if (!dir.exists()) {
+                        dir.mkdirs();
+                    }
+                    // 原图
+                    File file = new File(dir, new SimpleDateFormat("yyMMddHHmmss")
+                            .format(new Date()));
+                    filePath = file.getAbsolutePath();// 获取相片的保存路径
+                    Uri imageUri = Uri.fromFile(file);
 
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-                startActivityForResult(intent,
-                        BmobConstants.REQUESTCODE_UPLOADAVATAR_CAMERA);
+                    Intent intent2 = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    intent2.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+                    startActivityForResult(intent2,
+                            BmobConstants.REQUESTCODE_UPLOADAVATAR_CAMERA);
+
+					break;
+                case R.id.pickPhotoBtn:// 相册选择图片
+                    Intent intent = new Intent(Intent.ACTION_PICK, null);
+                    intent.setDataAndType(
+                            MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+                    startActivityForResult(intent,
+                            BmobConstants.REQUESTCODE_UPLOADAVATAR_LOCATION);
+
+                    break;
+                case R.id.cancelBtn:// 取消
+
+                    break;
+                default:
+                    break;
             }
-        });
-        layout_choose.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View arg0) {
-                // TODO Auto-generated method stub
-//                ShowLog("点击相册");
-                layout_photo.setBackgroundColor(getResources().getColor(
-                        R.color.base_color_text_white));
-                layout_choose.setBackgroundDrawable(getResources().getDrawable(
-                        R.drawable.pop_bg_press));
-                Intent intent = new Intent(Intent.ACTION_PICK, null);
-                intent.setDataAndType(
-                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
-                startActivityForResult(intent,
-                        BmobConstants.REQUESTCODE_UPLOADAVATAR_LOCATION);
-            }
-        });
-
-        avatorPop = new PopupWindow(view, mScreenWidth, mScreenHeight);
-        avatorPop.setTouchInterceptor(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_OUTSIDE) {
-                    avatorPop.dismiss();
-                    return true;
-                }
-                return false;
-            }
-        });
-
-        avatorPop.setWidth(WindowManager.LayoutParams.MATCH_PARENT);
-        avatorPop.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
-        avatorPop.setTouchable(true);
-        avatorPop.setFocusable(true);
-        avatorPop.setOutsideTouchable(true);
-        avatorPop.setBackgroundDrawable(new BitmapDrawable());
-        // 动画效果 从底部弹起
-        avatorPop.setAnimationStyle(R.style.Animations_GrowFromBottom);
-        avatorPop.showAtLocation(layout_all, Gravity.BOTTOM, 0, 0);
-    }
+        }
+    };
 
     /**
      * @return void
@@ -310,9 +273,6 @@ public class SetFragment extends ParentWithNaviFragment {
 //                }
                 break;
             case BmobConstants.REQUESTCODE_UPLOADAVATAR_LOCATION:// 本地修改头像
-                if (avatorPop != null) {
-                    avatorPop.dismiss();
-                }
                 Uri uri = null;
                 if (data == null) {
                     return;
@@ -337,9 +297,6 @@ public class SetFragment extends ParentWithNaviFragment {
                 break;
             case BmobConstants.REQUESTCODE_UPLOADAVATAR_CROP:// 裁剪头像返回
                 // TODO sent to crop
-                if (avatorPop != null) {
-                    avatorPop.dismiss();
-                }
                 if (data == null) {
                     // Toast.makeText(this, "取消选择", Toast.LENGTH_SHORT).show();
                     return;
