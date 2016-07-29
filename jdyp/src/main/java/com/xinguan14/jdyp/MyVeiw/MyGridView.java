@@ -27,8 +27,14 @@ public class MyGridView extends GridView {
     “this通常指代当前对象，super通常指代父类*/
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        int expandSpec = MeasureSpec.makeMeasureSpec(Integer.MAX_VALUE>>2,MeasureSpec.AT_MOST);
-        super.onMeasure(widthMeasureSpec, expandSpec);
+        try{
+            int expandSpec = MeasureSpec.makeMeasureSpec(Integer.MAX_VALUE >> 2, MeasureSpec.AT_MOST);
+            super.onMeasure(widthMeasureSpec, expandSpec);
+            getLayoutParams().height = getMeasuredHeight();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
    /*
     MeasureSpec.AT_MOST这个是由我们给出的尺寸大小和模式生成一个包含这两个信息的int变量，这里这个模式这个参数，传三个常量中的一个。

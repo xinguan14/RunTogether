@@ -78,16 +78,17 @@
 
             <RelativeLayout
                 android:layout_width="fill_parent"
+                android:id="@+id/comment_layout"
                 android:layout_height="wrap_content" >
 
                 <TextView
-                    android:id="@+id/time"
+                    android:id="@+id/add_say_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="2dip"
                     android:layout_marginRight="10dip"
-                    android:text="昨天"
+                    android:text="时间"
                     android:textColor="@color/base_color_text_gray"
                     android:textSize="14.0sp" />
 
@@ -120,7 +121,7 @@
                 android:scaleType="fitXY" />
 
             <TextView
-                android:id="@+id/tv_share_names"
+                android:id="@+id/tv_likes_names"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"

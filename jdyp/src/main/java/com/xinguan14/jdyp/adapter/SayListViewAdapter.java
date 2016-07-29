@@ -2,6 +2,7 @@ package com.xinguan14.jdyp.adapter;
 
 /**
  * Created by yyz on 2016/7/19.
+ *
  */
 
 import android.app.Activity;
@@ -11,7 +12,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -22,13 +26,18 @@ import com.xinguan14.jdyp.R;
 import com.xinguan14.jdyp.adapter.base.BaseListAdapter;
 import com.xinguan14.jdyp.adapter.base.BaseListHolder;
 import com.xinguan14.jdyp.bean.Post;
+import com.xinguan14.jdyp.ui.AddCommentPopupWindow;
 import com.xinguan14.jdyp.util.SysUtils;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
  * Created by wm on 2016/7/18.
+ * @deprecated
  * 用来显示动态的数据
  */
 public class SayListViewAdapter extends BaseListAdapter<Post> implements View.OnClickListener {
@@ -36,8 +45,8 @@ public class SayListViewAdapter extends BaseListAdapter<Post> implements View.On
 
 
     private GridViewAdapter gridViewAdapter;
-
     private PopupWindow mMorePopupWindow;
+    private AddCommentPopupWindow menuWindow;
     private int mShowMorePopupWindowWidth;
     private int mShowMorePopupWindowHeight;
 
@@ -51,18 +60,23 @@ public class SayListViewAdapter extends BaseListAdapter<Post> implements View.On
 
     }
 
+    private LinearLayout commentView;
+    private EditText addComment;
+    private Button submitComment;
+
     @Override
     public void convert( final BaseListHolder holder, Post item) {
         //图片布局
         RelativeLayout rL = holder.getView(R.id.rl4);
         MyGridView gv_images = holder.getView(R.id.gv_images);
 
+
         String name = null,time = null,content = null,headpath = null,contentImageUrl = null;
         if(item !=null){
-            name = item.getName();
-            //time = post.getTime();
+            name = item.getAuthor().getUsername();
+            time = item.getUpdatedAt();
             content = item.getContent();
-            headpath = item.getHeadPhoto();
+            headpath = item.getAuthor().getAvatar();
             contentImageUrl = item.getImageurl();
         }
         //昵称
@@ -76,9 +90,35 @@ public class SayListViewAdapter extends BaseListAdapter<Post> implements View.On
         } else {
             rL.setVisibility(View.GONE);
         }
-        //发布时间
+        //显示发布时间
         if (time!=null&&!time.equals("")) {
-            holder.setTextView(R.id.info_tv_time,time);
+
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            try {
+                Date curDate = new Date(System.currentTimeMillis());//获取当前时间
+                String str = df.format(curDate);
+                Date d1 = df.parse(str);
+                Date d2 = df.parse(item.getUpdatedAt());
+                long diff = d1.getTime() - d2.getTime();//这样得到的差值是微秒级别
+                long days = diff / (1000 * 60 * 60 * 24);
+                long hours = (diff - days * (1000 * 60 * 60 * 24)) / (1000 * 60 * 60);
+                long minutes = (diff - days * (1000 * 60 * 60 * 24) - hours * (1000 * 60 * 60)) / (1000 * 60);
+                if (days > 0) {
+                    holder.setTextView(R.id.add_say_time, days+"天前");
+
+                } else if (hours > 0) {
+                    holder.setTextView(R.id.add_say_time, hours+"小时前");
+
+                } else if (minutes > 0) {
+                    holder.setTextView(R.id.add_say_time, minutes+"分钟前");
+                }
+                else {
+                    holder.setTextView(R.id.add_say_time, "刚刚");
+                }
+            } catch (Exception e) {
+                //时间
+                holder.setTextView(R.id.add_say_time, "未知" );
+            }
         }
         //内容
         if (content!=null&&!content.equals("")) {
@@ -86,7 +126,6 @@ public class SayListViewAdapter extends BaseListAdapter<Post> implements View.On
         }
         //头像
         if (headpath!=null&&!headpath.equals("")) {
-           // finalBitmap.display(holder.getView(R.id.user_image),headpath);
             Glide
                     .with(mContext)
                     .load(headpath)
@@ -100,6 +139,8 @@ public class SayListViewAdapter extends BaseListAdapter<Post> implements View.On
         //弹出评论和点赞的按钮
         holder.getView(R.id.more_img).setOnClickListener(this);
     }
+
+
 
     @Override
     public void onClick(View v) {
@@ -115,6 +156,9 @@ public class SayListViewAdapter extends BaseListAdapter<Post> implements View.On
             //点击了评论
             case R.id.comment_img:
                 Toast.makeText(mContext, "点了评论", Toast.LENGTH_SHORT).show();
+                //弹出评论框
+                //menuWindow = new AddCommentPopupWindow(mContext, itemsOnClick);
+                //menuWindow.showAtLocation(R.layout.,Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
                     if (mMorePopupWindow != null && mMorePopupWindow.isShowing()) {
                         mMorePopupWindow.dismiss();
                     }
@@ -123,6 +167,7 @@ public class SayListViewAdapter extends BaseListAdapter<Post> implements View.On
             //点击了点赞
             case R.id.good_img:
                 Toast.makeText(mContext, "点了赞", Toast.LENGTH_SHORT).show();
+
                 if (mMorePopupWindow != null && mMorePopupWindow.isShowing()) {
                     mMorePopupWindow.dismiss();
                 }
@@ -130,6 +175,15 @@ public class SayListViewAdapter extends BaseListAdapter<Post> implements View.On
 
         }
     }
+
+    //为弹出的窗口实现监听类
+    private View.OnClickListener itemsOnClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            //提交评论
+
+        }
+    };
 
     /**
      * 弹出点赞和评论框
@@ -173,7 +227,6 @@ public class SayListViewAdapter extends BaseListAdapter<Post> implements View.On
     }
 
 
-
     //初始化图片集，设定GridView的列数
     public void initInfoImages(MyGridView gv_images,final String imgUrl){
         if(imgUrl!=null&&!imgUrl.equals("")){
@@ -185,7 +238,7 @@ public class SayListViewAdapter extends BaseListAdapter<Post> implements View.On
             int w=0;
             switch (imgs.length) {
                 case 1:
-                    w=wh;
+                    w=SysUtils.getScreenWidth(mContext)- SysUtils.Dp2Px(mContext, 99);
                     gv_images.setNumColumns(1);
                     break;
                 case 2:

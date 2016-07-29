@@ -16,9 +16,10 @@ import com.xinguan14.jdyp.util.SysUtils;
 
 /**
  * Created by wm on 2016/7/17.
+ *
  */
 public class SelectPicPopupWindow extends PopupWindow {
-    private Button takePhotoBtn, pickPhotoBtn, cancelBtn;
+    private Button  pickPhotoBtn, cancelBtn;
     private View mMenuView;
     private int width;
     private int height;
@@ -30,14 +31,13 @@ public class SelectPicPopupWindow extends PopupWindow {
         this.height=SysUtils.getScreenHeight(context);
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        mMenuView = inflater.inflate(R.layout.dialog_picture, null);
-        takePhotoBtn = (Button) mMenuView.findViewById(R.id.takePhotoBtn);
+        mMenuView = inflater.inflate(R.layout.dialod_choose_picture, null);
+
         pickPhotoBtn = (Button) mMenuView.findViewById(R.id.pickPhotoBtn);
         cancelBtn = (Button) mMenuView.findViewById(R.id.cancelBtn);
         // 设置按钮监听
         cancelBtn.setOnClickListener(itemsOnClick);
         pickPhotoBtn.setOnClickListener(itemsOnClick);
-        takePhotoBtn.setOnClickListener(itemsOnClick);
 
         // 设置SelectPicPopupWindow的View
         this.setContentView(mMenuView);

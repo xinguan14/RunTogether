@@ -1,6 +1,7 @@
 package com.xinguan14.jdyp.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -13,10 +14,18 @@ import com.xinguan14.jdyp.R;
 import com.xinguan14.jdyp.adapter.base.BaseListHolder;
 import com.xinguan14.jdyp.adapter.base.BaseListAdapter;
 import com.xinguan14.jdyp.bean.Post;
+import com.xinguan14.jdyp.bean.User;
 import com.xinguan14.jdyp.util.SysUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.datatype.BmobPointer;
+import cn.bmob.v3.datatype.BmobRelation;
+import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.UpdateListener;
 
 /**
  * Created by wm on 2016/7/18.
@@ -26,6 +35,8 @@ public class SquareListViewAdapter extends BaseListAdapter<Post> {
 
     //private FinalBitmap finalBitmap;
     private GridViewAdapter gridViewAdapter;
+    public   BaseListHolder holder;
+    private String postId;
     private int wh;
 
     //要传入的参数有当前的Activity，数据集。item的布局文件
@@ -34,27 +45,25 @@ public class SquareListViewAdapter extends BaseListAdapter<Post> {
         super(context,list,itemLayoutId);
         //根据屏幕的大小设置控件的大小
         this.wh=(SysUtils.getScreenWidth(context)- SysUtils.Dp2Px(context, 99))/3;
-        //传递的动态数据
-       /* this.finalBitmap = FinalBitmap.create(context);
-        //图片为加载成功显示的数据
-        this.finalBitmap.configLoadfailImage(R.drawable.love);*/
+
     }
 
     //给控件绑定数据
     @Override
-    public void convert(BaseListHolder holder, Post item) {
+    public void convert( BaseListHolder holder, Post item) {
 
-        //ImageView headPhoto = holder.getView(R.id.info_iv_head);
+        this.holder =holder;
+        this.postId = item.getObjectId();
         RelativeLayout rL = holder.getView(R.id.rl4);
         MyGridView gv_images = holder.getView(R.id.gv_images);
 
        // final Post gridViewItem = mDatas.get(position);
         String name = null,time = null,content = null,headpath = null,contentImageUrl = null;
         if(item !=null){
-            name = item.getName();
-            // time = gridViewItem.getTime();
+            name = item.getAuthor().getUsername();
+            time = item.getUpdatedAt();
             content = item.getContent();
-            headpath = item.getHeadPhoto();
+            headpath = item.getAuthor().getAvatar();
             contentImageUrl = item.getImageurl();
         }
         //昵称
@@ -68,6 +77,32 @@ public class SquareListViewAdapter extends BaseListAdapter<Post> {
         } else {
             rL.setVisibility(View.GONE);
         }
+        //点赞的rem ,查询喜欢这个帖子的所有用户，因此查询的是用户表
+        BmobQuery<User> query = new BmobQuery<User>();
+        Post post = new Post();
+        post.setObjectId(postId);
+        //Log.i("info","查询的动态ID："+postId);
+        //likes是Post表中的字段，用来存储所有喜欢该帖子的用户
+        query.addWhereRelatedTo("likes", new BmobPointer(post));
+        query.findObjects(mContext, new FindListener<User>() {
+            @Override
+            public void onSuccess(List<User> list) {
+                String likesUser ="";
+                for (int i= 0;i<list.size();i++){
+                    likesUser +=list.get(i).getUsername()+",";
+
+                }
+                if (likesUser.length()!=0) {
+                   // holder.setTextView(R.id.tv_likes_names,likesUser);
+                }
+                Log.i("info","点赞用户："+likesUser);
+            }
+
+            @Override
+            public void onError(int i, String s) {
+
+            }
+        });
         //发布时间
         if (time!=null&&!time.equals("")) {
             holder.setTextView(R.id.info_tv_time,time);
@@ -91,6 +126,35 @@ public class SquareListViewAdapter extends BaseListAdapter<Post> {
             @Override
             public void onClick(View arg0) {
                 Toast.makeText(mContext, "点击了头像", Toast.LENGTH_LONG).show();
+            }
+        });
+        //点赞
+        holder.getView(R.id.iv_share_heart).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                User user = BmobUser.getCurrentUser(mContext, User.class);
+                Post post = new Post();
+                post.setObjectId(postId);
+                //将当前用户添加到Post表中的likes字段值中，表明当前用户喜欢该帖子
+                BmobRelation relation = new BmobRelation();
+                //将当前用户添加到多对多关联中
+                relation.add(user);
+                //多对多关联指向`post`的`likes`字段
+                post.setLikes(relation);
+                post.update(mContext, new UpdateListener() {
+
+                    @Override
+                    public void onSuccess() {
+                        // TODO Auto-generated method stub
+                        Log.i("life","点赞成功");
+                    }
+
+                    @Override
+                    public void onFailure(int arg0, String arg1) {
+                        // TODO Auto-generated method stub
+                        Log.i("life","点赞成功");
+                    }
+                });
             }
         });
     }

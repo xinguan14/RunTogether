@@ -21,7 +21,6 @@
                 android:headerDividersEnabled="false"
                 android:scrollbars="none"/>
     </android.support.v4.widget.SwipeRefreshLayout>
-
     <LinearLayout
         android:id="@+id/comment_view"
         android:layout_width="match_parent"
@@ -33,7 +32,7 @@
         android:visibility="gone">
 
         <EditText
-            android:id="@+id/edit"
+            android:id="@+id/add_comment"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -47,7 +46,7 @@
             android:textSize="16sp" />
 
         <Button
-            android:id="@+id/submit"
+            android:id="@+id/submit_comment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -56,5 +55,4 @@
             android:text="发送" />
 
     </LinearLayout>
-
 </RelativeLayout>

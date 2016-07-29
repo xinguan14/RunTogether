@@ -1,17 +1,13 @@
 package com.xinguan14.jdyp.ui;
 
 import android.app.AlertDialog;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -57,22 +53,14 @@ public class AddPostActivity extends ParentWithNaviActivity {
 
 	// 上传图片弹出框
 	private SelectPicPopupWindow menuWindow;
-	//使用照相机拍照获取图片
-	public static final int SELECT_PIC_BY_TACK_PHOTO = 1;
-	 //使用相册中的图片
-	public static final int SELECT_PIC_BY_PICK_PHOTO = 2;
+
 
 	//存放图片路径的数组
 	private String[] imagePath ;
 
-	//图片的uri
-	private Uri photoUri;
-
 	//显示图片的集合
-	//private ArrayList<HashMap<String, Object>> imageItem;
 	private List<Bitmap> imageItem;
 
-	//private SimpleAdapter simpleAdapter;     //适配器
 
 	@Override
 	protected String title() {
@@ -141,7 +129,7 @@ public class AddPostActivity extends ParentWithNaviActivity {
 					//判断内容是否为空
 					String length = editContent.getText().toString().trim();
 					if(length.length()!=0) {
-						mPost.setContent(contents);
+					mPost.setContent(contents);
 						//添加动态和用户之间的一对一关联
 						mPost.setAuthor(user);
 						mPost.save(AddPostActivity.this, new SaveListener() {
@@ -208,15 +196,6 @@ public class AddPostActivity extends ParentWithNaviActivity {
 				showPicGrid.setAdapter(gridViewAdapter);
 			}
 		}
-		if (requestCode==SELECT_PIC_BY_TACK_PHOTO){
-			/*try {
-				Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), photoUri);
-				imageItem.add(bitmap);
-				String imagePath = photoUri.getPath();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}*/
-		}
 	}
 
 
@@ -228,9 +207,9 @@ public class AddPostActivity extends ParentWithNaviActivity {
 			menuWindow.dismiss();
 
 			switch (v.getId()) {
-				case R.id.takePhotoBtn:// 拍照
+				/*case R.id.takePhotoBtn:// 拍照
 					takePhoto();
-					break;
+					break;*/
 				case R.id.pickPhotoBtn:// 相册选择图片
 					//得到新打开Activity关闭后返回的数据
 					//第二个参数为请求码，可以根据业务需求自己编号
@@ -249,18 +228,18 @@ public class AddPostActivity extends ParentWithNaviActivity {
 
 	/**
 	 * 拍照获取图片
-	 */
+	 *//*
 	private void takePhoto() {
 		// 执行拍照前，应该先判断SD卡是否存在
 		String SDState = Environment.getExternalStorageState();
 		if (SDState.equals(Environment.MEDIA_MOUNTED)) {
 
 			Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-			/***
+			*//***
 			 * 需要说明一下，以下操作使用照相机拍照，拍照后的图片会存放在相册中的
 			 * 这里使用的这种方式有一个好处就是获取的图片是拍照后的原图
 			 * 如果不使用ContentValues存放照片路径的话，拍照后获取的图片为缩略图不清晰
-			 */
+			 *//*
 			ContentValues values = new ContentValues();
 			//获取图片路径
 			photoUri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
@@ -269,7 +248,7 @@ public class AddPostActivity extends ParentWithNaviActivity {
 		} else {
 			Toast.makeText(this, "内存卡不存在", Toast.LENGTH_LONG).show();
 		}
-	}
+	}*/
 
 	/*
     * Dialog对话框提示用户删除操作
