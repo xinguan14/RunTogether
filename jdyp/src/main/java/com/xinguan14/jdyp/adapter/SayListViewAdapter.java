@@ -26,7 +26,7 @@ import com.xinguan14.jdyp.R;
 import com.xinguan14.jdyp.adapter.base.BaseListAdapter;
 import com.xinguan14.jdyp.adapter.base.BaseListHolder;
 import com.xinguan14.jdyp.bean.Post;
-import com.xinguan14.jdyp.MyVeiw.AddCommentPopupWindow;
+import com.xinguan14.jdyp.ui.AddCommentPopupWindow;
 import com.xinguan14.jdyp.util.SysUtils;
 
 import java.text.DateFormat;
@@ -41,7 +41,6 @@ import java.util.List;
  * 用来显示动态的数据
  */
 public class SayListViewAdapter extends BaseListAdapter<Post> implements View.OnClickListener {
-
 
 
     private GridViewAdapter gridViewAdapter;
