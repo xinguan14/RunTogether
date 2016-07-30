@@ -46,30 +46,13 @@
         </RelativeLayout>
 
         <!--显示图片的GridView-->
-        <RelativeLayout
-            android:id="@+id/rl4"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/rl3"
-            android:paddingRight="25dp"
-            android:visibility="gone" >
-            <!--   visibility此属性意思是此视图是否显示，
-               例如RelativeLayout中Android:visibility="gone"
-               其有三个属性：visible显示；invisible显示黑背景条；gone不显示
-               在类中，可以设置其显示与否，setVisibility(View.GONE);不显示
-               setVisibility(View.VISIBLE);显示-->
-            <com.xinguan14.jdyp.MyVeiw.MyGridView
+        <com.xinguan14.jdyp.MyVeiw.NineGridTestLayout
+                xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/gv_images"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:horizontalSpacing="2dp"
-                android:listSelector="@null"
-                android:numColumns="3"
-                android:stretchMode="columnWidth"
-                android:verticalSpacing="2dp" >
-            </com.xinguan14.jdyp.MyVeiw.MyGridView>
-        </RelativeLayout>
-
+                android:layout_marginTop="8dp"
+                app:sapcing="4dp" />
 
         <FrameLayout
             android:layout_width="fill_parent"
@@ -127,7 +110,6 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="5dip"
                 android:layout_toRightOf="@id/iv_share_heart"
-                android:text="点赞一,点赞二"
                 android:textColor="#7888a9"
                 android:textSize="13.0sp" />
         </RelativeLayout>
