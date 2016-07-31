@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.xinguan14.jdyp.MyVeiw.AddCommentPopupWindow;
 import com.xinguan14.jdyp.MyVeiw.NineGridTestLayout;
 import com.xinguan14.jdyp.R;
 import com.xinguan14.jdyp.adapter.base.BaseListAdapter;
@@ -23,7 +24,6 @@ import com.xinguan14.jdyp.adapter.base.BaseListHolder;
 import com.xinguan14.jdyp.bean.Friend;
 import com.xinguan14.jdyp.bean.Post;
 import com.xinguan14.jdyp.bean.User;
-import com.xinguan14.jdyp.ui.AddCommentPopupWindow;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
