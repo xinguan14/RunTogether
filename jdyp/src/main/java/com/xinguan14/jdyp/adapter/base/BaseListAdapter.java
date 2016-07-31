@@ -47,6 +47,7 @@ public abstract class BaseListAdapter<T> extends BaseAdapter
 		final BaseListHolder viewHolder = getViewHolder(position, convertView, parent);
 		//Log.i("info","当前ListView的位置"+position);
 		//子类要重写的方法，给指定控件绑定数据
+		//Log.i("info","当前Item的位置："+position);
 		convert(viewHolder, getItem(position));
 
 		return viewHolder.getConvertView();

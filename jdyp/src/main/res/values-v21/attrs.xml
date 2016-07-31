@@ -14,4 +14,12 @@
         <attr name="border_color" format="color" />
     </declare-styleable>
 
+    <declare-styleable name="NineGridLayout">
+        <attr name="sapcing" format="dimension"/>
+    </declare-styleable>
+
+    <declare-styleable name="RatioImageView">
+        <attr name="ratio" format="float"/>
+    </declare-styleable>
+
 </resources>

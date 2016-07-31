@@ -75,16 +75,13 @@
            其有三个属性：visible显示；invisible显示黑背景条；gone不显示
            在类中，可以设置其显示与否，setVisibility(View.GONE);不显示
            setVisibility(View.VISIBLE);显示-->
-        <com.xinguan14.jdyp.MyVeiw.MyGridView
+        <com.xinguan14.jdyp.MyVeiw.NineGridTestLayout
+            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/gv_images"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:horizontalSpacing="2dp"
-            android:listSelector="@null"
-            android:numColumns="3"
-            android:stretchMode="columnWidth"
-            android:verticalSpacing="2dp" >
-        </com.xinguan14.jdyp.MyVeiw.MyGridView>
+            android:layout_marginTop="8dp"
+            app:sapcing="4dp" />
 
     </RelativeLayout>
 
