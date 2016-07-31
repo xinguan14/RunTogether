@@ -2,6 +2,8 @@ package com.xinguan14.jdyp.ui;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
@@ -9,20 +11,28 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.xinguan14.jdyp.MyVeiw.CircleImageView;
 import com.xinguan14.jdyp.MyVeiw.ClearWriteEditText;
 import com.xinguan14.jdyp.R;
 import com.xinguan14.jdyp.base.BaseActivity;
 import com.xinguan14.jdyp.bean.User;
 import com.xinguan14.jdyp.event.FinishEvent;
 import com.xinguan14.jdyp.model.UserModel;
+import com.xinguan14.jdyp.util.ImageLoadOptions;
 
 import org.greenrobot.eventbus.Subscribe;
+
+import java.util.List;
 
 import butterknife.Bind;
 import cn.bmob.newim.BmobIM;
 import cn.bmob.newim.bean.BmobIMUserInfo;
+import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.LogInListener;
 
 /**
@@ -46,6 +56,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     TextView tv_forget;
     @Bind(R.id.de_img_backgroud)
     ImageView mImgBackgroud;
+    @Bind(R.id.de_login_logo)
+    CircleImageView logo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +77,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 mImgBackgroud.startAnimation(animation);
             }
         }, 200);
+
+        addEditTextListener();
     }
 
     public void setListener() {
@@ -103,6 +117,62 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             case R.id.tv_forget:
                 startActivity(ForgetPasswordActivity.class, null, false);
                 break;
+        }
+    }
+
+    private void addEditTextListener() {
+        et_username.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+                if (s.toString().equals("")){
+                    logo.setImageResource(R.mipmap.ic_launcher) ;
+                }
+                if (s.length() == 11) {
+                    BmobQuery<User> bmobQuery = new BmobQuery<User>();
+                    bmobQuery.addWhereEqualTo("username", s);
+                    bmobQuery.findObjects(LoginActivity.this, new FindListener<User>() {
+                        @Override
+                        public void onSuccess(List<User> list) {
+                            if (list.size() == 0) {
+                                Toast.makeText(LoginActivity.this, "该手机号尚未注册", Toast.LENGTH_LONG).show();
+                            } else {
+                                for (User item : list) {
+                                    refreshAvatar(item.getAvatar());
+                                }
+                            }
+                        }
+                        @Override
+                        public void onError(int i, String s) {
+                        }
+                    });
+                }
+            }
+        });
+    }
+
+    /**
+     * 更新头像 refreshAvatar
+     *
+     * @return void
+     * @throws
+     */
+    private void refreshAvatar(String avatar) {
+        if (avatar != null && !avatar.equals("")) {
+            ImageLoader.getInstance().displayImage(avatar, logo,
+                    ImageLoadOptions.getOptions());
+        } else {
+            logo.setImageResource(R.mipmap.head);
         }
     }
 }

@@ -14,7 +14,6 @@ import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.bumptech.glide.Glide;
 import com.xinguan14.jdyp.MyVeiw.AddCommentPopupWindow;
 import com.xinguan14.jdyp.MyVeiw.NineGridTestLayout;
@@ -24,14 +23,12 @@ import com.xinguan14.jdyp.adapter.base.BaseListHolder;
 import com.xinguan14.jdyp.bean.Friend;
 import com.xinguan14.jdyp.bean.Post;
 import com.xinguan14.jdyp.bean.User;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import cn.bmob.v3.BmobQuery;

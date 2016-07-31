@@ -182,7 +182,6 @@ public class ForgetPasswordActivity extends BaseActivity implements View.OnClick
                         } else {
 
                             for (User item : list) {
-//                                item.setPassword(tel);
                                 item.resetPasswordBySMSCode(ForgetPasswordActivity.this, getCode, passWord, new ResetPasswordByCodeListener() {
                                     @Override
                                     public void done(BmobException e) {

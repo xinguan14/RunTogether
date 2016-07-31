@@ -415,8 +415,6 @@ public class SetFragment extends ParentWithNaviFragment {
                     ImageLoadOptions.getOptions());
         } else {
             circleImageView.setImageResource(R.mipmap.head);
-
-
         }
     }
 

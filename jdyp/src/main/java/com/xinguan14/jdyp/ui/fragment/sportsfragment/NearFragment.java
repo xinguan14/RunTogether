@@ -96,6 +96,17 @@ public class NearFragment extends BaseFragment {
         sw_refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+//                User user = BmobUser.getCurrentUser(getActivity(), User.class);
+//                DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//                try {
+//
+//                    Date curDate = new Date(System.currentTimeMillis());//获取当前时间
+//                    String str = df.format(curDate);
+//                    user.setUpdatedAt(str);
+//                } catch (Exception e) {
+//
+//                }
+
                 query();
             }
         });
@@ -211,7 +222,7 @@ public class NearFragment extends BaseFragment {
                 //头像
                 holder.setImageView(user == null ? null : user.getAvatar(), R.mipmap.head, R.id.iv_near_avatar);
                 //名称
-                holder.setText(R.id.tv_near_name, user.getUsername());
+                holder.setText(R.id.tv_near_name, user.getNick());
 
                 DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 try {

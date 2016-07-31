@@ -121,7 +121,6 @@ public class MessageFragment extends ParentWithNaviFragment implements SwipeMenu
             }
         };
 
-        showNoMessage();
         adapter = new ConversationAdapter(getActivity(), mutlipleItem, null, this);
 
         rc_view.setItemAnimator(new DefaultItemAnimator());
@@ -132,6 +131,7 @@ public class MessageFragment extends ParentWithNaviFragment implements SwipeMenu
 
         sw_refresh.setEnabled(true);
         setListener();
+        showNoMessage();
         return rootView;
     }
 
