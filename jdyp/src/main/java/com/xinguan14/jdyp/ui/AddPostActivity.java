@@ -328,6 +328,7 @@ public class AddPostActivity extends ParentWithNaviActivity {
 								@Override
 								public void onFailure(int code, String arg0) {
 									Toast.makeText(getApplicationContext(), "发布失败!", Toast.LENGTH_SHORT).show();
+
 								}
 							});
 						}else {
@@ -348,6 +349,8 @@ public class AddPostActivity extends ParentWithNaviActivity {
 				@Override
 				public void onError(int i, String s) {
 					Log.i("info","错误码"+i +",错误描述："+s);
+					Toast.makeText(getApplicationContext(), "发布失败!,图片格式不正确", Toast.LENGTH_SHORT).show();
+					return ;
 				}
 			});
 			return null;

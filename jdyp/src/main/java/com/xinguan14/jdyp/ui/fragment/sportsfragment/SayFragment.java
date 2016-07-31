@@ -6,11 +6,13 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
+import android.text.Html;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,6 +22,7 @@ import com.xinguan14.jdyp.MyVeiw.NineGridTestLayout;
 import com.xinguan14.jdyp.R;
 import com.xinguan14.jdyp.adapter.base.BaseListAdapter;
 import com.xinguan14.jdyp.adapter.base.BaseListHolder;
+import com.xinguan14.jdyp.bean.Comment;
 import com.xinguan14.jdyp.bean.Friend;
 import com.xinguan14.jdyp.bean.Post;
 import com.xinguan14.jdyp.bean.User;
@@ -189,11 +192,16 @@ public class SayFragment extends android.support.v4.app.ListFragment {
         public void convert( BaseListHolder holder, Post item) {
             //图片布局
             NineGridTestLayout gv_images = holder.getView(R.id.gv_images);
+            //评论布局
+            final LinearLayout commentsLayout = holder.getView(R.id.comments_layout);
+
             final TextView likes = holder.getView(R.id.tv_likes_names);
+
             postId = item .getObjectId();
             this.holder=holder;
 
             String name = null,time = null,content = null,headpath = null,contentImageUrl = null;
+            Number zan=0;
             if(item !=null){
 
                 name = item.getAuthor().getUsername();
@@ -201,6 +209,8 @@ public class SayFragment extends android.support.v4.app.ListFragment {
                 content = item.getContent();
                 headpath = item.getAuthor().getAvatar();
                 contentImageUrl = item.getImageurl();
+                zan = item.getZan();
+
             }
             //昵称
             if (name!=null&&!name.equals("")) {
@@ -210,7 +220,11 @@ public class SayFragment extends android.support.v4.app.ListFragment {
             if (contentImageUrl!=null&&!contentImageUrl.equals("")) {
                 initInfoImages(gv_images,contentImageUrl);
             }
-            //点赞的rem ,查询喜欢这个帖子的所有用户，因此查询的是用户表
+            //显示点赞的数量
+            if (zan!=null) {
+                holder.setTextView(R.id.tv_likes_number,  + zan.intValue() + "人觉得很赞");
+            }
+            //显示点赞的人
             BmobQuery<User> query = new BmobQuery<User>();
             Post post = new Post();
             post.setObjectId(postId);
@@ -224,10 +238,11 @@ public class SayFragment extends android.support.v4.app.ListFragment {
                         likesUser +=list.get(i).getUsername()+",";
                     }
                     if (likesUser.length()!=0) {
-                         //holder.setTextView(R.id.tv_likes_names,likesUser);
                         likes.setText(likesUser);
+                    }else {
+                        likes.setText(" ");
                     }
-                   // Log.i("info","点赞用户："+likesUser);
+
                 }
 
                 @Override
@@ -243,7 +258,7 @@ public class SayFragment extends android.support.v4.app.ListFragment {
                     Date curDate = new Date(System.currentTimeMillis());//获取当前时间
                     String str = df.format(curDate);
                     Date d1 = df.parse(str);
-                    Date d2 = df.parse(item.getUpdatedAt());
+                    Date d2 = df.parse(item.getCreatedAt());
                     long diff = d1.getTime() - d2.getTime();//这样得到的差值是微秒级别
                     long days = diff / (1000 * 60 * 60 * 24);
                     long hours = (diff - days * (1000 * 60 * 60 * 24)) / (1000 * 60 * 60);
@@ -279,6 +294,41 @@ public class SayFragment extends android.support.v4.app.ListFragment {
             } else {
                 holder.setImageResource(R.id.user_image,R.drawable.love);
             }
+            //显示评论
+            BmobQuery<Comment> commentBmobQuery = new BmobQuery<Comment>();
+            //用此方式可以构造一个BmobPointer对象。只需要设置objectId就行
+            post.setObjectId(postId);
+            commentBmobQuery.addWhereEqualTo("post",new BmobPointer(post));
+            //希望同时查询该评论的发布者的信息，以及该帖子的作者的信息，这里用到上面`include`的并列对象查询和内嵌对象的查询
+            commentBmobQuery.include("user,post.author");
+            commentBmobQuery.findObjects(mContext, new FindListener<Comment>() {
+                @Override
+                public void onSuccess(List<Comment> list) {
+                    if (list.size()!=0) {
+                        commentsLayout.removeAllViews();
+                        commentsLayout.setVisibility(View.VISIBLE);
+
+                        for (int i=0;i<list.size();i++) {
+                            TextView t = new TextView(mContext);
+                            t.setLayoutParams(new LinearLayout.LayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)));
+                            t.setTextSize(16);
+                            t.setPadding(5, 2, 0, 3);
+                            t.setLineSpacing(3, (float) 1.5);
+                            t.setText(Html.fromHtml("<font color='#4A766E'>"+list.get(i).getUser().getUsername()+" </font>:"+list.get(i).getContent()));
+                            commentsLayout.addView(t);
+                        }
+                    } else {
+                        commentsLayout.setVisibility(View.GONE);
+                    }
+
+                }
+
+                @Override
+                public void onError(int code, String msg) {
+                    // TODO Auto-generated method stub
+
+                }
+            });
             //点击头像的点击事件
             holder.getView(R.id.user_image).setOnClickListener(this);
             //弹出评论和点赞的按钮
@@ -319,8 +369,9 @@ public class SayFragment extends android.support.v4.app.ListFragment {
                     relation.add(user);
                     //多对多关联指向`post`的`likes`字段
                     post.setLikes(relation);
+                    post.increment("zan",1); // 点赞数递增1
+                    //gameScore.increment("score", -5); // 点赞数递减5
                     post.update(mContext, new UpdateListener() {
-
                         @Override
                         public void onSuccess() {
                             // TODO Auto-generated method stub
@@ -340,6 +391,7 @@ public class SayFragment extends android.support.v4.app.ListFragment {
 
             }
         }
+
 
         /**
          * 弹出点赞和评论框

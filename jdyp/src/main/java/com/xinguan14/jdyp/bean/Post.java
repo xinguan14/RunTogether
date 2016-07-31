@@ -13,14 +13,20 @@ public class Post extends BmobObject  {
     private String name;//发布者的名字
     private String imageurl;//包含的图片
     private String headPhoto;//用户头像
-
+    private Number zan;//点赞的数量
 
     private BmobFile image;//动态图片
     private BmobRelation likes;//多对多关系：用于存储喜欢该帖子的所有用户
     private User author;//动态的发布者，这里体现的是一对一的关系，该帖子属于某个用户
 
 
+    public Number getZan() {
+        return zan;
+    }
 
+    public void setZan(Number zan) {
+        this.zan = zan;
+    }
     public String getImageurl() {
         return imageurl;
     }

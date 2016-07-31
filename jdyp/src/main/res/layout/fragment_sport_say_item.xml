@@ -87,10 +87,11 @@
 
         </FrameLayout>
 
-        <!--显示评论界面-->
+        <!--显示点赞界面-->
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="20dip"
+            android:id="@+id/add_zan"
             android:layout_marginTop="10dip"
             android:background="#e6e6e6" >
 
@@ -104,7 +105,7 @@
                 android:scaleType="fitXY" />
 
             <TextView
-                android:id="@+id/tv_likes_names"
+                android:id="@+id/tv_likes_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -112,8 +113,30 @@
                 android:layout_toRightOf="@id/iv_share_heart"
                 android:textColor="#7888a9"
                 android:textSize="13.0sp" />
+
+            <TextView
+                android:id="@+id/tv_likes_names"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dip"
+                android:layout_toRightOf="@id/tv_likes_number"
+                android:textColor="#7888a9"
+                android:textSize="13.0sp" />
         </RelativeLayout>
 
+        <!--显示评论界面-->
+        <LinearLayout
+            android:id="@+id/comments_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/add_zan"
+            android:background="@color/text_gray"
+            android:orientation="vertical"
+            android:padding="5dp"
+            android:visibility="gone">
+
+        </LinearLayout>
 
     </LinearLayout>
 </LinearLayout>
