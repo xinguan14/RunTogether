@@ -9,7 +9,7 @@ import com.xinguan14.jdyp.config.Config;
 import com.xinguan14.jdyp.R;
 import com.xinguan14.jdyp.db.NewFriend;
 import com.xinguan14.jdyp.db.NewFriendManager;
-import com.xinguan14.jdyp.ui.activity.NewFriendActivity;
+import com.xinguan14.jdyp.ui.NewFriendActivity;
 
 /**
  * 新朋友会话

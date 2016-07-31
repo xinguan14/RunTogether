@@ -20,7 +20,7 @@ import com.xinguan14.jdyp.bean.User;
 import com.xinguan14.jdyp.config.Config;
 import com.xinguan14.jdyp.dialog.DialogTips;
 import com.xinguan14.jdyp.model.UserModel;
-import com.xinguan14.jdyp.ui.activity.LoginActivity;
+import com.xinguan14.jdyp.ui.LoginActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -188,6 +188,17 @@ public class BaseActivity extends FragmentActivity {
         dialog = null;
     }
 
+    /**
+     * 发送请求
+     *
+     * @param requsetCode    请求码
+     * @param isCheckNetwork 是否需检查网络，true检查，false不检查
+     */
+    public void request(int requsetCode, boolean isCheckNetwork) {
+//        if (mAsyncTaskManager != null) {
+//            mAsyncTaskManager.request(requsetCode, isCheckNetwork, this);
+//        }
+    }
 
     /**
      * 用于登陆或者自动登陆情况下的用户资料及好友资料的检测更新

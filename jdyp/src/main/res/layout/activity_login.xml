@@ -1,12 +1,7 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <!--<LinearLayout-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:gravity="center"-->
-    <!--android:orientation="vertical">-->
 
 
     <FrameLayout
@@ -62,7 +57,7 @@
                     android:background="@drawable/rc_ed_public_service_search_selector"
                     android:focusable="true"
                     android:focusableInTouchMode="true"
-                    android:hint="@string/login_username_hint"
+                    android:hint="@string/phone_number"
                     android:maxLength="11"
                     android:singleLine="true"
                     android:textColor="#FFFFFF"
@@ -74,7 +69,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignRight="@+id/et_username"
                     android:layout_centerVertical="true"
-                    android:visibility="gone"/>
+                    android:visibility="gone" />
 
             </RelativeLayout>
 
@@ -95,7 +90,7 @@
                     android:background="@drawable/rc_ed_public_service_search_selector"
                     android:focusable="true"
                     android:focusableInTouchMode="true"
-                    android:hint="@string/login_password_hint"
+                    android:hint="@string/login_pwd"
                     android:inputType="textPassword"
                     android:singleLine="true"
                     android:textColor="#FFFFFF"
@@ -128,31 +123,50 @@
 
         </LinearLayout>
     </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
+    <!--<LinearLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="48dp"-->
+    <!--android:layout_alignParentBottom="true"-->
+    <!--android:layout_marginBottom="20dp"-->
+    <!--android:gravity="center"-->
+    <!--android:orientation="horizontal">-->
+
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:gravity="center_vertical"-->
+    <!--android:text="@string/register_txt1"-->
+    <!--android:textColor="@color/base_color_text_gray"-->
+    <!--android:textSize="20sp" />-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/tv_register"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_marginLeft="5dp"-->
+    <!--android:gravity="center_vertical"-->
+    <!--android:text="@string/register_txt2"-->
+    <!--android:textColor="@color/color_theme"-->
+    <!--android:textSize="20sp" />-->
+    <!--</LinearLayout>-->
+    <TextView
+        android:id="@+id/tv_forget"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="20dp"
-        android:gravity="center"
-        android:orientation="horizontal">
+        android:padding="15dp"
+        android:text="@string/forgot_password"
+        android:textColor="#999999"
+        android:textSize="14sp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:text="@string/register_txt1"
-            android:textColor="@color/base_color_text_gray"
-            android:textSize="20sp" />
-
-        <TextView
-            android:id="@+id/tv_register"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="5dp"
-            android:gravity="center_vertical"
-            android:text="@string/register_txt2"
-            android:textColor="@color/color_theme"
-            android:textSize="20sp" />
-    </LinearLayout>
-
+    <TextView
+        android:id="@+id/tv_register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:padding="15dp"
+        android:text="@string/new_user"
+        android:textColor="#999999"
+        android:textSize="14sp" />
 </RelativeLayout>

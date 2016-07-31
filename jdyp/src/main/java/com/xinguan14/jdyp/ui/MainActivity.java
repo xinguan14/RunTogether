@@ -1,4 +1,4 @@
-package com.xinguan14.jdyp.ui.activity;
+package com.xinguan14.jdyp.ui;
 
 import android.annotation.TargetApi;
 import android.os.Build;

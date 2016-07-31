@@ -1,4 +1,4 @@
-package com.xinguan14.jdyp.ui.activity;
+package com.xinguan14.jdyp.ui;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -20,18 +20,19 @@ import com.xinguan14.jdyp.model.UserModel;
 import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.Bind;
-import butterknife.OnClick;
 import cn.bmob.newim.BmobIM;
 import cn.bmob.newim.bean.BmobIMUserInfo;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.LogInListener;
 
-/**登陆界面
+/**
+ * 登陆界面
+ *
  * @author :smile
  * @project:LoginActivity
  * @date :2016-01-15-18:23
  */
-public class LoginActivity extends BaseActivity {
+public class LoginActivity extends BaseActivity implements View.OnClickListener {
 
     @Bind(R.id.et_username)
     ClearWriteEditText et_username;
@@ -41,6 +42,8 @@ public class LoginActivity extends BaseActivity {
     Button btn_login;
     @Bind(R.id.tv_register)
     TextView tv_register;
+    @Bind(R.id.tv_forget)
+    TextView tv_forget;
     @Bind(R.id.de_img_backgroud)
     ImageView mImgBackgroud;
 
@@ -48,8 +51,12 @@ public class LoginActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        //去状态栏
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        setListener();
+
         //背景浮动
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -60,33 +67,42 @@ public class LoginActivity extends BaseActivity {
         }, 200);
     }
 
-    @OnClick(R.id.btn_login)
-    public void onLoginClick(View view){
-        UserModel.getInstance().login(et_username.getText().toString(), et_password.getText().toString(), new LogInListener() {
-
-            @Override
-            public void done(Object o, BmobException e) {
-                if (e == null) {
-                    User user =(User)o;
-                    BmobIM.getInstance().updateUserInfo(new BmobIMUserInfo(user.getObjectId(), user.getUsername(), user.getAvatar()));
-
-                    updateUserLocation();
-
-                    startActivity(MainActivity.class, null, true);
-                } else {
-                    toast(e.getMessage() + "(" + e.getErrorCode() + ")");
-                }
-            }
-        });
-    }
-
-    @OnClick(R.id.tv_register)
-    public void onRegisterClick(View view){
-        startActivity(RegisterActivity.class, null, false);
+    public void setListener() {
+        btn_login.setOnClickListener(this);
+        tv_register.setOnClickListener(this);
+        tv_forget.setOnClickListener(this);
     }
 
     @Subscribe
-    public void onEventMainThread(FinishEvent event){
+    public void onEventMainThread(FinishEvent event) {
         finish();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btn_login:
+                UserModel.getInstance().login(et_username.getText().toString(), et_password.getText().toString(), new LogInListener() {
+
+                    @Override
+                    public void done(Object o, BmobException e) {
+                        if (e == null) {
+                            User user = (User) o;
+                            BmobIM.getInstance().updateUserInfo(new BmobIMUserInfo(user.getObjectId(), user.getUsername(), user.getAvatar()));
+                            updateUserLocation();
+                            startActivity(MainActivity.class, null, true);
+                        } else {
+                            toast(e.getMessage() + "(" + e.getErrorCode() + ")");
+                        }
+                    }
+                });
+                break;
+            case R.id.tv_register:
+                startActivity(RegisterActivity.class, null, false);
+                break;
+            case R.id.tv_forget:
+                startActivity(ForgetPasswordActivity.class, null, false);
+                break;
+        }
     }
 }

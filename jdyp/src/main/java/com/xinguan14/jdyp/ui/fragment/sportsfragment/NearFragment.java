@@ -18,7 +18,7 @@ import com.xinguan14.jdyp.adapter.base.BaseRecyclerHolder;
 import com.xinguan14.jdyp.adapter.base.IMutlipleItem;
 import com.xinguan14.jdyp.base.BaseFragment;
 import com.xinguan14.jdyp.bean.User;
-import com.xinguan14.jdyp.ui.activity.UserInfoActivity;
+import com.xinguan14.jdyp.ui.UserInfoActivity;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -215,6 +215,7 @@ public class NearFragment extends BaseFragment {
 
                 DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 try {
+
                     Date curDate = new Date(System.currentTimeMillis());//获取当前时间
                     String str = df.format(curDate);
                     Date d1 = df.parse(str);

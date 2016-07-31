@@ -10,7 +10,7 @@
     <string name="register_txt2">立即注册 ></string>
     <string name="login_account">账号 </string>
     <string name="login_pwd">密码 </string>
-    <string name="login_email">确认密码 </string>
+    <string name="login_pwd_again">确认密码 </string>
 
     <string name="main_tab_recent">消息</string>
     <string name="main_tab_contact">联系人</string>
@@ -61,4 +61,12 @@
     </declare-styleable>
     <string name="pop_photo">拍照</string>
     <string name="pop_choose">从手机相册选中</string>
+    <string name="forgot_password">找回密码</string>
+    <string name="send_code">发送验证码</string>
+    <string name="code">短信验证码</string>
+    <string name="phone_number">手机号</string>
+    <string name="nickname">昵称</string>
+    <string name="Illegal_phone_number">非法手机号</string>
+    <string name="confirm">确认</string>
+    <string name="new_user">新用户</string>
 </resources>

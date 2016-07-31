@@ -8,7 +8,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.xinguan14.jdyp.ui.activity.UserInfoActivity;
+import com.xinguan14.jdyp.ui.UserInfoActivity;
 
 import butterknife.Bind;
 import com.xinguan14.jdyp.R;

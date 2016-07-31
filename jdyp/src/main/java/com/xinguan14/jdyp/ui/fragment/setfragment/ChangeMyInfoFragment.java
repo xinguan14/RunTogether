@@ -19,7 +19,7 @@ import com.xinguan14.jdyp.base.ParentWithNaviActivity;
 import com.xinguan14.jdyp.base.ParentWithNaviFragment;
 import com.xinguan14.jdyp.bean.User;
 import com.xinguan14.jdyp.model.UserModel;
-import com.xinguan14.jdyp.ui.activity.LoginActivity;
+import com.xinguan14.jdyp.ui.LoginActivity;
 import com.xinguan14.jdyp.ui.fragment.SetFragment;
 import com.xinguan14.jdyp.util.ImageLoadOptions;
 
@@ -148,7 +148,7 @@ public class ChangeMyInfoFragment extends ParentWithNaviFragment implements View
         User user = BmobUser.getCurrentUser(getActivity(), User.class);
 
         refreshAvatar(user.getAvatar());
-        tv_my_username.setText(user.getUsername());
+        tv_my_username.setText(user.getNick());
         tv_my_phone.setText(user.getMobilePhoneNumber());
         tv_my_userEmail.setText(user.getEmail());
         if (userSex != null) {
@@ -160,8 +160,6 @@ public class ChangeMyInfoFragment extends ParentWithNaviFragment implements View
         }
 
     }
-
-
     /**
      * 更新头像 refreshAvatar
      *

@@ -26,13 +26,12 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.xinguan14.jdyp.MyVeiw.ChangeAvatarPopupWindow;
 import com.xinguan14.jdyp.MyVeiw.CircleImageView;
 import com.xinguan14.jdyp.R;
-import com.xinguan14.jdyp.ui.fragment.setfragment.AchievementsFragment;
-import com.xinguan14.jdyp.ui.fragment.setfragment.ChangeMyInfoFragment;
-import com.xinguan14.jdyp.ui.fragment.setfragment.DynamicFragment;
 import com.xinguan14.jdyp.base.ParentWithNaviFragment;
 import com.xinguan14.jdyp.bean.User;
 import com.xinguan14.jdyp.config.BmobConstants;
-import com.xinguan14.jdyp.model.UserModel;
+import com.xinguan14.jdyp.ui.fragment.setfragment.AchievementsFragment;
+import com.xinguan14.jdyp.ui.fragment.setfragment.ChangeMyInfoFragment;
+import com.xinguan14.jdyp.ui.fragment.setfragment.DynamicFragment;
 import com.xinguan14.jdyp.util.ImageLoadOptions;
 import com.xinguan14.jdyp.util.PhotoUtil;
 
@@ -58,8 +57,8 @@ import cn.bmob.v3.listener.UploadFileListener;
 public class SetFragment extends ParentWithNaviFragment {
 
 
-    @Bind(R.id.tv_user_name)
-    TextView tv_user_name;
+    @Bind(R.id.tv_nick_name)
+    TextView tv_nick_name;
     //
 //    @Bind(R.id.layout_info)
 //    RelativeLayout layout_info;
@@ -96,13 +95,14 @@ public class SetFragment extends ParentWithNaviFragment {
         rootView = inflater.inflate(R.layout.fragment_set, container, false);
         initNaviView();
         ButterKnife.bind(this, rootView);
-        String username = UserModel.getInstance().getCurrentUser().getUsername();
-        tv_user_name.setText(TextUtils.isEmpty(username) ? "" : username);
 
-        //更新头像
+        //获取当前用户
         User user = BmobUser.getCurrentUser(getActivity(), User.class);
+        //更新用户昵称
+        tv_nick_name.setText(TextUtils.isEmpty(user.getNick()) ? "" : user.getNick());
+        System.out.println(user.getNick());
+        //更新头像
         refreshAvatar(user.getAvatar());
-
         circleImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -172,8 +172,6 @@ public class SetFragment extends ParentWithNaviFragment {
     }
 
 
-
-
     public String filePath = "";
 
 
@@ -185,7 +183,7 @@ public class SetFragment extends ParentWithNaviFragment {
             menuWindow.dismiss();
 
             switch (v.getId()) {
-				case R.id.takePhotoBtn:// 拍照
+                case R.id.takePhotoBtn:// 拍照
                     File dir = new File(BmobConstants.MyAvatarDir);
                     if (!dir.exists()) {
                         dir.mkdirs();
@@ -201,7 +199,7 @@ public class SetFragment extends ParentWithNaviFragment {
                     startActivityForResult(intent2,
                             BmobConstants.REQUESTCODE_UPLOADAVATAR_CAMERA);
 
-					break;
+                    break;
                 case R.id.pickPhotoBtn:// 相册选择图片
                     Intent intent = new Intent(Intent.ACTION_PICK, null);
                     intent.setDataAndType(

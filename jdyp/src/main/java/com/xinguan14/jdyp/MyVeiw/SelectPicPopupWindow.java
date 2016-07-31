@@ -1,4 +1,4 @@
-package com.xinguan14.jdyp.ui.activity;
+package com.xinguan14.jdyp.MyVeiw;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
