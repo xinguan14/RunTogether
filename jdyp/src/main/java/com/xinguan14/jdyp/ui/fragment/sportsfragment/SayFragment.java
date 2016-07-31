@@ -6,28 +6,24 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.xinguan14.jdyp.MyVeiw.MyGridView;
+import com.xinguan14.jdyp.MyVeiw.NineGridTestLayout;
 import com.xinguan14.jdyp.R;
-import com.xinguan14.jdyp.adapter.GridViewAdapter;
 import com.xinguan14.jdyp.adapter.base.BaseListAdapter;
 import com.xinguan14.jdyp.adapter.base.BaseListHolder;
 import com.xinguan14.jdyp.bean.Friend;
 import com.xinguan14.jdyp.bean.Post;
 import com.xinguan14.jdyp.bean.User;
 import com.xinguan14.jdyp.ui.AddCommentPopupWindow;
-import com.xinguan14.jdyp.util.SysUtils;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -169,10 +165,10 @@ public class SayFragment extends android.support.v4.app.ListFragment {
         sps_refresh.setRefreshing(false);
     }
 
+
     //动态的适配器
     public class SayListViewAdapter extends BaseListAdapter<Post> implements View.OnClickListener {
 
-        private GridViewAdapter gridViewAdapter;
         //弹出更多
         private PopupWindow mMorePopupWindow;
         private int mShowMorePopupWindowWidth;
@@ -182,23 +178,21 @@ public class SayFragment extends android.support.v4.app.ListFragment {
 
         private String postId;
         private BaseListHolder holder;
-        private int wh;
 
 
         public SayListViewAdapter(Activity context, List<Post> list, int itemLayoutId){
             super(context,list,itemLayoutId);
             //根据屏幕的大小设置控件的大小
-            this.wh=(SysUtils.getScreenWidth(context)- SysUtils.Dp2Px(context, 99))/3;
-
         }
 
         @Override
-        public void convert(final BaseListHolder holder, Post item) {
+        public void convert( BaseListHolder holder, Post item) {
             //图片布局
-            RelativeLayout rL = holder.getView(R.id.rl4);
-            MyGridView gv_images = holder.getView(R.id.gv_images);
+            NineGridTestLayout gv_images = holder.getView(R.id.gv_images);
+            final TextView likes = holder.getView(R.id.tv_likes_names);
             postId = item .getObjectId();
             this.holder=holder;
+
             String name = null,time = null,content = null,headpath = null,contentImageUrl = null;
             if(item !=null){
 
@@ -214,10 +208,7 @@ public class SayFragment extends android.support.v4.app.ListFragment {
             }
             //是否含有图片，有图片则显示gridview
             if (contentImageUrl!=null&&!contentImageUrl.equals("")) {
-                rL.setVisibility(View.VISIBLE);
                 initInfoImages(gv_images,contentImageUrl);
-            } else {
-                rL.setVisibility(View.GONE);
             }
             //点赞的rem ,查询喜欢这个帖子的所有用户，因此查询的是用户表
             BmobQuery<User> query = new BmobQuery<User>();
@@ -233,9 +224,10 @@ public class SayFragment extends android.support.v4.app.ListFragment {
                         likesUser +=list.get(i).getUsername()+",";
                     }
                     if (likesUser.length()!=0) {
-                         holder.setTextView(R.id.tv_likes_names,likesUser);
+                         //holder.setTextView(R.id.tv_likes_names,likesUser);
+                        likes.setText(likesUser);
                     }
-                    Log.i("info","点赞用户："+likesUser);
+                   // Log.i("info","点赞用户："+likesUser);
                 }
 
                 @Override
@@ -391,53 +383,24 @@ public class SayFragment extends android.support.v4.app.ListFragment {
         }
 
 
-        //初始化图片集，设定GridView的列数
-        public void initInfoImages(MyGridView gv_images,final String imgUrl){
-            if(imgUrl!=null&&!imgUrl.equals("")){
-                String[] imgs=imgUrl.split("#");//多张图片的URL一#分开
-                ArrayList<String> list=new ArrayList<String>();
-                for(int i=0;i<imgs.length;i++){
+
+        public void initInfoImages(NineGridTestLayout gv_images, String imgUrl) {
+
+            if(imgUrl!=null&&!imgUrl.equals("")) {
+                String[] imgs = imgUrl.split("#");//多张图片的URL一#分开
+
+                List<String> list = new ArrayList<>();//图片url
+                for (int i = 0; i < imgs.length; i++) {
                     list.add(imgs[i]);
                 }
-                int w=0;
-                switch (imgs.length) {
-                    case 1:
-                        w=SysUtils.getScreenWidth(mContext)- SysUtils.Dp2Px(mContext, 99);
-                        gv_images.setNumColumns(1);
-                        break;
-                    case 2:
-                    case 4:
-                        w=2*wh+SysUtils.Dp2Px(mContext, 2);
-                        gv_images.setNumColumns(2);
-                        break;
-                    case 3:
-                    case 5:
-                    case 6:
-                        w=wh*3+ SysUtils.Dp2Px(mContext, 2)*2;
-                        gv_images.setNumColumns(3);
-                        break;
-                }
-                RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(w, RelativeLayout.LayoutParams.WRAP_CONTENT);
-                gv_images.setLayoutParams(lp);
-            /*第一个参数为宽的设置，第二个参数为高的设置。
-            如果将一个View添加到一个Layout中，最好告诉Layout用户期望的布局方式，也就是将一个认可的layoutParams传递进去
-            但LayoutParams类也只是简单的描述了宽高，宽和高都可以设置成三种值：
-            1，一个确定的值；
-            2，FILL_PARENT，即填满（和父容器一样大小）；
-            3，WRAP_CONTENT，即包裹住组件就好。。*/
-                //传递的数据是当前的Activity，显示图片的集合。显示图片的布局
-                gridViewAdapter=new GridViewAdapter(mContext, list,R.layout.fragment_sport_square_item_grid);
-                gv_images.setAdapter(gridViewAdapter);
-                //点击图片的点击事件
-                gv_images.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-                        Toast.makeText(mContext, "点击了第"+(arg2+1)+"张图片", Toast.LENGTH_LONG).show();
-                    }
-                });
-            }
+                gv_images.setIsShowAll(false); //当传入的图片数超过9张时，是否全部显示
+                gv_images.setSpacing(5); //动态设置图片之间的间隔
+                gv_images.setUrlList(list); //最后再设置图片url
 
+
+            }
         }
+
 
     }
 }

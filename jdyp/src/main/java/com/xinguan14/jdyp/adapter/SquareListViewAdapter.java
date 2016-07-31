@@ -60,7 +60,7 @@ public class SquareListViewAdapter extends BaseListAdapter<Post> {
         String name = null,time = null,content = null,headpath = null,contentImageUrl = null;
         if(item !=null){
             name = item.getAuthor().getUsername();
-            time = item.getUpdatedAt();
+            time = item.getCreatedAt();
             content = item.getContent();
             headpath = item.getAuthor().getAvatar();
             contentImageUrl = item.getImageurl();

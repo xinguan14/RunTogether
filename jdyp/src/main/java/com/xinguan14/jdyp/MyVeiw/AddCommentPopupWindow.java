@@ -66,7 +66,6 @@ public class AddCommentPopupWindow extends PopupWindow {
                     comment.setPost(post);
                     comment.setUser(user);
                     comment.save(context, new SaveListener() {
-
                         @Override
                         public void onSuccess() {
                             // TODO Auto-generated method stub
