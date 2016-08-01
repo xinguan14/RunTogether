@@ -1,7 +1,6 @@
 package com.xinguan14.jdyp.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -14,7 +13,6 @@ import com.xinguan14.jdyp.adapter.base.BaseListAdapter;
 import com.xinguan14.jdyp.adapter.base.BaseListHolder;
 import com.xinguan14.jdyp.bean.Post;
 import com.xinguan14.jdyp.bean.User;
-import com.xinguan14.jdyp.util.SysUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,31 +30,20 @@ import cn.bmob.v3.listener.UpdateListener;
  */
 public class SquareListViewAdapter extends BaseListAdapter<Post> {
 
-    //private FinalBitmap finalBitmap;
-    public   BaseListHolder holder;
-    private String postId;
-    private int wh;
-
     //要传入的参数有当前的Activity，数据集。item的布局文件
     public SquareListViewAdapter(Context context, List<Post> list,int itemLayoutId){
 
         super(context,list,itemLayoutId);
-        //根据屏幕的大小设置控件的大小
-        this.wh=(SysUtils.getScreenWidth(context)- SysUtils.Dp2Px(context, 99))/3;
 
     }
 
     //给控件绑定数据
     @Override
-    public void convert( final BaseListHolder holder, Post item) {
-
-        this.holder =holder;
-        this.postId = item.getObjectId();
+    public void convert(final BaseListHolder holder, final Post item) {
 
         RelativeLayout rL = holder.getView(R.id.rl4);
         NineGridTestLayout gv_images = holder.getView(R.id.gv_images);
 
-       // final Post gridViewItem = mDatas.get(position);
         String name = null,time = null,content = null,headpath = null,contentImageUrl = null;
         if(item !=null){
             name = item.getAuthor().getNick();
@@ -77,31 +64,12 @@ public class SquareListViewAdapter extends BaseListAdapter<Post> {
             rL.setVisibility(View.GONE);
         }
         //点赞的rem ,查询喜欢这个帖子的所有用户，因此查询的是用户表
-        BmobQuery<User> query = new BmobQuery<User>();
-        Post post = new Post();
-        post.setObjectId(postId);
-        //Log.i("info","查询的动态ID："+postId);
-        //likes是Post表中的字段，用来存储所有喜欢该帖子的用户
-        query.addWhereRelatedTo("likes", new BmobPointer(post));
-        query.findObjects(mContext, new FindListener<User>() {
-            @Override
-            public void onSuccess(List<User> list) {
-                String likesUser ="";
-                for (int i= 0;i<list.size();i++){
-                    likesUser +=list.get(i).getUsername()+",";
+        showZan(holder,item);
 
-                }
-                if (likesUser.length()!=0) {
-                    holder.setTextView(R.id.tv_likes_names,likesUser);
-                }
-                Log.i("info","点赞用户："+likesUser);
-            }
+        if (item.getZan()!=null) {
+            holder.setTextView(R.id.tv_likes_number, item.getZan().intValue() + "人觉得很赞");
+        }
 
-            @Override
-            public void onError(int i, String s) {
-
-            }
-        });
         //发布时间
         if (time!=null&&!time.equals("")) {
             holder.setTextView(R.id.info_tv_time,time);
@@ -133,7 +101,7 @@ public class SquareListViewAdapter extends BaseListAdapter<Post> {
             public void onClick(View view) {
                 User user = BmobUser.getCurrentUser(mContext, User.class);
                 Post post = new Post();
-                post.setObjectId(postId);
+                post.setObjectId(item.getObjectId());
                 //将当前用户添加到Post表中的likes字段值中，表明当前用户喜欢该帖子
                 BmobRelation relation = new BmobRelation();
                 //将当前用户添加到多对多关联中
@@ -153,6 +121,33 @@ public class SquareListViewAdapter extends BaseListAdapter<Post> {
                         Toast.makeText(mContext, "点赞失败", Toast.LENGTH_SHORT).show();
                     }
                 });
+            }
+        });
+    }
+
+    private void showZan(final BaseListHolder holder, final Post item){
+        BmobQuery<User> query = new BmobQuery<User>();
+        Post post = new Post();
+        post.setObjectId(item.getObjectId());
+        //Log.i("info","查询的动态ID："+postId);
+        //likes是Post表中的字段，用来存储所有喜欢该帖子的用户
+        query.addWhereRelatedTo("likes", new BmobPointer(post));
+        query.findObjects(mContext, new FindListener<User>() {
+            @Override
+            public void onSuccess(List<User> list) {
+                String likesUser ="";
+                for (int i= 0;i<list.size();i++){
+                    likesUser +=list.get(i).getUsername()+",";
+
+                }
+                if (likesUser.length()!=0) {
+                    holder.setTextView(R.id.tv_likes_names,likesUser+"By"+item.getContent());
+                }
+            }
+
+            @Override
+            public void onError(int i, String s) {
+
             }
         });
     }

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.text.Html;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -132,9 +134,6 @@ public class SayFragment extends android.support.v4.app.ListFragment {
             showUserId[i] = showUser[i].getObjectId();
         }
 
-	/*	String str = "要显示有"+showUserId.length+"个人";
-                Toast.makeText(getActivity(), str,
-						Toast.LENGTH_SHORT).show();*/
         //查询动态信息
         final BmobQuery<Post> query = new BmobQuery<Post>();
         query.order("-createdAt");// 按照时间降序
@@ -142,7 +141,8 @@ public class SayFragment extends android.support.v4.app.ListFragment {
         query.addWhereContainedIn("author", Arrays.asList(showUserId));
         //查询发动态的用户信息
         query.include("author");
-
+        //返回50条数据，如果不加上这条语句，默认返回10条数据
+        query.setLimit(50);
         query.findObjects(getActivity(), new FindListener<Post>() {
             @Override
             public void onSuccess(List<Post> list) {
@@ -174,7 +174,7 @@ public class SayFragment extends android.support.v4.app.ListFragment {
 
 
     //动态的适配器
-    public class SayListViewAdapter extends BaseListAdapter<Post> implements View.OnClickListener {
+    public class SayListViewAdapter extends BaseListAdapter<Post> {
 
         //弹出更多
         private PopupWindow mMorePopupWindow;
@@ -183,26 +183,19 @@ public class SayFragment extends android.support.v4.app.ListFragment {
         //弹出评论框
         private AddCommentPopupWindow menuWindow;
 
-        private String postId;
-        private BaseListHolder holder;
-
-
         public SayListViewAdapter(Activity context, List<Post> list, int itemLayoutId){
             super(context,list,itemLayoutId);
             //根据屏幕的大小设置控件的大小
         }
 
         @Override
-        public void convert( BaseListHolder holder, Post item) {
+        public void convert(final BaseListHolder holder, final Post item) {
             //图片布局
+            RelativeLayout rL = holder.getView(R.id.rl4);
             NineGridTestLayout gv_images = holder.getView(R.id.gv_images);
-            //评论布局
-             final LinearLayout commentLayout = holder.getView(R.id.comments_layout);
-            final TextView likes = holder.getView(R.id.tv_likes_names);
-            postId = item .getObjectId();
-            this.holder=holder;
 
             String name = null,time = null,content = null,headpath = null,contentImageUrl = null;
+            Number zan = null;
             if(item !=null){
 
                 name = item.getAuthor().getNick();
@@ -210,69 +203,29 @@ public class SayFragment extends android.support.v4.app.ListFragment {
                 content = item.getContent();
                 headpath = item.getAuthor().getAvatar();
                 contentImageUrl = item.getImageurl();
+                zan =item.getZan();
             }
             //昵称
             if (name!=null&&!name.equals("")) {
                 holder.setTextView(R.id.user_name,name);
             }
+
             //是否含有图片，有图片则显示gridview
             if (contentImageUrl!=null&&!contentImageUrl.equals("")) {
+                rL.setVisibility(View.VISIBLE);
                 initInfoImages(gv_images,contentImageUrl);
+            } else {
+                rL.setVisibility(View.GONE);
             }
             //点赞的rem ,查询喜欢这个帖子的所有用户，因此查询的是用户表
-            BmobQuery<User> query = new BmobQuery<User>();
-            Post post = new Post();
-            post.setObjectId(postId);
-            //likes是Post表中的字段，用来存储所有喜欢该帖子的用户
-            query.addWhereRelatedTo("likes", new BmobPointer(post));
-            query.findObjects(mContext, new FindListener<User>() {
-                @Override
-                public void onSuccess(List<User> list) {
-                    String likesUser ="";
-                    for (int i= 0;i<list.size();i++){
-                        likesUser +=list.get(i).getUsername()+",";
-                    }
-                    if (likesUser.length()!=0) {
-                         //holder.setTextView(R.id.tv_likes_names,likesUser);
-                        likes.setText(likesUser);
-                    }
-                   // Log.i("info","点赞用户："+likesUser);
-                }
+            showZan(holder,item);
 
-                @Override
-                public void onError(int i, String s) {
-
-                }
-            });
+            if (item.getZan()!=null) {
+                holder.setTextView(R.id.tv_likes_number, zan.intValue() + "人觉得很赞");
+            }
             //显示发布时间
             if (time!=null&&!time.equals("")) {
-
-                DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                try {
-                    Date curDate = new Date(System.currentTimeMillis());//获取当前时间
-                    String str = df.format(curDate);
-                    Date d1 = df.parse(str);
-                    Date d2 = df.parse(item.getUpdatedAt());
-                    long diff = d1.getTime() - d2.getTime();//这样得到的差值是微秒级别
-                    long days = diff / (1000 * 60 * 60 * 24);
-                    long hours = (diff - days * (1000 * 60 * 60 * 24)) / (1000 * 60 * 60);
-                    long minutes = (diff - days * (1000 * 60 * 60 * 24) - hours * (1000 * 60 * 60)) / (1000 * 60);
-                    if (days > 0) {
-                        holder.setTextView(R.id.add_say_time, days+"天前");
-
-                    } else if (hours > 0) {
-                        holder.setTextView(R.id.add_say_time, hours+"小时前");
-
-                    } else if (minutes > 0) {
-                        holder.setTextView(R.id.add_say_time, minutes+"分钟前");
-                    }
-                    else {
-                        holder.setTextView(R.id.add_say_time, "刚刚");
-                    }
-                } catch (Exception e) {
-                    //时间
-                    holder.setTextView(R.id.add_say_time, "未知" );
-                }
+                showTime(holder,item);
             }
             //内容
             if (content!=null&&!content.equals("")) {
@@ -287,105 +240,27 @@ public class SayFragment extends android.support.v4.app.ListFragment {
                 holder.setImageResource(R.id.user_image,R.drawable.love);
             }
             //显示评论
-            BmobQuery<Comment> commentBmobQuery = new BmobQuery<Comment>();
-            //用此方式可以构造一个BmobPointer对象。只需要设置objectId就行
-            post.setObjectId(postId);
-            commentBmobQuery.addWhereEqualTo("post",new BmobPointer(post));
-            //希望同时查询该评论的发布者的信息，以及该帖子的作者的信息，这里用到上面`include`的并列对象查询和内嵌对象的查询
-            commentBmobQuery.include("user,post.author");
-            commentBmobQuery.findObjects(mContext, new FindListener<Comment>() {
-
+            showComments(holder,item);
+            //点击头像的点击事件
+            holder.getView(R.id.user_image).setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onSuccess(List<Comment> list) {
-                    // TODO Auto-generated method stub
-                    if (list.size()!=0) {
-                        commentLayout.removeAllViews();
-                        commentLayout.setVisibility(View.VISIBLE);
-
-                        for (int i= 0;i<list.size();i++) {
-                            TextView t = new TextView(mContext);
-                            t.setLayoutParams(new LinearLayout.LayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)));
-                            t.setTextSize(16);
-                            t.setPadding(5, 2, 0, 3);
-                            t.setLineSpacing(3, (float) 1.5);
-                            t.setText(Html.fromHtml("<font color='#4A766E'>"+list.get(i).getUser().getNick()+"</font>"+list.get(i).getContent()));
-                            commentLayout.addView(t);
-                        }
-                    } else {
-                        commentLayout.setVisibility(View.GONE);
-                    }
-                }
-
-                @Override
-                public void onError(int code, String msg) {
-                    // TODO Auto-generated method stub
-
+                public void onClick(View view) {
+                    Bundle bundle = new Bundle();
+                    User userInfo = item.getAuthor();
+                    bundle.putSerializable("u", userInfo);
+                    Intent intent = new Intent(getActivity(),CheckUserInfoByUser.class);
+                    if (bundle != null)
+                        intent.putExtra(getActivity().getPackageName(), bundle);
+                    getActivity().startActivity(intent);
                 }
             });
-
-            //点击头像的点击事件
-            holder.getView(R.id.user_image).setOnClickListener(this);
             //弹出评论和点赞的按钮
-            holder.getView(R.id.more_img).setOnClickListener(this);
-        }
-
-
-
-        @Override
-        public void onClick(View v) {
-            switch (v.getId()){
-                //如果点击头像
-                case  R.id.user_image:
-                    //Toast.makeText(mContext, "点击了头像", Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(getActivity(),CheckUserInfoByUser.class);
-                    intent.putExtra("postId", postId);
-                    startActivity(intent);
-                    break;
-                //如果点击了评论和点赞图片
-                case R.id.more_img:
-                    showMore(v);
-                    break;
-                //点击了评论
-                case R.id.comment_img:
-                    //弹出评论框
-                    menuWindow = new AddCommentPopupWindow(mContext, postId);
-                    menuWindow.showAtLocation(holder.getConvertView(), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
-                    if (mMorePopupWindow != null && mMorePopupWindow.isShowing()) {
-                        mMorePopupWindow.dismiss();
-                    }
-
-                    break;
-                //点击了点赞
-                case R.id.good_img:
-                    User user = BmobUser.getCurrentUser(mContext, User.class);
-                    Post post = new Post();
-                    post.setObjectId(postId);
-                    //将当前用户添加到Post表中的likes字段值中，表明当前用户喜欢该帖子
-                    BmobRelation relation = new BmobRelation();
-                    //将当前用户添加到多对多关联中
-                    relation.add(user);
-                    //多对多关联指向`post`的`likes`字段
-                    post.setLikes(relation);
-                    post.update(mContext, new UpdateListener() {
-
-                        @Override
-                        public void onSuccess() {
-                            // TODO Auto-generated method stub
-                            Toast.makeText(mContext, "点赞成功", Toast.LENGTH_SHORT).show();
-                        }
-
-                        @Override
-                        public void onFailure(int arg0, String arg1) {
-                            // TODO Auto-generated method stub
-                            Toast.makeText(mContext, "点赞失败", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                    if (mMorePopupWindow != null && mMorePopupWindow.isShowing()) {
-                        mMorePopupWindow.dismiss();
-                    }
-                    break;
-
-            }
+            holder.getView(R.id.more_img).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    showMore(view,holder,item);
+                }
+            });
         }
 
         /**
@@ -393,7 +268,7 @@ public class SayFragment extends android.support.v4.app.ListFragment {
          *
          * @param moreBtnView
          */
-        private void showMore(View moreBtnView) {
+        private void showMore(View moreBtnView, final BaseListHolder holder, final Post item) {
             if (mMorePopupWindow == null) {
 
                 LayoutInflater li = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -415,8 +290,50 @@ public class SayFragment extends android.support.v4.app.ListFragment {
                 ImageView comment = (ImageView) parent.findViewById(R.id.comment_img);
 
                 // 点赞的监听器
-                comment.setOnClickListener(this);
-                good.setOnClickListener(this);
+                comment.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //弹出评论框
+                        menuWindow = new AddCommentPopupWindow(mContext, item.getObjectId());
+                        Log.i("info","postId2:"+item.getObjectId());
+                        menuWindow.showAtLocation(holder.getConvertView(), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+                        if (mMorePopupWindow != null && mMorePopupWindow.isShowing()) {
+                            mMorePopupWindow.dismiss();
+                        }
+                    }
+                });
+                good.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        User user = BmobUser.getCurrentUser(mContext, User.class);
+                        Post post = new Post();
+                        post.setObjectId(item.getObjectId());
+                        //将当前用户添加到Post表中的likes字段值中，表明当前用户喜欢该帖子
+                        BmobRelation relation = new BmobRelation();
+                        //将当前用户添加到多对多关联中
+                        relation.add(user);
+                        //多对多关联指向`post`的`likes`字段
+                        post.setLikes(relation);
+                        post.increment("score",1); // 点赞的数量加1
+                        post.update(mContext, new UpdateListener() {
+
+                            @Override
+                            public void onSuccess() {
+                                // TODO Auto-generated method stub
+                                Toast.makeText(mContext, "点赞成功", Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onFailure(int arg0, String arg1) {
+                                // TODO Auto-generated method stub
+                                Toast.makeText(mContext, "点赞失败", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        if (mMorePopupWindow != null && mMorePopupWindow.isShowing()) {
+                            mMorePopupWindow.dismiss();
+                        }
+                    }
+                });
             }
 
             if (mMorePopupWindow.isShowing()) {
@@ -429,7 +346,101 @@ public class SayFragment extends android.support.v4.app.ListFragment {
             }
         }
 
+        private void showTime(BaseListHolder holder, Post item){
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            try {
+                Date curDate = new Date(System.currentTimeMillis());//获取当前时间
+                String str = df.format(curDate);
+                Date d1 = df.parse(str);
+                Date d2 = df.parse(item.getCreatedAt());
+                long diff = d1.getTime() - d2.getTime();//这样得到的差值是微秒级别
+                long days = diff / (1000 * 60 * 60 * 24);
+                long hours = (diff - days * (1000 * 60 * 60 * 24)) / (1000 * 60 * 60);
+                long minutes = (diff - days * (1000 * 60 * 60 * 24) - hours * (1000 * 60 * 60)) / (1000 * 60);
+                if (days > 0) {
+                    holder.setTextView(R.id.add_say_time, days+"天前");
 
+                } else if (hours > 0) {
+                    holder.setTextView(R.id.add_say_time, hours+"小时前");
+
+                } else if (minutes > 0) {
+                    holder.setTextView(R.id.add_say_time, minutes+"分钟前");
+                }
+                else {
+                    holder.setTextView(R.id.add_say_time, "刚刚");
+                }
+            } catch (Exception e) {
+                //时间
+                holder.setTextView(R.id.add_say_time, "未知" );
+            }
+        }
+
+        private void showZan(final BaseListHolder holder, final Post item){
+            BmobQuery<User> query = new BmobQuery<User>();
+            Post post = new Post();
+            post.setObjectId(item.getObjectId());
+            //likes是Post表中的字段，用来存储所有喜欢该帖子的用户
+            query.addWhereRelatedTo("likes", new BmobPointer(post));
+            query.findObjects(mContext, new FindListener<User>() {
+                @Override
+                public void onSuccess(List<User> list) {
+                    String likesUser ="";
+                    for (int i= 0;i<list.size();i++){
+                        likesUser +=list.get(i).getUsername()+",";
+                    }
+                    if (likesUser.length()!=0) {
+                        //holder.setTextView(R.id.tv_likes_names,likesUser);
+                       holder.setTextView(R.id.tv_likes_names,likesUser+"By"+item.getContent());
+                    }
+                    // Log.i("info","点赞用户："+likesUser);
+                }
+
+                @Override
+                public void onError(int i, String s) {
+
+                }
+            });
+        }
+
+        private void showComments(final BaseListHolder holder, Post item){
+            BmobQuery<Comment> commentBmobQuery = new BmobQuery<Comment>();
+            Post post = new Post();
+            //用此方式可以构造一个BmobPointer对象。只需要设置objectId就行
+            post.setObjectId(item.getObjectId());
+            commentBmobQuery.addWhereEqualTo("post",new BmobPointer(post));
+            //希望同时查询该评论的发布者的信息，以及该帖子的作者的信息，这里用到上面`include`的并列对象查询和内嵌对象的查询
+            commentBmobQuery.include("user,post.author");
+            commentBmobQuery.findObjects(mContext, new FindListener<Comment>() {
+
+                @Override
+                public void onSuccess(List<Comment> list) {
+                    LinearLayout commentLayout = holder.getView(R.id.comments_layout);
+                    if (list.size()!=0) {
+
+                        commentLayout.removeAllViews();
+                        commentLayout.setVisibility(View.VISIBLE);
+
+                        for (int i= 0;i<list.size();i++) {
+                            TextView t = new TextView(mContext);
+                            t.setLayoutParams(new LinearLayout.LayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)));
+                            t.setTextSize(16);
+                            t.setPadding(5, 2, 0, 3);
+                            t.setLineSpacing(3, (float) 1.5);
+                            t.setText(Html.fromHtml("<font color='#4A766E'>"+list.get(i).getUser().getNick()+"</font>:"+list.get(i).getContent()));
+                            commentLayout.addView(t);
+                        }
+                    } else {
+                        commentLayout.setVisibility(View.GONE);
+                    }
+                }
+
+                @Override
+                public void onError(int code, String msg) {
+                    // TODO Auto-generated method stub
+
+                }
+            });
+        }
 
         public void initInfoImages(NineGridTestLayout gv_images, String imgUrl) {
 

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -61,6 +62,7 @@ public class AddCommentPopupWindow extends PopupWindow {
                     User user = BmobUser.getCurrentUser(context, User.class);
                     Post post = new Post();
                     post.setObjectId(postId);
+                    Log.i("info","postId:"+postId);
                     final Comment comment = new Comment();
                     comment.setContent(comments);
                     comment.setPost(post);
