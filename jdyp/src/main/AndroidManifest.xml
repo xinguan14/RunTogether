@@ -63,6 +63,8 @@
         <activity android:name="com.xinguan14.jdyp.ui.ForgetPasswordActivity" />
         <activity android:name=".ui.AddPostActivity" />
         <activity android:name=".ui.ChooseImageActivity" />
+        <activity android:name=".ui.CheckUserInfo" />
+        <activity android:name=".ui.CheckUserInfoByUserId" />
 
 
         <activity
