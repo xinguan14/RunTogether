@@ -82,6 +82,8 @@ public abstract class BaseViewHolder<T> extends RecyclerView.ViewHolder implemen
     if (bundle != null)
       intent.putExtra(getContext().getPackageName(), bundle);
     getContext().startActivity(intent);
+  //跳转动画
+  // overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
   }
 
 }

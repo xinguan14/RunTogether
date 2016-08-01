@@ -68,7 +68,7 @@ public class SearchUserActivity extends ParentWithNaviActivity {
                 Bundle bundle = new Bundle();
                 User user = adapter.getItem(position);
                 bundle.putSerializable("u", user);
-                startActivity(CheckUserInfo.class, bundle, false);
+                startActivity(CheckUserInfoByUser.class, bundle, false);
             }
 
             @Override

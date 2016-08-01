@@ -29,7 +29,7 @@ import com.xinguan14.jdyp.bean.Comment;
 import com.xinguan14.jdyp.bean.Friend;
 import com.xinguan14.jdyp.bean.Post;
 import com.xinguan14.jdyp.bean.User;
-import com.xinguan14.jdyp.ui.CheckUserInfo;
+import com.xinguan14.jdyp.ui.CheckUserInfoByUser;
 import com.xinguan14.jdyp.util.ImageLoadOptions;
 
 import java.text.DateFormat;
@@ -337,7 +337,7 @@ public class SayFragment extends android.support.v4.app.ListFragment {
                 //如果点击头像
                 case  R.id.user_image:
                     //Toast.makeText(mContext, "点击了头像", Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(getActivity(),CheckUserInfo.class);
+                    Intent intent = new Intent(getActivity(),CheckUserInfoByUser.class);
                     intent.putExtra("postId", postId);
                     startActivity(intent);
                     break;

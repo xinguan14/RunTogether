@@ -1,6 +1,7 @@
 package com.xinguan14.jdyp.adapter;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 import com.xinguan14.jdyp.R;
 import com.xinguan14.jdyp.adapter.base.BaseViewHolder;
 import com.xinguan14.jdyp.base.ImageLoaderFactory;
+import com.xinguan14.jdyp.ui.CheckUserInfoByInfo;
 
 import java.text.SimpleDateFormat;
 
@@ -53,7 +55,11 @@ public class ReceiveTextHolder extends BaseViewHolder {
     iv_avatar.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-//        toast("点击" + info.getAvatar() + "的头像");
+        toast("点击" + info.getAvatar() + "的头像");
+        Bundle bundle = new Bundle();
+        BmobIMUserInfo userInfo = info;
+        bundle.putSerializable("userId", userInfo);
+        startActivity(CheckUserInfoByInfo.class,bundle);
 
       }
     });

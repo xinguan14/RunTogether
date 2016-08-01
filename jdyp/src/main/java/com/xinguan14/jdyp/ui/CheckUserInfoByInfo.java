@@ -35,7 +35,7 @@ import cn.bmob.v3.listener.GetListener;
 /**
  * Created by wm on 2016/7/31.
  */
-public class CheckUserInfoByUserId extends ParentWithNaviActivity implements View.OnClickListener{
+public class CheckUserInfoByInfo extends ParentWithNaviActivity implements View.OnClickListener{
 
     @Bind(R.id.img_my_avatar)
     ImageView image_my_avatar;
@@ -63,7 +63,6 @@ public class CheckUserInfoByUserId extends ParentWithNaviActivity implements Vie
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.i("info","显示信息界面");
         setContentView(R.layout.check_info_layout);
         initNaviView();
         //接收传递的user信息
@@ -82,7 +81,6 @@ public class CheckUserInfoByUserId extends ParentWithNaviActivity implements Vie
         query.getObject(this, info.getUserId(), new GetListener<User>() {
             @Override
             public void onSuccess(User user) {
-                ImageLoader.getInstance().displayImage(user.getAvatar(),image_my_avatar, ImageLoadOptions.getOptions());
                 nikeName.setText(user.getNick());
                 if (user.getSex()!=null) {
                     if (user.getSex()) {
@@ -169,11 +167,14 @@ public class CheckUserInfoByUserId extends ParentWithNaviActivity implements Vie
         String userId= info.getUserId();
         BmobQuery<Friend> query1 = new BmobQuery<Friend>();
         query1.addWhereEqualTo("user", getCurrentUid());
-        query1.addWhereNotEqualTo("friendUser", userId);//查询当前显示的用户
+        query1.addWhereEqualTo("friendUser", userId);//查询当前显示的用户
         query1.findObjects(this, new FindListener<Friend>() {
             @Override
             public void onSuccess(List<Friend> list) {
                 if (list.size() == 0) {
+
+                    Log.i("info","是好友吗"+list.size());
+
                     addFriends.setVisibility(View.VISIBLE);
 
                 } else {

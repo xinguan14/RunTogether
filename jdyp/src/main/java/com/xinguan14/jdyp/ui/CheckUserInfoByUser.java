@@ -1,7 +1,6 @@
 package com.xinguan14.jdyp.ui;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -34,7 +33,7 @@ import cn.bmob.v3.listener.FindListener;
 /**
  * Created by wm on 2016/7/31.
  */
-public class CheckUserInfo extends ParentWithNaviActivity implements View.OnClickListener{
+public class CheckUserInfoByUser extends ParentWithNaviActivity implements View.OnClickListener{
 
     @Bind(R.id.img_my_avatar)
     ImageView image_my_avatar;
@@ -63,20 +62,21 @@ public class CheckUserInfo extends ParentWithNaviActivity implements View.OnClic
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.i("info","显示信息界面");
         setContentView(R.layout.check_info_layout);
         initNaviView();
-        friendQuery();
         //接收传递的user信息
         user = (User) getBundle().getSerializable("u");
-        //如果不是自己的朋友则显示显示添加好友的按钮
+        //如果是自己的朋友则不显示显示添加好友的按钮
         if (user.getObjectId().equals(getCurrentUid())) {
-            addFriends.setVisibility(View.VISIBLE);
+            addFriends.setVisibility(View.GONE);
+        }else {
+            //如果不是自己就盘判断是不是好友
+            friendQuery();
         }
+
         //构造聊天方的用户信息:传入用户id、用户名和用户头像三个参数
         info = new BmobIMUserInfo(user.getObjectId(), user.getUsername(), user.getAvatar());
         dataBind();
-
     }
     public void dataBind(){
         //给控件绑定数据
@@ -154,24 +154,27 @@ public class CheckUserInfo extends ParentWithNaviActivity implements View.OnClic
 
     //获的当前用户朋友的数据
     private void friendQuery() {
-        //获取显示资料的用户
+
+        //需要显示信息的用户
         String userId = ((User) getBundle().getSerializable("u")).getObjectId();
-        String useId2=  getBundle().getSerializable("userId").toString();
         BmobQuery<Friend> query1 = new BmobQuery<Friend>();
-        query1.addWhereEqualTo("user", getCurrentUid());
-        query1.addWhereNotEqualTo("friendUser", userId);//查询当前显示的用户
+        query1.addWhereEqualTo("user", getCurrentUid());//当前的用户
+        query1.addWhereEqualTo("friendUser", userId);//查询当前显示的用户
         query1.findObjects(this, new FindListener<Friend>() {
             @Override
             public void onSuccess(List<Friend> list) {
                 if (list.size() == 0) {
                     addFriends.setVisibility(View.VISIBLE);
+                    //Log.i("info","不是好友"+list.size());
 
                 } else {
                     addFriends.setVisibility(View.GONE);
+                    //Log.i("info","是好友"+list.size());
                 }
             }
             @Override
             public void onError(int i, String s) {
+               // Log.i("info","出错了");
             }
         });
     }

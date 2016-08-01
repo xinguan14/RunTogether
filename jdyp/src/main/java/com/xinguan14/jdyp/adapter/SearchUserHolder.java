@@ -12,7 +12,7 @@ import com.xinguan14.jdyp.R;
 import com.xinguan14.jdyp.adapter.base.BaseViewHolder;
 import com.xinguan14.jdyp.base.ImageLoaderFactory;
 import com.xinguan14.jdyp.bean.User;
-import com.xinguan14.jdyp.ui.CheckUserInfo;
+import com.xinguan14.jdyp.ui.CheckUserInfoByUser;
 
 import butterknife.Bind;
 
@@ -39,7 +39,7 @@ public class SearchUserHolder extends BaseViewHolder {
         public void onClick(View v) {//查看个人详情
           Bundle bundle = new Bundle();
           bundle.putSerializable("u", user);
-          startActivity(CheckUserInfo.class,bundle);
+          startActivity(CheckUserInfoByUser.class,bundle);
         }
     });
   }

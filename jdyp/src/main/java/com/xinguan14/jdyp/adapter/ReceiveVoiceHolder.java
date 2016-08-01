@@ -1,20 +1,21 @@
 package com.xinguan14.jdyp.adapter;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.xinguan14.jdyp.R;
+import com.xinguan14.jdyp.adapter.base.BaseViewHolder;
 import com.xinguan14.jdyp.base.ImageLoaderFactory;
+import com.xinguan14.jdyp.ui.CheckUserInfoByInfo;
 
 import java.text.SimpleDateFormat;
 
 import butterknife.Bind;
-import com.xinguan14.jdyp.R;
-import com.xinguan14.jdyp.adapter.base.BaseViewHolder;
-
 import cn.bmob.newim.bean.BmobIMAudioMessage;
 import cn.bmob.newim.bean.BmobIMMessage;
 import cn.bmob.newim.bean.BmobIMUserInfo;
@@ -66,6 +67,10 @@ public class ReceiveVoiceHolder extends BaseViewHolder {
       @Override
       public void onClick(View v) {
         toast("点击" + info.getName() + "的头像");
+          Bundle bundle = new Bundle();
+          BmobIMUserInfo userInfo = info;
+          bundle.putSerializable("userId", userInfo);
+          startActivity(CheckUserInfoByInfo.class,bundle);
       }
     });
     //显示特有属性
