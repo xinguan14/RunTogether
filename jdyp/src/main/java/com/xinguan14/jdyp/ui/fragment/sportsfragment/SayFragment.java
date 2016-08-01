@@ -2,33 +2,43 @@ package com.xinguan14.jdyp.ui.fragment.sportsfragment;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
+import android.text.Html;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.bumptech.glide.Glide;
+
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.xinguan14.jdyp.MyVeiw.AddCommentPopupWindow;
+import com.xinguan14.jdyp.MyVeiw.CircleImageView;
 import com.xinguan14.jdyp.MyVeiw.NineGridTestLayout;
 import com.xinguan14.jdyp.R;
 import com.xinguan14.jdyp.adapter.base.BaseListAdapter;
 import com.xinguan14.jdyp.adapter.base.BaseListHolder;
+import com.xinguan14.jdyp.bean.Comment;
 import com.xinguan14.jdyp.bean.Friend;
 import com.xinguan14.jdyp.bean.Post;
 import com.xinguan14.jdyp.bean.User;
+import com.xinguan14.jdyp.ui.CheckUserInfo;
+import com.xinguan14.jdyp.util.ImageLoadOptions;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import cn.bmob.v3.BmobQuery;
@@ -186,6 +196,8 @@ public class SayFragment extends android.support.v4.app.ListFragment {
         public void convert( BaseListHolder holder, Post item) {
             //图片布局
             NineGridTestLayout gv_images = holder.getView(R.id.gv_images);
+            //评论布局
+             final LinearLayout commentLayout = holder.getView(R.id.comments_layout);
             final TextView likes = holder.getView(R.id.tv_likes_names);
             postId = item .getObjectId();
             this.holder=holder;
@@ -193,7 +205,7 @@ public class SayFragment extends android.support.v4.app.ListFragment {
             String name = null,time = null,content = null,headpath = null,contentImageUrl = null;
             if(item !=null){
 
-                name = item.getAuthor().getUsername();
+                name = item.getAuthor().getNick();
                 time = item.getUpdatedAt();
                 content = item.getContent();
                 headpath = item.getAuthor().getAvatar();
@@ -268,14 +280,49 @@ public class SayFragment extends android.support.v4.app.ListFragment {
             }
             //头像
             if (headpath!=null&&!headpath.equals("")) {
-                Glide
-                        .with(mContext)
-                        .load(headpath)
-                        .placeholder(R.drawable.love)
-                        .into((ImageView)holder.getView(R.id.user_image));
+                ImageLoader.getInstance().displayImage(headpath,(CircleImageView)holder.getView(R.id.user_image),
+                        ImageLoadOptions.getOptions());
+
             } else {
                 holder.setImageResource(R.id.user_image,R.drawable.love);
             }
+            //显示评论
+            BmobQuery<Comment> commentBmobQuery = new BmobQuery<Comment>();
+            //用此方式可以构造一个BmobPointer对象。只需要设置objectId就行
+            post.setObjectId(postId);
+            commentBmobQuery.addWhereEqualTo("post",new BmobPointer(post));
+            //希望同时查询该评论的发布者的信息，以及该帖子的作者的信息，这里用到上面`include`的并列对象查询和内嵌对象的查询
+            commentBmobQuery.include("user,post.author");
+            commentBmobQuery.findObjects(mContext, new FindListener<Comment>() {
+
+                @Override
+                public void onSuccess(List<Comment> list) {
+                    // TODO Auto-generated method stub
+                    if (list.size()!=0) {
+                        commentLayout.removeAllViews();
+                        commentLayout.setVisibility(View.VISIBLE);
+
+                        for (int i= 0;i<list.size();i++) {
+                            TextView t = new TextView(mContext);
+                            t.setLayoutParams(new LinearLayout.LayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)));
+                            t.setTextSize(16);
+                            t.setPadding(5, 2, 0, 3);
+                            t.setLineSpacing(3, (float) 1.5);
+                            t.setText(Html.fromHtml("<font color='#4A766E'>"+list.get(i).getUser().getNick()+"</font>"+list.get(i).getContent()));
+                            commentLayout.addView(t);
+                        }
+                    } else {
+                        commentLayout.setVisibility(View.GONE);
+                    }
+                }
+
+                @Override
+                public void onError(int code, String msg) {
+                    // TODO Auto-generated method stub
+
+                }
+            });
+
             //点击头像的点击事件
             holder.getView(R.id.user_image).setOnClickListener(this);
             //弹出评论和点赞的按钮
@@ -289,7 +336,10 @@ public class SayFragment extends android.support.v4.app.ListFragment {
             switch (v.getId()){
                 //如果点击头像
                 case  R.id.user_image:
-                    Toast.makeText(mContext, "点击了头像", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(mContext, "点击了头像", Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(getActivity(),CheckUserInfo.class);
+                    intent.putExtra("postId", postId);
+                    startActivity(intent);
                     break;
                 //如果点击了评论和点赞图片
                 case R.id.more_img:

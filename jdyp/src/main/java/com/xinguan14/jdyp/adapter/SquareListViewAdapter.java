@@ -59,7 +59,7 @@ public class SquareListViewAdapter extends BaseListAdapter<Post> {
        // final Post gridViewItem = mDatas.get(position);
         String name = null,time = null,content = null,headpath = null,contentImageUrl = null;
         if(item !=null){
-            name = item.getAuthor().getUsername();
+            name = item.getAuthor().getNick();
             time = item.getCreatedAt();
             content = item.getContent();
             headpath = item.getAuthor().getAvatar();
