@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -236,6 +237,24 @@ public class ChangeMyInfoFragment extends ParentWithNaviFragment implements View
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
+            }
+        });
+        builder.setOnKeyListener(new DialogInterface.OnKeyListener() {
+            public boolean onKey(DialogInterface dialog,
+                                 int keyCode, KeyEvent event)
+            {
+                if (keyCode == KeyEvent.KEYCODE_BACK)
+                {
+                    dialog.dismiss();
+
+                    //此处把dialog dismiss掉，然后把本身的activity finish掉
+                    //   BarcodeActivity.this.finish();
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
         });
         builder.create().show();
