@@ -6,7 +6,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
@@ -68,6 +67,9 @@ public class SetFragment extends ParentWithNaviFragment {
     @Bind(R.id.set)
     LinearLayout layout_all;
 
+    AchievementsFragment achievementsFragment;
+    DynamicFragment dynamicFragment;
+    ChangeMyInfoFragment changeMyInfoFragment;
 
     private FragmentManager manager;
     private FragmentTransaction ft;
@@ -100,7 +102,6 @@ public class SetFragment extends ParentWithNaviFragment {
         User user = BmobUser.getCurrentUser(getActivity(), User.class);
         //更新用户昵称
         tv_nick_name.setText(TextUtils.isEmpty(user.getNick()) ? "" : user.getNick());
-        System.out.println(user.getNick());
         //更新头像
         refreshAvatar(user.getAvatar());
         circleImageView.setOnClickListener(new View.OnClickListener() {
@@ -113,6 +114,8 @@ public class SetFragment extends ParentWithNaviFragment {
                         Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
             }
         });
+        System.out.println("返回这里");
+
         return rootView;
     }
 
@@ -130,21 +133,25 @@ public class SetFragment extends ParentWithNaviFragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Fragment fragment = null;
+                ft = manager.beginTransaction();
+                ft.addToBackStack("setFragment");
                 switch (position) {
                     case 0:
-                        fragment = new AchievementsFragment();
+                        if (achievementsFragment == null)
+                            achievementsFragment = new AchievementsFragment();
+                        ft.replace(R.id.id_content, achievementsFragment);
                         break;
                     case 1:
-                        fragment = new DynamicFragment();
+                        if (dynamicFragment == null)
+                            dynamicFragment = new DynamicFragment();
+                        ft.replace(R.id.id_content, dynamicFragment);
                         break;
                     case 2:
-                        fragment = new ChangeMyInfoFragment();
+                        if (changeMyInfoFragment == null)
+                            changeMyInfoFragment = new ChangeMyInfoFragment();
+                        ft.replace(R.id.id_content, changeMyInfoFragment,"changeMyInfoFragment");
                         break;
                 }
-                ft = manager.beginTransaction();
-                ft.replace(R.id.id_content, fragment);
-                ft.addToBackStack(null);
                 ft.commit();
             }
         });
@@ -152,11 +159,25 @@ public class SetFragment extends ParentWithNaviFragment {
 
 
     @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden) {
+            if (getActivity() instanceof AddMenu) {
+                ((AddMenu) getActivity()).showMenu();
+            }
+        }
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
-        if (getActivity() instanceof AddMenu)
+        if (getActivity() instanceof AddMenu) {
             ((AddMenu) getActivity()).showMenu();
+        }
+        System.out.println("返回显示");
+
     }
+
 
     @Override
     public void onPause() {
@@ -428,4 +449,5 @@ public class SetFragment extends ParentWithNaviFragment {
     public interface AddMenu {
         void showMenu();
     }
+
 }

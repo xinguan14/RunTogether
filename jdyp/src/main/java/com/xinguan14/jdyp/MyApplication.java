@@ -193,46 +193,4 @@ public class MyApplication extends Application {
             lastPoint = new BmobGeoPoint(longtitude, latitude);
         }
     }
-//    /**
-//     * 实现实位回调监听
-//     */
-//    public class MyLocationListener implements BDLocationListener {
-//
-//        @Override
-//        public void onReceiveLocation(BDLocation location) {
-//            // Receive Location
-//            latitude_d = location.getLatitude();
-//            longtitude_d = location.getLongitude();
-//
-////
-////            User u = BmobUser.getCurrentUser(getApplicationContext(),User.class);
-////            final User user = new User();
-////            BmobGeoPoint bmobGeoPoint = new BmobGeoPoint(longtitude_d,latitude_d);
-////            user.setLocation(bmobGeoPoint);
-////            user.setObjectId(u.getObjectId());
-////            user.update(getApplicationContext(),new UpdateListener() {
-////                @Override
-////                public void onSuccess() {
-////                    // TODO Auto-generated method stub
-////                    setLatitude(String.valueOf(user.getLocation().getLatitude()));
-////                    //getInstance().setLongtitude(String.valueOf(user.getLocation().getLongitude()));
-//////						ShowLog("经纬度更新成功");
-////                }
-////                @Override
-////                public void onFailure(int code, String msg) {
-////                    // TODO Auto-generated method stub
-//////						ShowLog("经纬度更新 失败:"+msg);
-////                }
-////            });
-//            if (lastPoint != null) {
-//                if (lastPoint.getLatitude() == location.getLatitude()
-//                        && lastPoint.getLongitude() == location.getLongitude()) {
-////					BmobLog.i("两次获取坐标相同");// 若两次请求获取到的地理位置坐标是相同的，则不再定位
-//                    mLocationClient.stop();
-//                    return;
-//                }
-//            }
-//            lastPoint = new BmobGeoPoint(longtitude_d, latitude_d);
-//        }
-//    }
 }

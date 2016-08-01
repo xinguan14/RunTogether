@@ -61,7 +61,7 @@ import cn.bmob.newim.event.OfflineMessageEvent;
 public class MessageFragment extends ParentWithNaviFragment implements SwipeMenuBuilder {
 
     @Bind(R.id.rc_view)
-    public SwapRecyclerView rc_view;
+    SwapRecyclerView rc_view;
 
     @Bind(R.id.sw_refresh)
     MySwipeRefreshLayout sw_refresh;
@@ -71,6 +71,7 @@ public class MessageFragment extends ParentWithNaviFragment implements SwipeMenu
     public ConversationAdapter adapter;
     LinearLayoutManager layoutManager;
     private int pos;
+    SwipeMenuView menuView;//包含左滑删除的布局
 
     @Override
     protected String title() {
@@ -199,6 +200,16 @@ public class MessageFragment extends ParentWithNaviFragment implements SwipeMenu
         super.onStop();
     }
 
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (menuView != null) {
+            if (hidden == true && menuView.getLayout().isOpen()) {//当消息列表界面被隐藏掉时，把打开的左滑删除按钮关闭
+                menuView.getLayout().smoothCloseMenu();
+            }
+        }
+    }
+
     /**
      * 查询本地会话
      */
@@ -283,7 +294,7 @@ public class MessageFragment extends ParentWithNaviFragment implements SwipeMenu
                 .setBackground(new ColorDrawable(Color.RED));
         menu.addMenuItem(item);
 
-        SwipeMenuView menuView = new SwipeMenuView(menu);
+        menuView = new SwipeMenuView(menu);
 
         menuView.setOnMenuItemClickListener(new SwipeMenuView.OnMenuItemClickListener() {
             @Override

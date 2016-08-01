@@ -99,6 +99,9 @@ public class SwipeMenuView extends LinearLayout implements View.OnClickListener 
     public void setLayout(SwipeMenuLayout mLayout) {
         this.mLayout = mLayout;
     }
+    public SwipeMenuLayout getLayout() {
+        return this.mLayout;
+    }
 
 
 }

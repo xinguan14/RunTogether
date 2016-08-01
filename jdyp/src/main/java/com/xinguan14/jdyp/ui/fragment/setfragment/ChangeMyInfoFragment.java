@@ -107,6 +107,7 @@ public class ChangeMyInfoFragment extends ParentWithNaviFragment implements View
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         rootView = inflater.inflate(R.layout.set_change_info, container, false);
         ButterKnife.bind(this, rootView);
         initNaviView();
@@ -136,11 +137,20 @@ public class ChangeMyInfoFragment extends ParentWithNaviFragment implements View
     @Override
     public void onPause() {
         super.onPause();
-        if (getActivity() instanceof SetFragment.AddMenu) {
-            ((SetFragment.AddMenu) getActivity()).showMenu();
-        }
+
     }
 
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden) {
+            if (getActivity() instanceof SetFragment.HideTab) {
+                ((SetFragment.HideTab) getActivity()).hide();
+            } else {
+                System.out.println("info隐藏了");
+            }
+        }
+    }
 
     private void dataBind() {
 
@@ -151,15 +161,15 @@ public class ChangeMyInfoFragment extends ParentWithNaviFragment implements View
         tv_my_username.setText(user.getNick());
         tv_my_phone.setText(user.getMobilePhoneNumber());
         tv_my_userEmail.setText(user.getEmail());
-        if (userSex != null) {
-            if (user.getSex()) {
-                tv_my_userSex.setText("男");
-            } else {
-                tv_my_userSex.setText("女");
-            }
+        if (user.getSex()) {
+            tv_my_userSex.setText("男");
+        } else {
+            tv_my_userSex.setText("女");
         }
 
+
     }
+
     /**
      * 更新头像 refreshAvatar
      *
@@ -176,7 +186,7 @@ public class ChangeMyInfoFragment extends ParentWithNaviFragment implements View
     }
 
 
-    private Boolean sex;//true为男
+    private Boolean sex = true;//true为男
     private int checkedItem = 0;
 
     private void chooseSex() {
@@ -205,20 +215,16 @@ public class ChangeMyInfoFragment extends ParentWithNaviFragment implements View
                     tv_my_userSex.setText("女");
                 }
 
-                User newUser = new User();
-                newUser.setSex(sex);
                 //获取当前用户
                 User user = BmobUser.getCurrentUser(getActivity(), User.class);
-                newUser.update(getActivity(), user.getObjectId(), new UpdateListener() {
+                user.setSex(sex);
+                user.update(getActivity(), user.getObjectId(), new UpdateListener() {
                     @Override
                     public void onSuccess() {
-                        // TODO Auto-generated method stub
-                        toast("更新用户信息成功:");
                     }
 
                     @Override
                     public void onFailure(int code, String msg) {
-                        // TODO Auto-generated method stub
                         toast("更新用户信息失败:" + msg);
                     }
                 });
@@ -239,14 +245,13 @@ public class ChangeMyInfoFragment extends ParentWithNaviFragment implements View
     public void onClick(View v) {
         fragmentManager = getFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.addToBackStack("changeMyInfoFragment");
         switch (v.getId()) {
             case R.id.rl_my_avatar:
                 break;
             case R.id.rl_my_username:
                 if (changeUserNamefragment == null)
                     changeUserNamefragment = new ChangeUserNameFragment();
-
                 fragmentTransaction.replace(R.id.id_content, changeUserNamefragment);
                 break;
             case R.id.rl_my_sex:

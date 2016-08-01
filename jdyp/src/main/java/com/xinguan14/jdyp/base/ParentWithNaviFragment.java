@@ -23,7 +23,6 @@ public abstract class ParentWithNaviFragment extends BaseFragment {
     public ImageView tv_left;
     public LinearLayout ll_navi;
 
-
     /**
      * 初始化导航条
      */

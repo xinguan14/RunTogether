@@ -70,7 +70,8 @@
             android:ellipsize="end"
             android:singleLine="true"
             android:textColor="#999"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            />
 
 
     </RelativeLayout>

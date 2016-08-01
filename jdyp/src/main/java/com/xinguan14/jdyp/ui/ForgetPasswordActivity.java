@@ -15,14 +15,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.xinguan14.jdyp.MyVeiw.ClearWriteEditText;
 import com.xinguan14.jdyp.R;
 import com.xinguan14.jdyp.base.BaseActivity;
 import com.xinguan14.jdyp.bean.User;
-
 import java.util.List;
-
 import butterknife.Bind;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobSMS;
@@ -65,7 +62,6 @@ public class ForgetPasswordActivity extends BaseActivity implements View.OnClick
     ImageView mImgBackgroud;
 
     String passWord, PassWordAgain, getCode, tel;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,7 +106,7 @@ public class ForgetPasswordActivity extends BaseActivity implements View.OnClick
                 break;
             case R.id.btn_forget_getcode:
                 //进行获取验证码操作和倒计时1分钟操作
-                BmobSMS.requestSMSCode(this, tel, "建大约跑", new RequestSMSCodeListener() {
+                BmobSMS.requestSMSCode(this, tel, "找回密码", new RequestSMSCodeListener() {
                     @Override
                     public void done(Integer integer, BmobException e) {
                         if (e == null) {
@@ -189,24 +185,11 @@ public class ForgetPasswordActivity extends BaseActivity implements View.OnClick
                                             Toast.makeText(ForgetPasswordActivity.this, "密码修改成功，去登录吧~", Toast.LENGTH_SHORT).show();
                                             startActivity(LoginActivity.class, null, true);
                                         } else {
-                                            Toast.makeText(ForgetPasswordActivity.this,  e + "密码修改失败" + e.getErrorCode(), Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(ForgetPasswordActivity.this, e + "密码修改失败" + e.getErrorCode(), Toast.LENGTH_SHORT).show();
 
                                         }
                                     }
                                 });
-//                                item.setSessionToken(tel);
-//                                item.update(ForgetPasswordActivity.this, item.getObjectId(), new UpdateListener() {
-//                                    @Override
-//                                    public void onSuccess() {
-//
-//                                    }
-//
-//                                    @Override
-//                                    public void onFailure(int i, String s) {
-//
-//
-//                                    }
-//                                });
                             }
                         }
                     }

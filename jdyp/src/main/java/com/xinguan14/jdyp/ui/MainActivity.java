@@ -28,6 +28,8 @@ import com.xinguan14.jdyp.ui.fragment.ContactFragment;
 import com.xinguan14.jdyp.ui.fragment.MessageFragment;
 import com.xinguan14.jdyp.ui.fragment.SetFragment;
 import com.xinguan14.jdyp.ui.fragment.SportsFragment;
+import com.xinguan14.jdyp.ui.fragment.setfragment.ChangeMyInfoFragment;
+import com.xinguan14.jdyp.ui.fragment.setfragment.ChangePassWordFragment;
 import com.xinguan14.jdyp.util.IMMLeaks;
 
 import org.greenrobot.eventbus.EventBus;
@@ -90,6 +92,8 @@ public class MainActivity extends BaseActivity implements ObseverListener, Gooey
     private ContactFragment contactFragment;
     private SportsFragment sportsFragment;
     private MessageFragment messageFragment;
+    ChangeMyInfoFragment changeMyInfoFragment;
+    ChangePassWordFragment changePassWordFragment;
     private int index;
     private int mScreenWidth;
     private int mScreenHeight;
@@ -170,6 +174,7 @@ public class MainActivity extends BaseActivity implements ObseverListener, Gooey
                 mTabs[1].setSelected(false);
                 mTabs[2].setSelected(false);
                 mTabs[3].setSelected(false);
+
                 if (messageFragment == null) {
                     messageFragment = new MessageFragment();
                     transaction.add(R.id.id_content, messageFragment);
@@ -208,7 +213,7 @@ public class MainActivity extends BaseActivity implements ObseverListener, Gooey
                 mTabs[0].setSelected(false);
                 if (setFragment == null) {
                     setFragment = new SetFragment();
-                    transaction.add(R.id.id_content, setFragment);
+                    transaction.add(R.id.id_content, setFragment,"setFragment");
                 } else {
                     transaction.show(setFragment);
                 }
@@ -254,6 +259,12 @@ public class MainActivity extends BaseActivity implements ObseverListener, Gooey
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        if (setFragment!=null&&setFragment.isVisible()){
+            showTab();
+        }
+        if (changeMyInfoFragment!=null&&changeMyInfoFragment.isVisible()){
+            hideTab();
+        }
     }
 
     /**
@@ -289,7 +300,6 @@ public class MainActivity extends BaseActivity implements ObseverListener, Gooey
 
     public void checkRedPoint() {
         int count = (int) BmobIM.getInstance().getAllUnReadCount();
-//        int count = messageFragment.count;
         if (count > 0) {
             tv_recent_unread.setVisibility(View.VISIBLE);
             if (count > 99) {
@@ -374,42 +384,6 @@ public class MainActivity extends BaseActivity implements ObseverListener, Gooey
     public void menuItemClicked(int menuNumber) {
 
     }
-
-//    @Override
-//    public SwipeMenuView create() {
-//
-//        SwipeMenu menu = new SwipeMenu(this);
-//
-//        SwipeMenuItem item = new SwipeMenuItem(this);
-//        item.setTitle("删除")
-//                .setTitleColor(Color.WHITE)
-//                .setBackground(new ColorDrawable(Color.RED));
-//        menu.addMenuItem(item);
-//
-//        SwipeMenuView menuView = new SwipeMenuView(menu);
-//
-//        menuView.setOnMenuItemClickListener(mOnSwipeItemClickListener);
-//
-//        return menuView;
-//
-//    }
-
-//    private SwipeMenuView.OnMenuItemClickListener mOnSwipeItemClickListener = new SwipeMenuView.OnMenuItemClickListener() {
-//
-//        @Override
-//        public void onMenuItemClick(int pos, SwipeMenu menu, int index) {
-//            Toast.makeText(MainActivity.this, menu.getMenuItem(index).getTitle(), Toast.LENGTH_LONG).show();
-//            messageFragment.close(pos);
-//
-//            if (index == 1) {
-//                messageFragment.close(pos);
-////                messageFragment.rc_view.smoothCloseMenu(pos);
-//////                recyclerView.smoothCloseMenu(pos);
-//////                list.remove(pos);
-////                messageFragment.adapter.remove(pos);
-//            }
-//        }
-//    };
 
     /**
      * 为了调用activity里的方法创建的
