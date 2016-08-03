@@ -1,5 +1,5 @@
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_change"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -21,7 +21,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
         <com.xinguan14.jdyp.MyVeiw.CircleImageView
@@ -108,47 +108,20 @@
             </RelativeLayout>
 
 
-            <Button
-                android:id="@+id/btn_login"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="30dip"
-                android:layout_marginRight="30dip"
-                android:layout_marginTop="34dip"
-                android:background="@drawable/rs_select_btn_blue"
-                android:text="@string/login"
-                android:textColor="#FFFFFF"
-                android:textSize="18sp" />
-
-
         </LinearLayout>
+
+        <com.xinguan14.jdyp.MyVeiw.ATLoginButton
+            android:id="@+id/btn_login"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginLeft="30dip"
+            android:layout_marginRight="30dip"
+            android:layout_marginTop="34dip"
+            android:text="@string/login"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp" />
     </LinearLayout>
-    <!--<LinearLayout-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="48dp"-->
-    <!--android:layout_alignParentBottom="true"-->
-    <!--android:layout_marginBottom="20dp"-->
-    <!--android:gravity="center"-->
-    <!--android:orientation="horizontal">-->
 
-    <!--<TextView-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:gravity="center_vertical"-->
-    <!--android:text="@string/register_txt1"-->
-    <!--android:textColor="@color/base_color_text_gray"-->
-    <!--android:textSize="20sp" />-->
-
-    <!--<TextView-->
-    <!--android:id="@+id/tv_register"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:layout_marginLeft="5dp"-->
-    <!--android:gravity="center_vertical"-->
-    <!--android:text="@string/register_txt2"-->
-    <!--android:textColor="@color/color_theme"-->
-    <!--android:textSize="20sp" />-->
-    <!--</LinearLayout>-->
     <TextView
         android:id="@+id/tv_forget"
         android:layout_width="wrap_content"

@@ -103,6 +103,11 @@ public class ChangeMyInfoFragment extends ParentWithNaviFragment implements View
         };
     }
 
+    @Override
+    public boolean onBackPressed() {
+        return false;
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -245,7 +250,6 @@ public class ChangeMyInfoFragment extends ParentWithNaviFragment implements View
     public void onClick(View v) {
         fragmentManager = getFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.addToBackStack("changeMyInfoFragment");
         switch (v.getId()) {
             case R.id.rl_my_avatar:
                 break;
@@ -279,6 +283,7 @@ public class ChangeMyInfoFragment extends ParentWithNaviFragment implements View
                 startActivity(LoginActivity.class, null);
                 break;
         }
+        fragmentTransaction.addToBackStack("changeMyInfoFragment");
         fragmentTransaction.commit();
     }
 }

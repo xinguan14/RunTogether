@@ -15,11 +15,26 @@
     </declare-styleable>
 
     <declare-styleable name="NineGridLayout">
-        <attr name="sapcing" format="dimension"/>
+        <attr name="sapcing" format="dimension" />
     </declare-styleable>
 
     <declare-styleable name="RatioImageView">
-        <attr name="ratio" format="float"/>
+        <attr name="ratio" format="float" />
+    </declare-styleable>
+    <declare-styleable name="ATLoginButton">
+        <attr name="button_color" format="color" />
+        <attr name="text_color" format="color" />
+        <attr name="circle_loading_color" format="color" />
+        <attr name="failed_button_color" format="color" />
+        <attr name="text_size" format="dimension" />
+        <attr name="circle_loading_width" format="dimension" />
+        <attr name="login_text" format="string" />
+        <attr name="failed_text" format="string" />
+        <attr name="failed_text_color" format="color" />
+        <attr name="button_normal_color" format="color" />
+        <attr name="button_normal_stroke_color" format="color" />
+        <attr name="text_normal_color" format="color" />
+        <attr name="button_normal_stroke_width" format="dimension" />
     </declare-styleable>
 
 </resources>

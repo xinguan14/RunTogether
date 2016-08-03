@@ -57,6 +57,11 @@ public class ChangePassWordFragment extends ParentWithNaviFragment {
     }
 
     @Override
+    public boolean onBackPressed() {
+        return false;
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.set_update_password, container, false);

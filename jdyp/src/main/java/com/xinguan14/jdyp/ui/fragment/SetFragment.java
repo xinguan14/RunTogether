@@ -82,6 +82,11 @@ public class SetFragment extends ParentWithNaviFragment {
         return "我的";
     }
 
+    @Override
+    public boolean onBackPressed() {
+        return false;
+    }
+
     public static SetFragment newInstance() {
         SetFragment fragment = new SetFragment();
         Bundle args = new Bundle();
@@ -114,8 +119,6 @@ public class SetFragment extends ParentWithNaviFragment {
                         Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
             }
         });
-        System.out.println("返回这里");
-
         return rootView;
     }
 
@@ -134,7 +137,6 @@ public class SetFragment extends ParentWithNaviFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 ft = manager.beginTransaction();
-                ft.addToBackStack("setFragment");
                 switch (position) {
                     case 0:
                         if (achievementsFragment == null)
@@ -152,6 +154,7 @@ public class SetFragment extends ParentWithNaviFragment {
                         ft.replace(R.id.id_content, changeMyInfoFragment,"changeMyInfoFragment");
                         break;
                 }
+                ft.addToBackStack("setFragment");
                 ft.commit();
             }
         });

@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.orhanobut.logger.Logger;
 import com.xinguan14.jdyp.MyVeiw.GooeyMenu;
 import com.xinguan14.jdyp.R;
+import com.xinguan14.jdyp.base.BackHandledInterface;
 import com.xinguan14.jdyp.base.BaseActivity;
 import com.xinguan14.jdyp.base.ParentWithNaviFragment;
 import com.xinguan14.jdyp.bean.User;
@@ -51,7 +52,7 @@ import cn.bmob.v3.exception.BmobException;
  * 四个tab加一个环形菜单
  */
 public class MainActivity extends BaseActivity implements ObseverListener, GooeyMenu.GooeyMenuInterface,
-         MessageFragment.Check, SetFragment.HideTab, SetFragment.AddMenu {
+        MessageFragment.Check, SetFragment.HideTab, SetFragment.AddMenu, BackHandledInterface {
 
     @Bind(R.id.btn_message)
     Button btn_message;
@@ -213,7 +214,7 @@ public class MainActivity extends BaseActivity implements ObseverListener, Gooey
                 mTabs[0].setSelected(false);
                 if (setFragment == null) {
                     setFragment = new SetFragment();
-                    transaction.add(R.id.id_content, setFragment,"setFragment");
+                    transaction.add(R.id.id_content, setFragment, "setFragment");
                 } else {
                     transaction.show(setFragment);
                 }
@@ -258,12 +259,19 @@ public class MainActivity extends BaseActivity implements ObseverListener, Gooey
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        if (setFragment!=null&&setFragment.isVisible()){
-            showTab();
-        }
-        if (changeMyInfoFragment!=null&&changeMyInfoFragment.isVisible()){
-            hideTab();
+        if (parentWithNaviFragment == null || !parentWithNaviFragment.onBackPressed()) {
+            if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
+                super.onBackPressed();
+            } else {
+                int a = getSupportFragmentManager().getBackStackEntryCount();
+                getSupportFragmentManager().popBackStack(getSupportFragmentManager().getBackStackEntryAt(a - 1).getName(), getFragmentManager().POP_BACK_STACK_INCLUSIVE);
+                if (a==1){
+                    showTab();
+                }else {
+                    hideTab();
+                }
+                System.out.println("返回 " + a);
+            }
         }
     }
 
@@ -403,4 +411,8 @@ public class MainActivity extends BaseActivity implements ObseverListener, Gooey
         showTab();
     }
 
+    @Override
+    public void setSelectedFragment(ParentWithNaviFragment selectedFragment) {
+        this.parentWithNaviFragment = selectedFragment;
+    }
 }

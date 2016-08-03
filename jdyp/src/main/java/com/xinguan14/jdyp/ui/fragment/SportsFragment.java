@@ -73,6 +73,11 @@ public class SportsFragment extends ParentWithNaviFragment {
         };
     }
 
+    @Override
+    public boolean onBackPressed() {
+        return false;
+    }
+
 
     /**
      * 获取当前屏幕的密度

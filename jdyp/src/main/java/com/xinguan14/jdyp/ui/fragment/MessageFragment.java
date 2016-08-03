@@ -99,6 +99,11 @@ public class MessageFragment extends ParentWithNaviFragment implements SwipeMenu
     }
 
     @Override
+    public boolean onBackPressed() {
+        return false;
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_conversation, container, false);
         initNaviView();
@@ -300,8 +305,8 @@ public class MessageFragment extends ParentWithNaviFragment implements SwipeMenu
             @Override
             public void onMenuItemClick(int position, SwipeMenu menu, int index) {
                 rc_view.smoothCloseMenu(position);
-                adapter.getItem(pos).onLongClick(getActivity());
-                adapter.remove(pos);
+                adapter.getItem(position).onLongClick(getActivity());
+                adapter.remove(position);
                 showNoMessage();
             }
         });

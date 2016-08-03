@@ -12,12 +12,22 @@
         android:id="@+id/update_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:drawablePadding="5dip"
+        android:hint=" 昵称"
+        android:background="@drawable/rc_ed_public_service_search_selector"
+        android:inputType="textPersonName"
         android:maxLength="32"
-        android:textColor="#353535"
-        android:textSize="16sp" />
+        android:paddingLeft="10dip"
+        android:paddingRight="10dip"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:textColor="@color/base_color_text_black"
+        android:textColorHint="@color/color_emote_divder"
+        />
 
     <TextView
         android:id="@+id/tips"

@@ -2,22 +2,23 @@ package com.xinguan14.jdyp.ui.fragment.setfragment;
 
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+
 import com.xinguan14.jdyp.R;
 import com.xinguan14.jdyp.StikkyHeader.DynamicAnimator;
 import com.xinguan14.jdyp.StikkyHeader.Utils;
 import com.xinguan14.jdyp.StikkyHeader.core.StikkyHeaderBuilder;
+import com.xinguan14.jdyp.base.ParentWithNaviFragment;
 import com.xinguan14.jdyp.ui.fragment.SetFragment;
 
 /**
  * 我的动态
  * @author 徐玲
  */
-public class DynamicFragment extends Fragment {
+public class DynamicFragment extends ParentWithNaviFragment {
 
     private ListView mListView;
 
@@ -71,4 +72,13 @@ public class DynamicFragment extends Fragment {
         }
     }
 
+    @Override
+    protected String title() {
+        return null;
+    }
+
+    @Override
+    public boolean onBackPressed() {
+        return false;
+    }
 }

@@ -3,7 +3,6 @@ package com.xinguan14.jdyp.ui.fragment.setfragment;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +14,7 @@ import com.xinguan14.jdyp.StikkyHeader.core.AnimatorBuilder;
 import com.xinguan14.jdyp.StikkyHeader.core.BaseStickyHeaderAnimator;
 import com.xinguan14.jdyp.StikkyHeader.core.HeaderStikkyAnimator;
 import com.xinguan14.jdyp.StikkyHeader.core.StikkyHeaderBuilder;
+import com.xinguan14.jdyp.base.ParentWithNaviFragment;
 import com.xinguan14.jdyp.ui.fragment.SetFragment;
 
 
@@ -23,7 +23,7 @@ import com.xinguan14.jdyp.ui.fragment.SetFragment;
  *
  * @author 徐玲
  */
-public class AchievementsFragment extends Fragment {
+public class AchievementsFragment extends ParentWithNaviFragment {
 
     private View mToolbar;
     private ListView mListView;
@@ -92,4 +92,13 @@ public class AchievementsFragment extends Fragment {
         }
     }
 
+    @Override
+    protected String title() {
+        return null;
+    }
+
+    @Override
+    public boolean onBackPressed() {
+        return false;
+    }
 }

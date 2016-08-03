@@ -150,4 +150,14 @@
     <style name="Smile.TextView._Gray">
         <item name="android:textColor">@color/base_color_text_gray</item>
     </style>
+    <style name="def_button_style">
+        <item name="button_color">@android:color/holo_green_light</item>
+        <item name="text_color">@color/colorW</item>
+        <item name="text_size">14sp</item>
+        <item name="circle_loading_width">1dp</item>
+        <item name="circle_loading_color">@android:color/darker_gray</item>
+        <item name="failed_button_color">@android:color/holo_red_light</item>
+        <item name="login_text">登录</item>
+        <item name="failed_text">失败请重试!</item>
+    </style>
 </resources>

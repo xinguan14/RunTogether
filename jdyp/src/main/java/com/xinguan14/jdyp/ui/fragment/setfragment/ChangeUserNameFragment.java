@@ -4,8 +4,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 
+import com.xinguan14.jdyp.MyVeiw.ClearWriteEditText;
 import com.xinguan14.jdyp.R;
 import com.xinguan14.jdyp.base.ParentWithNaviActivity;
 import com.xinguan14.jdyp.base.ParentWithNaviFragment;
@@ -22,7 +22,7 @@ import cn.bmob.v3.listener.UpdateListener;
 public class ChangeUserNameFragment extends ParentWithNaviFragment {
 
     @Bind(R.id.update_name)
-    EditText updateName;
+    ClearWriteEditText updateName;
     private String newName;
     @Override
     protected String title() {
@@ -63,10 +63,16 @@ public class ChangeUserNameFragment extends ParentWithNaviFragment {
                         }
                     });
                 }else {
+                    updateName.setShakeAnimation();
                     toast("用户名不能为空");
                 }
             }
         };
+    }
+
+    @Override
+    public boolean onBackPressed() {
+        return false;
     }
 
     @Override
@@ -76,12 +82,6 @@ public class ChangeUserNameFragment extends ParentWithNaviFragment {
         ButterKnife.bind(this, rootView);
         initNaviView();
         return rootView;
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-
-        super.onActivityCreated(savedInstanceState);
     }
     @Override
     public void onResume() {

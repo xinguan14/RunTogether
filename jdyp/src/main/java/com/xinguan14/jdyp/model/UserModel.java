@@ -1,7 +1,5 @@
 package com.xinguan14.jdyp.model;
 
-import android.text.TextUtils;
-
 import com.orhanobut.logger.Logger;
 import com.xinguan14.jdyp.bean.Friend;
 import com.xinguan14.jdyp.bean.User;
@@ -47,14 +45,14 @@ public class UserModel extends BaseModel {
      * @param listener
      */
     public void login(String username, String password, final LogInListener listener) {
-        if (TextUtils.isEmpty(username)) {
-            listener.internalDone(new BmobException(CODE_NULL, "请填写用户名"));
-            return;
-        }
-        if (TextUtils.isEmpty(password)) {
-            listener.internalDone(new BmobException(CODE_NULL, "请填写密码"));
-            return;
-        }
+//        if (TextUtils.isEmpty(username)) {
+//            listener.internalDone(new BmobException(CODE_NULL, "请填写用户名"));
+//            return;
+//        }
+//        if (TextUtils.isEmpty(password)) {
+//            listener.internalDone(new BmobException(CODE_NULL, "请填写密码"));
+//            return;
+//        }
         final User user = new User();
         user.setUsername(username);
         user.setPassword(password);

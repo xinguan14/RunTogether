@@ -1,5 +1,6 @@
 package com.xinguan14.jdyp.ui;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
@@ -8,12 +9,13 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.xinguan14.jdyp.MyVeiw.ATLoginButton;
 import com.xinguan14.jdyp.MyVeiw.CircleImageView;
 import com.xinguan14.jdyp.MyVeiw.ClearWriteEditText;
 import com.xinguan14.jdyp.R;
@@ -49,7 +51,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     @Bind(R.id.et_password)
     ClearWriteEditText et_password;
     @Bind(R.id.btn_login)
-    Button btn_login;
+    ATLoginButton btn_login;
     @Bind(R.id.tv_register)
     TextView tv_register;
     @Bind(R.id.tv_forget)
@@ -77,8 +79,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 mImgBackgroud.startAnimation(animation);
             }
         }, 200);
-
         addEditTextListener();
+//        btn_login.setButtonText("登录");
+
     }
 
     public void setListener() {
@@ -96,17 +99,50 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_login:
+                if (et_username.getText().equals("")) {
+                    et_username.setShakeAnimation();
+                    toast("用户名不能为空");
+                    return;
+                }
+                if (et_password.getText().equals("")) {
+                    et_password.setShakeAnimation();
+                    toast("密码不能为空");
+                    return;
+                }
+
+                if (!et_username.getText().toString().equals("") && !et_password.getText().toString().equals("")) {
+                    btn_login.buttonLoginAction();
+                    toast("登录中，请稍候");
+
+                }
+                ((InputMethodManager) LoginActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE))
+                        .hideSoftInputFromWindow(LoginActivity.this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+
                 UserModel.getInstance().login(et_username.getText().toString(), et_password.getText().toString(), new LogInListener() {
 
                     @Override
-                    public void done(Object o, BmobException e) {
+                    public void done(Object o, final BmobException e) {
                         if (e == null) {
+                            btn_login.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    btn_login.buttonLoaginResultAciton(true);
+                                }
+                            }, 100);
                             User user = (User) o;
                             BmobIM.getInstance().updateUserInfo(new BmobIMUserInfo(user.getObjectId(), user.getUsername(), user.getAvatar()));
                             updateUserLocation();
                             startActivity(MainActivity.class, null, true);
                         } else {
-                            toast(e.getMessage() + "(" + e.getErrorCode() + ")");
+                            btn_login.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    btn_login.buttonLoaginResultAciton(false);
+//                                    toast(e.getMessage() + "(" + e.getErrorCode() + ")");
+                                    toast("用户名或密码错误");
+
+                                }
+                            }, 1000);
                         }
                     }
                 });
@@ -118,6 +154,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 startActivity(ForgetPasswordActivity.class, null, false);
                 break;
         }
+
     }
 
     private void addEditTextListener() {
@@ -135,8 +172,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             @Override
             public void afterTextChanged(Editable s) {
 
-                if (s.toString().equals("")){
-                    logo.setImageResource(R.mipmap.ic_launcher) ;
+                if (s.toString().equals("")) {
+                    logo.setImageResource(R.mipmap.ic_launcher);
                 }
                 if (s.length() == 11) {
                     BmobQuery<User> bmobQuery = new BmobQuery<User>();
@@ -152,6 +189,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                                 }
                             }
                         }
+
                         @Override
                         public void onError(int i, String s) {
                         }
