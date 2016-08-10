@@ -98,42 +98,49 @@
         </FrameLayout>
 
         <!--显示点赞界面-->
-        <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="20dip"
-            android:id="@+id/add_zan"
-            android:layout_marginTop="10dip"
-            android:background="#e6e6e6" >
-
-            <ImageView
-                android:id="@+id/iv_share_heart"
-                android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <RelativeLayout
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="5dip"
-                android:background="@drawable/s_msg_icon_praise"
-                android:scaleType="fitXY" />
+                android:id="@+id/add_zan"
+                android:layout_marginTop="10dip">
 
-            <TextView
-                android:id="@+id/tv_likes_number"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="5dip"
-                android:layout_toRightOf="@id/iv_share_heart"
-                android:textColor="#7888a9"
-                android:textSize="13.0sp" />
+                <ImageView
+                    android:id="@+id/iv_share_heart"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dip"
+                    android:background="@drawable/s_msg_icon_praise"
+                    android:scaleType="fitXY" />
 
+                <TextView
+                    android:id="@+id/tv_likes_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dip"
+                    android:layout_toRightOf="@id/iv_share_heart"
+                    android:textColor="#7888a9"
+                    android:textSize="13.0sp" />
+
+            </RelativeLayout>
             <TextView
                 android:id="@+id/tv_likes_names"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
+                android:layout_alignBottom="@id/iv_share_heart"
                 android:layout_marginLeft="5dip"
-                android:layout_toRightOf="@id/tv_likes_number"
                 android:textColor="#7888a9"
                 android:textSize="13.0sp" />
-        </RelativeLayout>
+        </LinearLayout>
+
+
+
 
         <!--显示评论界面-->
         <LinearLayout

@@ -33,9 +33,10 @@ public class NineGridTestLayout extends NineGridLayout {
 
     @Override
     protected boolean displayOneImage(final RatioImageView imageView, String url, final int parentWidth) {
-        Glide.with(mContext)//activty
+        Glide.with(mContext)
                 .load(url)
                 .asBitmap()
+                .placeholder(R.drawable.pictures_no)
                 .into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
 
                     @Override

@@ -1,18 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-
-              android:layout_height="match_parent">
     <LinearLayout
-        android:id="@+id/comment_view"
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:id="@+id/comment_view"
         android:orientation="horizontal"
         android:paddingBottom="30dp"
         android:paddingTop="3dp"
-        android:background="@drawable/line"
-        android:layout_alignParentBottom="true">
+        android:background="@drawable/line">
 
         <com.xinguan14.jdyp.MyVeiw.ClearWriteEditText
             android:id="@+id/add_comment"
@@ -39,4 +34,3 @@
             android:text="发送" />
 
     </LinearLayout>
-</RelativeLayout>

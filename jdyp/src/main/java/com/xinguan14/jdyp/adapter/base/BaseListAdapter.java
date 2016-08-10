@@ -12,7 +12,9 @@ public abstract class BaseListAdapter<T> extends BaseAdapter
 {
 	protected LayoutInflater mInflater;
 	protected Context mContext;
+	//每个item的数据
 	protected List<T> mDatas;
+	//item的布局文件
 	protected final int mItemLayoutId;
 
 	public BaseListAdapter(Context context, List<T> mDatas, int itemLayoutId)
@@ -45,9 +47,7 @@ public abstract class BaseListAdapter<T> extends BaseAdapter
 	public View getView(int position, View convertView, ViewGroup parent)
 	{
 		final BaseListHolder viewHolder = getViewHolder(position, convertView, parent);
-		//Log.i("info","当前ListView的位置"+position);
-		//子类要重写的方法，给指定控件绑定数据
-		//Log.i("info","当前Item的位置："+position);
+
 		convert(viewHolder, getItem(position));
 
 		return viewHolder.getConvertView();

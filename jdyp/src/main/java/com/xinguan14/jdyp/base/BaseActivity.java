@@ -46,6 +46,7 @@ public class BaseActivity extends FragmentActivity {
         super.onCreate(savedInstanceState, persistentState);
     }
 
+
     @Override
     protected void onStart() {
         super.onStart();

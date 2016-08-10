@@ -9,7 +9,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.text.Html;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -183,6 +182,7 @@ public class SayFragment extends android.support.v4.app.ListFragment {
         //弹出评论框
         private AddCommentPopupWindow menuWindow;
 
+       // private Handler handler;
         public SayListViewAdapter(Activity context, List<Post> list, int itemLayoutId){
             super(context,list,itemLayoutId);
             //根据屏幕的大小设置控件的大小
@@ -190,6 +190,7 @@ public class SayFragment extends android.support.v4.app.ListFragment {
 
         @Override
         public void convert(final BaseListHolder holder, final Post item) {
+
             //图片布局
             RelativeLayout rL = holder.getView(R.id.rl4);
             NineGridTestLayout gv_images = holder.getView(R.id.gv_images);
@@ -217,12 +218,14 @@ public class SayFragment extends android.support.v4.app.ListFragment {
             } else {
                 rL.setVisibility(View.GONE);
             }
-            //点赞的rem ,查询喜欢这个帖子的所有用户，因此查询的是用户表
-            showZan(holder,item);
 
-            if (item.getZan()!=null) {
-                holder.setTextView(R.id.tv_likes_number, zan.intValue() + "人觉得很赞");
+            if (zan!=null&&zan.toString().trim().length()!=0) {
+                 holder.setTextView(R.id.tv_likes_number, zan.intValue() + "人觉得很赞");
+            }else {
+                holder.setTextView(R.id.tv_likes_number,"");
             }
+            //点赞的人 ,查询喜欢这个帖子的所有用户，因此查询的是用户表
+            showZan(holder,item);
             //显示发布时间
             if (time!=null&&!time.equals("")) {
                 showTime(holder,item);
@@ -296,10 +299,12 @@ public class SayFragment extends android.support.v4.app.ListFragment {
                         //弹出评论框
                         menuWindow = new AddCommentPopupWindow(mContext, item.getObjectId());
                         Log.i("info","postId2:"+item.getObjectId());
-                        menuWindow.showAtLocation(holder.getConvertView(), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+                       // menuWindow.showAtLocation(holder.getConvertView(), Gravity.BOTTOM , 0, 0);
+                        menuWindow.showAsDropDown(holder.getConvertView());
                         if (mMorePopupWindow != null && mMorePopupWindow.isShowing()) {
                             mMorePopupWindow.dismiss();
                         }
+
                     }
                 });
                 good.setOnClickListener(new View.OnClickListener() {
@@ -314,13 +319,14 @@ public class SayFragment extends android.support.v4.app.ListFragment {
                         relation.add(user);
                         //多对多关联指向`post`的`likes`字段
                         post.setLikes(relation);
-                        post.increment("score",1); // 点赞的数量加1
+                        post.increment("zan",1); // 点赞的数量加1
                         post.update(mContext, new UpdateListener() {
 
                             @Override
                             public void onSuccess() {
                                 // TODO Auto-generated method stub
                                 Toast.makeText(mContext, "点赞成功", Toast.LENGTH_SHORT).show();
+                                friendQuery();
                             }
 
                             @Override
@@ -375,7 +381,8 @@ public class SayFragment extends android.support.v4.app.ListFragment {
             }
         }
 
-        private void showZan(final BaseListHolder holder, final Post item){
+        private void showZan( final BaseListHolder holder,  Post item){
+
             BmobQuery<User> query = new BmobQuery<User>();
             Post post = new Post();
             post.setObjectId(item.getObjectId());
@@ -388,11 +395,12 @@ public class SayFragment extends android.support.v4.app.ListFragment {
                     for (int i= 0;i<list.size();i++){
                         likesUser +=list.get(i).getUsername()+",";
                     }
-                    if (likesUser.length()!=0) {
-                        //holder.setTextView(R.id.tv_likes_names,likesUser);
-                       holder.setTextView(R.id.tv_likes_names,likesUser+"By"+item.getContent());
+                    if (likesUser.trim().length()!=0) {
+                       holder.setTextView(R.id.tv_likes_names,likesUser);
+                    }else {
+                        holder.setTextView(R.id.tv_likes_names,"");
                     }
-                    // Log.i("info","点赞用户："+likesUser);
+
                 }
 
                 @Override
@@ -400,6 +408,7 @@ public class SayFragment extends android.support.v4.app.ListFragment {
 
                 }
             });
+
         }
 
         private void showComments(final BaseListHolder holder, Post item){

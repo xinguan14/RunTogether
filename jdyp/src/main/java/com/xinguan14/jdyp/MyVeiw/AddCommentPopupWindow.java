@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -25,7 +26,7 @@ import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.listener.SaveListener;
 
 /**
- * Created by yyz on 2016/7/28.
+ * Created by wm on 2016/7/28.
  */
 public class AddCommentPopupWindow extends PopupWindow {
     private Button submitComment;
@@ -44,9 +45,7 @@ public class AddCommentPopupWindow extends PopupWindow {
         this.mContext = context;
         this.postId = postId;
         this.width = SysUtils.getScreenWidth(context);
-        this.height = SysUtils.getScreenHeight(context);
-        LayoutInflater inflater = (LayoutInflater) context
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mMenuView = inflater.inflate(R.layout.add_comments, null);
 
         submitComment = (Button) mMenuView.findViewById(R.id.submit_comment);
@@ -86,11 +85,8 @@ public class AddCommentPopupWindow extends PopupWindow {
             }
         });
 
-
-
-
         //在PopupWindow里面就加上下面代码，让键盘弹出时，不会挡住pop窗口。
-        this.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
+        this.setSoftInputMode(PopupWindow.INPUT_METHOD_NEEDED);
         this.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
         //openKeyboard(new Handler(), 600);
@@ -100,9 +96,13 @@ public class AddCommentPopupWindow extends PopupWindow {
         // 设置SelectPicPopupWindow弹出窗体的宽
         this.setWidth(width);
         // 设置SelectPicPopupWindow弹出窗体的高
-        this.setHeight(height);
+        this.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
         // 设置SelectPicPopupWindow弹出窗体可点击
         this.setFocusable(true);
+
+        this.setOutsideTouchable(true);
+        this.setTouchable(true);
+
         // 设置SelectPicPopupWindow弹出窗体动画效果
         this.setAnimationStyle(R.style.PopupAnimation);
         // 实例化一个ColorDrawable颜色为半透明
