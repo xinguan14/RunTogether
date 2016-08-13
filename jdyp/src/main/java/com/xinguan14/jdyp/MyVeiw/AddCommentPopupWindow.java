@@ -89,7 +89,7 @@ public class AddCommentPopupWindow extends PopupWindow {
         this.setSoftInputMode(PopupWindow.INPUT_METHOD_NEEDED);
         this.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
-        //openKeyboard(new Handler(), 600);
+        openKeyboard(new Handler(), 100);
         // 设置SelectPicPopupWindow的View
         this.setContentView(mMenuView);
 

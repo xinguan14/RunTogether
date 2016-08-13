@@ -9,6 +9,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.text.Html;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -299,8 +300,8 @@ public class SayFragment extends android.support.v4.app.ListFragment {
                         //弹出评论框
                         menuWindow = new AddCommentPopupWindow(mContext, item.getObjectId());
                         Log.i("info","postId2:"+item.getObjectId());
-                       // menuWindow.showAtLocation(holder.getConvertView(), Gravity.BOTTOM , 0, 0);
-                        menuWindow.showAsDropDown(holder.getConvertView());
+                        menuWindow.showAtLocation(holder.getConvertView(), Gravity.BOTTOM , 0, 0);
+                        //menuWindow.showAsDropDown(holder.getConvertView());
                         if (mMorePopupWindow != null && mMorePopupWindow.isShowing()) {
                             mMorePopupWindow.dismiss();
                         }

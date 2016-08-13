@@ -5,32 +5,27 @@
         android:layout_height="match_parent"
         android:id="@+id/comment_view"
         android:orientation="horizontal"
-        android:paddingBottom="30dp"
-        android:paddingTop="3dp"
-        android:background="@drawable/line">
-
-        <com.xinguan14.jdyp.MyVeiw.ClearWriteEditText
+        android:background="@color/color_b4">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <EditText
             android:id="@+id/add_comment"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
+            android:layout_height="match_parent"
             android:layout_marginBottom="5dip"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="5dip"
+            android:layout_margin="10dp"
             android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:maxLength="2000"
-            android:paddingLeft="3dp"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:background="@color/white"/>
 
         <Button
             android:id="@+id/submit_comment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="3dp"
-            android:gravity="center"
             android:background="@drawable/photo_gallery_selector"
             android:text="发送" />
+        </LinearLayout>
 
     </LinearLayout>

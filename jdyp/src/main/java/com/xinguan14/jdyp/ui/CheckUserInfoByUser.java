@@ -70,7 +70,7 @@ public class CheckUserInfoByUser extends ParentWithNaviActivity implements View.
         if (user.getObjectId().equals(getCurrentUid())) {
             addFriends.setVisibility(View.GONE);
         }else {
-            //如果不是自己就盘判断是不是好友
+            //如果不是自己就判断是不是好友
             friendQuery();
         }
 
@@ -78,9 +78,15 @@ public class CheckUserInfoByUser extends ParentWithNaviActivity implements View.
         info = new BmobIMUserInfo(user.getObjectId(), user.getUsername(), user.getAvatar());
         dataBind();
     }
+    //给控件绑定数据
     public void dataBind(){
-        //给控件绑定数据
-        ImageLoader.getInstance().displayImage(user.getAvatar(),image_my_avatar, ImageLoadOptions.getOptions());
+       //如果头像不为空则使用bmob的头像，为空则使用默认的头像
+        if (user.getAvatar()!=null) {
+            ImageLoader.getInstance()
+                    .displayImage(user.getAvatar(), image_my_avatar, ImageLoadOptions.getOptions());
+        }else {
+            image_my_avatar.setImageResource(R.drawable.love);
+        }
         userName.setText(user.getUsername());
         nikeName.setText(user.getNick());
         if (user.getSex()) {

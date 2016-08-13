@@ -1,18 +1,22 @@
 package com.xinguan14.jdyp.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.xinguan14.jdyp.MyVeiw.NineGridTestLayout;
 import com.xinguan14.jdyp.R;
 import com.xinguan14.jdyp.adapter.base.BaseListAdapter;
 import com.xinguan14.jdyp.adapter.base.BaseListHolder;
 import com.xinguan14.jdyp.bean.Post;
 import com.xinguan14.jdyp.bean.User;
+import com.xinguan14.jdyp.ui.CheckUserInfoByUser;
+import com.xinguan14.jdyp.util.ImageLoadOptions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,12 +49,14 @@ public class SquareListViewAdapter extends BaseListAdapter<Post> {
         NineGridTestLayout gv_images = holder.getView(R.id.gv_images);
 
         String name = null,time = null,content = null,headpath = null,contentImageUrl = null;
+        Number zan = null;
         if(item !=null){
             name = item.getAuthor().getNick();
             time = item.getCreatedAt();
             content = item.getContent();
             headpath = item.getAuthor().getAvatar();
             contentImageUrl = item.getImageurl();
+            zan =item.getZan();
         }
         //昵称
         if (name!=null&&!name.equals("")) {
@@ -64,11 +70,12 @@ public class SquareListViewAdapter extends BaseListAdapter<Post> {
             rL.setVisibility(View.GONE);
         }
         //点赞的rem ,查询喜欢这个帖子的所有用户，因此查询的是用户表
-        showZan(holder,item);
-
-        if (item.getZan()!=null) {
-            holder.setTextView(R.id.tv_likes_number, item.getZan().intValue() + "人觉得很赞");
+        if (zan!=null&&zan.toString().trim().length()!=0) {
+            holder.setTextView(R.id.tv_likes_number, zan.intValue() + "人觉得很赞");
+        }else {
+            holder.setTextView(R.id.tv_likes_number,"");
         }
+        showZan(holder,item);
 
         //发布时间
         if (time!=null&&!time.equals("")) {
@@ -80,11 +87,9 @@ public class SquareListViewAdapter extends BaseListAdapter<Post> {
         }
         //头像
         if (headpath!=null&&!headpath.equals("")) {
-            Glide
-                    .with(mContext)
-                    .load(headpath)
-                    .placeholder(R.drawable.love)
-                    .into((ImageView)holder.getView(R.id.info_iv_head));
+            ImageLoader.getInstance().
+                    displayImage(headpath,(ImageView)holder.getView(R.id.info_iv_head),
+                    ImageLoadOptions.getOptions());
         } else {
             holder.setImageResource(R.id.info_iv_head,R.drawable.love);
         }
@@ -92,7 +97,13 @@ public class SquareListViewAdapter extends BaseListAdapter<Post> {
         holder.getView(R.id.info_iv_head).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                Toast.makeText(mContext, "点击了头像", Toast.LENGTH_LONG).show();
+                Bundle bundle = new Bundle();
+                User userInfo = item.getAuthor();
+                bundle.putSerializable("u", userInfo);
+               Intent intent = new Intent(mContext,CheckUserInfoByUser.class);
+                if (bundle != null)
+                    intent.putExtra(mContext.getPackageName(), bundle);
+                mContext.startActivity(intent);
             }
         });
         //点赞
@@ -108,6 +119,7 @@ public class SquareListViewAdapter extends BaseListAdapter<Post> {
                 relation.add(user);
                 //多对多关联指向`post`的`likes`字段
                 post.setLikes(relation);
+                post.increment("zan",1); // 点赞的数量加1
                 post.update(mContext, new UpdateListener() {
 
                     @Override
@@ -129,7 +141,6 @@ public class SquareListViewAdapter extends BaseListAdapter<Post> {
         BmobQuery<User> query = new BmobQuery<User>();
         Post post = new Post();
         post.setObjectId(item.getObjectId());
-        //Log.i("info","查询的动态ID："+postId);
         //likes是Post表中的字段，用来存储所有喜欢该帖子的用户
         query.addWhereRelatedTo("likes", new BmobPointer(post));
         query.findObjects(mContext, new FindListener<User>() {
@@ -141,7 +152,9 @@ public class SquareListViewAdapter extends BaseListAdapter<Post> {
 
                 }
                 if (likesUser.length()!=0) {
-                    holder.setTextView(R.id.tv_likes_names,likesUser+"By"+item.getContent());
+                    holder.setTextView(R.id.tv_likes_names,likesUser);
+                }else {
+                    holder.setTextView(R.id.tv_likes_names,"");
                 }
             }
 
