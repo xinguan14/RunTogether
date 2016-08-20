@@ -24,18 +24,21 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <!-- baidumap 所需的权限 -start -->
 
-    <permission android:name="android.permission.BAIDU_LOCATION_SERVICE"></permission>
+    <permission android:name="android.permission.BAIDU_LOCATION_SERVICE" />
 
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"></uses-permission>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"></uses-permission>
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"></uses-permission>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"></uses-permission>
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"></uses-permission>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"></uses-permission>
-    <uses-permission android:name="android.permission.READ_LOGS"></uses-permission>
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.READ_LOGS" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
 
     <application
         android:name=".MyApplication"
@@ -54,18 +57,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.xinguan14.jdyp.ui.LoginActivity" />
-        <activity android:name="com.xinguan14.jdyp.ui.MainActivity" />
-        <activity android:name="com.xinguan14.jdyp.ui.RegisterActivity" />
-        <activity android:name="com.xinguan14.jdyp.ui.SearchUserActivity" />
-        <activity android:name="com.xinguan14.jdyp.ui.UserInfoActivity" />
-        <activity android:name="com.xinguan14.jdyp.ui.NewFriendActivity" />
-        <activity android:name="com.xinguan14.jdyp.ui.ForgetPasswordActivity" />
+        <activity android:name=".ui.LoginActivity" />
+        <activity android:name=".ui.MainActivity" />
+        <activity android:name=".ui.RegisterActivity" />
+        <activity android:name=".ui.SearchUserActivity" />
+        <activity android:name=".ui.UserInfoActivity" />
+        <activity android:name=".ui.NewFriendActivity" />
+        <activity android:name=".ui.ForgetPasswordActivity" />
         <activity android:name=".ui.AddPostActivity" />
         <activity android:name=".ui.ChooseImageActivity" />
         <activity android:name=".ui.CheckUserInfoByUser" />
         <activity android:name=".ui.CheckUserInfoByInfo" />
-
+        <activity android:name=".trackshow.BaiduActivity" />
 
         <activity
             android:name="com.xinguan14.jdyp.ui.ChatActivity"
@@ -86,6 +89,7 @@
             </intent-filter>
         </receiver>
 
+
         <service
             android:name="cn.bmob.newim.core.service.BmobIMService"
             android:process=":bmobcore" />
@@ -97,12 +101,23 @@
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
-            android:process=":remote"></service>
+            android:process=":remote"/>
+
+        <service
+            android:name="com.baidu.trace.LBSTraceService"
+            android:enabled="true"
+            android:exported="true"/>
+        <service
+            android:name="com.xinguan14.jdyp.trackshow.MonitorService"
+            android:enabled="true"
+            android:exported="true"/>
+
         <!-- 设置bmob appkey -->
         <meta-data
             android:name="Bmob_APP_KEY"
             android:value="837e7a9a893103b81208fd1d2fbdbbdb" />
         <!-- bmobim end -->
+
 
     </application>
 

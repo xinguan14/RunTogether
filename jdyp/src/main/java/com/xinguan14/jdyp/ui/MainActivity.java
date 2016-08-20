@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -25,6 +26,7 @@ import com.xinguan14.jdyp.base.ParentWithNaviFragment;
 import com.xinguan14.jdyp.bean.User;
 import com.xinguan14.jdyp.db.NewFriendManager;
 import com.xinguan14.jdyp.event.RefreshEvent;
+import com.xinguan14.jdyp.trackshow.BaiduActivity;
 import com.xinguan14.jdyp.ui.fragment.ContactFragment;
 import com.xinguan14.jdyp.ui.fragment.MessageFragment;
 import com.xinguan14.jdyp.ui.fragment.SetFragment;
@@ -76,7 +78,7 @@ public class MainActivity extends BaseActivity implements ObseverListener, Gooey
     Button btn_set;
 
     @Bind(R.id.gooey_menu)//环形菜单
-            GooeyMenu gooeyMenu;
+    GooeyMenu gooeyMenu;
 
     @Bind(R.id.bottom)
     LinearLayout bottom;
@@ -265,9 +267,9 @@ public class MainActivity extends BaseActivity implements ObseverListener, Gooey
             } else {
                 int a = getSupportFragmentManager().getBackStackEntryCount();
                 getSupportFragmentManager().popBackStack(getSupportFragmentManager().getBackStackEntryAt(a - 1).getName(), getFragmentManager().POP_BACK_STACK_INCLUSIVE);
-                if (a==1){
+                if (a == 1) {
                     showTab();
-                }else {
+                } else {
                     hideTab();
                 }
                 System.out.println("返回 " + a);
@@ -351,9 +353,14 @@ public class MainActivity extends BaseActivity implements ObseverListener, Gooey
     }
 
     @TargetApi(Build.VERSION_CODES.KITKAT)
+
     @Override
     public void menuOpen() {
-
+//        btn_message.setClickable(false);
+//        btn_sports.setClickable(false);
+//        btn_connect.setClickable(false);
+//        btn_set.setClickable(false);
+//
         //获取当前屏幕宽高
         DisplayMetrics metric = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metric);
@@ -365,18 +372,27 @@ public class MainActivity extends BaseActivity implements ObseverListener, Gooey
         popupWindow.setAnimationStyle(R.style.AppTheme_PopupOverlay);
         popupWindow.setOutsideTouchable(true);
         popupWindow.setFocusable(true);
-        popupWindow.setTouchable(true);
+        popupWindow.setTouchable(false);
         WindowManager.LayoutParams params = getWindow().getAttributes();
         params.alpha = 0.5f;
         getWindow().setAttributes(params);
+
+        popupWindow.setTouchInterceptor(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                return true;
+            }
+        });
         popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
 
             @Override
             public void onDismiss() {
+                gooeyMenu.close();
+
                 WindowManager.LayoutParams lp = getWindow().getAttributes();
                 lp.alpha = 1f;
                 getWindow().setAttributes(lp);
-                gooeyMenu.close();
             }
         });
 
@@ -390,7 +406,9 @@ public class MainActivity extends BaseActivity implements ObseverListener, Gooey
 
     @Override
     public void menuItemClicked(int menuNumber) {
-
+        if (menuNumber==1){
+            startActivity(BaiduActivity.class, null, true);
+        }
     }
 
     /**
