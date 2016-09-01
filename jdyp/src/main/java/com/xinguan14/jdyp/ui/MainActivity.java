@@ -1,13 +1,13 @@
 package com.xinguan14.jdyp.ui;
 
 import android.annotation.TargetApi;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -78,7 +78,7 @@ public class MainActivity extends BaseActivity implements ObseverListener, Gooey
     Button btn_set;
 
     @Bind(R.id.gooey_menu)//环形菜单
-    GooeyMenu gooeyMenu;
+            GooeyMenu gooeyMenu;
 
     @Bind(R.id.bottom)
     LinearLayout bottom;
@@ -95,11 +95,13 @@ public class MainActivity extends BaseActivity implements ObseverListener, Gooey
     private ContactFragment contactFragment;
     private SportsFragment sportsFragment;
     private MessageFragment messageFragment;
-    ChangeMyInfoFragment changeMyInfoFragment;
-    ChangePassWordFragment changePassWordFragment;
+    private ChangeMyInfoFragment changeMyInfoFragment;
+    private ChangePassWordFragment changePassWordFragment;
     private int index;
+    private int isOpen = 0;//
     private int mScreenWidth;
     private int mScreenHeight;
+    private PopupWindow popupWindow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -368,7 +370,7 @@ public class MainActivity extends BaseActivity implements ObseverListener, Gooey
         mScreenHeight = metric.heightPixels;
 
         View view = getLayoutInflater().inflate(R.layout.activity_gooey_menu, null);
-        PopupWindow popupWindow = new PopupWindow(view, mScreenWidth, mScreenHeight);
+        popupWindow = new PopupWindow(view, mScreenWidth, mScreenHeight);
         popupWindow.setAnimationStyle(R.style.AppTheme_PopupOverlay);
         popupWindow.setOutsideTouchable(true);
         popupWindow.setFocusable(true);
@@ -377,36 +379,63 @@ public class MainActivity extends BaseActivity implements ObseverListener, Gooey
         params.alpha = 0.5f;
         getWindow().setAttributes(params);
 
-        popupWindow.setTouchInterceptor(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-
-                return true;
-            }
-        });
+//        popupWindow.setTouchInterceptor(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//
+////                if (gooeyMenu.isMenuVisible) {
+////                    System.out.println("执行真11111111111111");
+////                    return true;
+////                } else{
+////                    System.out.println("执行假11111111111111");
+////                    System.out.println(gooeyMenu.isGooeyMenuTouch(event));
+////                    System.out.println(gooeyMenu.isMenuVisible);
+////                    return false;
+////                }
+//
+//                return false;
+//            }
+//        });
         popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
 
             @Override
             public void onDismiss() {
-                gooeyMenu.close();
 
-                WindowManager.LayoutParams lp = getWindow().getAttributes();
-                lp.alpha = 1f;
-                getWindow().setAttributes(lp);
+                if (isOpen == 0) {
+                    System.out.println("你妹" + isOpen);
+                }
+                if (isOpen == 1) {
+                    System.out.println("你妹" + isOpen);
+                }
+                if (isOpen == 2) {
+                    System.out.println("你妹" + isOpen);
+                }
+                isOpen = 0;
+                System.out.println("te" + isOpen);
+
+//                gooeyMenu.close();
+//                WindowManager.LayoutParams lp = getWindow().getAttributes();
+//                lp.alpha = 1f;
+//                getWindow().setAttributes(lp);
             }
         });
-
+        popupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));    //要为popWindow设置一个背景才有效
         popupWindow.showAsDropDown(gooeyMenu, Gravity.BOTTOM, 0, 0);
     }
 
     @Override
     public void menuClose() {
-
+        popupWindow.dismiss();
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.alpha = 1f;
+        getWindow().setAttributes(lp);
+        isOpen = 2;
     }
 
     @Override
     public void menuItemClicked(int menuNumber) {
-        if (menuNumber==1){
+        isOpen = 1;
+        if (menuNumber == 1) {
             startActivity(BaiduActivity.class, null, true);
         }
     }

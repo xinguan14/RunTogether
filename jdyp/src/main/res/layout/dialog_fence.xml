@@ -1,0 +1,43 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/fence_key"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:gravity="left" >
+    </TextView>
+
+    <EditText
+        android:id="@+id/fence_value"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:digits="1234567890"
+        android:gravity="left" >
+    </EditText>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:gravity="left"
+        android:text="@string/fence_precision" >
+    </TextView>
+
+    <EditText
+        android:id="@+id/fence_precision"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:digits="1234567890"
+        android:gravity="left" >
+    </EditText>
+
+</LinearLayout>
