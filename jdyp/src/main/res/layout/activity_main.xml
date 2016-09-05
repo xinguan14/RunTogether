@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mainLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -13,17 +13,14 @@
             android:id="@+id/id_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="60dp" />
+            android:layout_marginBottom="52dp" />
 
         <include
             android:id="@+id/bottom"
             layout="@layout/bottom"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="52dp"
             android:layout_gravity="bottom" />
 
-        <include
-            android:id="@+id/gooey"
-            layout="@layout/activity_gooey_menu" />
     </FrameLayout>
 </LinearLayout>
