@@ -3,12 +3,15 @@ package com.xinguan14.jdyp.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.xinguan14.jdyp.MyVeiw.AddCommentPopupWindow;
 import com.xinguan14.jdyp.MyVeiw.NineGridTestLayout;
 import com.xinguan14.jdyp.R;
 import com.xinguan14.jdyp.adapter.base.BaseListAdapter;
@@ -71,7 +74,7 @@ public class SquareListViewAdapter extends BaseListAdapter<Post> {
         }
         //点赞的rem ,查询喜欢这个帖子的所有用户，因此查询的是用户表
         if (zan!=null&&zan.toString().trim().length()!=0) {
-            holder.setTextView(R.id.tv_likes_number, zan.intValue() + "人觉得很赞");
+            holder.setTextView(  R.id.tv_likes_number, "(" +zan.intValue() + ")");
         }else {
             holder.setTextView(R.id.tv_likes_number,"");
         }
@@ -110,6 +113,7 @@ public class SquareListViewAdapter extends BaseListAdapter<Post> {
         holder.getView(R.id.iv_share_heart).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 User user = BmobUser.getCurrentUser(mContext, User.class);
                 Post post = new Post();
                 post.setObjectId(item.getObjectId());
@@ -124,6 +128,8 @@ public class SquareListViewAdapter extends BaseListAdapter<Post> {
 
                     @Override
                     public void onSuccess() {
+                        //跟新点赞人数
+                        holder.setTextView(  R.id.tv_likes_number, "(" +item.getZan() + ")");
                         Toast.makeText(mContext, "点赞成功", Toast.LENGTH_SHORT).show();
                     }
 
@@ -135,8 +141,18 @@ public class SquareListViewAdapter extends BaseListAdapter<Post> {
                 });
             }
         });
-    }
+        holder.getView(R.id.comment).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //弹出评论框
+                AddCommentPopupWindow menuWindow = new AddCommentPopupWindow(mContext, item.getObjectId());
+                Log.i("info","postId2:"+item.getObjectId());
+                menuWindow.showAtLocation(holder.getConvertView(), Gravity.BOTTOM , 0, 0);
 
+            }
+        });
+    }
+//显示点赞的人
     private void showZan(final BaseListHolder holder, final Post item){
         BmobQuery<User> query = new BmobQuery<User>();
         Post post = new Post();
@@ -152,9 +168,9 @@ public class SquareListViewAdapter extends BaseListAdapter<Post> {
 
                 }
                 if (likesUser.length()!=0) {
-                    holder.setTextView(R.id.tv_likes_names,likesUser);
+                   // holder.setTextView(R.id.tv_likes_names,likesUser);
                 }else {
-                    holder.setTextView(R.id.tv_likes_names,"");
+                   // holder.setTextView(R.id.tv_likes_names,"");
                 }
             }
 

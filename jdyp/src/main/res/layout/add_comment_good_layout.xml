@@ -5,18 +5,15 @@
               android:layout_height="match_parent">
             <ImageView
                 android:id="@+id/good_img"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
+                android:layout_width="70dp"
+                android:layout_height="30dp"
                 android:scaleType="fitXY"
                 android:src="@drawable/good_select" />
 
             <ImageView
                 android:id="@+id/comment_img"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@id/good_img"
+                android:layout_width="70dp"
+                android:layout_height="30dp"
                 android:scaleType="fitXY"
                 android:src="@drawable/comment_select" />
 

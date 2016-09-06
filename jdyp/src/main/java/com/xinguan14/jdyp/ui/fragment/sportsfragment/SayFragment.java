@@ -7,17 +7,16 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
-import android.text.Html;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
+import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -39,6 +38,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.Bind;
@@ -293,7 +293,7 @@ public class SayFragment extends android.support.v4.app.ListFragment {
                 ImageView good = (ImageView) parent.findViewById(R.id.good_img);
                 ImageView comment = (ImageView) parent.findViewById(R.id.comment_img);
 
-                // 点赞的监听器
+                // 评论的监听器
                 comment.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -327,7 +327,8 @@ public class SayFragment extends android.support.v4.app.ListFragment {
                             public void onSuccess() {
                                 // TODO Auto-generated method stub
                                 Toast.makeText(mContext, "点赞成功", Toast.LENGTH_SHORT).show();
-                                friendQuery();
+                                //跟新点赞人数
+                                holder.setTextView(  R.id.tv_likes_number, "(" +item.getZan() + ")");
                             }
 
                             @Override
@@ -424,10 +425,26 @@ public class SayFragment extends android.support.v4.app.ListFragment {
 
                 @Override
                 public void onSuccess(List<Comment> list) {
-                    LinearLayout commentLayout = holder.getView(R.id.comments_layout);
+                    ListView commentLayout = holder.getView(R.id.comments_layout);
                     if (list.size()!=0) {
+                        commentLayout.setVisibility(View.VISIBLE);
+                        ArrayList<HashMap<String, Object>> listItem = new ArrayList<HashMap<String, Object>>();/*在数组中存放数据*/
+                        for(int i=0;i<list.size();i++)
+                        {
 
-                        commentLayout.removeAllViews();
+                            HashMap<String, Object> map = new HashMap<String, Object>();
+                            map.put("commentName", list.get(i).getUser().getNick()+":");
+                            map.put("commentContent", list.get(i).getContent());
+                            listItem.add(map);
+                        }
+                        SimpleAdapter mSimpleAdapter = new SimpleAdapter(getActivity(),listItem,
+                                R.layout.comments_item_layout,
+                                new String[]{"commentName", "commentContent"},
+                                new int[] {R.id.commentName,R.id.commentContent,});
+
+                        commentLayout.setAdapter(mSimpleAdapter);//为ListView绑定适配器
+
+                       /* commentLayout.removeAllViews();
                         commentLayout.setVisibility(View.VISIBLE);
 
                         for (int i= 0;i<list.size();i++) {
@@ -438,7 +455,8 @@ public class SayFragment extends android.support.v4.app.ListFragment {
                             t.setLineSpacing(3, (float) 1.5);
                             t.setText(Html.fromHtml("<font color='#4A766E'>"+list.get(i).getUser().getNick()+"</font>:"+list.get(i).getContent()));
                             commentLayout.addView(t);
-                        }
+                        }*/
+
                     } else {
                         commentLayout.setVisibility(View.GONE);
                     }

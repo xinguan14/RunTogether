@@ -50,6 +50,7 @@
     <color name="de_title_bg">#0195ff</color>
     <color name="aa_bg">#0195ff</color>
     <color name="colorW">#FFFFE0</color>
+    <color name="userNameColor">#4A766E</color>
 
 
 </resources>

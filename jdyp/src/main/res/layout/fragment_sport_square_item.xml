@@ -82,35 +82,89 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             app:sapcing="4dp" />
-
     </RelativeLayout>
 
-    <!--显示点赞界面-->
+    <RelativeLayout
+        android:id="@+id/rl5"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rl4"
+        android:layout_marginTop="5dip"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/color_b4"/>
+        </RelativeLayout>
+    <!--显示点赞和评论界面-->
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="20dip"
-        android:layout_marginTop="10dip"
-        android:background="#e6e6e6"
-        android:layout_below="@+id/rl4">
+        android:layout_height="23dp"
+        android:layout_marginTop="5dip"
+        android:layout_below="@+id/rl5"
+        android:layout_centerHorizontal="true"
+        android:background="@color/base_bg"
+        android:layout_centerVertical="true">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+           android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:background="@color/white">
             <ImageButton
-                android:id="@+id/iv_share_heart"
+                android:id="@+id/comment"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerVertical="true"
+                android:background="@drawable/s_msg_icon_comment"
+                android:scaleType="fitXY" />
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="评论"
+                android:paddingRight="10sp"
+                android:textSize="14sp"
+               />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="(0)"
+                android:textSize="14sp"
+                android:paddingRight="10sp"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/delate_line"/>
+
+            <ImageButton
+                android:id="@+id/iv_share_heart"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_centerVertical="true"
                 android:background="@drawable/s_msg_icon_praise"
                 android:scaleType="fitXY" />
-
             <TextView
-                android:id="@+id/tv_likes_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="5dip"
-                android:layout_toRightOf="@id/iv_share_heart"
-                android:textColor="#7888a9"
-                android:textSize="13.0sp" />
+                android:text="点赞"
+                android:textSize="14sp"
+                android:paddingRight="10sp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_likes_number"
+                android:text="(0)"
+                android:textSize="14sp"
+                android:paddingRight="10sp"/>
 
-        <TextView
+        </LinearLayout>
+
+
+       <!-- <TextView
             android:id="@+id/tv_likes_names"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -119,7 +173,7 @@
             android:layout_toRightOf="@+id/tv_likes_number"
             android:text=""
             android:textColor="#7888a9"
-            android:textSize="13.0sp" />
+            android:textSize="13.0sp" />-->
     </RelativeLayout>
 
 </RelativeLayout>
