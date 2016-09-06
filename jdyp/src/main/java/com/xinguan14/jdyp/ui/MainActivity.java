@@ -1,15 +1,23 @@
 package com.xinguan14.jdyp.ui;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.graphics.drawable.ColorDrawable;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
-import android.view.WindowManager;
+import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.RotateAnimation;
+import android.view.animation.ScaleAnimation;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -18,7 +26,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.orhanobut.logger.Logger;
-import com.xinguan14.jdyp.MyVeiw.GooeyMenu;
+import com.xinguan14.jdyp.MyVeiw.DensityUtil;
 import com.xinguan14.jdyp.R;
 import com.xinguan14.jdyp.base.BackHandledInterface;
 import com.xinguan14.jdyp.base.BaseActivity;
@@ -53,8 +61,19 @@ import cn.bmob.v3.exception.BmobException;
 /**
  * 四个tab加一个环形菜单
  */
-public class MainActivity extends BaseActivity implements ObseverListener, GooeyMenu.GooeyMenuInterface,
+public class MainActivity extends BaseActivity implements ObseverListener,
         MessageFragment.Check, SetFragment.HideTab, SetFragment.AddMenu, BackHandledInterface {
+
+
+    private ImageView bt_add_main;
+    private SoundPool sp;// 声明一个SoundPool
+    private int music;// 定义一个整型用load（）；来设置suondIDf
+    private ImageView iv_createtask_center, iv_createproject_center,
+            iv_registration_center, iv_oa_center, iv_add_center;
+    private LinearLayout ll_createtask_center, ll_createproject_center,
+            ll_registration_center, ll_oa_center;
+    private PopupWindow menu;
+    private int y1, y2;// y1:新建弹出框中新建任务/新建项目的高度 y2:新建弹出框中签到/OA的高度
 
     @Bind(R.id.btn_message)
     Button btn_message;
@@ -71,20 +90,11 @@ public class MainActivity extends BaseActivity implements ObseverListener, Gooey
     @Bind(R.id.btn_sports)
     Button btn_sports;
 
-    @Bind(R.id.iv_sports_tips)
-    ImageView iv_sports_tips;
-
     @Bind(R.id.btn_set)
     Button btn_set;
 
-    @Bind(R.id.gooey_menu)//环形菜单
-            GooeyMenu gooeyMenu;
-
     @Bind(R.id.bottom)
     LinearLayout bottom;
-
-    @Bind(R.id.gooey)
-    LinearLayout gooey;
 
     @Bind(R.id.id_content)
     FrameLayout content;
@@ -110,7 +120,6 @@ public class MainActivity extends BaseActivity implements ObseverListener, Gooey
 
         //connect server
         User user = BmobUser.getCurrentUser(this, User.class);
-        gooeyMenu.setOnMenuListener(this);
         BmobIM.connect(user.getObjectId(), new ConnectListener() {
             @Override
             public void done(String uid, BmobException e) {
@@ -132,6 +141,56 @@ public class MainActivity extends BaseActivity implements ObseverListener, Gooey
         });
         //解决leancanary提示InputMethodManager内存泄露的问题
         IMMLeaks.fixFocusedViewLeak(getApplication());
+
+        bt_add_main = (ImageView) findViewById(R.id.bt_add_main);
+        iv_createtask_center = (ImageView) findViewById(R.id.iv_createtask_center);
+        iv_createproject_center = (ImageView) findViewById(R.id.iv_createproject_center);
+        iv_registration_center = (ImageView) findViewById(R.id.iv_registration_center);
+        iv_oa_center = (ImageView) findViewById(R.id.iv_oa_center);
+
+        sp = new SoundPool(10, AudioManager.STREAM_SYSTEM, 5);// 第一个参数为同时播放数据流的最大个数，第二数据流类型，第三为声音质量
+        music = sp.load(this, R.raw.key_sound, 1); // 把你的声音素材放到res/raw里，第2个参数即为资源文件，第3个为音乐的优先级
+
+
+        inipopmenu();
+
+        setListener();
+
+    }
+
+    private void setListener() {
+        bt_add_main.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // 启动动画
+                sp.play(music, 1, 1, 0, 0, 1);// 播放音效
+                // 获取弹出框中两排按钮在屏幕上的高度
+                int[] locations1 = new int[2];
+                ll_createtask_center.getLocationOnScreen(locations1);
+                y1 = locations1[1];
+                int[] locations2 = new int[2];
+                ll_registration_center.getLocationOnScreen(locations2);
+                y2 = locations2[1];
+
+                // 显示新建弹出框
+                menu.showAtLocation(
+                        MainActivity.this.findViewById(R.id.mainLayout),
+                        Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+                rotate(iv_add_center);// 弹出框中最下方按钮添加旋转动画
+
+                // 弹出框中按钮弹出动画
+                tran(ll_createtask_center, y1, 0, true);
+                tran(ll_createproject_center, y1, 50, true);
+                tran(ll_registration_center, y2, 100, true);
+                tran(ll_oa_center, y2, 150, true);
+            }
+        });
+        iv_createtask_center.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(BaiduActivity.class, null, true);
+            }
+        });
     }
 
     @Override
@@ -335,7 +394,6 @@ public class MainActivity extends BaseActivity implements ObseverListener, Gooey
      */
     public void hideTab() {
         bottom.setVisibility(View.GONE);
-        gooey.setVisibility(View.GONE);
         FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) content.getLayoutParams();
         layoutParams.bottomMargin = 0;
         content.setLayoutParams(layoutParams);
@@ -347,97 +405,10 @@ public class MainActivity extends BaseActivity implements ObseverListener, Gooey
      */
     public void showTab() {
         bottom.setVisibility(View.VISIBLE);
-        gooey.setVisibility(View.VISIBLE);
         FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) content.getLayoutParams();
         layoutParams.bottomMargin = 60;
         content.setLayoutParams(layoutParams);
 
-    }
-
-    @TargetApi(Build.VERSION_CODES.KITKAT)
-
-    @Override
-    public void menuOpen() {
-//        btn_message.setClickable(false);
-//        btn_sports.setClickable(false);
-//        btn_connect.setClickable(false);
-//        btn_set.setClickable(false);
-//
-        //获取当前屏幕宽高
-        DisplayMetrics metric = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(metric);
-        mScreenWidth = metric.widthPixels;
-        mScreenHeight = metric.heightPixels;
-
-        View view = getLayoutInflater().inflate(R.layout.activity_gooey_menu, null);
-        popupWindow = new PopupWindow(view, mScreenWidth, mScreenHeight);
-        popupWindow.setAnimationStyle(R.style.AppTheme_PopupOverlay);
-        popupWindow.setOutsideTouchable(true);
-        popupWindow.setFocusable(true);
-        popupWindow.setTouchable(false);
-        WindowManager.LayoutParams params = getWindow().getAttributes();
-        params.alpha = 0.5f;
-        getWindow().setAttributes(params);
-
-//        popupWindow.setTouchInterceptor(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//
-////                if (gooeyMenu.isMenuVisible) {
-////                    System.out.println("执行真11111111111111");
-////                    return true;
-////                } else{
-////                    System.out.println("执行假11111111111111");
-////                    System.out.println(gooeyMenu.isGooeyMenuTouch(event));
-////                    System.out.println(gooeyMenu.isMenuVisible);
-////                    return false;
-////                }
-//
-//                return false;
-//            }
-//        });
-        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-
-            @Override
-            public void onDismiss() {
-
-                if (isOpen == 0) {
-                    System.out.println("你妹" + isOpen);
-                }
-                if (isOpen == 1) {
-                    System.out.println("你妹" + isOpen);
-                }
-                if (isOpen == 2) {
-                    System.out.println("你妹" + isOpen);
-                }
-                isOpen = 0;
-                System.out.println("te" + isOpen);
-
-//                gooeyMenu.close();
-//                WindowManager.LayoutParams lp = getWindow().getAttributes();
-//                lp.alpha = 1f;
-//                getWindow().setAttributes(lp);
-            }
-        });
-        popupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));    //要为popWindow设置一个背景才有效
-        popupWindow.showAsDropDown(gooeyMenu, Gravity.BOTTOM, 0, 0);
-    }
-
-    @Override
-    public void menuClose() {
-        popupWindow.dismiss();
-        WindowManager.LayoutParams lp = getWindow().getAttributes();
-        lp.alpha = 1f;
-        getWindow().setAttributes(lp);
-        isOpen = 2;
-    }
-
-    @Override
-    public void menuItemClicked(int menuNumber) {
-        isOpen = 1;
-        if (menuNumber == 1) {
-            startActivity(BaiduActivity.class, null, true);
-        }
     }
 
     /**
@@ -461,5 +432,271 @@ public class MainActivity extends BaseActivity implements ObseverListener, Gooey
     @Override
     public void setSelectedFragment(ParentWithNaviFragment selectedFragment) {
         this.parentWithNaviFragment = selectedFragment;
+    }
+
+    /**
+     * @param view 要添加动画的View
+     * @方法名称:rotate
+     * @描述: 旋转动画
+     * @返回类型：void
+     */
+    public void rotate(View view) {
+        // 从0开始旋转360度，以图片中心为圆心旋转(0.5f,0.5f表示图片中心 1.0f,1.0f表示右下角0.0f,o.0f表示左上角)
+        RotateAnimation ra = new RotateAnimation(0, 135,
+                Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,
+                0.5f);
+        ra.setDuration(500);
+        // ra.setRepeatCount(1);
+        // ra.setRepeatMode(Animation.REVERSE);
+        ra.setFillAfter(true);
+        view.startAnimation(ra);
+    }
+
+    /**
+     * @方法名称:inipopmenu
+     * @描述: 初始化新建弹出框
+     * @返回类型：void
+     */
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    @SuppressLint("NewApi")
+    private void inipopmenu() {
+        // 初始化新建弹出框
+        View contentView = View.inflate(MainActivity.this,
+                R.layout.create_pop_menu, null);
+
+        /********************************************************************/
+        // 避免运行在Android 4.0上程序报空指针异常，原因是跟硬盘加速有关（？）
+        // contentView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+        /********************************************************************/
+        ll_createtask_center = (LinearLayout) contentView
+                .findViewById(R.id.ll_createtask_center);
+        ll_createproject_center = (LinearLayout) contentView
+                .findViewById(R.id.ll_createproject_center);
+        ll_registration_center = (LinearLayout) contentView
+                .findViewById(R.id.ll_registration_center);
+        ll_oa_center = (LinearLayout) contentView
+                .findViewById(R.id.ll_oa_center);
+        iv_createtask_center = (ImageView) contentView
+                .findViewById(R.id.iv_createtask_center);
+        iv_createproject_center = (ImageView) contentView
+                .findViewById(R.id.iv_createproject_center);
+        iv_registration_center = (ImageView) contentView
+                .findViewById(R.id.iv_registration_center);
+        iv_oa_center = (ImageView) contentView.findViewById(R.id.iv_oa_center);
+        iv_add_center = (ImageView) contentView
+                .findViewById(R.id.iv_add_center);
+
+        MyOnClickListener listener = new MyOnClickListener();
+        // 点击四个按钮其他位置隐藏弹出框
+        contentView.findViewById(R.id.pop_layout).setOnClickListener(listener);
+
+        // 弹出框最下方关闭按钮添加点击事件监听
+        iv_add_center.setOnClickListener(listener);
+
+        menu = new PopupWindow(contentView);
+        // PopUpWindow必须设置宽高，否则调用showAtLocation方法无法显示
+        // 设置SelectPicPopupWindow弹出窗体的宽
+        menu.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
+        // 设置SelectPicPopupWindow弹出窗体的高
+        menu.setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
+        // 设置SelectPicPopupWindow弹出窗体可点击
+        menu.setFocusable(true);
+        // 实例化一个ColorDrawable颜色为半透明
+        ColorDrawable dw = new ColorDrawable(0x80000000);
+        // 设置SelectPicPopupWindow弹出窗体的背景
+        menu.setBackgroundDrawable(dw);
+    }
+
+    /**
+     * @类名称: MyOnClickListener
+     * @类描述: 自定义点击事件监听
+     */
+    class MyOnClickListener implements View.OnClickListener {
+
+        @Override
+        public void onClick(View v) {
+            sp.play(music, 1, 1, 0, 0, 1);// 播放音效
+            reRotate(iv_add_center);// 按钮反向旋转动画
+
+            // 弹出框隐藏动画
+            retran(ll_oa_center, y2, 0, false);
+            retran(ll_registration_center, y2, 50, false);
+            retran(ll_createproject_center, y1, 100, false);
+            retran(ll_createtask_center, y1, 150, false);
+        }
+    }
+
+
+    /**
+     * @param view 要添加反方向旋转动画的View
+     * @方法名称:reRotate
+     * @描述: 反方向旋转动画
+     * @返回类型：void
+     */
+    public void reRotate(View view) {
+        // 从0开始旋转360度，以图片中心为圆心旋转(0.5f,0.5f表示图片中心 1.0f,1.0f表示右下角0.0f,o.0f表示左上角)
+        RotateAnimation ra = new RotateAnimation(135, 0,
+                Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,
+                0.5f);
+        ra.setDuration(500);
+        // ra.setRepeatCount(1);//重复次数
+        // ra.setRepeatMode(Animation.REVERSE);//是否反方向执行
+        ra.setFillAfter(true);
+        ra.setAnimationListener(new Animation.AnimationListener() {
+
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                // 最后一个执行完动画之后执行的代码
+                if (menu != null && menu.isShowing()) {
+                    menu.dismiss();
+                }
+            }
+        });
+        view.startAnimation(ra);
+    }
+
+
+    /**
+     * @param view  执行动画的控件
+     * @param y     移动的距离
+     * @param start 开始执行动画的时间
+     * @param flag  标识执行的是弹出的动画还是隐藏的动画 true标识弹出动画
+     * @方法名称:retran
+     * @描述: 回弹动画
+     * @返回类型：void
+     */
+    private void retran(final View view, final int y, final int start,
+                        final boolean flag) {
+        TranslateAnimation animation;
+        if (flag) {
+            animation = new TranslateAnimation(0, 0, -DensityUtil.dip2px(
+                    getApplicationContext(), 50), 0);
+        } else {
+            animation = new TranslateAnimation(0, 0, 0, -DensityUtil.dip2px(
+                    getApplicationContext(), 50));
+        }
+        animation.setDuration(150);
+        animation.setFillAfter(true);
+        animation.setAnimationListener(new Animation.AnimationListener() {
+
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                if (flag) {
+                    view.setVisibility(View.VISIBLE);
+                    scaleAndAlpha(iv_createproject_center);
+                    scaleAndAlpha(iv_createtask_center);
+                    scaleAndAlpha(iv_oa_center);
+                    scaleAndAlpha(iv_registration_center);
+                } else {
+                    tran(view, y, start, flag);
+                }
+            }
+        });
+        view.startAnimation(animation);
+    }
+
+
+    private void scaleAndAlpha(final View view) {
+
+        AlphaAnimation alphaAnimation = new AlphaAnimation(0, 1.0f);
+        alphaAnimation.setDuration(100);
+        alphaAnimation.setFillAfter(true);
+
+        ScaleAnimation animation = new ScaleAnimation(0f, 1.1f, 0f, 1.1f,
+                Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,
+                0.5f);
+        animation.setDuration(200);
+        animation.setFillAfter(true);
+
+        AnimationSet set = new AnimationSet(false);
+        set.addAnimation(alphaAnimation);
+        set.addAnimation(animation);
+
+        set.setAnimationListener(new Animation.AnimationListener() {
+
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                reScale(view);
+            }
+        });
+        view.startAnimation(set);
+    }
+
+    private void reScale(View view) {
+        ScaleAnimation animation = new ScaleAnimation(1.1f, 1.0f, 1.1f, 1.0f,
+                Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,
+                0.5f);
+        animation.setDuration(100);
+        animation.setFillAfter(true);
+        view.startAnimation(animation);
+    }
+
+
+    /**
+     * @param view  要执行动画的View
+     * @param y     执行动画的View的高
+     * @param start 执行动画的开始时间
+     * @方法名称:tran
+     * @描述: 显示弹出框时执行的动画
+     * @返回类型：void
+     */
+    private void tran(final View view, final int y, final int start,
+                      final boolean flag) {
+        int heightPixels = getResources().getDisplayMetrics().heightPixels;
+        TranslateAnimation animation;
+        if (flag) {
+            animation = new TranslateAnimation(0, 0, heightPixels - y,
+                    -DensityUtil.dip2px(getApplicationContext(), 50));
+        } else {
+            animation = new TranslateAnimation(0, 0, -DensityUtil.dip2px(
+                    getApplicationContext(), 50), heightPixels - y);
+        }
+        animation.setStartOffset(start);
+        animation.setDuration(150);
+        animation.setFillAfter(true);
+        animation.setAnimationListener(new Animation.AnimationListener() {
+
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                if (flag) {
+                    retran(view, y, start, flag);
+                }
+            }
+        });
+        view.startAnimation(animation);
     }
 }
