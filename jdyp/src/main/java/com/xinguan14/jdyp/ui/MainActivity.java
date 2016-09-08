@@ -24,7 +24,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
-
 import com.orhanobut.logger.Logger;
 import com.xinguan14.jdyp.MyVeiw.DensityUtil;
 import com.xinguan14.jdyp.R;
@@ -39,13 +38,9 @@ import com.xinguan14.jdyp.ui.fragment.ContactFragment;
 import com.xinguan14.jdyp.ui.fragment.MessageFragment;
 import com.xinguan14.jdyp.ui.fragment.SetFragment;
 import com.xinguan14.jdyp.ui.fragment.SportsFragment;
-import com.xinguan14.jdyp.ui.fragment.setfragment.ChangeMyInfoFragment;
-import com.xinguan14.jdyp.ui.fragment.setfragment.ChangePassWordFragment;
 import com.xinguan14.jdyp.util.IMMLeaks;
-
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-
 import butterknife.Bind;
 import cn.bmob.newim.BmobIM;
 import cn.bmob.newim.core.ConnectionStatus;
@@ -63,17 +58,6 @@ import cn.bmob.v3.exception.BmobException;
  */
 public class MainActivity extends BaseActivity implements ObseverListener,
         MessageFragment.Check, SetFragment.HideTab, SetFragment.AddMenu, BackHandledInterface {
-
-
-    private ImageView bt_add_main;
-    private SoundPool sp;// 声明一个SoundPool
-    private int music;// 定义一个整型用load（）；来设置suondIDf
-    private ImageView iv_createtask_center, iv_createproject_center,
-            iv_registration_center, iv_oa_center, iv_add_center;
-    private LinearLayout ll_createtask_center, ll_createproject_center,
-            ll_registration_center, ll_oa_center;
-    private PopupWindow menu;
-    private int y1, y2;// y1:新建弹出框中新建任务/新建项目的高度 y2:新建弹出框中签到/OA的高度
 
     @Bind(R.id.btn_message)
     Button btn_message;
@@ -93,6 +77,9 @@ public class MainActivity extends BaseActivity implements ObseverListener,
     @Bind(R.id.btn_set)
     Button btn_set;
 
+    @Bind(R.id.bt_add_main)
+    ImageView bt_add_main;
+
     @Bind(R.id.bottom)
     LinearLayout bottom;
 
@@ -105,13 +92,15 @@ public class MainActivity extends BaseActivity implements ObseverListener,
     private ContactFragment contactFragment;
     private SportsFragment sportsFragment;
     private MessageFragment messageFragment;
-    private ChangeMyInfoFragment changeMyInfoFragment;
-    private ChangePassWordFragment changePassWordFragment;
     private int index;
-    private int isOpen = 0;//
-    private int mScreenWidth;
-    private int mScreenHeight;
-    private PopupWindow popupWindow;
+    private SoundPool sp;// 声明一个SoundPool
+    private int music;// 定义一个整型用load（）；来设置suondIDf
+    private ImageView iv_createtask_center, iv_createproject_center,
+            iv_registration_center, iv_oa_center,iv_add_center;
+    private LinearLayout ll_createtask_center, ll_createproject_center,
+            ll_registration_center, ll_oa_center;
+    private PopupWindow menu;
+    private int y1, y2;// y1:新建弹出框中新建任务/新建项目的高度 y2:新建弹出框中签到/OA的高度
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,10 +128,10 @@ public class MainActivity extends BaseActivity implements ObseverListener,
                 toast("" + status.getMsg());
             }
         });
+
         //解决leancanary提示InputMethodManager内存泄露的问题
         IMMLeaks.fixFocusedViewLeak(getApplication());
 
-        bt_add_main = (ImageView) findViewById(R.id.bt_add_main);
         iv_createtask_center = (ImageView) findViewById(R.id.iv_createtask_center);
         iv_createproject_center = (ImageView) findViewById(R.id.iv_createproject_center);
         iv_registration_center = (ImageView) findViewById(R.id.iv_registration_center);
@@ -188,7 +177,7 @@ public class MainActivity extends BaseActivity implements ObseverListener,
         iv_createtask_center.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(BaiduActivity.class, null, true);
+                startActivity(BaiduActivity.class, null, false);
             }
         });
     }

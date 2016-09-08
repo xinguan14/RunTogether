@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="@drawable/center_background"
+        android:background="@drawable/meitu"
         android:orientation="horizontal">
 
         <LinearLayout
@@ -40,7 +40,7 @@
                         android:layout_width="54dp"
                         android:layout_height="32dp"
                         android:onClick="onTabClicked"
-                        android:src="@drawable/iv_createtask"
+                        android:src="@drawable/run"
                         android:visibility="invisible" />
 
                 </LinearLayout>
@@ -49,7 +49,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="开始跑步"
+                    android:text="跑步"
                     android:textColor="#888888" />
             </LinearLayout>
 
@@ -72,7 +72,7 @@
                         android:id="@+id/iv_registration_center"
                         android:layout_width="54dp"
                         android:layout_height="32dp"
-                        android:src="@drawable/iv_registration"
+                        android:src="@drawable/walk"
                         android:visibility="invisible" />
 
                 </LinearLayout>
@@ -81,7 +81,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="签到"
+                    android:text="徒步"
                     android:textColor="#888888" />
             </LinearLayout>
         </LinearLayout>
@@ -113,7 +113,7 @@
                         android:id="@+id/iv_createproject_center"
                         android:layout_width="54dp"
                         android:layout_height="32dp"
-                        android:src="@drawable/iv_createproject"
+                        android:src="@drawable/yuepao"
                         android:visibility="invisible" />
                 </LinearLayout>
 
@@ -121,7 +121,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="创建项目"
+                    android:text="约跑"
                     android:textColor="#888888" />
             </LinearLayout>
 
@@ -144,7 +144,7 @@
                         android:id="@+id/iv_oa_center"
                         android:layout_width="54dp"
                         android:layout_height="32dp"
-                        android:src="@drawable/iv_oa"
+                        android:src="@drawable/loseweight"
                         android:visibility="invisible" />
 
                 </LinearLayout>
@@ -153,7 +153,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="表单"
+                    android:text="减肥"
                     android:textColor="#888888" />
             </LinearLayout>
         </LinearLayout>
