@@ -2,7 +2,6 @@ package com.xinguan14.jdyp.adapter.base;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,7 +22,6 @@ public class BaseListHolder {
     public BaseListHolder(Context context, ViewGroup parent, int layoutId,
                           int position){
         this.mPosition =position;
-        Log.i("info","创建holder，当前holder的位置"+position);
         this.mSparseArray = new SparseArray<View>();
         mConvertView = LayoutInflater.from(context).inflate(layoutId,parent,false);
         mConvertView.setTag(this);
@@ -38,7 +36,6 @@ public class BaseListHolder {
         } else {
             BaseListHolder holder = (BaseListHolder)convertView.getTag();
             holder.mPosition =position;
-            Log.i("info","已有holder,当前holder的位置"+position);
             return holder;
         }
     }

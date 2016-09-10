@@ -19,6 +19,7 @@ import com.xinguan14.jdyp.adapter.base.BaseListHolder;
 import com.xinguan14.jdyp.bean.Post;
 import com.xinguan14.jdyp.bean.User;
 import com.xinguan14.jdyp.ui.CheckUserInfoByUser;
+import com.xinguan14.jdyp.ui.fragment.sportsfragment.ItemDetailsActivity;
 import com.xinguan14.jdyp.util.ImageLoadOptions;
 
 import java.util.ArrayList;
@@ -36,6 +37,8 @@ import cn.bmob.v3.listener.UpdateListener;
  * 用来显示动态的数据
  */
 public class SquareListViewAdapter extends BaseListAdapter<Post> {
+
+    public int goodState =0;//判断当前的动态是否已经点赞，0为否
 
     //要传入的参数有当前的Activity，数据集。item的布局文件
     public SquareListViewAdapter(Context context, List<Post> list,int itemLayoutId){
@@ -96,6 +99,21 @@ public class SquareListViewAdapter extends BaseListAdapter<Post> {
         } else {
             holder.setImageResource(R.id.info_iv_head,R.drawable.love);
         }
+
+        holder.getView(R.id.item_main).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle bundle = new Bundle();
+                User userInfo = item.getAuthor();
+                bundle.putSerializable("u", userInfo);
+                bundle.putSerializable("p", item);
+                bundle.putInt("zan",goodState);
+                Intent intent = new Intent(mContext,ItemDetailsActivity.class);
+                if (bundle != null)
+                    intent.putExtra(mContext.getPackageName(), bundle);
+                mContext.startActivity(intent);
+            }
+        });
         //点击头像的点击事件
         holder.getView(R.id.info_iv_head).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,32 +131,37 @@ public class SquareListViewAdapter extends BaseListAdapter<Post> {
         holder.getView(R.id.iv_share_heart).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(goodState==1) {
+                    Toast.makeText(mContext, "您已经点赞过啦", Toast.LENGTH_SHORT).show();
+                }
+                if (goodState==0) {
+                    User user = BmobUser.getCurrentUser(mContext, User.class);
+                    Post post = new Post();
+                    post.setObjectId(item.getObjectId());
+                    //将当前用户添加到Post表中的likes字段值中，表明当前用户喜欢该帖子
+                    BmobRelation relation = new BmobRelation();
+                    //将当前用户添加到多对多关联中
+                    relation.add(user);
+                    //多对多关联指向`post`的`likes`字段
+                    post.setLikes(relation);
+                    post.increment("zan", 1); // 点赞的数量加1
+                    post.update(mContext, new UpdateListener() {
 
-                User user = BmobUser.getCurrentUser(mContext, User.class);
-                Post post = new Post();
-                post.setObjectId(item.getObjectId());
-                //将当前用户添加到Post表中的likes字段值中，表明当前用户喜欢该帖子
-                BmobRelation relation = new BmobRelation();
-                //将当前用户添加到多对多关联中
-                relation.add(user);
-                //多对多关联指向`post`的`likes`字段
-                post.setLikes(relation);
-                post.increment("zan",1); // 点赞的数量加1
-                post.update(mContext, new UpdateListener() {
+                        @Override
+                        public void onSuccess() {
+                            //跟新点赞人数
+                            holder.setTextView(R.id.tv_likes_number, "(" + item.getZan().intValue() + ")");
+                            Toast.makeText(mContext, "点赞成功", Toast.LENGTH_SHORT).show();
+                        }
 
-                    @Override
-                    public void onSuccess() {
-                        //跟新点赞人数
-                        holder.setTextView(  R.id.tv_likes_number, "(" +item.getZan() + ")");
-                        Toast.makeText(mContext, "点赞成功", Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onFailure(int arg0, String arg1) {
-                        // TODO Auto-generated method stub
-                        Toast.makeText(mContext, "点赞失败", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                        @Override
+                        public void onFailure(int arg0, String arg1) {
+                            // TODO Auto-generated method stub
+                            Toast.makeText(mContext, "点赞失败", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    goodState=1;
+                }
             }
         });
         holder.getView(R.id.comment).setOnClickListener(new View.OnClickListener() {

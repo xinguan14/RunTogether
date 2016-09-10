@@ -1,10 +1,12 @@
 package com.xinguan14.jdyp.ui.fragment.sportsfragment;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.xinguan14.jdyp.R;
@@ -18,7 +20,7 @@ import butterknife.ButterKnife;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.listener.FindListener;
 
-public class SquareFragment extends android.support.v4.app.ListFragment {
+public class SquareFragment extends Fragment {
 
     private View rootView;
     //private  List<Post> mPostList;
@@ -26,6 +28,8 @@ public class SquareFragment extends android.support.v4.app.ListFragment {
 
     @Bind(R.id.swipe_refredsh)
     SwipeRefreshLayout sps_refresh;
+    @Bind(R.id.squareList)
+    ListView listView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -43,6 +47,10 @@ public class SquareFragment extends android.support.v4.app.ListFragment {
             }
         });
         return rootView;
+    }
+
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
     }
 
     private void query() {
@@ -70,7 +78,7 @@ public class SquareFragment extends android.support.v4.app.ListFragment {
     private void initData(List<Post> list) {
 
         mSquareListViewAdapter = new SquareListViewAdapter(getActivity(), list, R.layout.fragment_sport_square_item);
-        setListAdapter(mSquareListViewAdapter);
+        listView.setAdapter(mSquareListViewAdapter);
         sps_refresh.setRefreshing(false);
     }
 }

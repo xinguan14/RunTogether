@@ -49,7 +49,7 @@ public class AddCommentPopupWindow extends PopupWindow {
         mMenuView = inflater.inflate(R.layout.add_comments, null);
 
         submitComment = (Button) mMenuView.findViewById(R.id.submit_comment);
-        commentEdit = (EditText) mMenuView.findViewById(R.id.add_comment);
+        commentEdit = (EditText) mMenuView.findViewById(R.id.edit_msg);
         // 设置按钮监听
         submitComment.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,7 +61,7 @@ public class AddCommentPopupWindow extends PopupWindow {
                     User user = BmobUser.getCurrentUser(context, User.class);
                     Post post = new Post();
                     post.setObjectId(postId);
-                    Log.i("info","postId:"+postId);
+                    Log.i("info","postId1:"+postId);
                     final Comment comment = new Comment();
                     comment.setContent(comments);
                     comment.setPost(post);

@@ -182,6 +182,7 @@ public class SayFragment extends android.support.v4.app.ListFragment {
         private int mShowMorePopupWindowHeight;
         //弹出评论框
         private AddCommentPopupWindow menuWindow;
+        private int goodState =0;//判断当前的动态是否已经点赞，0为否
 
        // private Handler handler;
         public SayListViewAdapter(Activity context, List<Post> list, int itemLayoutId){
@@ -308,38 +309,47 @@ public class SayFragment extends android.support.v4.app.ListFragment {
 
                     }
                 });
+
                 good.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        User user = BmobUser.getCurrentUser(mContext, User.class);
-                        Post post = new Post();
-                        post.setObjectId(item.getObjectId());
-                        //将当前用户添加到Post表中的likes字段值中，表明当前用户喜欢该帖子
-                        BmobRelation relation = new BmobRelation();
-                        //将当前用户添加到多对多关联中
-                        relation.add(user);
-                        //多对多关联指向`post`的`likes`字段
-                        post.setLikes(relation);
-                        post.increment("zan",1); // 点赞的数量加1
-                        post.update(mContext, new UpdateListener() {
-
-                            @Override
-                            public void onSuccess() {
-                                // TODO Auto-generated method stub
-                                Toast.makeText(mContext, "点赞成功", Toast.LENGTH_SHORT).show();
-                                //跟新点赞人数
-                                holder.setTextView(  R.id.tv_likes_number, "(" +item.getZan() + ")");
-                            }
-
-                            @Override
-                            public void onFailure(int arg0, String arg1) {
-                                // TODO Auto-generated method stub
-                                Toast.makeText(mContext, "点赞失败", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                        if (mMorePopupWindow != null && mMorePopupWindow.isShowing()) {
-                            mMorePopupWindow.dismiss();
+                        if(goodState==1){
+                            Toast.makeText(mContext, "您已经点赞过啦", Toast.LENGTH_SHORT).show();
                         }
+                        if(goodState==0) {
+                            User user = BmobUser.getCurrentUser(mContext, User.class);
+                            Post post = new Post();
+                            post.setObjectId(item.getObjectId());
+                            Log.i("info", "postId:" + item.getObjectId());
+                            //将当前用户添加到Post表中的likes字段值中，表明当前用户喜欢该帖子
+                            BmobRelation relation = new BmobRelation();
+                            //将当前用户添加到多对多关联中
+                            relation.add(user);
+                            //多对多关联指向`post`的`likes`字段
+                            post.setLikes(relation);
+                            post.increment("zan", 1); // 点赞的数量加1
+                            post.update(mContext, new UpdateListener() {
+
+                                @Override
+                                public void onSuccess() {
+                                    // TODO Auto-generated method stub
+                                    Toast.makeText(mContext, "点赞成功", Toast.LENGTH_SHORT).show();
+                                    //跟新点赞人数
+                                    holder.setTextView(R.id.tv_likes_number, "(" + item.getZan() + ")");
+                                }
+
+                                @Override
+                                public void onFailure(int arg0, String arg1) {
+                                    // TODO Auto-generated method stub
+                                    Toast.makeText(mContext, "点赞失败", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                            if (mMorePopupWindow != null && mMorePopupWindow.isShowing()) {
+                                mMorePopupWindow.dismiss();
+                            }
+                            goodState=1;
+                        }
+
                     }
                 });
             }
