@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.xinguan14.jdyp.MyVeiw.AddCommentPopupWindow;
 import com.xinguan14.jdyp.MyVeiw.CircleImageView;
+import com.xinguan14.jdyp.MyVeiw.LoadingDialog;
 import com.xinguan14.jdyp.MyVeiw.NineGridTestLayout;
 import com.xinguan14.jdyp.R;
 import com.xinguan14.jdyp.adapter.base.BaseListAdapter;
@@ -68,6 +69,7 @@ public class SayFragment extends android.support.v4.app.ListFragment {
     private View mCommentView;
     //适配器
     private SayListViewAdapter mSayListViewAdapter;
+    private LoadingDialog progressDialog = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -87,6 +89,7 @@ public class SayFragment extends android.support.v4.app.ListFragment {
                 friendQuery();
             }
         });
+        loading();
         return rootView;
     }
 
@@ -110,6 +113,7 @@ public class SayFragment extends android.support.v4.app.ListFragment {
                     userId[i] = list.get(i).getFriendUser();
                 }
                 userQuery(userId);
+                complete();
             }
 
             @Override
@@ -171,7 +175,27 @@ public class SayFragment extends android.support.v4.app.ListFragment {
         //关闭刷新
         sps_refresh.setRefreshing(false);
     }
+    @Override
+    public void onDestroy() {
+        complete();
+        super.onDestroy();
+    }
 
+    private void loading(){
+        if (progressDialog == null){
+            progressDialog = LoadingDialog.createDialog(this.getActivity());
+            progressDialog.setMessage("正在加载中...");
+        }
+
+        progressDialog.show();
+    }
+
+    private void complete(){
+        if (progressDialog != null){
+            progressDialog.dismiss();
+            progressDialog = null;
+        }
+    }
 
     //动态的适配器
     public class SayListViewAdapter extends BaseListAdapter<Post> {

@@ -20,8 +20,19 @@
             android:id="@+id/tv_near_name"
             style="@style/Smile.TextView._Black"
             android:paddingLeft="5dp"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:text="昵称"/>
+        <ImageView
+            android:id="@+id/iv_sex"
+            android:src="@mipmap/sex_men"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_alignTop="@+id/add_say_time"
+            android:layout_toRightOf="@+id/tv_near_name"
+            android:layout_toEndOf="@+id/tv_near_name"
+            android:layout_marginLeft="5dp"
+            />
 
         <TextView
             android:id="@+id/tv_distance"

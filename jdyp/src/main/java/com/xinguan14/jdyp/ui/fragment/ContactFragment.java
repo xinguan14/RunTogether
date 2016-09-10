@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 
 import com.xinguan14.jdyp.MyVeiw.CustomDialog;
+import com.xinguan14.jdyp.MyVeiw.LoadingDialog;
 import com.xinguan14.jdyp.R;
 import com.xinguan14.jdyp.adapter.OnRecyclerViewListener;
 import com.xinguan14.jdyp.adapter.base.BaseRecyclerAdapter;
@@ -59,6 +60,8 @@ public class ContactFragment extends ParentWithNaviFragment {
     ContactAdapter adapter;
     LinearLayoutManager layoutManager;
     private List<String> mDilogList;  // 删除
+    private LoadingDialog progressDialog = null;
+
 
     @Override
     protected String title() {
@@ -131,6 +134,7 @@ public class ContactFragment extends ParentWithNaviFragment {
 
         sw_refresh.setEnabled(true);
         setListener();
+        loading();
         return rootView;
     }
 
@@ -221,7 +225,27 @@ public class ContactFragment extends ParentWithNaviFragment {
         EventBus.getDefault().unregister(this);
         super.onStop();
     }
+    @Override
+    public void onDestroy() {
+        complete();
+        super.onDestroy();
+    }
 
+    private void loading(){
+        if (progressDialog == null){
+            progressDialog = LoadingDialog.createDialog(this.getActivity());
+            progressDialog.setMessage("正在加载中...");
+        }
+
+        progressDialog.show();
+    }
+
+    private void complete(){
+        if (progressDialog != null){
+            progressDialog.dismiss();
+            progressDialog = null;
+        }
+    }
     /**
      * 注册自定义消息接收事件
      *
@@ -244,6 +268,7 @@ public class ContactFragment extends ParentWithNaviFragment {
                 adapter.bindDatas(list);
                 adapter.notifyDataSetChanged();
                 sw_refresh.setRefreshing(false);
+                complete();
             }
 
             @Override

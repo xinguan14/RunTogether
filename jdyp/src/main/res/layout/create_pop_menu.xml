@@ -15,7 +15,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="160dp"
+            android:layout_marginTop="140dp"
             android:layout_weight="1"
             android:gravity="center_horizontal"
             android:orientation="vertical">
@@ -24,7 +24,7 @@
                 android:id="@+id/ll_createtask_center"
                 android:layout_width="70dp"
                 android:layout_height="98dp"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="30dp"
                 android:gravity="center"
                 android:orientation="vertical"
                 android:visibility="invisible">
@@ -57,7 +57,7 @@
                 android:id="@+id/ll_registration_center"
                 android:layout_width="70dp"
                 android:layout_height="98dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="25dp"
                 android:gravity="center"
                 android:orientation="vertical"
                 android:visibility="invisible">
@@ -89,7 +89,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="160dp"
+            android:layout_marginTop="140dp"
             android:layout_weight="1"
             android:gravity="center_horizontal"
             android:orientation="vertical">
@@ -98,7 +98,7 @@
                 android:id="@+id/ll_createproject_center"
                 android:layout_width="70dp"
                 android:layout_height="98dp"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="30dp"
                 android:gravity="center"
                 android:orientation="vertical"
                 android:visibility="invisible">
@@ -129,7 +129,7 @@
                 android:id="@+id/ll_oa_center"
                 android:layout_width="70dp"
                 android:layout_height="98dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="25dp"
                 android:gravity="center"
                 android:orientation="vertical"
                 android:visibility="invisible">
