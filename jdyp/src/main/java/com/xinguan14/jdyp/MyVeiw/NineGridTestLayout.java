@@ -63,10 +63,8 @@ public class NineGridTestLayout extends NineGridLayout {
 
                 });
 
-
         return false;// true 代表按照九宫格默认大小显示(此时不要调用setOneImageLayoutParams)；false 代表按照自定义宽高显示。
     }
-
     @Override
     protected void displayImage(RatioImageView imageView, String url) {
         Glide.with(mContext)
@@ -76,7 +74,6 @@ public class NineGridTestLayout extends NineGridLayout {
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(imageView);
     }
-
     @Override
     protected void onClickImage(int i, String url, List<String> urlList) {
         Toast.makeText(mContext, "点击了图片" + url, Toast.LENGTH_SHORT).show();

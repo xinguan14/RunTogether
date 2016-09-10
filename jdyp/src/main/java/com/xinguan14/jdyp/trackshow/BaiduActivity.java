@@ -116,7 +116,6 @@ public class BaiduActivity extends FragmentActivity implements OnClickListener {
 
     @Override
     protected void onStart() {
-        // TODO Auto-generated method stub
         super.onStart();
 
         // 设置默认的Fragment
