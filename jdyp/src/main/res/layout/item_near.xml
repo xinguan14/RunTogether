@@ -5,10 +5,11 @@
     android:orientation="horizontal"
     android:padding="10dp" >
 
-    <ImageView
+    <com.xinguan14.jdyp.MyVeiw.CircleImageView
         android:id="@+id/iv_near_avatar"
-        style="@style/Smile.ImageView.Photo_Middle"
-        android:src="@mipmap/head" />
+        android:src="@mipmap/head"
+        android:layout_height="50dp"
+        android:layout_width="50dp" />
 
     <RelativeLayout
         android:layout_width="0dp"

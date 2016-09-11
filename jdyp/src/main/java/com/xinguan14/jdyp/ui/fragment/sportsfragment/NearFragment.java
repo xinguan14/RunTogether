@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.xinguan14.jdyp.MyVeiw.CircleImageView;
 import com.xinguan14.jdyp.R;
 import com.xinguan14.jdyp.adapter.OnRecyclerViewListener;
 import com.xinguan14.jdyp.adapter.base.BaseRecyclerAdapter;
@@ -19,6 +21,7 @@ import com.xinguan14.jdyp.adapter.base.IMutlipleItem;
 import com.xinguan14.jdyp.base.BaseFragment;
 import com.xinguan14.jdyp.bean.User;
 import com.xinguan14.jdyp.ui.UserInfoActivity;
+import com.xinguan14.jdyp.util.ImageLoadOptions;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -220,7 +223,13 @@ public class NearFragment extends BaseFragment {
 
             if (user != null) {
                 //头像
-                holder.setImageView(user == null ? null : user.getAvatar(), R.mipmap.head, R.id.iv_near_avatar);
+                if (user.getAvatar() != null && !user.getAvatar().equals("")) {
+                    ImageLoader.getInstance().displayImage(user.getAvatar(), (CircleImageView) holder.getView(R.id.iv_near_avatar),
+                            ImageLoadOptions.getOptions());
+                } else {
+                    holder.setImageResource(R.id.iv_near_avatar, R.mipmap.head);
+                }
+//                holder.setImageView(user == null ? null : user.getAvatar(), R.mipmap.head, R.id.iv_near_avatar);
                 //名称
                 holder.setText(R.id.tv_near_name, user.getNick());
 

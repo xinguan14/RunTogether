@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.xinguan14.jdyp.MyVeiw.CircleImageView;
 import com.xinguan14.jdyp.MyVeiw.CustomDialog;
 import com.xinguan14.jdyp.MyVeiw.LoadingDialog;
 import com.xinguan14.jdyp.R;
@@ -28,6 +30,7 @@ import com.xinguan14.jdyp.model.UserModel;
 import com.xinguan14.jdyp.ui.ChatActivity;
 import com.xinguan14.jdyp.ui.NewFriendActivity;
 import com.xinguan14.jdyp.ui.SearchUserActivity;
+import com.xinguan14.jdyp.util.ImageLoadOptions;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -225,14 +228,15 @@ public class ContactFragment extends ParentWithNaviFragment {
         EventBus.getDefault().unregister(this);
         super.onStop();
     }
+
     @Override
     public void onDestroy() {
         complete();
         super.onDestroy();
     }
 
-    private void loading(){
-        if (progressDialog == null){
+    private void loading() {
+        if (progressDialog == null) {
             progressDialog = LoadingDialog.createDialog(this.getActivity());
             progressDialog.setMessage("正在加载中...");
         }
@@ -240,12 +244,13 @@ public class ContactFragment extends ParentWithNaviFragment {
         progressDialog.show();
     }
 
-    private void complete(){
-        if (progressDialog != null){
+    private void complete() {
+        if (progressDialog != null) {
             progressDialog.dismiss();
             progressDialog = null;
         }
     }
+
     /**
      * 注册自定义消息接收事件
      *
@@ -302,7 +307,13 @@ public class ContactFragment extends ParentWithNaviFragment {
             if (holder.layoutId == R.layout.item_contact) {
                 User user = friend.getFriendUser();
                 //好友头像
-                holder.setImageView(user == null ? null : user.getAvatar(), R.mipmap.head, R.id.iv_recent_avatar);
+                if (user.getAvatar() != null && !user.getAvatar().equals("")) {
+                    ImageLoader.getInstance().displayImage(user.getAvatar(), (CircleImageView) holder.getView(R.id.iv_recent_avatar),
+                            ImageLoadOptions.getOptions());
+                } else {
+                    holder.setImageResource(R.id.iv_recent_avatar, R.mipmap.head);
+                }
+//                holder.setImageView(user == null ? null : user.getAvatar(), R.mipmap.head, R.id.iv_recent_avatar);
                 //好友名称
                 holder.setText(R.id.tv_recent_name, user == null ? "未知" : user.getUsername());
             } else if (holder.layoutId == R.layout.header_new_friend) {

@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
@@ -14,7 +13,8 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
 
-import com.xinguan14.jdyp.MyVeiw.MySwipeRefreshLayout;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.xinguan14.jdyp.MyVeiw.CircleImageView;
 import com.xinguan14.jdyp.R;
 import com.xinguan14.jdyp.SwipMenu.SwapRecyclerView;
 import com.xinguan14.jdyp.SwipMenu.SwipeMenu;
@@ -33,6 +33,7 @@ import com.xinguan14.jdyp.event.RefreshEvent;
 import com.xinguan14.jdyp.reddot.DisplayUtils;
 import com.xinguan14.jdyp.reddot.StickyViewHelper;
 import com.xinguan14.jdyp.ui.SearchUserActivity;
+import com.xinguan14.jdyp.util.ImageLoadOptions;
 import com.xinguan14.jdyp.util.TimeUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -63,14 +64,10 @@ public class MessageFragment extends ParentWithNaviFragment implements SwipeMenu
     @Bind(R.id.rc_view)
     SwapRecyclerView rc_view;
 
-    @Bind(R.id.sw_refresh)
-    MySwipeRefreshLayout sw_refresh;
-
     @Bind(R.id.no_message)
     FrameLayout noMessage;
     public ConversationAdapter adapter;
     LinearLayoutManager layoutManager;
-    private int pos;
     SwipeMenuView menuView;//包含左滑删除的布局
 
     @Override
@@ -135,7 +132,6 @@ public class MessageFragment extends ParentWithNaviFragment implements SwipeMenu
         layoutManager = new LinearLayoutManager(getActivity());
         rc_view.setLayoutManager(layoutManager);
 
-        sw_refresh.setEnabled(true);
         setListener();
         showNoMessage();
         return rootView;
@@ -146,13 +142,6 @@ public class MessageFragment extends ParentWithNaviFragment implements SwipeMenu
             @Override
             public void onGlobalLayout() {
                 rootView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                sw_refresh.setRefreshing(true);
-                query();
-            }
-        });
-        sw_refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
                 query();
             }
         });
@@ -183,7 +172,6 @@ public class MessageFragment extends ParentWithNaviFragment implements SwipeMenu
     @Override
     public void onResume() {
         super.onResume();
-        sw_refresh.setRefreshing(true);
         query();
         showNoMessage();
     }
@@ -222,7 +210,6 @@ public class MessageFragment extends ParentWithNaviFragment implements SwipeMenu
 //        adapter.bindDatas(BmobIM.getInstance().loadAllConversation());
         adapter.bindDatas(getConversations());
         adapter.notifyDataSetChanged();
-        sw_refresh.setRefreshing(false);
     }
 
     /**
@@ -338,7 +325,14 @@ public class MessageFragment extends ParentWithNaviFragment implements SwipeMenu
             holder.setText(R.id.tv_recent_msg, conversation.getLastMessageContent());
             holder.setText(R.id.tv_recent_time, TimeUtil.getChatTime(false, conversation.getLastMessageTime()));
             //会话图标
-            holder.setImageView(conversation == null ? null : conversation.getAvatar().toString(), R.mipmap.head, R.id.iv_recent_avatar);
+
+            if (conversation.getAvatar() != null && !conversation.getAvatar().toString().equals("")) {
+                ImageLoader.getInstance().displayImage(conversation.getAvatar().toString(), (CircleImageView) holder.getView(R.id.iv_recent_avatar),
+                        ImageLoadOptions.getOptions());
+            } else {
+                holder.setImageResource(R.id.iv_recent_avatar, R.mipmap.head);
+            }
+//            holder.setImageView(conversation == null ? null : conversation.getAvatar().toString(), R.mipmap.head, R.id.iv_recent_avatar);
 
             //会话标题
             holder.setText(R.id.tv_recent_name, conversation.getcName());

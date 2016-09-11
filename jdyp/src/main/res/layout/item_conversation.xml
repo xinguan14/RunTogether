@@ -9,15 +9,16 @@
         android:layout_height="wrap_content"
         android:minHeight="@dimen/height_message">
 
-        <ImageView
+        <com.xinguan14.jdyp.MyVeiw.CircleImageView
             android:id="@+id/iv_recent_avatar"
-            android:layout_width="@dimen/height_50"
-            android:layout_height="@dimen/height_50"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_gravity="center_vertical"
             android:layout_alignParentLeft="true"
-            android:layout_marginTop="@dimen/margin_12"
-            android:layout_marginBottom="@dimen/margin_12"
-            android:layout_marginLeft="@dimen/margin_16"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
+            android:layout_marginLeft="16dp"
+            android:src="@mipmap/head"
             />
 
         <TextView
