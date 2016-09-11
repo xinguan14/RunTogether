@@ -15,7 +15,7 @@
     <dimen name="height_line">1dip</dimen>
     <dimen name="height_40">40dip</dimen>
     <dimen name="height_50">50dip</dimen>
-    <dimen name="height_message">75dp</dimen>
+    <dimen name="height_message">70dp</dimen>
     <dimen name="height_70">70dp</dimen>
 
     <dimen name="margin_3">3dp</dimen>

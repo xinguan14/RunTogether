@@ -134,7 +134,6 @@ public class ContactFragment extends ParentWithNaviFragment {
         rc_view.setLayoutManager(layoutManager);
         adapter = new ContactAdapter(getActivity(), mutlipleItem, null);
         rc_view.setAdapter(adapter);
-
         sw_refresh.setEnabled(true);
         setListener();
         loading();

@@ -8,7 +8,7 @@
     <RelativeLayout
         android:id="@+id/sports"
         android:layout_width="0dp"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_weight="1">
 
         <FrameLayout
@@ -45,7 +45,7 @@
     <RelativeLayout
         android:id="@+id/connect"
         android:layout_width="0dp"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_weight="1">
 
         <FrameLayout
@@ -82,7 +82,7 @@
     <RelativeLayout
         android:id="@+id/run"
         android:layout_width="0dp"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_weight="1">
 
         <ImageView
@@ -97,7 +97,7 @@
     <RelativeLayout
         android:id="@+id/find"
         android:layout_width="0dp"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_weight="1">
 
         <Button
@@ -134,7 +134,7 @@
     <RelativeLayout
         android:id="@+id/my"
         android:layout_width="0dp"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_weight="1">
 
         <Button
