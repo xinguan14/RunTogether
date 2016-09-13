@@ -200,5 +200,9 @@
         <item name="android:backgroundDimEnabled">false</item><!--activity不变暗-->
         <item name="android:windowNoTitle">true</item>
     </style>
-
+    <style name="small_text_style" parent="android:Widget.TextView">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:paddingRight">2dip</item>
+    </style>
 </resources>

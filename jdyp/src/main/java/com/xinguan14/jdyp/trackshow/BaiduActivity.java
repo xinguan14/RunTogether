@@ -107,12 +107,12 @@ public class BaiduActivity extends FragmentActivity implements OnClickListener {
         Geofence.addEntity();
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        Intent myIntent = new Intent(BaiduActivity.this, MainActivity.class);
-        startActivity(myIntent);
-    }
+//    @Override
+//    public void onBackPressed() {
+//        super.onBackPressed();
+//        Intent myIntent = new Intent(BaiduActivity.this, MainActivity.class);
+//        startActivity(myIntent);
+//    }
 
     @Override
     protected void onStart() {
@@ -284,7 +284,7 @@ public class BaiduActivity extends FragmentActivity implements OnClickListener {
     protected void onDestroy() {
         super.onDestroy();
         client.onDestroy();
-        android.os.Process.killProcess(android.os.Process.myPid());
+//        android.os.Process.killProcess(android.os.Process.myPid());
     }
 
     /**

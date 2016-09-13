@@ -70,4 +70,5 @@ dependencies {
     compile files('libs/BaiduTraceSDK_v2_1_14.jar')
     compile files('libs/gson-2.2.1.jar')
     compile 'com.nineoldandroids:library:2.4.0'
+    compile files('libs/GifView.jar')
 }

@@ -70,6 +70,8 @@
         <activity android:name=".ui.CheckUserInfoByInfo" />
         <activity android:name=".ui.fragment.sportsfragment.ItemDetailsActivity" />
         <activity android:name=".trackshow.BaiduActivity" />
+        <activity android:name=".step.StepCounterActivity" />
+        <activity android:name=".step.SettingsActivity" />
 
         <activity
             android:name="com.xinguan14.jdyp.ui.ChatActivity"

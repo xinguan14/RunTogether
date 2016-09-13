@@ -55,5 +55,7 @@
     <color name="accent">#E91E63</color>
     <color name="accent_pressed">#C2185B</color>
     <color name="material_blue_500">#5677fc</color>
-
+    <color name="btn_bg_en">#7EA43C</color>
+    <color name="btn_bg_pressed">#A82E26</color>
+    <color name="btn_bg_unen">#484848</color>
 </resources>

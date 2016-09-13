@@ -33,6 +33,7 @@ import com.xinguan14.jdyp.base.ParentWithNaviFragment;
 import com.xinguan14.jdyp.bean.User;
 import com.xinguan14.jdyp.db.NewFriendManager;
 import com.xinguan14.jdyp.event.RefreshEvent;
+import com.xinguan14.jdyp.step.StepCounterActivity;
 import com.xinguan14.jdyp.trackshow.BaiduActivity;
 import com.xinguan14.jdyp.ui.fragment.ContactFragment;
 import com.xinguan14.jdyp.ui.fragment.MessageFragment;
@@ -96,7 +97,7 @@ public class MainActivity extends BaseActivity implements ObseverListener,
     private SoundPool sp;// 声明一个SoundPool
     private int music;// 定义一个整型用load（）；来设置suondIDf
     private ImageView run, iv_yuepao,
-            iv_registration_center, iv_oa_center,iv_add_center;
+            step, iv_oa_center,iv_add_center;
     private LinearLayout ll_createtask_center, ll_createproject_center,
             ll_registration_center, ll_oa_center;
     private PopupWindow menu;
@@ -134,7 +135,7 @@ public class MainActivity extends BaseActivity implements ObseverListener,
 
         run = (ImageView) findViewById(R.id.iv_createtask_center);
         iv_yuepao = (ImageView) findViewById(R.id.iv_createproject_center);
-        iv_registration_center = (ImageView) findViewById(R.id.iv_registration_center);
+        step = (ImageView) findViewById(R.id.iv_registration_center);
         iv_oa_center = (ImageView) findViewById(R.id.iv_oa_center);
 
         sp = new SoundPool(10, AudioManager.STREAM_SYSTEM, 5);// 第一个参数为同时播放数据流的最大个数，第二数据流类型，第三为声音质量
@@ -184,6 +185,12 @@ public class MainActivity extends BaseActivity implements ObseverListener,
             @Override
             public void onClick(View v) {
 
+            }
+        });
+        step.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(StepCounterActivity.class, null, false);
             }
         });
     }
@@ -473,7 +480,7 @@ public class MainActivity extends BaseActivity implements ObseverListener,
                 .findViewById(R.id.iv_createtask_center);
         iv_yuepao = (ImageView) contentView
                 .findViewById(R.id.iv_createproject_center);
-        iv_registration_center = (ImageView) contentView
+        step = (ImageView) contentView
                 .findViewById(R.id.iv_registration_center);
         iv_oa_center = (ImageView) contentView.findViewById(R.id.iv_oa_center);
         iv_add_center = (ImageView) contentView
@@ -595,7 +602,7 @@ public class MainActivity extends BaseActivity implements ObseverListener,
                     scaleAndAlpha(iv_yuepao);
                     scaleAndAlpha(run);
                     scaleAndAlpha(iv_oa_center);
-                    scaleAndAlpha(iv_registration_center);
+                    scaleAndAlpha(step);
                 } else {
                     tran(view, y, start, flag);
                 }
