@@ -1,56 +1,52 @@
 package com.xinguan14.jdyp.MyVeiw;
-
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.drawable.AnimationDrawable;
 import android.view.Gravity;
 import android.widget.ImageView;
-
 import com.xinguan14.jdyp.R;
 
-
 /**
- * @author wqn
- * 
- * 正在加载数据
+ * @author yyz
+ *         姝ｅ湪鍔犺浇鏁版嵁
  */
 public class LoadingDialog extends Dialog {
-	@SuppressWarnings("unused")
-	private Context context = null;
-	private static LoadingDialog customProgressDialog = null;
-	
-	public LoadingDialog(Context context){
-		super(context);
-		this.context = context;
-	}
-	
-	public LoadingDialog(Context context, int theme) {
+    @SuppressWarnings("unused")
+    private Context context = null;
+    private static LoadingDialog customProgressDialog = null;
+
+    public LoadingDialog(Context context) {
+        super(context);
+        this.context = context;
+    }
+
+    public LoadingDialog(Context context, int theme) {
         super(context, theme);
     }
-	
-	public static LoadingDialog createDialog(Context context){
-		customProgressDialog = new LoadingDialog(context, R.style.LoadingDialog);
-		customProgressDialog.setContentView(R.layout.loading_dialog);
-		customProgressDialog.getWindow().getAttributes().gravity = Gravity.CENTER;
-		
-		return customProgressDialog;
-	}
- 
-    public void onWindowFocusChanged(boolean hasFocus){
-    	
-    	if (customProgressDialog == null){
-    		return;
-    	}
-    	
+
+    public static LoadingDialog createDialog(Context context) {
+        customProgressDialog = new LoadingDialog(context, R.style.LoadingDialog);
+        customProgressDialog.setContentView(R.layout.loading_dialog);
+        customProgressDialog.getWindow().getAttributes().gravity = Gravity.CENTER;
+
+        return customProgressDialog;
+    }
+
+    public void onWindowFocusChanged(boolean hasFocus) {
+
+        if (customProgressDialog == null) {
+            return;
+        }
+
         ImageView imageView = (ImageView) customProgressDialog.findViewById(R.id.loadingImageView);
         AnimationDrawable animationDrawable = (AnimationDrawable) imageView.getBackground();
         animationDrawable.start();
     }
-    
+
     /**
-     *  提示内容
+     * 鎻愮ず鍐呭
      */
-    public LoadingDialog setMessage(String strMessage){
-    	return customProgressDialog;
+    public LoadingDialog setMessage(String strMessage) {
+        return customProgressDialog;
     }
 }

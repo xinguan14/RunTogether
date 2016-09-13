@@ -58,20 +58,20 @@ public class BaiduActivity extends FragmentActivity implements OnClickListener {
      */
     protected static OnEntityListener entityListener = null;
 
-//    private Button btnTrackUpload;
-//    private Button btnTrackQuery;
+    private Button btnTrackUpload;
+    private Button btnTrackQuery;
 
     protected static MapView bmapView = null;
     protected static BaiduMap mBaiduMap = null;
 
-//    /**
-//     * 用于对Fragment进行管理
-//     */
-//    private FragmentManager fragmentManager;
-//
-//    private TrackUploadFragment mTrackUploadFragment;
-//
-//    private TrackQueryFragment mTrackQueryFragment;
+    /**
+     * 用于对Fragment进行管理
+     */
+    private FragmentManager fragmentManager;
+
+    private TrackUploadFragment mTrackUploadFragment;
+
+    private TrackQueryFragment mTrackQueryFragment;
 
     protected static Context mContext = null;
 
@@ -127,14 +127,14 @@ public class BaiduActivity extends FragmentActivity implements OnClickListener {
      * 初始化组件
      */
     private void initComponent() {
-//        // 初始化控件
-//        btnTrackUpload = (Button) findViewById(R.id.btn_trackUpload);
-//        btnTrackQuery = (Button) findViewById(R.id.btn_trackQuery);
-//
-//        btnTrackUpload.setOnClickListener(this);
-//        btnTrackQuery.setOnClickListener(this);
-//
-//        fragmentManager = getSupportFragmentManager();
+        // 初始化控件
+        btnTrackUpload = (Button) findViewById(R.id.btn_trackUpload);
+        btnTrackQuery = (Button) findViewById(R.id.btn_trackQuery);
+
+        btnTrackUpload.setOnClickListener(this);
+        btnTrackQuery.setOnClickListener(this);
+
+        fragmentManager = getSupportFragmentManager();
 
         bmapView = (MapView) findViewById(R.id.bmapView);
         mBaiduMap = bmapView.getMap();
@@ -182,10 +182,10 @@ public class BaiduActivity extends FragmentActivity implements OnClickListener {
 
             @Override
             public void onReceiveLocation(TraceLocation location) {
-//                if (mTrackUploadFragment != null) {
-//                    mTrackUploadFragment.showRealtimeTrack(location);
-//                    // System.out.println("获取到实时位置:" + location.toString());
-//                }
+                if (mTrackUploadFragment != null) {
+                    mTrackUploadFragment.showRealtimeTrack(location);
+                    // System.out.println("获取到实时位置:" + location.toString());
+                }
             }
 
         };
@@ -200,9 +200,9 @@ public class BaiduActivity extends FragmentActivity implements OnClickListener {
         // 重置button状态
         onResetButton();
         // 开启Fragment事务
-//        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
         // 隐藏Fragment
-//        hideFragments(transaction);
+        hideFragments(transaction);
 
         switch (id) {
 
@@ -210,18 +210,18 @@ public class BaiduActivity extends FragmentActivity implements OnClickListener {
 
                 TrackUploadFragment.isInUploadFragment = false;
 
-//                if (mTrackQueryFragment == null) {
-//                    mTrackQueryFragment = new TrackQueryFragment();
-//                    transaction.add(R.id.fragment_content, mTrackQueryFragment);
-//                } else {
-//                    transaction.show(mTrackQueryFragment);
-//                }
-//                if (null != mTrackUploadFragment) {
-//                    mTrackUploadFragment.startRefreshThread(false);
-//                }
-//                mTrackQueryFragment.addMarker();
-//                btnTrackQuery.setTextColor(Color.rgb(0x00, 0x00, 0xd8));
-//                btnTrackQuery.setBackgroundColor(Color.rgb(0x99, 0xcc, 0xff));
+                if (mTrackQueryFragment == null) {
+                    mTrackQueryFragment = new TrackQueryFragment();
+                    transaction.add(R.id.fragment_content, mTrackQueryFragment);
+                } else {
+                    transaction.show(mTrackQueryFragment);
+                }
+                if (null != mTrackUploadFragment) {
+                    mTrackUploadFragment.startRefreshThread(false);
+                }
+                mTrackQueryFragment.addMarker();
+                btnTrackQuery.setTextColor(Color.rgb(0x00, 0x00, 0xd8));
+                btnTrackQuery.setBackgroundColor(Color.rgb(0x99, 0xcc, 0xff));
                 mBaiduMap.setOnMapClickListener(null);
                 break;
 
@@ -229,23 +229,23 @@ public class BaiduActivity extends FragmentActivity implements OnClickListener {
 
                 TrackUploadFragment.isInUploadFragment = true;
 
-//                if (mTrackUploadFragment == null) {
-//                    mTrackUploadFragment = new TrackUploadFragment();
-//                    transaction.add(R.id.fragment_content, mTrackUploadFragment);
-//                } else {
-//                    transaction.show(mTrackUploadFragment);
-//                }
-//
-//                mTrackUploadFragment.startRefreshThread(true);
+                if (mTrackUploadFragment == null) {
+                    mTrackUploadFragment = new TrackUploadFragment();
+                    transaction.add(R.id.fragment_content, mTrackUploadFragment);
+                } else {
+                    transaction.show(mTrackUploadFragment);
+                }
+
+                mTrackUploadFragment.startRefreshThread(true);
                 TrackUploadFragment.addMarker();
                 Geofence.addMarker();
-//                btnTrackUpload.setTextColor(Color.rgb(0x00, 0x00, 0xd8));
-//                btnTrackUpload.setBackgroundColor(Color.rgb(0x99, 0xcc, 0xff));
+                btnTrackUpload.setTextColor(Color.rgb(0x00, 0x00, 0xd8));
+                btnTrackUpload.setBackgroundColor(Color.rgb(0x99, 0xcc, 0xff));
                 mBaiduMap.setOnMapClickListener(null);
                 break;
         }
         // 事务提交
-//        transaction.commit();
+        transaction.commit();
 
     }
 
@@ -253,23 +253,23 @@ public class BaiduActivity extends FragmentActivity implements OnClickListener {
      * 重置button状态
      */
     private void onResetButton() {
-//        btnTrackQuery.setTextColor(Color.rgb(0x00, 0x00, 0x00));
-//        btnTrackQuery.setBackgroundColor(Color.rgb(0xFF, 0xFF, 0xFF));
-//        btnTrackUpload.setTextColor(Color.rgb(0x00, 0x00, 0x00));
-//        btnTrackUpload.setBackgroundColor(Color.rgb(0xFF, 0xFF, 0xFF));
+        btnTrackQuery.setTextColor(Color.rgb(0x00, 0x00, 0x00));
+        btnTrackQuery.setBackgroundColor(Color.rgb(0xFF, 0xFF, 0xFF));
+        btnTrackUpload.setTextColor(Color.rgb(0x00, 0x00, 0x00));
+        btnTrackUpload.setBackgroundColor(Color.rgb(0xFF, 0xFF, 0xFF));
     }
 
     /**
      * 隐藏Fragment
      */
     private void hideFragments(FragmentTransaction transaction) {
-//
-//        if (mTrackQueryFragment != null) {
-//            transaction.hide(mTrackQueryFragment);
-//        }
-//        if (mTrackUploadFragment != null) {
-//            transaction.hide(mTrackUploadFragment);
-//        }
+
+        if (mTrackQueryFragment != null) {
+            transaction.hide(mTrackQueryFragment);
+        }
+        if (mTrackUploadFragment != null) {
+            transaction.hide(mTrackUploadFragment);
+        }
         // 清空地图覆盖物
         mBaiduMap.clear();
     }

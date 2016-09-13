@@ -95,7 +95,7 @@ public class MainActivity extends BaseActivity implements ObseverListener,
     private int index;
     private SoundPool sp;// 声明一个SoundPool
     private int music;// 定义一个整型用load（）；来设置suondIDf
-    private ImageView iv_createtask_center, iv_createproject_center,
+    private ImageView run, iv_yuepao,
             iv_registration_center, iv_oa_center,iv_add_center;
     private LinearLayout ll_createtask_center, ll_createproject_center,
             ll_registration_center, ll_oa_center;
@@ -132,8 +132,8 @@ public class MainActivity extends BaseActivity implements ObseverListener,
         //解决leancanary提示InputMethodManager内存泄露的问题
         IMMLeaks.fixFocusedViewLeak(getApplication());
 
-        iv_createtask_center = (ImageView) findViewById(R.id.iv_createtask_center);
-        iv_createproject_center = (ImageView) findViewById(R.id.iv_createproject_center);
+        run = (ImageView) findViewById(R.id.iv_createtask_center);
+        iv_yuepao = (ImageView) findViewById(R.id.iv_createproject_center);
         iv_registration_center = (ImageView) findViewById(R.id.iv_registration_center);
         iv_oa_center = (ImageView) findViewById(R.id.iv_oa_center);
 
@@ -174,10 +174,16 @@ public class MainActivity extends BaseActivity implements ObseverListener,
                 tran(ll_oa_center, y2, 150, true);
             }
         });
-        iv_createtask_center.setOnClickListener(new View.OnClickListener() {
+        run.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(BaiduActivity.class, null, false);
+            }
+        });
+        iv_yuepao.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
     }
@@ -211,7 +217,6 @@ public class MainActivity extends BaseActivity implements ObseverListener,
                 break;
             case R.id.btn_set:
                 index = 3;
-
                 break;
         }
         setSelect(index);
@@ -270,7 +275,6 @@ public class MainActivity extends BaseActivity implements ObseverListener,
                 } else {
                     transaction.show(setFragment);
                 }
-                break;
             default:
                 break;
         }
@@ -465,9 +469,9 @@ public class MainActivity extends BaseActivity implements ObseverListener,
                 .findViewById(R.id.ll_registration_center);
         ll_oa_center = (LinearLayout) contentView
                 .findViewById(R.id.ll_oa_center);
-        iv_createtask_center = (ImageView) contentView
+        run = (ImageView) contentView
                 .findViewById(R.id.iv_createtask_center);
-        iv_createproject_center = (ImageView) contentView
+        iv_yuepao = (ImageView) contentView
                 .findViewById(R.id.iv_createproject_center);
         iv_registration_center = (ImageView) contentView
                 .findViewById(R.id.iv_registration_center);
@@ -588,8 +592,8 @@ public class MainActivity extends BaseActivity implements ObseverListener,
             public void onAnimationEnd(Animation animation) {
                 if (flag) {
                     view.setVisibility(View.VISIBLE);
-                    scaleAndAlpha(iv_createproject_center);
-                    scaleAndAlpha(iv_createtask_center);
+                    scaleAndAlpha(iv_yuepao);
+                    scaleAndAlpha(run);
                     scaleAndAlpha(iv_oa_center);
                     scaleAndAlpha(iv_registration_center);
                 } else {

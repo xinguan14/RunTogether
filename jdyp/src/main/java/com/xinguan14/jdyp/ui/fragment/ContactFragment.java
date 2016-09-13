@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.xinguan14.jdyp.MyVeiw.CircleImageView;
 import com.xinguan14.jdyp.MyVeiw.CustomDialog;
@@ -31,14 +30,11 @@ import com.xinguan14.jdyp.ui.ChatActivity;
 import com.xinguan14.jdyp.ui.NewFriendActivity;
 import com.xinguan14.jdyp.ui.SearchUserActivity;
 import com.xinguan14.jdyp.util.ImageLoadOptions;
-
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import cn.bmob.newim.BmobIM;
