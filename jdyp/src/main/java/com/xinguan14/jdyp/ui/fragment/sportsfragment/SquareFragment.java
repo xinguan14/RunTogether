@@ -1,17 +1,22 @@
 package com.xinguan14.jdyp.ui.fragment.sportsfragment;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.xinguan14.jdyp.R;
 import com.xinguan14.jdyp.adapter.SquareListViewAdapter;
+import com.xinguan14.jdyp.base.BaseFragment;
 import com.xinguan14.jdyp.bean.Post;
+import com.xinguan14.jdyp.floatingactionbar.FloatingActionButton;
+import com.xinguan14.jdyp.floatingactionbar.ScrollDirectionListener;
+import com.xinguan14.jdyp.ui.AddPostActivity;
 
 import java.util.List;
 
@@ -20,7 +25,7 @@ import butterknife.ButterKnife;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.listener.FindListener;
 
-public class SquareFragment extends Fragment {
+public class SquareFragment extends BaseFragment {
 
     private View rootView;
     //private  List<Post> mPostList;
@@ -79,6 +84,33 @@ public class SquareFragment extends Fragment {
 
         mSquareListViewAdapter = new SquareListViewAdapter(getActivity(), list, R.layout.fragment_sport_square_item);
         listView.setAdapter(mSquareListViewAdapter);
+        FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab_square);
+        fab.attachToListView(listView, new ScrollDirectionListener() {
+            @Override
+            public void onScrollDown() {
+            }
+
+            @Override
+            public void onScrollUp() {
+            }
+        }, new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+            }
+        });
+        //浮动按钮点击事件
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(AddPostActivity.class, null);
+
+            }
+        });
+
         sps_refresh.setRefreshing(false);
     }
 }

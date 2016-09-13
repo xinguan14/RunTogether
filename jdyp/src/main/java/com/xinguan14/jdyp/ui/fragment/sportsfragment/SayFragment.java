@@ -12,6 +12,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
@@ -27,10 +28,14 @@ import com.xinguan14.jdyp.MyVeiw.NineGridTestLayout;
 import com.xinguan14.jdyp.R;
 import com.xinguan14.jdyp.adapter.base.BaseListAdapter;
 import com.xinguan14.jdyp.adapter.base.BaseListHolder;
+import com.xinguan14.jdyp.base.BaseFragment;
 import com.xinguan14.jdyp.bean.Comment;
 import com.xinguan14.jdyp.bean.Friend;
 import com.xinguan14.jdyp.bean.Post;
 import com.xinguan14.jdyp.bean.User;
+import com.xinguan14.jdyp.floatingactionbar.FloatingActionButton;
+import com.xinguan14.jdyp.floatingactionbar.ScrollDirectionListener;
+import com.xinguan14.jdyp.ui.AddPostActivity;
 import com.xinguan14.jdyp.ui.CheckUserInfoByUser;
 import com.xinguan14.jdyp.util.ImageLoadOptions;
 
@@ -54,14 +59,15 @@ import cn.bmob.v3.listener.UpdateListener;
 /**
  * @描述 在Fragment中要使用ListView，必须要用ListFragment
  */
-public class SayFragment extends android.support.v4.app.ListFragment {
+public class SayFragment extends BaseFragment {
 
 //    @Bind(R.id.progress_load)
 //    ProgressBar progress_load;
 
     @Bind(R.id.swipe_container)
     SwipeRefreshLayout sps_refresh;
-
+    @Bind(R.id.sayList)
+    ListView listView;
     private View rootView;
     //存放动态的集合
     private List<Post> mPostList;
@@ -171,18 +177,45 @@ public class SayFragment extends android.support.v4.app.ListFragment {
     //绑定数据
     private void initData(List<Post> list) {
         mSayListViewAdapter = new SayListViewAdapter(getActivity(), list, R.layout.fragment_sport_say_item);
-        setListAdapter(mSayListViewAdapter);
+        listView.setAdapter(mSayListViewAdapter);
+        FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
+        fab.attachToListView(listView, new ScrollDirectionListener() {
+            @Override
+            public void onScrollDown() {
+            }
+
+            @Override
+            public void onScrollUp() {
+            }
+        }, new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+            }
+        });
+        //浮动按钮点击事件
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(AddPostActivity.class, null);
+
+            }
+        });
         //关闭刷新
         sps_refresh.setRefreshing(false);
     }
+
     @Override
     public void onDestroy() {
         complete();
         super.onDestroy();
     }
 
-    private void loading(){
-        if (progressDialog == null){
+    private void loading() {
+        if (progressDialog == null) {
             progressDialog = LoadingDialog.createDialog(this.getActivity());
             progressDialog.setMessage("正在加载中...");
         }
@@ -190,8 +223,8 @@ public class SayFragment extends android.support.v4.app.ListFragment {
         progressDialog.show();
     }
 
-    private void complete(){
-        if (progressDialog != null){
+    private void complete() {
+        if (progressDialog != null) {
             progressDialog.dismiss();
             progressDialog = null;
         }
@@ -206,11 +239,11 @@ public class SayFragment extends android.support.v4.app.ListFragment {
         private int mShowMorePopupWindowHeight;
         //弹出评论框
         private AddCommentPopupWindow menuWindow;
-        private int goodState =0;//判断当前的动态是否已经点赞，0为否
+        private int goodState = 0;//判断当前的动态是否已经点赞，0为否
 
-       // private Handler handler;
-        public SayListViewAdapter(Activity context, List<Post> list, int itemLayoutId){
-            super(context,list,itemLayoutId);
+        // private Handler handler;
+        public SayListViewAdapter(Activity context, List<Post> list, int itemLayoutId) {
+            super(context, list, itemLayoutId);
             //根据屏幕的大小设置控件的大小
         }
 
@@ -221,55 +254,55 @@ public class SayFragment extends android.support.v4.app.ListFragment {
             RelativeLayout rL = holder.getView(R.id.rl4);
             NineGridTestLayout gv_images = holder.getView(R.id.gv_images);
 
-            String name = null,time = null,content = null,headpath = null,contentImageUrl = null;
+            String name = null, time = null, content = null, headpath = null, contentImageUrl = null;
             Number zan = null;
-            if(item !=null){
+            if (item != null) {
 
                 name = item.getAuthor().getNick();
                 time = item.getUpdatedAt();
                 content = item.getContent();
                 headpath = item.getAuthor().getAvatar();
                 contentImageUrl = item.getImageurl();
-                zan =item.getZan();
+                zan = item.getZan();
             }
             //昵称
-            if (name!=null&&!name.equals("")) {
-                holder.setTextView(R.id.user_name,name);
+            if (name != null && !name.equals("")) {
+                holder.setTextView(R.id.user_name, name);
             }
 
             //是否含有图片，有图片则显示gridview
-            if (contentImageUrl!=null&&!contentImageUrl.equals("")) {
+            if (contentImageUrl != null && !contentImageUrl.equals("")) {
                 rL.setVisibility(View.VISIBLE);
-                initInfoImages(gv_images,contentImageUrl);
+                initInfoImages(gv_images, contentImageUrl);
             } else {
                 rL.setVisibility(View.GONE);
             }
 
-            if (zan!=null&&zan.toString().trim().length()!=0) {
-                 holder.setTextView(R.id.tv_likes_number, zan.intValue() + "人觉得很赞");
-            }else {
-                holder.setTextView(R.id.tv_likes_number,"");
+            if (zan != null && zan.toString().trim().length() != 0) {
+                holder.setTextView(R.id.tv_likes_number, zan.intValue() + "人觉得很赞");
+            } else {
+                holder.setTextView(R.id.tv_likes_number, "");
             }
             //点赞的人 ,查询喜欢这个帖子的所有用户，因此查询的是用户表
-            showZan(holder,item);
+            showZan(holder, item);
             //显示发布时间
-            if (time!=null&&!time.equals("")) {
-                showTime(holder,item);
+            if (time != null && !time.equals("")) {
+                showTime(holder, item);
             }
             //内容
-            if (content!=null&&!content.equals("")) {
-                holder.setTextView(R.id.content,content);
+            if (content != null && !content.equals("")) {
+                holder.setTextView(R.id.content, content);
             }
             //头像
-            if (headpath!=null&&!headpath.equals("")) {
-                ImageLoader.getInstance().displayImage(headpath,(CircleImageView)holder.getView(R.id.user_image),
+            if (headpath != null && !headpath.equals("")) {
+                ImageLoader.getInstance().displayImage(headpath, (CircleImageView) holder.getView(R.id.user_image),
                         ImageLoadOptions.getOptions());
 
             } else {
-                holder.setImageResource(R.id.user_image,R.drawable.love);
+                holder.setImageResource(R.id.user_image, R.drawable.love);
             }
             //显示评论
-            showComments(holder,item);
+            showComments(holder, item);
             //点击头像的点击事件
             holder.getView(R.id.user_image).setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -277,7 +310,7 @@ public class SayFragment extends android.support.v4.app.ListFragment {
                     Bundle bundle = new Bundle();
                     User userInfo = item.getAuthor();
                     bundle.putSerializable("u", userInfo);
-                    Intent intent = new Intent(getActivity(),CheckUserInfoByUser.class);
+                    Intent intent = new Intent(getActivity(), CheckUserInfoByUser.class);
                     if (bundle != null)
                         intent.putExtra(getActivity().getPackageName(), bundle);
                     getActivity().startActivity(intent);
@@ -287,7 +320,7 @@ public class SayFragment extends android.support.v4.app.ListFragment {
             holder.getView(R.id.more_img).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    showMore(view,holder,item);
+                    showMore(view, holder, item);
                 }
             });
         }
@@ -324,8 +357,8 @@ public class SayFragment extends android.support.v4.app.ListFragment {
                     public void onClick(View view) {
                         //弹出评论框
                         menuWindow = new AddCommentPopupWindow(mContext, item.getObjectId());
-                        Log.i("info","postId2:"+item.getObjectId());
-                        menuWindow.showAtLocation(holder.getConvertView(), Gravity.BOTTOM , 0, 0);
+                        Log.i("info", "postId2:" + item.getObjectId());
+                        menuWindow.showAtLocation(holder.getConvertView(), Gravity.BOTTOM, 0, 0);
                         //menuWindow.showAsDropDown(holder.getConvertView());
                         if (mMorePopupWindow != null && mMorePopupWindow.isShowing()) {
                             mMorePopupWindow.dismiss();
@@ -337,10 +370,10 @@ public class SayFragment extends android.support.v4.app.ListFragment {
                 good.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if(goodState==1){
+                        if (goodState == 1) {
                             Toast.makeText(mContext, "您已经点赞过啦", Toast.LENGTH_SHORT).show();
                         }
-                        if(goodState==0) {
+                        if (goodState == 0) {
                             User user = BmobUser.getCurrentUser(mContext, User.class);
                             Post post = new Post();
                             post.setObjectId(item.getObjectId());
@@ -356,7 +389,6 @@ public class SayFragment extends android.support.v4.app.ListFragment {
 
                                 @Override
                                 public void onSuccess() {
-                                    // TODO Auto-generated method stub
                                     Toast.makeText(mContext, "点赞成功", Toast.LENGTH_SHORT).show();
                                     //跟新点赞人数
                                     holder.setTextView(R.id.tv_likes_number, "(" + item.getZan() + ")");
@@ -364,14 +396,13 @@ public class SayFragment extends android.support.v4.app.ListFragment {
 
                                 @Override
                                 public void onFailure(int arg0, String arg1) {
-                                    // TODO Auto-generated method stub
                                     Toast.makeText(mContext, "点赞失败", Toast.LENGTH_SHORT).show();
                                 }
                             });
                             if (mMorePopupWindow != null && mMorePopupWindow.isShowing()) {
                                 mMorePopupWindow.dismiss();
                             }
-                            goodState=1;
+                            goodState = 1;
                         }
 
                     }
@@ -388,7 +419,7 @@ public class SayFragment extends android.support.v4.app.ListFragment {
             }
         }
 
-        private void showTime(BaseListHolder holder, Post item){
+        private void showTime(BaseListHolder holder, Post item) {
             DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             try {
                 Date curDate = new Date(System.currentTimeMillis());//获取当前时间
@@ -400,24 +431,23 @@ public class SayFragment extends android.support.v4.app.ListFragment {
                 long hours = (diff - days * (1000 * 60 * 60 * 24)) / (1000 * 60 * 60);
                 long minutes = (diff - days * (1000 * 60 * 60 * 24) - hours * (1000 * 60 * 60)) / (1000 * 60);
                 if (days > 0) {
-                    holder.setTextView(R.id.add_say_time, days+"天前");
+                    holder.setTextView(R.id.add_say_time, days + "天前");
 
                 } else if (hours > 0) {
-                    holder.setTextView(R.id.add_say_time, hours+"小时前");
+                    holder.setTextView(R.id.add_say_time, hours + "小时前");
 
                 } else if (minutes > 0) {
-                    holder.setTextView(R.id.add_say_time, minutes+"分钟前");
-                }
-                else {
+                    holder.setTextView(R.id.add_say_time, minutes + "分钟前");
+                } else {
                     holder.setTextView(R.id.add_say_time, "刚刚");
                 }
             } catch (Exception e) {
                 //时间
-                holder.setTextView(R.id.add_say_time, "未知" );
+                holder.setTextView(R.id.add_say_time, "未知");
             }
         }
 
-        private void showZan( final BaseListHolder holder,  Post item){
+        private void showZan(final BaseListHolder holder, Post item) {
 
             BmobQuery<User> query = new BmobQuery<User>();
             Post post = new Post();
@@ -427,14 +457,14 @@ public class SayFragment extends android.support.v4.app.ListFragment {
             query.findObjects(mContext, new FindListener<User>() {
                 @Override
                 public void onSuccess(List<User> list) {
-                    String likesUser ="";
-                    for (int i= 0;i<list.size();i++){
-                        likesUser +=list.get(i).getUsername()+",";
+                    String likesUser = "";
+                    for (int i = 0; i < list.size(); i++) {
+                        likesUser += list.get(i).getUsername() + ",";
                     }
-                    if (likesUser.trim().length()!=0) {
-                       holder.setTextView(R.id.tv_likes_names,likesUser);
-                    }else {
-                        holder.setTextView(R.id.tv_likes_names,"");
+                    if (likesUser.trim().length() != 0) {
+                        holder.setTextView(R.id.tv_likes_names, likesUser);
+                    } else {
+                        holder.setTextView(R.id.tv_likes_names, "");
                     }
 
                 }
@@ -447,12 +477,12 @@ public class SayFragment extends android.support.v4.app.ListFragment {
 
         }
 
-        private void showComments(final BaseListHolder holder, Post item){
+        private void showComments(final BaseListHolder holder, Post item) {
             BmobQuery<Comment> commentBmobQuery = new BmobQuery<Comment>();
             Post post = new Post();
             //用此方式可以构造一个BmobPointer对象。只需要设置objectId就行
             post.setObjectId(item.getObjectId());
-            commentBmobQuery.addWhereEqualTo("post",new BmobPointer(post));
+            commentBmobQuery.addWhereEqualTo("post", new BmobPointer(post));
             //希望同时查询该评论的发布者的信息，以及该帖子的作者的信息，这里用到上面`include`的并列对象查询和内嵌对象的查询
             commentBmobQuery.include("user,post.author");
             commentBmobQuery.findObjects(mContext, new FindListener<Comment>() {
@@ -460,21 +490,20 @@ public class SayFragment extends android.support.v4.app.ListFragment {
                 @Override
                 public void onSuccess(List<Comment> list) {
                     ListView commentLayout = holder.getView(R.id.comments_layout);
-                    if (list.size()!=0) {
+                    if (list.size() != 0) {
                         commentLayout.setVisibility(View.VISIBLE);
                         ArrayList<HashMap<String, Object>> listItem = new ArrayList<HashMap<String, Object>>();/*在数组中存放数据*/
-                        for(int i=0;i<list.size();i++)
-                        {
+                        for (int i = 0; i < list.size(); i++) {
 
                             HashMap<String, Object> map = new HashMap<String, Object>();
-                            map.put("commentName", list.get(i).getUser().getNick()+":");
+                            map.put("commentName", list.get(i).getUser().getNick() + ":");
                             map.put("commentContent", list.get(i).getContent());
                             listItem.add(map);
                         }
-                        SimpleAdapter mSimpleAdapter = new SimpleAdapter(getActivity(),listItem,
+                        SimpleAdapter mSimpleAdapter = new SimpleAdapter(getActivity(), listItem,
                                 R.layout.comments_item_layout,
                                 new String[]{"commentName", "commentContent"},
-                                new int[] {R.id.commentName,R.id.commentContent,});
+                                new int[]{R.id.commentName, R.id.commentContent,});
 
                         commentLayout.setAdapter(mSimpleAdapter);//为ListView绑定适配器
 
@@ -498,7 +527,6 @@ public class SayFragment extends android.support.v4.app.ListFragment {
 
                 @Override
                 public void onError(int code, String msg) {
-                    // TODO Auto-generated method stub
 
                 }
             });
@@ -506,7 +534,7 @@ public class SayFragment extends android.support.v4.app.ListFragment {
 
         public void initInfoImages(NineGridTestLayout gv_images, String imgUrl) {
 
-            if(imgUrl!=null&&!imgUrl.equals("")) {
+            if (imgUrl != null && !imgUrl.equals("")) {
                 String[] imgs = imgUrl.split("#");//多张图片的URL一#分开
 
                 List<String> list = new ArrayList<>();//图片url
@@ -520,7 +548,5 @@ public class SayFragment extends android.support.v4.app.ListFragment {
 
             }
         }
-
-
     }
 }

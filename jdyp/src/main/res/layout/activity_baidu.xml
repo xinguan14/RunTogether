@@ -10,24 +10,24 @@
         android:clickable="true" />
 
     <!--<fragment-->
-        <!--android:id="@+id/fragment_title"-->
-        <!--android:name="com.xinguan14.jdyp.trackshow.TitleFragment"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="45dp" />-->
+    <!--android:id="@+id/fragment_title"-->
+    <!--android:name="com.xinguan14.jdyp.trackshow.TitleFragment"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="45dp" />-->
 
-    <fragment
-        android:id="@+id/fragment_bottom"
-        android:name="com.xinguan14.jdyp.trackshow.BottomFragment"
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="10dp" />
+    <!--<fragment-->
+    <!--android:id="@+id/fragment_bottom"-->
+    <!--android:name="com.xinguan14.jdyp.trackshow.BottomFragment"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="45dp"-->
+    <!--android:layout_alignParentBottom="true"-->
+    <!--android:layout_marginBottom="10dp" />-->
 
     <FrameLayout
         android:id="@+id/fragment_content"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/fragment_bottom"
-        />
+        android:layout_height="wrap_content" />
+    <!--android:layout_above="@id/fragment_bottom"-->
+
 
 </RelativeLayout>
