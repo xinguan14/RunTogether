@@ -14,7 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.xinguan14.jdyp.MyVeiw.PagerSlidingTabStrip;
+import com.xinguan14.jdyp.myVeiw.PagerSlidingTabStrip;
 import com.xinguan14.jdyp.R;
 import com.xinguan14.jdyp.base.ParentWithNaviActivity;
 import com.xinguan14.jdyp.base.ParentWithNaviFragment;

@@ -1,4 +1,4 @@
-package com.xinguan14.jdyp.StikkyHeader;
+package com.xinguan14.jdyp.stikkyHeader;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
@@ -7,8 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.xinguan14.jdyp.R;
-import com.xinguan14.jdyp.StikkyHeader.core.AnimatorBuilder;
-import com.xinguan14.jdyp.StikkyHeader.core.HeaderStikkyAnimator;
+import com.xinguan14.jdyp.stikkyHeader.core.AnimatorBuilder;
+import com.xinguan14.jdyp.stikkyHeader.core.HeaderStikkyAnimator;
 
 public class DynamicAnimator extends HeaderStikkyAnimator {
 

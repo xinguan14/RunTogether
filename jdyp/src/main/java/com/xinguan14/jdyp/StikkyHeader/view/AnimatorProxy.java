@@ -1,4 +1,4 @@
-package com.xinguan14.jdyp.StikkyHeader.view;
+package com.xinguan14.jdyp.stikkyHeader.view;
 
 import android.graphics.Camera;
 import android.graphics.Matrix;

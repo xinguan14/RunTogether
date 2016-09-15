@@ -1,4 +1,4 @@
-package com.xinguan14.jdyp.StikkyHeader.core;
+package com.xinguan14.jdyp.stikkyHeader.core;
 
 import android.content.Context;
 import android.support.annotation.DimenRes;

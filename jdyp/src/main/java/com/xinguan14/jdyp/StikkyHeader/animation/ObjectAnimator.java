@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package com.xinguan14.jdyp.StikkyHeader.animation;
+package com.xinguan14.jdyp.stikkyHeader.animation;
 
 import android.util.Log;
 import android.view.View;
 
-import com.xinguan14.jdyp.StikkyHeader.util.Property;
-import com.xinguan14.jdyp.StikkyHeader.view.AnimatorProxy;
+import com.xinguan14.jdyp.stikkyHeader.util.Property;
+import com.xinguan14.jdyp.stikkyHeader.view.AnimatorProxy;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;

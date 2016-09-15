@@ -236,6 +236,17 @@ public class BaseActivity extends FragmentActivity {
 //        });
     }
 
+    /**启动指定Activity
+     * @param target
+     * @param bundle
+     */
+    public void startActivity(Class<? extends Activity> target, Bundle bundle) {
+        Intent intent = new Intent();
+        intent.setClass(this, target);
+        if (bundle != null)
+            intent.putExtra(this.getPackageName(), bundle);
+        this.startActivity(intent);
+    }
     /**
      * 更新用户的经纬度信息
      *

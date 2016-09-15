@@ -1,4 +1,4 @@
-package com.xinguan14.jdyp.StikkyHeader.animation;
+package com.xinguan14.jdyp.stikkyHeader.animation;
 
 /**
  * This class provides a simple callback mechanism to listeners that is synchronized with other

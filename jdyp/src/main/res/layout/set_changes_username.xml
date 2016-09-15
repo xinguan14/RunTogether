@@ -8,7 +8,7 @@
 
     <include layout="@layout/include_navi" />
 
-    <com.xinguan14.jdyp.MyVeiw.ClearWriteEditText
+    <com.xinguan14.jdyp.myVeiw.ClearWriteEditText
         android:id="@+id/update_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

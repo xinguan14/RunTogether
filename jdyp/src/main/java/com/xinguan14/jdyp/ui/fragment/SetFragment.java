@@ -22,8 +22,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.xinguan14.jdyp.MyVeiw.ChangeAvatarPopupWindow;
-import com.xinguan14.jdyp.MyVeiw.CircleImageView;
+import com.xinguan14.jdyp.myVeiw.ChangeAvatarPopupWindow;
+import com.xinguan14.jdyp.myVeiw.CircleImageView;
 import com.xinguan14.jdyp.R;
 import com.xinguan14.jdyp.base.ParentWithNaviFragment;
 import com.xinguan14.jdyp.bean.User;

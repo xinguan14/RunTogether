@@ -1,4 +1,4 @@
-package com.xinguan14.jdyp.SwipMenu;
+package com.xinguan14.jdyp.swipMenu;
 
 import android.view.LayoutInflater;
 import android.view.View;

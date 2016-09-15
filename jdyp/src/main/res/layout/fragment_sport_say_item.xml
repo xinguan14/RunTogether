@@ -16,7 +16,7 @@
         android:descendantFocusability="blocksDescendants"
         android:orientation="horizontal">
 
-        <com.xinguan14.jdyp.MyVeiw.CircleImageView
+        <com.xinguan14.jdyp.myVeiw.CircleImageView
             android:id="@+id/user_image"
             android:layout_width="50dip"
             android:layout_height="50dip"
@@ -65,7 +65,7 @@
                 android:paddingRight="5dp"
                 android:paddingTop="5dp">
 
-                <com.xinguan14.jdyp.MyVeiw.NineGridTestLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+                <com.xinguan14.jdyp.myVeiw.NineGridTestLayout xmlns:app="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/gv_images"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

@@ -11,7 +11,7 @@
         android:orientation="horizontal"
         android:padding="10dp">
 
-        <com.xinguan14.jdyp.MyVeiw.CircleImageView
+        <com.xinguan14.jdyp.myVeiw.CircleImageView
             android:id="@+id/iv_near_avatar"
             android:layout_width="45dp"
             android:layout_height="45dp"
@@ -38,12 +38,13 @@
                 android:src="@mipmap/sex_man"
                 android:layout_alignParentTop="true"
                 android:layout_toRightOf="@+id/tv_near_name"
-                android:layout_alignBottom="@+id/tv_near_name" />
+                android:layout_alignBottom="@+id/tv_near_name"
+                android:layout_marginLeft="5dp"/>
 
             <Button
                 android:layout_width="60dp"
                 android:layout_height="30dp"
-                android:id="@+id/tv_distance"
+                android:id="@+id/bt_yuepao"
                 android:singleLine="true"
                 android:text="邀请"
                 style="@style/style_text_white"
@@ -54,7 +55,7 @@
                 android:layout_alignParentEnd="true" />
 
             <TextView
-                android:id="@+id/add_say_time"
+                android:id="@+id/tv_distance"
                 style="@style/Smile.TextView._Gray"
                 android:paddingLeft="5dp"
                 android:singleLine="true"
@@ -63,8 +64,7 @@
                 android:layout_marginRight="22dp"
                 android:layout_marginEnd="22dp"
                 android:layout_alignBottom="@+id/iv_sex"
-                android:layout_toLeftOf="@+id/tv_distance"
-                android:layout_toStartOf="@+id/tv_distance" />
+                android:layout_toLeftOf="@+id/bt_yuepao" />
         </RelativeLayout>
     </LinearLayout>
 

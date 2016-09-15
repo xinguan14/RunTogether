@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package com.xinguan14.jdyp.StikkyHeader.animation;
+package com.xinguan14.jdyp.stikkyHeader.animation;
 
 import android.util.Log;
 
-import com.xinguan14.jdyp.StikkyHeader.util.FloatProperty;
-import com.xinguan14.jdyp.StikkyHeader.util.IntProperty;
-import com.xinguan14.jdyp.StikkyHeader.util.Property;
+import com.xinguan14.jdyp.stikkyHeader.util.FloatProperty;
+import com.xinguan14.jdyp.stikkyHeader.util.IntProperty;
+import com.xinguan14.jdyp.stikkyHeader.util.Property;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

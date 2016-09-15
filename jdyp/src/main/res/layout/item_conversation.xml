@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:minHeight="@dimen/height_message">
 
-        <com.xinguan14.jdyp.MyVeiw.CircleImageView
+        <com.xinguan14.jdyp.myVeiw.CircleImageView
             android:id="@+id/iv_recent_avatar"
             android:layout_width="50dp"
             android:layout_height="50dp"

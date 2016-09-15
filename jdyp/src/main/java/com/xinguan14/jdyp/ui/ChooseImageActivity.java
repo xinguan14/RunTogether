@@ -24,7 +24,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.xinguan14.jdyp.MyVeiw.ListImageDirPopupWindow;
+import com.xinguan14.jdyp.myVeiw.ListImageDirPopupWindow;
 import com.xinguan14.jdyp.R;
 import com.xinguan14.jdyp.adapter.MyAdapter;
 import com.xinguan14.jdyp.bean.ImageFloder;

@@ -16,9 +16,9 @@ import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.orhanobut.logger.Logger;
-import com.xinguan14.jdyp.MyVeiw.ATLoginButton;
-import com.xinguan14.jdyp.MyVeiw.CircleImageView;
-import com.xinguan14.jdyp.MyVeiw.ClearWriteEditText;
+import com.xinguan14.jdyp.myVeiw.ATLoginButton;
+import com.xinguan14.jdyp.myVeiw.CircleImageView;
+import com.xinguan14.jdyp.myVeiw.ClearWriteEditText;
 import com.xinguan14.jdyp.R;
 import com.xinguan14.jdyp.base.BaseActivity;
 import com.xinguan14.jdyp.bean.User;

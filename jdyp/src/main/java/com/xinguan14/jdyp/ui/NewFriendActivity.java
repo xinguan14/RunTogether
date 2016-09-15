@@ -8,9 +8,9 @@ import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
 
 import com.xinguan14.jdyp.R;
-import com.xinguan14.jdyp.SwipMenu.SwipeMenu;
-import com.xinguan14.jdyp.SwipMenu.SwipeMenuBuilder;
-import com.xinguan14.jdyp.SwipMenu.SwipeMenuView;
+import com.xinguan14.jdyp.swipMenu.SwipeMenu;
+import com.xinguan14.jdyp.swipMenu.SwipeMenuBuilder;
+import com.xinguan14.jdyp.swipMenu.SwipeMenuView;
 import com.xinguan14.jdyp.adapter.NewFriendAdapter;
 import com.xinguan14.jdyp.adapter.OnRecyclerViewListener;
 import com.xinguan14.jdyp.adapter.base.IMutlipleItem;

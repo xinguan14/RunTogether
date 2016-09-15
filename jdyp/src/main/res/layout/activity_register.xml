@@ -33,9 +33,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="61dip"
-            android:src="@mipmap/login_logo" />
+            android:src="@mipmap/register_logo" />
 
-        <com.xinguan14.jdyp.MyVeiw.ClearWriteEditText
+        <com.xinguan14.jdyp.myVeiw.ClearWriteEditText
             android:id="@+id/reg_nickname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -55,7 +55,7 @@
             android:textColor="#FFF"
             android:textColorHint="#FFFFFF" />
 
-        <com.xinguan14.jdyp.MyVeiw.ClearWriteEditText
+        <com.xinguan14.jdyp.myVeiw.ClearWriteEditText
             android:id="@+id/reg_phone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -84,7 +84,7 @@
             android:orientation="horizontal">
 
 
-            <com.xinguan14.jdyp.MyVeiw.ClearWriteEditText
+            <com.xinguan14.jdyp.myVeiw.ClearWriteEditText
                 android:id="@+id/reg_code"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -119,7 +119,7 @@
 
         </LinearLayout>
 
-        <com.xinguan14.jdyp.MyVeiw.ClearWriteEditText
+        <com.xinguan14.jdyp.myVeiw.ClearWriteEditText
             android:id="@+id/reg_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -1,10 +1,10 @@
-package com.xinguan14.jdyp.StikkyHeader.core;
+package com.xinguan14.jdyp.stikkyHeader.core;
 
 import android.annotation.TargetApi;
 import android.os.Build;
 import android.view.View;
 
-import com.xinguan14.jdyp.StikkyHeader.view.ViewHelper;
+import com.xinguan14.jdyp.stikkyHeader.view.ViewHelper;
 
 
 public class StikkyCompat {

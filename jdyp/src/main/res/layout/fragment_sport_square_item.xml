@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/item_main">
-        <com.xinguan14.jdyp.MyVeiw.CircleImageView
+        <com.xinguan14.jdyp.myVeiw.CircleImageView
             android:id="@+id/info_iv_head"
             android:layout_width="40dp"
             android:layout_height="40dp"/>
@@ -72,7 +72,7 @@
                其有三个属性：visible显示；invisible显示黑背景条；gone不显示
                在类中，可以设置其显示与否，setVisibility(View.GONE);不显示
                setVisibility(View.VISIBLE);显示-->
-            <com.xinguan14.jdyp.MyVeiw.NineGridTestLayout
+            <com.xinguan14.jdyp.myVeiw.NineGridTestLayout
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/gv_images"
                 android:layout_width="match_parent"

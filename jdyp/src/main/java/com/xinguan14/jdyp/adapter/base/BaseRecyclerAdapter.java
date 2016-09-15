@@ -10,10 +10,10 @@ import android.view.animation.BounceInterpolator;
 import android.view.animation.LinearInterpolator;
 import android.widget.Toast;
 
-import com.xinguan14.jdyp.SwipMenu.SwapWrapperUtils;
-import com.xinguan14.jdyp.SwipMenu.SwipeMenu;
-import com.xinguan14.jdyp.SwipMenu.SwipeMenuBuilder;
-import com.xinguan14.jdyp.SwipMenu.SwipeMenuView;
+import com.xinguan14.jdyp.swipMenu.SwapWrapperUtils;
+import com.xinguan14.jdyp.swipMenu.SwipeMenu;
+import com.xinguan14.jdyp.swipMenu.SwipeMenuBuilder;
+import com.xinguan14.jdyp.swipMenu.SwipeMenuView;
 import com.xinguan14.jdyp.adapter.OnRecyclerViewListener;
 import com.xinguan14.jdyp.base.BaseActivity;
 

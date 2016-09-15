@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package com.xinguan14.jdyp.StikkyHeader.view;
+package com.xinguan14.jdyp.stikkyHeader.view;
 
 import android.view.View;
 import android.view.animation.Interpolator;
 
-import com.xinguan14.jdyp.StikkyHeader.animation.Animator;
-import com.xinguan14.jdyp.StikkyHeader.animation.ValueAnimator;
+import com.xinguan14.jdyp.stikkyHeader.animation.Animator;
+import com.xinguan14.jdyp.stikkyHeader.animation.ValueAnimator;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;

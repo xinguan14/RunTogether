@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.xinguan14.jdyp.StikkyHeader.util;
+package com.xinguan14.jdyp.stikkyHeader.util;
 
 /**
  * Thrown when code requests a {@link Property} on a class that does

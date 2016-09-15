@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.xinguan14.jdyp.StikkyHeader.animation;
+package com.xinguan14.jdyp.stikkyHeader.animation;
 
 /**
  * Interface for use with the {@link ValueAnimator#setEvaluator(TypeEvaluator)} function. Evaluators

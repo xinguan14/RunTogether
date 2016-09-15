@@ -1,4 +1,4 @@
-package com.xinguan14.jdyp.StikkyHeader;
+package com.xinguan14.jdyp.stikkyHeader;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;

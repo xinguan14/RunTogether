@@ -1,4 +1,5 @@
-package com.xinguan14.jdyp.ui.fragment.sportsfragment;
+
+package com.xinguan14.jdyp.ui;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -6,10 +7,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.xinguan14.jdyp.R;
@@ -17,32 +14,24 @@ import com.xinguan14.jdyp.adapter.OnRecyclerViewListener;
 import com.xinguan14.jdyp.adapter.base.BaseRecyclerAdapter;
 import com.xinguan14.jdyp.adapter.base.BaseRecyclerHolder;
 import com.xinguan14.jdyp.adapter.base.IMutlipleItem;
-import com.xinguan14.jdyp.base.BaseFragment;
+import com.xinguan14.jdyp.base.BaseActivity;
 import com.xinguan14.jdyp.bean.User;
 import com.xinguan14.jdyp.myVeiw.CircleImageView;
-import com.xinguan14.jdyp.ui.UserInfoActivity;
 import com.xinguan14.jdyp.util.ImageLoadOptions;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobGeoPoint;
 import cn.bmob.v3.listener.FindListener;
 
-/**
- * 附近的人界面
- */
-public class NearFragment extends BaseFragment {
 
-    private View rootView;
+public class StepActivity extends BaseActivity {
+
 
     @Bind(R.id.rc_view)
     RecyclerView rc_view;
@@ -52,15 +41,14 @@ public class NearFragment extends BaseFragment {
     LinearLayoutManager layoutManager;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.fragment_sport_near, container, false);
-        ButterKnife.bind(this, rootView);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.fragment_sport_near);
         IMutlipleItem<User> mutlipleItem = new IMutlipleItem<User>() {
 
             @Override
             public int getItemLayoutId(int viewtype) {
-                return R.layout.item_near;
+                return R.layout.item_yuepao;
             }
 
             @Override
@@ -73,29 +61,26 @@ public class NearFragment extends BaseFragment {
                 return list.size();
             }
         };
-
-        adapter = new NearPeopleAdapter(getActivity(), mutlipleItem, null);
-
+        adapter = new NearPeopleAdapter(this, mutlipleItem, null);
         rc_view.setAdapter(adapter);
         rc_view.setItemAnimator(new DefaultItemAnimator());
 
-        layoutManager = new LinearLayoutManager(getActivity());
+        layoutManager = new LinearLayoutManager(this);
         rc_view.setLayoutManager(layoutManager);
 
         sw_refresh.setEnabled(true);
         setListener();
-        return rootView;
     }
 
     private void setListener() {
-        rootView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                rootView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                sw_refresh.setRefreshing(true);
-                query();
-            }
-        });
+//        rootView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+//            @Override
+//            public void onGlobalLayout() {
+//                rootView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+//                sw_refresh.setRefreshing(true);
+//                query();
+//            }
+//        });
         sw_refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -126,7 +111,6 @@ public class NearFragment extends BaseFragment {
         query();
     }
 
-
     /**
      * 查询人
      */
@@ -145,10 +129,10 @@ public class NearFragment extends BaseFragment {
 
     private List<User> getNearPeople() {
 
-        User me = BmobUser.getCurrentUser(getActivity(), User.class);
+        User me = BmobUser.getCurrentUser(getApplicationContext(), User.class);
         BmobQuery<User> bmobQuery = new BmobQuery<User>();
         bmobQuery.addWhereWithinKilometers("location", me.getLocation(), 1000);
-        bmobQuery.findObjects(getActivity(), new FindListener<User>() {
+        bmobQuery.findObjects(getApplicationContext(), new FindListener<User>() {
             @Override
             public void onSuccess(List<User> object) {
                 userList.clear();
@@ -174,7 +158,7 @@ public class NearFragment extends BaseFragment {
      */
     class NearPeopleAdapter extends BaseRecyclerAdapter<User> {
 
-        User me = BmobUser.getCurrentUser(getActivity(), User.class);
+        User me = BmobUser.getCurrentUser(getApplicationContext(), User.class);
 
         private static final double EARTH_RADIUS = 6378137;
 
@@ -222,33 +206,6 @@ public class NearFragment extends BaseFragment {
 //                holder.setImageView(user == null ? null : user.getAvatar(), R.mipmap.head, R.id.iv_near_avatar);
                 //名称
                 holder.setText(R.id.tv_near_name, user.getNick());
-
-                DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                try {
-
-                    Date curDate = new Date(System.currentTimeMillis());//获取当前时间
-                    String str = df.format(curDate);
-                    Date d1 = df.parse(str);
-                    Date d2 = df.parse(user.getUpdatedAt());
-                    long diff = d1.getTime() - d2.getTime();//这样得到的差值是微秒级别
-                    long days = diff / (1000 * 60 * 60 * 24);
-                    long hours = (diff - days * (1000 * 60 * 60 * 24)) / (1000 * 60 * 60);
-                    long minutes = (diff - days * (1000 * 60 * 60 * 24) - hours * (1000 * 60 * 60)) / (1000 * 60);
-                    if (days > 0) {
-                        holder.setText(R.id.add_say_time, days + "天前");
-
-                    } else if (hours > 0) {
-                        holder.setText(R.id.add_say_time, hours + "小时前");
-
-                    } else if (minutes > 0) {
-                        holder.setText(R.id.add_say_time, minutes + "分钟前");
-                    } else {
-                        holder.setText(R.id.add_say_time, "刚刚");
-                    }
-                } catch (Exception e) {
-                    //时间
-                    holder.setText(R.id.add_say_time, "未知");
-                }
 
                 BmobGeoPoint location = me.getLocation();
                 double currentLat = location.getLatitude();

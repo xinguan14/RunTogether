@@ -1,11 +1,11 @@
-package com.xinguan14.jdyp.StikkyHeader.animation;
+package com.xinguan14.jdyp.stikkyHeader.animation;
 
 import android.view.View;
 
-import com.xinguan14.jdyp.StikkyHeader.util.FloatProperty;
-import com.xinguan14.jdyp.StikkyHeader.util.IntProperty;
-import com.xinguan14.jdyp.StikkyHeader.util.Property;
-import com.xinguan14.jdyp.StikkyHeader.view.AnimatorProxy;
+import com.xinguan14.jdyp.stikkyHeader.util.FloatProperty;
+import com.xinguan14.jdyp.stikkyHeader.util.IntProperty;
+import com.xinguan14.jdyp.stikkyHeader.util.Property;
+import com.xinguan14.jdyp.stikkyHeader.view.AnimatorProxy;
 final class PreHoneycombCompat {
     static Property<View, Float> ALPHA = new FloatProperty<View>("alpha") {
         @Override

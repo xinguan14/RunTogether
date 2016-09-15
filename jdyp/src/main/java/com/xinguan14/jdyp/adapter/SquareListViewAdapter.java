@@ -11,8 +11,8 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.xinguan14.jdyp.MyVeiw.AddCommentPopupWindow;
-import com.xinguan14.jdyp.MyVeiw.NineGridTestLayout;
+import com.xinguan14.jdyp.myVeiw.AddCommentPopupWindow;
+import com.xinguan14.jdyp.myVeiw.NineGridTestLayout;
 import com.xinguan14.jdyp.R;
 import com.xinguan14.jdyp.adapter.base.BaseListAdapter;
 import com.xinguan14.jdyp.adapter.base.BaseListHolder;

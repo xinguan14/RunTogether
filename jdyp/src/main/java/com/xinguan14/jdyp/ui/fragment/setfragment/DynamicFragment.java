@@ -8,9 +8,9 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.xinguan14.jdyp.R;
-import com.xinguan14.jdyp.StikkyHeader.DynamicAnimator;
-import com.xinguan14.jdyp.StikkyHeader.Utils;
-import com.xinguan14.jdyp.StikkyHeader.core.StikkyHeaderBuilder;
+import com.xinguan14.jdyp.stikkyHeader.DynamicAnimator;
+import com.xinguan14.jdyp.stikkyHeader.Utils;
+import com.xinguan14.jdyp.stikkyHeader.core.StikkyHeaderBuilder;
 import com.xinguan14.jdyp.base.ParentWithNaviFragment;
 import com.xinguan14.jdyp.ui.fragment.SetFragment;
 

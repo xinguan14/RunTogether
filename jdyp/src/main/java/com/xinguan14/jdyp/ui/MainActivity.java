@@ -26,7 +26,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.orhanobut.logger.Logger;
-import com.xinguan14.jdyp.MyVeiw.DensityUtil;
+import com.xinguan14.jdyp.myVeiw.DensityUtil;
 import com.xinguan14.jdyp.R;
 import com.xinguan14.jdyp.base.BackHandledInterface;
 import com.xinguan14.jdyp.base.BaseActivity;
@@ -145,11 +145,8 @@ public class MainActivity extends BaseActivity implements ObseverListener,
         sp = new SoundPool(10, AudioManager.STREAM_SYSTEM, 5);// 第一个参数为同时播放数据流的最大个数，第二数据流类型，第三为声音质量
         music = sp.load(this, R.raw.key_sound, 1); // 把你的声音素材放到res/raw里，第2个参数即为资源文件，第3个为音乐的优先级
 
-
         inipopmenu();
-
         setListener();
-
     }
 
     private void setListener() {
@@ -188,7 +185,7 @@ public class MainActivity extends BaseActivity implements ObseverListener,
         iv_yuepao.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                startActivity(StepActivity.class, null, false);
             }
         });
         step.setOnClickListener(new View.OnClickListener() {

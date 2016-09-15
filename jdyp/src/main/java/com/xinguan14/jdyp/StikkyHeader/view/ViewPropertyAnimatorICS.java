@@ -1,9 +1,9 @@
-package com.xinguan14.jdyp.StikkyHeader.view;
+package com.xinguan14.jdyp.stikkyHeader.view;
 
 import android.view.View;
 import android.view.animation.Interpolator;
 
-import com.xinguan14.jdyp.StikkyHeader.animation.Animator;
+import com.xinguan14.jdyp.stikkyHeader.animation.Animator;
 
 import java.lang.ref.WeakReference;
 

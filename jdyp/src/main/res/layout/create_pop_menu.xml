@@ -144,7 +144,7 @@
                         android:id="@+id/iv_oa_center"
                         android:layout_width="54dp"
                         android:layout_height="32dp"
-                        android:src="@drawable/loseweight"
+                        android:src="@drawable/ic_notification"
                         android:visibility="invisible" />
 
                 </LinearLayout>

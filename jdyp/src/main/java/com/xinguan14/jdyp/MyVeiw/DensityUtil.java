@@ -1,4 +1,4 @@
-package com.xinguan14.jdyp.MyVeiw;
+package com.xinguan14.jdyp.myVeiw;
 
 import android.content.Context;
 

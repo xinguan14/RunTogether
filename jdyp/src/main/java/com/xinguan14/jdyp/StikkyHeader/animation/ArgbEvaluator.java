@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.xinguan14.jdyp.StikkyHeader.animation;
+package com.xinguan14.jdyp.stikkyHeader.animation;
 
 /**
  * This evaluator can be used to perform type interpolation between integer

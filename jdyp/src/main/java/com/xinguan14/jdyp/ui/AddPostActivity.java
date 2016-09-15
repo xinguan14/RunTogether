@@ -19,7 +19,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.xinguan14.jdyp.MyVeiw.SelectPicPopupWindow;
+import com.xinguan14.jdyp.myVeiw.SelectPicPopupWindow;
 import com.xinguan14.jdyp.R;
 import com.xinguan14.jdyp.adapter.MyAdapter;
 import com.xinguan14.jdyp.adapter.base.BaseListAdapter;

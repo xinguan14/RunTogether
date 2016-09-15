@@ -23,7 +23,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <com.xinguan14.jdyp.MyVeiw.ClearWriteEditText
+        <com.xinguan14.jdyp.myVeiw.ClearWriteEditText
             android:id="@+id/forget_phone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -52,7 +52,7 @@
             android:orientation="horizontal">
 
 
-            <com.xinguan14.jdyp.MyVeiw.ClearWriteEditText
+            <com.xinguan14.jdyp.myVeiw.ClearWriteEditText
                 android:id="@+id/forget_code"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -89,7 +89,7 @@
 
         </LinearLayout>
 
-        <com.xinguan14.jdyp.MyVeiw.ClearWriteEditText
+        <com.xinguan14.jdyp.myVeiw.ClearWriteEditText
             android:id="@+id/forget_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -110,7 +110,7 @@
             android:textColor="@color/de_title_bg"
             android:textColorHint="#FFFFFF" />
 
-        <com.xinguan14.jdyp.MyVeiw.ClearWriteEditText
+        <com.xinguan14.jdyp.myVeiw.ClearWriteEditText
             android:id="@+id/forget_password_again"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -1,8 +1,8 @@
-package com.xinguan14.jdyp.StikkyHeader.view;
+package com.xinguan14.jdyp.stikkyHeader.view;
 
 import android.view.View;
-import static com.xinguan14.jdyp.StikkyHeader.view.AnimatorProxy.NEEDS_PROXY;
-import static com.xinguan14.jdyp.StikkyHeader.view.AnimatorProxy.wrap;
+import static com.xinguan14.jdyp.stikkyHeader.view.AnimatorProxy.NEEDS_PROXY;
+import static com.xinguan14.jdyp.stikkyHeader.view.AnimatorProxy.wrap;
 public final class ViewHelper {
     private ViewHelper() {}
 

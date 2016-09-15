@@ -15,7 +15,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.xinguan14.jdyp.MyVeiw.ClearWriteEditText;
+import com.xinguan14.jdyp.myVeiw.ClearWriteEditText;
 import com.xinguan14.jdyp.R;
 import com.xinguan14.jdyp.base.BaseActivity;
 import com.xinguan14.jdyp.bean.User;

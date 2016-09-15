@@ -1,4 +1,4 @@
-package com.xinguan14.jdyp.SwipMenu;
+package com.xinguan14.jdyp.swipMenu;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;

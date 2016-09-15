@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package com.xinguan14.jdyp.StikkyHeader.animation;
+package com.xinguan14.jdyp.stikkyHeader.animation;
 
 import android.view.animation.Interpolator;
-import com.xinguan14.jdyp.StikkyHeader.animation.Keyframe.IntKeyframe;
+import com.xinguan14.jdyp.stikkyHeader.animation.Keyframe.IntKeyframe;
 
 import java.util.ArrayList;
 
