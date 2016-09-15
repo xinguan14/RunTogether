@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 22
+    compileSdkVersion 23
     buildToolsVersion '24.0.1'
 
     aaptOptions.cruncherEnabled = false
@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId "com.xinguan14.jdyp"
-        minSdkVersion 14
+        minSdkVersion 17
         targetSdkVersion 22
         versionCode 1
         versionName "1.0"
@@ -33,7 +33,7 @@ android {
             }
         }
     }
-    dexOptions{
+    dexOptions {
         incremental false
     }
     compileOptions {
@@ -50,7 +50,7 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
-    compile('com.android.support:appcompat-v7:22.2.0') {
+    compile('com.android.support:appcompat-v7:23.4.0') {
         exclude module: 'support-annotations'
     }
     compile 'com.android.support:recyclerview-v7:22.2.0'
@@ -71,4 +71,10 @@ dependencies {
     compile files('libs/gson-2.2.1.jar')
     compile 'com.nineoldandroids:library:2.4.0'
     compile files('libs/GifView.jar')
+    compile 'com.google.android.gms:play-services:9.4.0'
+    compile 'com.android.support:design:24.2.0'
+    compile 'com.android.support:leanback-v17:24.2.0'
+    compile 'com.android.support:mediarouter-v7:24.2.0'
+    compile 'com.android.support:support-v4:24.2.0'
+//    compile 'com.google.android.support:wearable:1.4.0'
 }

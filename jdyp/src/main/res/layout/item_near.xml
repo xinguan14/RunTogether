@@ -39,7 +39,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_toEndOf="@+id/tv_near_name"
                 android:layout_toRightOf="@+id/tv_near_name"
-                android:src="@mipmap/sex_men" />
+                android:src="@mipmap/sex_man" />
 
             <TextView
                 android:id="@+id/tv_distance"

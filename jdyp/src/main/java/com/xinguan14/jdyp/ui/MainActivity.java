@@ -24,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+
 import com.orhanobut.logger.Logger;
 import com.xinguan14.jdyp.MyVeiw.DensityUtil;
 import com.xinguan14.jdyp.R;
@@ -33,6 +34,7 @@ import com.xinguan14.jdyp.base.ParentWithNaviFragment;
 import com.xinguan14.jdyp.bean.User;
 import com.xinguan14.jdyp.db.NewFriendManager;
 import com.xinguan14.jdyp.event.RefreshEvent;
+import com.xinguan14.jdyp.music.ui.MusicPlayerActivity;
 import com.xinguan14.jdyp.step.StepCounterActivity;
 import com.xinguan14.jdyp.trackshow.BaiduActivity;
 import com.xinguan14.jdyp.ui.fragment.ContactFragment;
@@ -40,8 +42,10 @@ import com.xinguan14.jdyp.ui.fragment.MessageFragment;
 import com.xinguan14.jdyp.ui.fragment.SetFragment;
 import com.xinguan14.jdyp.ui.fragment.SportsFragment;
 import com.xinguan14.jdyp.util.IMMLeaks;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+
 import butterknife.Bind;
 import cn.bmob.newim.BmobIM;
 import cn.bmob.newim.core.ConnectionStatus;
@@ -97,7 +101,7 @@ public class MainActivity extends BaseActivity implements ObseverListener,
     private SoundPool sp;// 声明一个SoundPool
     private int music;// 定义一个整型用load（）；来设置suondIDf
     private ImageView run, iv_yuepao,
-            step, iv_oa_center,iv_add_center;
+            step, iv_music,iv_add_center;
     private LinearLayout ll_createtask_center, ll_createproject_center,
             ll_registration_center, ll_oa_center;
     private PopupWindow menu;
@@ -136,7 +140,7 @@ public class MainActivity extends BaseActivity implements ObseverListener,
         run = (ImageView) findViewById(R.id.iv_createtask_center);
         iv_yuepao = (ImageView) findViewById(R.id.iv_createproject_center);
         step = (ImageView) findViewById(R.id.iv_registration_center);
-        iv_oa_center = (ImageView) findViewById(R.id.iv_oa_center);
+        iv_music = (ImageView) findViewById(R.id.iv_oa_center);
 
         sp = new SoundPool(10, AudioManager.STREAM_SYSTEM, 5);// 第一个参数为同时播放数据流的最大个数，第二数据流类型，第三为声音质量
         music = sp.load(this, R.raw.key_sound, 1); // 把你的声音素材放到res/raw里，第2个参数即为资源文件，第3个为音乐的优先级
@@ -191,6 +195,12 @@ public class MainActivity extends BaseActivity implements ObseverListener,
             @Override
             public void onClick(View v) {
                 startActivity(StepCounterActivity.class, null, false);
+            }
+        });
+        iv_music.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(MusicPlayerActivity.class, null, false);
             }
         });
     }
@@ -482,7 +492,7 @@ public class MainActivity extends BaseActivity implements ObseverListener,
                 .findViewById(R.id.iv_createproject_center);
         step = (ImageView) contentView
                 .findViewById(R.id.iv_registration_center);
-        iv_oa_center = (ImageView) contentView.findViewById(R.id.iv_oa_center);
+        iv_music = (ImageView) contentView.findViewById(R.id.iv_oa_center);
         iv_add_center = (ImageView) contentView
                 .findViewById(R.id.iv_add_center);
 
@@ -601,7 +611,7 @@ public class MainActivity extends BaseActivity implements ObseverListener,
                     view.setVisibility(View.VISIBLE);
                     scaleAndAlpha(iv_yuepao);
                     scaleAndAlpha(run);
-                    scaleAndAlpha(iv_oa_center);
+                    scaleAndAlpha(iv_music);
                     scaleAndAlpha(step);
                 } else {
                     tran(view, y, start, flag);

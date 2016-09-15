@@ -35,5 +35,6 @@
     <item name="step_lenth" type="id" />
     <item name="weight_value" type="id" />
     <item name="weight" type="id" />
+    <item type="id" name="tag_mediaitem_state_cache"/>
 
 </resources>

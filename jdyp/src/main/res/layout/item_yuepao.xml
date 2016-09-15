@@ -35,7 +35,7 @@
                 android:id="@+id/iv_sex"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/sex_men"
+                android:src="@mipmap/sex_man"
                 android:layout_alignParentTop="true"
                 android:layout_toRightOf="@+id/tv_near_name"
                 android:layout_alignBottom="@+id/tv_near_name" />
