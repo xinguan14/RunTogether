@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.xinguan14.jdyp.R;
@@ -20,12 +21,12 @@ import com.xinguan14.jdyp.adapter.base.IMutlipleItem;
 import com.xinguan14.jdyp.base.BaseFragment;
 import com.xinguan14.jdyp.bean.User;
 import com.xinguan14.jdyp.myVeiw.CircleImageView;
+import com.xinguan14.jdyp.myVeiw.LoadingDialog;
 import com.xinguan14.jdyp.ui.UserInfoActivity;
 import com.xinguan14.jdyp.util.ImageLoadOptions;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -48,8 +49,9 @@ public class NearFragment extends BaseFragment {
     RecyclerView rc_view;
     @Bind(R.id.sw_refresh)
     SwipeRefreshLayout sw_refresh;
-    NearPeopleAdapter adapter;
-    LinearLayoutManager layoutManager;
+    private NearPeopleAdapter adapter;
+    private LinearLayoutManager layoutManager;
+    private LoadingDialog progressDialog = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -84,6 +86,7 @@ public class NearFragment extends BaseFragment {
 
         sw_refresh.setEnabled(true);
         setListener();
+        loading();
         return rootView;
     }
 
@@ -119,11 +122,32 @@ public class NearFragment extends BaseFragment {
         });
     }
 
+    private void loading() {
+        if (progressDialog == null) {
+            progressDialog = LoadingDialog.createDialog(this.getActivity());
+            progressDialog.setMessage("正在加载中...");
+        }
+
+        progressDialog.show();
+    }
+
+    private void complete() {
+        if (progressDialog != null) {
+            progressDialog.dismiss();
+            progressDialog = null;
+        }
+    }
+
     @Override
     public void onResume() {
         super.onResume();
         sw_refresh.setRefreshing(true);
         query();
+    }
+    @Override
+    public void onDestroy() {
+        complete();
+        super.onDestroy();
     }
 
 
@@ -131,38 +155,35 @@ public class NearFragment extends BaseFragment {
      * 查询人
      */
     public void query() {
-        adapter.bindDatas(getNearPeople());
+        queryNear();
         adapter.notifyDataSetChanged();
         sw_refresh.setRefreshing(false);
     }
 
     /**
-     * 获取会话列表的数据：增加新朋友会话
+     * 获取附近的列表的数据
      *
-     * @return
      */
-    List<User> userList = new ArrayList<>();
-
-    private List<User> getNearPeople() {
-
+    private void queryNear() {
         User me = BmobUser.getCurrentUser(getActivity(), User.class);
         BmobQuery<User> bmobQuery = new BmobQuery<User>();
         bmobQuery.addWhereWithinKilometers("location", me.getLocation(), 1000);
         bmobQuery.findObjects(getActivity(), new FindListener<User>() {
             @Override
             public void onSuccess(List<User> object) {
-                userList.clear();
-                for (User item : object) {
-                    userList.add(item);
+                if (object != null) {
+                    adapter.bindDatas(object);
+                    complete();
                 }
             }
 
             public void onError(int i, String s) {
+                Toast.makeText(getActivity(), "网络未连接",
+                        Toast.LENGTH_SHORT).show();
             }
         });
-
-        return userList;
     }
+
 
     /**
      * 附近的人
@@ -223,6 +244,10 @@ public class NearFragment extends BaseFragment {
                 //名称
                 holder.setText(R.id.tv_near_name, user.getNick());
 
+                if (!user.getSex()) {
+                    holder.setImageResource(R.id.iv_sex, R.mipmap.sex_woman);
+
+                }
                 DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 try {
 

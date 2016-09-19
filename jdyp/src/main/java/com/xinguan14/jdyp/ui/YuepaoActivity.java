@@ -7,6 +7,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.xinguan14.jdyp.R;
@@ -19,7 +20,6 @@ import com.xinguan14.jdyp.bean.User;
 import com.xinguan14.jdyp.myVeiw.CircleImageView;
 import com.xinguan14.jdyp.util.ImageLoadOptions;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -30,15 +30,15 @@ import cn.bmob.v3.datatype.BmobGeoPoint;
 import cn.bmob.v3.listener.FindListener;
 
 
-public class StepActivity extends BaseActivity {
+public class YuepaoActivity extends BaseActivity {
 
 
     @Bind(R.id.rc_view)
     RecyclerView rc_view;
     @Bind(R.id.sw_refresh)
     SwipeRefreshLayout sw_refresh;
-    NearPeopleAdapter adapter;
-    LinearLayoutManager layoutManager;
+    private NearPeopleAdapter adapter;
+    private LinearLayoutManager layoutManager;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -73,14 +73,6 @@ public class StepActivity extends BaseActivity {
     }
 
     private void setListener() {
-//        rootView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-//            @Override
-//            public void onGlobalLayout() {
-//                rootView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-//                sw_refresh.setRefreshing(true);
-//                query();
-//            }
-//        });
         sw_refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -111,41 +103,41 @@ public class StepActivity extends BaseActivity {
         query();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
     /**
      * 查询人
      */
     public void query() {
-        adapter.bindDatas(getNearPeople());
+        queryNear();
         adapter.notifyDataSetChanged();
         sw_refresh.setRefreshing(false);
     }
 
     /**
-     * 获取会话列表的数据：增加新朋友会话
+     * 获取附近的列表的数据
      *
-     * @return
      */
-    List<User> userList = new ArrayList<>();
-
-    private List<User> getNearPeople() {
-
+    private void queryNear() {
         User me = BmobUser.getCurrentUser(getApplicationContext(), User.class);
         BmobQuery<User> bmobQuery = new BmobQuery<User>();
         bmobQuery.addWhereWithinKilometers("location", me.getLocation(), 1000);
         bmobQuery.findObjects(getApplicationContext(), new FindListener<User>() {
             @Override
             public void onSuccess(List<User> object) {
-                userList.clear();
-                for (User item : object) {
-                    userList.add(item);
+                if (object != null) {
+                    adapter.bindDatas(object);
                 }
             }
 
             public void onError(int i, String s) {
+                Toast.makeText(getApplicationContext(), "网络未连接",
+                        Toast.LENGTH_SHORT).show();
             }
         });
-
-        return userList;
     }
 
     /**
@@ -206,7 +198,10 @@ public class StepActivity extends BaseActivity {
 //                holder.setImageView(user == null ? null : user.getAvatar(), R.mipmap.head, R.id.iv_near_avatar);
                 //名称
                 holder.setText(R.id.tv_near_name, user.getNick());
+                if (!user.getSex()) {
+                    holder.setImageResource(R.id.iv_sex, R.mipmap.sex_woman);
 
+                }
                 BmobGeoPoint location = me.getLocation();
                 double currentLat = location.getLatitude();
                 double currentLong = location.getLongitude();

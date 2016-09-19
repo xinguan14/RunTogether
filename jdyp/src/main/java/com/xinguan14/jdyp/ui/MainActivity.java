@@ -26,7 +26,6 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.orhanobut.logger.Logger;
-import com.xinguan14.jdyp.myVeiw.DensityUtil;
 import com.xinguan14.jdyp.R;
 import com.xinguan14.jdyp.base.BackHandledInterface;
 import com.xinguan14.jdyp.base.BaseActivity;
@@ -34,7 +33,11 @@ import com.xinguan14.jdyp.base.ParentWithNaviFragment;
 import com.xinguan14.jdyp.bean.User;
 import com.xinguan14.jdyp.db.NewFriendManager;
 import com.xinguan14.jdyp.event.RefreshEvent;
+import com.xinguan14.jdyp.guideView.Guide;
+import com.xinguan14.jdyp.guideView.GuideBuilder;
+import com.xinguan14.jdyp.guideView.SimpleComponent;
 import com.xinguan14.jdyp.music.ui.MusicPlayerActivity;
+import com.xinguan14.jdyp.myVeiw.DensityUtil;
 import com.xinguan14.jdyp.step.StepCounterActivity;
 import com.xinguan14.jdyp.trackshow.BaiduActivity;
 import com.xinguan14.jdyp.ui.fragment.ContactFragment;
@@ -101,11 +104,14 @@ public class MainActivity extends BaseActivity implements ObseverListener,
     private SoundPool sp;// 声明一个SoundPool
     private int music;// 定义一个整型用load（）；来设置suondIDf
     private ImageView run, iv_yuepao,
-            step, iv_music,iv_add_center;
+            step, iv_music, iv_add_center;
     private LinearLayout ll_createtask_center, ll_createproject_center,
             ll_registration_center, ll_oa_center;
     private PopupWindow menu;
     private int y1, y2;// y1:新建弹出框中新建任务/新建项目的高度 y2:新建弹出框中签到/OA的高度
+
+    private Guide guide;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -176,6 +182,12 @@ public class MainActivity extends BaseActivity implements ObseverListener,
                 tran(ll_oa_center, y2, 150, true);
             }
         });
+        bt_add_main.post(new Runnable() {
+            @Override
+            public void run() {
+                showGuideView();
+            }
+        });
         run.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -185,7 +197,7 @@ public class MainActivity extends BaseActivity implements ObseverListener,
         iv_yuepao.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(StepActivity.class, null, false);
+                startActivity(YuepaoActivity.class, null, false);
             }
         });
         step.setOnClickListener(new View.OnClickListener() {
@@ -345,6 +357,30 @@ public class MainActivity extends BaseActivity implements ObseverListener,
         }
     }
 
+    public void showGuideView() {
+        GuideBuilder builder = new GuideBuilder();
+        builder.setTargetView(bt_add_main)
+                .setAlpha(150)
+                .setHighTargetCorner(20)
+                .setHighTargetPadding(10)
+                .setOverlayTarget(false)
+                .setOutsideTouchable(false);
+        builder.setOnVisibilityChangedListener(new GuideBuilder.OnVisibilityChangedListener() {
+            @Override
+            public void onShown() {
+            }
+
+            @Override
+            public void onDismiss() {
+            }
+        });
+
+        builder.addComponent(new SimpleComponent());
+        guide = builder.createGuide();
+        guide.setShouldCheckLocInWindow(true);
+        guide.show(this);
+    }
+
     /**
      * 注册消息接收事件
      *
@@ -413,7 +449,7 @@ public class MainActivity extends BaseActivity implements ObseverListener,
     public void showTab() {
         bottom.setVisibility(View.VISIBLE);
         FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) content.getLayoutParams();
-        layoutParams.bottomMargin = 60;
+        layoutParams.bottomMargin = 52;
         content.setLayoutParams(layoutParams);
 
     }

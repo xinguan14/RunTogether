@@ -42,9 +42,9 @@
                 android:layout_marginLeft="5dp"/>
 
             <Button
+                android:id="@+id/bt_yuepao"
                 android:layout_width="60dp"
                 android:layout_height="30dp"
-                android:id="@+id/bt_yuepao"
                 android:singleLine="true"
                 android:text="邀请"
                 style="@style/style_text_white"

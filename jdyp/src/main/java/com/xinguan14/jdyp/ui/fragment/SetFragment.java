@@ -177,7 +177,6 @@ public class SetFragment extends ParentWithNaviFragment {
         if (getActivity() instanceof AddMenu) {
             ((AddMenu) getActivity()).showMenu();
         }
-        System.out.println("返回显示");
 
     }
 
@@ -274,15 +273,12 @@ public class SetFragment extends ParentWithNaviFragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // TODO Auto-generated method stub
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case BmobConstants.REQUESTCODE_UPLOADAVATAR_CAMERA:// 拍照修改头像
-//                if (resultCode == 1) {
                 if (!Environment.getExternalStorageState().equals(
                         Environment.MEDIA_MOUNTED)) {
                     Toast.makeText(getActivity(), "SD不可用", Toast.LENGTH_SHORT).show();
-//                        ShowToast("SD不可用");
 
                     return;
                 }
@@ -292,17 +288,14 @@ public class SetFragment extends ParentWithNaviFragment {
                 Log.i("life", "拍照后的角度：" + degree);
                 startImageAction(Uri.fromFile(file), 200, 200,
                         BmobConstants.REQUESTCODE_UPLOADAVATAR_CROP, true);
-//                }
                 break;
             case BmobConstants.REQUESTCODE_UPLOADAVATAR_LOCATION:// 本地修改头像
                 Uri uri = null;
                 if (data == null) {
                     return;
                 }
-//                if (resultCode == 1) {
                 if (!Environment.getExternalStorageState().equals(
                         Environment.MEDIA_MOUNTED)) {
-//                        ShowToast("SD不可用");
                     Toast.makeText(getActivity(), "SD不可用", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -310,11 +303,6 @@ public class SetFragment extends ParentWithNaviFragment {
                 uri = data.getData();
                 startImageAction(uri, 200, 200,
                         BmobConstants.REQUESTCODE_UPLOADAVATAR_CROP, true);
-//                } else {
-//                    Toast.makeText(getActivity(), "照片获取失败", Toast.LENGTH_SHORT).show();
-
-//                    ShowToast("照片获取失败");
-//                }
 
                 break;
             case BmobConstants.REQUESTCODE_UPLOADAVATAR_CROP:// 裁剪头像返回
@@ -337,13 +325,11 @@ public class SetFragment extends ParentWithNaviFragment {
     }
 
     private void uploadAvatar() {
-//        BmobLog.i("头像地址：" + path);
         final BmobFile bmobFile = new BmobFile(new File(path));
         bmobFile.upload(getActivity(), new UploadFileListener() {
 
             @Override
             public void onSuccess() {
-                // TODO Auto-generated method stub
                 String url = bmobFile.getFileUrl(getActivity());
                 // 更新BmobUser对象
                 updateUserAvatar(url);
@@ -357,7 +343,6 @@ public class SetFragment extends ParentWithNaviFragment {
 
             @Override
             public void onFailure(int arg0, String msg) {
-                // TODO Auto-generated method stub
 //                ShowToast("头像上传失败：" + msg);
                 Toast.makeText(getActivity(), "头像上传失败" + msg, Toast.LENGTH_SHORT).show();
 

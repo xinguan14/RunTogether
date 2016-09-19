@@ -76,7 +76,7 @@
         <activity android:name=".ui.ChooseImageActivity" />
         <activity android:name=".ui.CheckUserInfoByUser" />
         <activity android:name=".ui.CheckUserInfoByInfo" />
-        <activity android:name=".ui.StepActivity" />
+        <activity android:name=".ui.YuepaoActivity" />
         <activity android:name=".ui.fragment.sportsfragment.ItemDetailsActivity" />
         <activity android:name=".trackshow.BaiduActivity" />
         <activity android:name=".step.StepCounterActivity" />
