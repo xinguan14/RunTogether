@@ -21,10 +21,6 @@ import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.xinguan14.jdyp.myVeiw.AddCommentPopupWindow;
-import com.xinguan14.jdyp.myVeiw.CircleImageView;
-import com.xinguan14.jdyp.myVeiw.LoadingDialog;
-import com.xinguan14.jdyp.myVeiw.NineGridTestLayout;
 import com.xinguan14.jdyp.R;
 import com.xinguan14.jdyp.adapter.base.BaseListAdapter;
 import com.xinguan14.jdyp.adapter.base.BaseListHolder;
@@ -35,6 +31,10 @@ import com.xinguan14.jdyp.bean.Post;
 import com.xinguan14.jdyp.bean.User;
 import com.xinguan14.jdyp.floatingactionbar.FloatingActionButton;
 import com.xinguan14.jdyp.floatingactionbar.ScrollDirectionListener;
+import com.xinguan14.jdyp.myVeiw.AddCommentPopupWindow;
+import com.xinguan14.jdyp.myVeiw.CircleImageView;
+import com.xinguan14.jdyp.myVeiw.LoadingDialog;
+import com.xinguan14.jdyp.myVeiw.NineGridTestLayout;
 import com.xinguan14.jdyp.ui.AddPostActivity;
 import com.xinguan14.jdyp.ui.CheckUserInfoByUser;
 import com.xinguan14.jdyp.util.ImageLoadOptions;
@@ -321,6 +321,21 @@ public class SayFragment extends BaseFragment {
                 @Override
                 public void onClick(View view) {
                     showMore(view, holder, item);
+                }
+            });
+
+            holder.getView(R.id.container).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Bundle bundle = new Bundle();
+                    User userInfo = item.getAuthor();
+                    bundle.putSerializable("u", userInfo);
+                    bundle.putSerializable("p", item);
+                    bundle.putInt("zan",goodState);
+                    Intent intent = new Intent(mContext,ItemDetailsActivity.class);
+                    if (bundle != null)
+                        intent.putExtra(mContext.getPackageName(), bundle);
+                    mContext.startActivity(intent);
                 }
             });
         }
