@@ -2,6 +2,7 @@ package com.xinguan14.jdyp.ui;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
+import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.media.AudioManager;
 import android.media.SoundPool;
@@ -110,7 +111,9 @@ public class MainActivity extends BaseActivity implements ObseverListener,
     private PopupWindow menu;
     private int y1, y2;// y1:新建弹出框中新建任务/新建项目的高度 y2:新建弹出框中签到/OA的高度
 
-    private Guide guide;
+    private Guide guide;//引导提示
+    private static final String SHAREDPREFERENCES_NAME = "first_pref";
+    boolean isFirstIn = false;
 
 
     @Override
@@ -182,12 +185,22 @@ public class MainActivity extends BaseActivity implements ObseverListener,
                 tran(ll_oa_center, y2, 150, true);
             }
         });
-        bt_add_main.post(new Runnable() {
-            @Override
-            public void run() {
-                showGuideView();
-            }
-        });
+        //判断是否第一次运行
+        SharedPreferences preferences = getSharedPreferences(SHAREDPREFERENCES_NAME, MODE_PRIVATE);
+        isFirstIn = preferences.getBoolean("isFirstIn", true);
+        if (isFirstIn) {
+            bt_add_main.post(new Runnable() {
+                @Override
+                public void run() {
+                    showGuideView();
+                }
+            });
+            //第一次进入时先把first_open置为false以便后来进入时进行判断，除此之外，还可以写入第一次进入时要执行的动作
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putBoolean("isFirstIn", false);
+            editor.commit();
+        }
+
         run.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -185,14 +185,14 @@ public class StepCounterActivity extends Activity {
             //健身
             gifView = (GifView)findViewById(R.id.gif_view);
             gifView.setGifImageType(GifImageType.COVER);
-            gifView.setShowDimension(100, 100);
+            gifView.setShowDimension(250, 250);
             gifView.setGifImage(R.drawable.walk_gif);
             gifView.showCover();
 
         }else{
             gifView = (GifView)findViewById(R.id.gif_view);
             gifView.setGifImageType(GifImageType.COVER);
-            gifView.setShowDimension(100, 100);
+            gifView.setShowDimension(250, 250);
             gifView.setGifImage(R.drawable.run_gif);
             gifView.showCover();
         }
@@ -244,7 +244,6 @@ public class StepCounterActivity extends Activity {
 
     @Override
     protected void onDestroy() {
-        // TODO Auto-generated method stub
         super.onDestroy();
     }
 

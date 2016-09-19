@@ -15,19 +15,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.orhanobut.logger.Logger;
-import com.xinguan14.jdyp.myVeiw.ATLoginButton;
-import com.xinguan14.jdyp.myVeiw.CircleImageView;
-import com.xinguan14.jdyp.myVeiw.ClearWriteEditText;
 import com.xinguan14.jdyp.R;
 import com.xinguan14.jdyp.base.BaseActivity;
 import com.xinguan14.jdyp.bean.User;
 import com.xinguan14.jdyp.event.FinishEvent;
-import com.xinguan14.jdyp.event.RefreshEvent;
 import com.xinguan14.jdyp.model.UserModel;
+import com.xinguan14.jdyp.myVeiw.ATLoginButton;
+import com.xinguan14.jdyp.myVeiw.CircleImageView;
+import com.xinguan14.jdyp.myVeiw.ClearWriteEditText;
 import com.xinguan14.jdyp.util.ImageLoadOptions;
 
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.List;
@@ -35,9 +32,6 @@ import java.util.List;
 import butterknife.Bind;
 import cn.bmob.newim.BmobIM;
 import cn.bmob.newim.bean.BmobIMUserInfo;
-import cn.bmob.newim.core.ConnectionStatus;
-import cn.bmob.newim.listener.ConnectListener;
-import cn.bmob.newim.listener.ConnectStatusChangeListener;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
@@ -138,28 +132,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                             User user = (User) o;
                             BmobIM.getInstance().updateUserInfo(new BmobIMUserInfo(user.getObjectId(), user.getUsername(), user.getAvatar()));
                             updateUserLocation();
-                            //connect server
-//                            User user = BmobUser.getCurrentUser(this, User.class);
-                            BmobIM.connect(user.getObjectId(), new ConnectListener() {
-                                @Override
-                                public void done(String uid, BmobException e) {
-                                    if (e == null) {
-                                        Logger.i("连接成功");
-                                        //服务器连接成功就发送一个更新事件，同步更新会话及主页的小红点
-                                        EventBus.getDefault().post(new RefreshEvent());
-                                        startActivity(MainActivity.class, null, true);
-                                    } else {
-                                        Logger.e(e.getErrorCode() + "/" + e.getMessage());
-                                    }
-                                }
-                            });
-                            //监听连接状态，也可通过BmobIM.getInstance().getCurrentStatus()来获取当前的长连接状态
-                            BmobIM.getInstance().setOnConnectStatusChangeListener(new ConnectStatusChangeListener() {
-                                @Override
-                                public void onChange(ConnectionStatus status) {
-                                    toast("" + status.getMsg());
-                                }
-                            });
+                            startActivity(MainActivity.class, null, true);
                         } else {
                             btn_login.postDelayed(new Runnable() {
                                 @Override

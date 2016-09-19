@@ -1,8 +1,10 @@
 package com.xinguan14.jdyp.ui;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
+import android.os.Message;
 
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
@@ -23,24 +25,59 @@ public class SplashActivity extends BaseActivity {
     // 定位获取当前用户的地理位置
     private LocationClient mLocationClient;
 
+    boolean isFirstIn = false;
+    private static final int GO_HOME = 1000;
+    private static final int GO_GUIDE = 1001;
+    private static final long SPLASH_DELAY_MILLIS = 3000;
+    private static final String SHAREDPREFERENCES_NAME = "first_pref";
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case GO_HOME:
+                    User user = UserModel.getInstance().getCurrentUser();
+                    if (user != null) {
+                        goHome();
+                    } else
+                        startActivity(LoginActivity.class, null, true);
+                    break;
+                case GO_GUIDE:
+                    goGuide();
+                    break;
+            }
+            super.handleMessage(msg);
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        Handler handler = new Handler(Looper.getMainLooper());
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                User user = UserModel.getInstance().getCurrentUser();
-                if (user == null) {
-                    startActivity(LoginActivity.class, null, true);
-                } else {
-                    startActivity(MainActivity.class, null, true);
-                }
-            }
-        }, 3000);
         initLocClient();
+        init();
+    }
 
+    private void init() {
+        SharedPreferences preferences = getSharedPreferences(SHAREDPREFERENCES_NAME, MODE_PRIVATE);
+        isFirstIn = preferences.getBoolean("isFirstIn", true);
+        if (!isFirstIn) {
+            mHandler.sendEmptyMessageDelayed(GO_HOME, SPLASH_DELAY_MILLIS);
+        } else {
+            mHandler.sendEmptyMessageDelayed(GO_GUIDE, SPLASH_DELAY_MILLIS);
+        }
+
+    }
+
+    private void goHome() {
+        Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+        SplashActivity.this.startActivity(intent);
+        SplashActivity.this.finish();
+    }
+
+    private void goGuide() {
+        Intent intent = new Intent(SplashActivity.this, GuideActivity.class);
+        SplashActivity.this.startActivity(intent);
+        SplashActivity.this.finish();
     }
 
     /**

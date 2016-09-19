@@ -3,7 +3,6 @@ package com.xinguan14.jdyp.guideView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.xinguan14.jdyp.R;
 
@@ -18,7 +17,6 @@ public class SimpleComponent implements Component {
     RelativeLayout ll = (RelativeLayout) inflater.inflate(R.layout.layer_frends, null);
     ll.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View view) {
-        Toast.makeText(view.getContext(), "引导层被点击了", Toast.LENGTH_SHORT).show();
       }
     });
     return ll;

@@ -2,7 +2,6 @@ package com.xinguan14.jdyp.trackshow;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -23,7 +22,6 @@ import com.baidu.trace.OnEntityListener;
 import com.baidu.trace.Trace;
 import com.baidu.trace.TraceLocation;
 import com.xinguan14.jdyp.R;
-import com.xinguan14.jdyp.ui.MainActivity;
 
 @SuppressLint("NewApi")
 public class BaiduActivity extends FragmentActivity implements OnClickListener {
@@ -107,12 +105,6 @@ public class BaiduActivity extends FragmentActivity implements OnClickListener {
         Geofence.addEntity();
     }
 
-//    @Override
-//    public void onBackPressed() {
-//        super.onBackPressed();
-//        Intent myIntent = new Intent(BaiduActivity.this, MainActivity.class);
-//        startActivity(myIntent);
-//    }
 
     @Override
     protected void onStart() {
