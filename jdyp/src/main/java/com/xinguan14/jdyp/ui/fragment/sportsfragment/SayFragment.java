@@ -7,6 +7,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
+import android.text.Html;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -14,10 +15,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
-import android.widget.SimpleAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -44,7 +46,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 import butterknife.Bind;
@@ -474,7 +475,7 @@ public class SayFragment extends BaseFragment {
                 public void onSuccess(List<User> list) {
                     String likesUser = "";
                     for (int i = 0; i < list.size(); i++) {
-                        likesUser += list.get(i).getUsername() + ",";
+                        likesUser += list.get(i).getNick() + ",";
                     }
                     if (likesUser.trim().length() != 0) {
                         holder.setTextView(R.id.tv_likes_names, likesUser);
@@ -504,25 +505,9 @@ public class SayFragment extends BaseFragment {
 
                 @Override
                 public void onSuccess(List<Comment> list) {
-                    ListView commentLayout = holder.getView(R.id.comments_layout);
-                    if (list.size() != 0) {
-                        commentLayout.setVisibility(View.VISIBLE);
-                        ArrayList<HashMap<String, Object>> listItem = new ArrayList<HashMap<String, Object>>();/*在数组中存放数据*/
-                        for (int i = 0; i < list.size(); i++) {
-
-                            HashMap<String, Object> map = new HashMap<String, Object>();
-                            map.put("commentName", list.get(i).getUser().getNick() + ":");
-                            map.put("commentContent", list.get(i).getContent());
-                            listItem.add(map);
-                        }
-                        SimpleAdapter mSimpleAdapter = new SimpleAdapter(getActivity(), listItem,
-                                R.layout.comments_item_layout,
-                                new String[]{"commentName", "commentContent"},
-                                new int[]{R.id.commentName, R.id.commentContent,});
-
-                        commentLayout.setAdapter(mSimpleAdapter);//为ListView绑定适配器
-
-                       /* commentLayout.removeAllViews();
+                    LinearLayout commentLayout = holder.getView(R.id.comments_layout);
+                   if (list.size() != 0) {
+                       commentLayout.removeAllViews();
                         commentLayout.setVisibility(View.VISIBLE);
 
                         for (int i= 0;i<list.size();i++) {
@@ -533,11 +518,11 @@ public class SayFragment extends BaseFragment {
                             t.setLineSpacing(3, (float) 1.5);
                             t.setText(Html.fromHtml("<font color='#4A766E'>"+list.get(i).getUser().getNick()+"</font>:"+list.get(i).getContent()));
                             commentLayout.addView(t);
-                        }*/
+                        }
 
                     } else {
-                        commentLayout.setVisibility(View.GONE);
-                    }
+                       commentLayout.setVisibility(View.GONE);
+                   }
                 }
 
                 @Override

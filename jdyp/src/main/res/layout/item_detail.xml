@@ -29,10 +29,11 @@
                 android:layout_height="1dp"
                 android:background="#dddddd" />
 
-            <ListView
+            <LinearLayout
                 android:id="@+id/comment_list"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:orientation="vertical"/>
 
             <TextView
                 android:id="@+id/loadmore"
@@ -52,6 +53,7 @@
         android:layout_alignParentBottom="true"
         android:gravity="center_vertical"
         android:orientation="horizontal"
+        android:visibility="gone"
         android:padding="4dip">
 
         <EditText

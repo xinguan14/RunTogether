@@ -127,7 +127,7 @@ public class SetFragment extends ParentWithNaviFragment {
         super.onActivityCreated(savedInstanceState);
         ListView listView = (ListView) getActivity().findViewById(R.id.listview);
         manager = getFragmentManager();
-        String[] mFrags = {"最新成就", "我的动态", "个人资料"};
+        String[] mFrags = {"最新成就", "关于软件", "个人资料"};
 
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, mFrags);
 
@@ -139,9 +139,9 @@ public class SetFragment extends ParentWithNaviFragment {
                 ft = manager.beginTransaction();
                 switch (position) {
                     case 0:
-                        if (achievementsFragment == null)
+                        /*if (achievementsFragment == null)
                             achievementsFragment = new AchievementsFragment();
-                        ft.replace(R.id.id_content, achievementsFragment);
+                        ft.replace(R.id.id_content, achievementsFragment);*/
                         break;
                     case 1:
                         if (dynamicFragment == null)

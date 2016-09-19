@@ -5,17 +5,17 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.xinguan14.jdyp.R;
-import com.xinguan14.jdyp.stikkyHeader.DynamicAnimator;
-import com.xinguan14.jdyp.stikkyHeader.Utils;
-import com.xinguan14.jdyp.stikkyHeader.core.StikkyHeaderBuilder;
 import com.xinguan14.jdyp.base.ParentWithNaviFragment;
+import com.xinguan14.jdyp.stikkyHeader.DynamicAnimator;
+import com.xinguan14.jdyp.stikkyHeader.core.StikkyHeaderBuilder;
 import com.xinguan14.jdyp.ui.fragment.SetFragment;
 
 /**
- * 我的动态
+ * 关于软件
  * @author 徐玲
  */
 public class DynamicFragment extends ParentWithNaviFragment {
@@ -36,7 +36,6 @@ public class DynamicFragment extends ParentWithNaviFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         mListView = (ListView) getView().findViewById(R.id.listview);
     }
 
@@ -44,15 +43,23 @@ public class DynamicFragment extends ParentWithNaviFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        DynamicAnimator animator = new DynamicAnimator(getActivity());
+        String[] mFrags = {"版本号：1.0.0",
+                "微博：建大约跑",
+                "微信：建大约跑",
+                "地址：济南市历城区凤鸣路1000号山东建筑大学",
+                "山东建筑大学信管14开发团队",
+                "客服电话：17865165522",
+                "客服QQ:1472610316"};
 
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, mFrags);
+        mListView.setAdapter(arrayAdapter);
+
+        DynamicAnimator animator = new DynamicAnimator(getActivity());
         StikkyHeaderBuilder.stickTo(mListView)
                 .setHeader(R.id.header, (ViewGroup) getView())
                 .minHeightHeaderDim(R.dimen.min_height_header_materiallike)
                 .animator(animator)
                 .build();
-
-        Utils.populateListView(mListView);
     }
 
 

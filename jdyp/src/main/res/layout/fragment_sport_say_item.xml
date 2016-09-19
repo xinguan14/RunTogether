@@ -8,12 +8,18 @@
     app:cardElevation="5dp">
 
     <LinearLayout
-        android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:background="@color/white"
         android:descendantFocusability="blocksDescendants"
+        android:orientation="vertical">
+        <LinearLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="@color/white"
         android:orientation="horizontal">
 
         <com.xinguan14.jdyp.myVeiw.CircleImageView
@@ -149,18 +155,20 @@
                     android:textColor="#7888a9"
                     android:textSize="13.0sp" />
             </LinearLayout>
-
-
-            <!--显示评论界面-->
-            <ListView
-                android:id="@+id/comments_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/add_zan"
-                android:padding="5dp"
-                android:visibility="gone">
-
-            </ListView>
+        </LinearLayout>
+    </LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/background_gradient_end"/>
+        <!--显示评论界面-->
+        <LinearLayout
+            android:id="@+id/comments_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:orientation="vertical"
+            android:visibility="gone">
 
         </LinearLayout>
     </LinearLayout>

@@ -8,7 +8,8 @@
 <ListView
     android:id="@+id/listview"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"/>
+    android:layout_height="match_parent"
+    android:cacheColorHint="@color/white"/>
 
 <FrameLayout
 android:id="@+id/header"
@@ -21,27 +22,27 @@ android:layout_height="@dimen/max_height_header">
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:scaleType="centerCrop"
-    android:src="@drawable/image1"/>
+    android:src="@drawable/about_us_bg"/>
 
 <FrameLayout
     android:id="@+id/header_text_layout"
     android:layout_width="match_parent"
     android:layout_height="@dimen/min_height_textheader_materiallike"
-    android:background="@color/holo_green_light"
+    android:background="@color/btn_bg_unen"
     android:layout_gravity="bottom">
 
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="我的动态"
+        android:text="关于我们"
         android:textColor="@android:color/white"
         android:textStyle="bold"
-        android:layout_gravity="bottom"
-        android:layout_marginLeft="70dp"
-        android:layout_marginBottom="25dp"
-        android:textSize="18sp"/>
+        android:layout_gravity="bottom|left"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="10dp"
+        android:textSize="23sp"/>
 </FrameLayout>
 
 </FrameLayout>
 
-    </FrameLayout>
+</FrameLayout>

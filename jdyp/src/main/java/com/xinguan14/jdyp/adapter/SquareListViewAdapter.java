@@ -11,13 +11,14 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.xinguan14.jdyp.myVeiw.AddCommentPopupWindow;
-import com.xinguan14.jdyp.myVeiw.NineGridTestLayout;
 import com.xinguan14.jdyp.R;
 import com.xinguan14.jdyp.adapter.base.BaseListAdapter;
 import com.xinguan14.jdyp.adapter.base.BaseListHolder;
+import com.xinguan14.jdyp.bean.Comment;
 import com.xinguan14.jdyp.bean.Post;
 import com.xinguan14.jdyp.bean.User;
+import com.xinguan14.jdyp.myVeiw.AddCommentPopupWindow;
+import com.xinguan14.jdyp.myVeiw.NineGridTestLayout;
 import com.xinguan14.jdyp.ui.CheckUserInfoByUser;
 import com.xinguan14.jdyp.ui.fragment.sportsfragment.ItemDetailsActivity;
 import com.xinguan14.jdyp.util.ImageLoadOptions;
@@ -100,6 +101,22 @@ public class SquareListViewAdapter extends BaseListAdapter<Post> {
             holder.setImageResource(R.id.info_iv_head,R.drawable.love);
         }
 
+        BmobQuery<Comment> commentBmobQuery = new BmobQuery<Comment>();
+        Post post = new Post();
+        //用此方式可以构造一个BmobPointer对象。只需要设置objectId就行
+        post.setObjectId(item.getObjectId());
+        commentBmobQuery.addWhereEqualTo("post", new BmobPointer(post));
+        commentBmobQuery.findObjects(mContext, new FindListener<Comment>() {
+            @Override
+            public void onSuccess(List<Comment> list) {
+                holder.setTextView(R.id.comment_numbers,"("+list.size()+")");
+            }
+            @Override
+            public void onError(int code, String msg) {
+
+            }
+        });
+
         holder.getView(R.id.item_main).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -114,6 +131,8 @@ public class SquareListViewAdapter extends BaseListAdapter<Post> {
                 mContext.startActivity(intent);
             }
         });
+
+
         //点击头像的点击事件
         holder.getView(R.id.info_iv_head).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -127,6 +146,8 @@ public class SquareListViewAdapter extends BaseListAdapter<Post> {
                 mContext.startActivity(intent);
             }
         });
+
+
         //点赞
         holder.getView(R.id.iv_share_heart).setOnClickListener(new View.OnClickListener() {
             @Override

@@ -2,29 +2,30 @@ package com.xinguan14.jdyp.ui.fragment.sportsfragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.SimpleAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.xinguan14.jdyp.myVeiw.NineGridTestLayout;
 import com.xinguan14.jdyp.R;
 import com.xinguan14.jdyp.base.ParentWithNaviActivity;
 import com.xinguan14.jdyp.bean.Comment;
 import com.xinguan14.jdyp.bean.Post;
 import com.xinguan14.jdyp.bean.User;
+import com.xinguan14.jdyp.myVeiw.NineGridTestLayout;
 import com.xinguan14.jdyp.ui.ChatActivity;
 import com.xinguan14.jdyp.ui.CheckUserInfoByUser;
 import com.xinguan14.jdyp.util.ImageLoadOptions;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import butterknife.Bind;
@@ -61,13 +62,16 @@ public class ItemDetailsActivity extends ParentWithNaviActivity implements View.
     @Bind(R.id.item_action_comment)
     TextView comment;
     @Bind(R.id.comment_list)
-    ListView commentList;
+    LinearLayout commentList;
     @Bind(R.id.loadmore)
     TextView loadmore;
     @Bind(R.id.comment_content)
     EditText commentEdit;
     @Bind(R.id.comment_commit)
     Button commentCommit;
+    @Bind(R.id.area_commit)
+     LinearLayout area_commit;
+
 
 
     User user;
@@ -94,6 +98,7 @@ public class ItemDetailsActivity extends ParentWithNaviActivity implements View.
         //构造聊天方的用户信息:传入用户id、用户名和用户头像三个参数
         info = new BmobIMUserInfo(user.getObjectId(), user.getUsername(), user.getAvatar());
         dataBind();
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
     }
     //给控件绑定数据
     public void dataBind(){
@@ -107,7 +112,9 @@ public class ItemDetailsActivity extends ParentWithNaviActivity implements View.
         userName.setText(user.getNick());//用户名
         time.setText(post.getCreatedAt());//发布动态的时间
         content.setText(post.getContent());//动态内容
-        likes.setText(post.getZan().intValue()+"赞");//点赞人数
+        if (post.getZan()!=null) {
+            likes.setText(post.getZan().intValue() + "赞");//点赞人数
+        }
 
         //动态图片加载
         if(post.getImageurl()!=null&&!post.getImageurl().equals("")) {
@@ -155,7 +162,7 @@ public class ItemDetailsActivity extends ParentWithNaviActivity implements View.
                 break;
             case R.id.item_action_comment:
                 //评论
-
+                area_commit.setVisibility(View.VISIBLE);
                 break;
             case R.id.loadmore:
                 //加载更多
@@ -189,21 +196,19 @@ public class ItemDetailsActivity extends ParentWithNaviActivity implements View.
                         loadmore.setText("暂无更多评论~");
                         loadmore.setEnabled(false);
                     }
-                    ArrayList<HashMap<String, String>> listItem = new ArrayList<HashMap<String, String>>();/*在数组中存放数据*/
-                    for(int i=0;i<list.size();i++)
-                    {
-                        HashMap<String, String> map = new HashMap<String, String>();
-                        map.put("commentName", list.get(i).getUser().getNick()+":");
-                        map.put("commentContent", list.get(i).getContent());
-                        listItem.add(map);
+
+                    commentList.removeAllViews();
+                    commentList.setVisibility(View.VISIBLE);
+
+                    for (int i= 0;i<list.size();i++) {
+                        TextView t = new TextView(ItemDetailsActivity.this);
+                        t.setLayoutParams(new LinearLayout.LayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)));
+                        t.setTextSize(16);
+                        t.setPadding(5, 2, 0, 3);
+                        t.setLineSpacing(3, (float) 1.5);
+                        t.setText(Html.fromHtml("<font color='#4A766E'>"+list.get(i).getUser().getNick()+"</font>:"+list.get(i).getContent()));
+                        commentList.addView(t);
                     }
-
-                    SimpleAdapter mSimpleAdapter = new SimpleAdapter(ItemDetailsActivity.this,listItem,
-                            R.layout.comments_item_layout,
-                            new String[]{"commentName", "commentContent"},
-                            new int[] {R.id.commentName,R.id.commentContent,});
-
-                    commentList.setAdapter(mSimpleAdapter);//为ListView绑定适配器
 
                 } else {
                     commentList.setVisibility(View.GONE);
@@ -227,7 +232,7 @@ public class ItemDetailsActivity extends ParentWithNaviActivity implements View.
         startActivity(ChatActivity.class, bundle, false);
     }
 
-    public void submitComment(Post mPost){
+    public void submitComment(final Post mPost){
         comments=commentEdit.getText().toString();
         if (comments.length()==0){
             Toast.makeText(this, "评论不能为空", Toast.LENGTH_SHORT).show();
@@ -244,6 +249,18 @@ public class ItemDetailsActivity extends ParentWithNaviActivity implements View.
                 @Override
                 public void onSuccess() {
                     Toast.makeText(ItemDetailsActivity.this, "评论成功", Toast.LENGTH_SHORT).show();
+                    getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+                    commentList.setVisibility(View.VISIBLE);
+                    TextView t = new TextView(ItemDetailsActivity.this);
+                    t.setLayoutParams(new LinearLayout.LayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)));
+                    t.setTextSize(16);
+                    t.setPadding(5, 2, 0, 3);
+                    t.setLineSpacing(3, (float) 1.5);
+                    t.setText(Html.fromHtml("<font color='#4A766E'>"
+                            +BmobUser.getCurrentUser(ItemDetailsActivity.this, User.class).getNick()
+                            +"</font>:"+comments));
+                    commentList.addView(t);
+                    area_commit.setVisibility(View.GONE);
                 }
 
                 @Override
