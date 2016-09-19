@@ -261,6 +261,7 @@ public class ItemDetailsActivity extends ParentWithNaviActivity implements View.
                             +"</font>:"+comments));
                     commentList.addView(t);
                     area_commit.setVisibility(View.GONE);
+
                 }
 
                 @Override
