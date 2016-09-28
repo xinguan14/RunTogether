@@ -66,7 +66,7 @@ public class UserInfoActivity extends ParentWithNaviActivity {
             btn_chat.setVisibility(View.GONE);
         }
         //构造聊天方的用户信息:传入用户id、用户名和用户头像三个参数
-        info = new BmobIMUserInfo(user.getObjectId(), user.getUsername(), user.getAvatar());
+        info = new BmobIMUserInfo(user.getObjectId(), user.getNick(), user.getAvatar());
 
         ImageLoaderFactory.getLoader().loadAvator(iv_avator, user.getAvatar(), R.mipmap.head);
         tv_name.setText(user.getUsername());

@@ -95,6 +95,8 @@ public class UserModel extends BaseModel {
         user.setPassword(password);
         user.setNick(nick_name);
         user.setMobilePhoneNumber(phone_number);
+        user.setSex(true);
+        user.setAge(18);
         user.signOrLogin(getContext(), security_code, new SaveListener() {
             @Override
             public void onSuccess() {

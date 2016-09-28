@@ -365,7 +365,6 @@ public class MainActivity extends BaseActivity implements ObseverListener,
                 } else {
                     hideTab();
                 }
-                System.out.println("返回 " + a);
             }
         }
     }

@@ -1,8 +1,10 @@
 package com.xinguan14.jdyp;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.support.multidex.MultiDex;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
@@ -192,5 +194,10 @@ public class MyApplication extends Application {
             }
             lastPoint = new BmobGeoPoint(longtitude, latitude);
         }
+    }
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
     }
 }

@@ -159,7 +159,7 @@ public class ContactFragment extends ParentWithNaviFragment {
                 } else {
                     Friend friend = adapter.getItem(position);
                     User user = friend.getFriendUser();
-                    BmobIMUserInfo info = new BmobIMUserInfo(user.getObjectId(), user.getUsername(), user.getAvatar());
+                    BmobIMUserInfo info = new BmobIMUserInfo(user.getObjectId(), user.getNick(), user.getAvatar());
                     //启动一个会话，实际上就是在本地数据库的会话列表中先创建（如果没有）与该用户的会话信息，且将用户信息存储到本地的用户表中
                     BmobIMConversation c = BmobIM.getInstance().startPrivateConversation(info, null);
                     Bundle bundle = new Bundle();
@@ -310,7 +310,7 @@ public class ContactFragment extends ParentWithNaviFragment {
                 }
 //                holder.setImageView(user == null ? null : user.getAvatar(), R.mipmap.head, R.id.iv_recent_avatar);
                 //好友名称
-                holder.setText(R.id.tv_recent_name, user == null ? "未知" : user.getUsername());
+                holder.setText(R.id.tv_recent_name, user == null ? "未知" : user.getNick());
             } else if (holder.layoutId == R.layout.header_new_friend) {
                 if (NewFriendManager.getInstance(context).hasNewFriendInvitation()) {
                     holder.setVisible(R.id.iv_msg_tips, View.VISIBLE);

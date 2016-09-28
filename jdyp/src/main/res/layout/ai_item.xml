@@ -88,7 +88,7 @@
             android:layout_toLeftOf="@id/item_action_comment"
             android:drawableLeft="@mipmap/ic_action_love"
             android:gravity="center"
-            android:text="985赞"
+            android:text="赞"
             android:textColor="#888888" />
 
         <TextView

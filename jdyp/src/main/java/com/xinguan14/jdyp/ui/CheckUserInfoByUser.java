@@ -75,7 +75,7 @@ public class CheckUserInfoByUser extends ParentWithNaviActivity implements View.
         }
 
         //构造聊天方的用户信息:传入用户id、用户名和用户头像三个参数
-        info = new BmobIMUserInfo(user.getObjectId(), user.getUsername(), user.getAvatar());
+        info = new BmobIMUserInfo(user.getObjectId(), user.getNick(), user.getAvatar());
         dataBind();
     }
     //给控件绑定数据

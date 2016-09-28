@@ -42,7 +42,7 @@ import com.xinguan14.jdyp.R;
 
 import java.util.Locale;
 
-
+@SuppressWarnings("ResourceType")
 public class PagerSlidingTabStrip extends HorizontalScrollView {
 
 	public interface IconTabProvider {

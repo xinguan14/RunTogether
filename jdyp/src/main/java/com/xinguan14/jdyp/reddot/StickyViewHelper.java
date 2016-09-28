@@ -62,7 +62,6 @@ public class StickyViewHelper implements View.OnTouchListener, StickyView.DragSt
 
         int action = MotionEventCompat.getActionMasked(event);
         if (action == MotionEvent.ACTION_DOWN) {
-            Log.i("info","111111111111111111111111111111111111");
             ViewParent parent = v.getParent();
             if (parent == null) {
                 return false;

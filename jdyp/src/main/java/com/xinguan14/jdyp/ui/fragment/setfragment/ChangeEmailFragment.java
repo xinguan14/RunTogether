@@ -75,7 +75,6 @@ public class ChangeEmailFragment extends ParentWithNaviFragment {
                         newUser.update(getActivity(), user.getObjectId(), new UpdateListener() {
                             @Override
                             public void onSuccess() {
-                                // TODO Auto-generated method stub
                                 toast("更新用户信息成功:");
                                 Fragment changeUserNamefragment = new ChangeMyInfoFragment();
                                 ft = manager.beginTransaction();
@@ -86,7 +85,6 @@ public class ChangeEmailFragment extends ParentWithNaviFragment {
 
                             @Override
                             public void onFailure(int code, String msg) {
-                                // TODO Auto-generated method stub
                                 toast("更新用户信息失败:" + msg);
                             }
                         });
@@ -118,6 +116,7 @@ public class ChangeEmailFragment extends ParentWithNaviFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         manager = getFragmentManager();
+        updateEmail.setHint("邮箱");
         tips.setText("请输入正确的邮箱地址");
     }
     /**

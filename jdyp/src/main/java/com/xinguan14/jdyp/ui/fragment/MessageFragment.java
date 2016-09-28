@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
-
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.xinguan14.jdyp.myVeiw.CircleImageView;
 import com.xinguan14.jdyp.R;
@@ -35,15 +34,12 @@ import com.xinguan14.jdyp.reddot.StickyViewHelper;
 import com.xinguan14.jdyp.ui.SearchUserActivity;
 import com.xinguan14.jdyp.util.ImageLoadOptions;
 import com.xinguan14.jdyp.util.TimeUtil;
-
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import cn.bmob.newim.BmobIM;
@@ -385,9 +381,7 @@ public class MessageFragment extends ParentWithNaviFragment implements SwipeMenu
             stickyViewHelper.setViewInRangeMoveRun(new Runnable() {
                 @Override
                 public void run() {
-                    DisplayUtils.showToast(context, "ViewInRangeMove");
-//                    sw_refresh.setEnabled(false);
-
+//                    DisplayUtils.showToast(context, "ViewInRangeMove");
                 }
             });
         }
@@ -401,7 +395,6 @@ public class MessageFragment extends ParentWithNaviFragment implements SwipeMenu
             stickyViewHelper.setViewInRangeUpRun(new Runnable() {
                 @Override
                 public void run() {
-                    DisplayUtils.showToast(context, "ViewInRangeUp");
                     notifyDataSetChanged();
 
                 }
@@ -418,7 +411,6 @@ public class MessageFragment extends ParentWithNaviFragment implements SwipeMenu
             stickyViewHelper.setViewOutRangeUpRun(new Runnable() {
                 @Override
                 public void run() {
-                    DisplayUtils.showToast(context, "ViewOutRangeUp");
                     removeList.add(position);
                     notifyDataSetChanged();
                 }
@@ -434,7 +426,6 @@ public class MessageFragment extends ParentWithNaviFragment implements SwipeMenu
             stickyViewHelper.setViewOut2InRangeUpRun(new Runnable() {
                 @Override
                 public void run() {
-                    DisplayUtils.showToast(context, "ViewOut2InRangeUp");
                     notifyDataSetChanged();
                 }
             });
