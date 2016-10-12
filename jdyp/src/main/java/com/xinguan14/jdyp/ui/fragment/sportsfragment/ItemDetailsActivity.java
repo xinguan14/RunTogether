@@ -6,7 +6,6 @@ import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -98,7 +97,7 @@ public class ItemDetailsActivity extends ParentWithNaviActivity implements View.
         //构造聊天方的用户信息:传入用户id、用户名和用户头像三个参数
         info = new BmobIMUserInfo(user.getObjectId(), user.getNick(), user.getAvatar());
         dataBind();
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+        //getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
     }
     //给控件绑定数据
     public void dataBind(){
@@ -249,7 +248,7 @@ public class ItemDetailsActivity extends ParentWithNaviActivity implements View.
                 @Override
                 public void onSuccess() {
                     Toast.makeText(ItemDetailsActivity.this, "评论成功", Toast.LENGTH_SHORT).show();
-                    getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+                    //getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
                     commentList.setVisibility(View.VISIBLE);
                     TextView t = new TextView(ItemDetailsActivity.this);
                     t.setLayoutParams(new LinearLayout.LayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)));

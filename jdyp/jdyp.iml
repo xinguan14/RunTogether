@@ -66,14 +66,6 @@
       <sourceFolder url="file://$MODULE_DIR$/src/main/jni" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/rs" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/shaders" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTest/res" type="java-test-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTest/resources" type="java-test-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTest/assets" type="java-test-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTest/aidl" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTest/java" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTest/jni" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTest/rs" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/src/androidTest/shaders" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/test/res" type="java-test-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/test/resources" type="java-test-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/test/assets" type="java-test-resource" />
@@ -82,9 +74,16 @@
       <sourceFolder url="file://$MODULE_DIR$/src/test/jni" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/test/rs" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/test/shaders" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/androidTest/res" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/androidTest/resources" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/androidTest/assets" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/androidTest/aidl" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/androidTest/java" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/androidTest/jni" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/androidTest/rs" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/androidTest/shaders" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/assets" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/blame" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/builds" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/classes" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/dependency-cache" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/cn.bmob.android/bmob-im/2.0.5/jars" />
@@ -156,6 +155,7 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.google.firebase/firebase-storage-common/9.4.0/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.google.firebase/firebase-storage/9.4.0/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.orhanobut/logger/1.4/jars" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.tencent.bugly/crashreport/2.3.0/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/incremental" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/incremental-classes" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/incremental-runtime-classes" />
@@ -223,6 +223,7 @@
     <orderEntry type="library" exported="" name="cardview-v7-22.2.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-fitness-9.4.0" level="project" />
     <orderEntry type="library" exported="" name="BaiduTraceSDK_v2_1_14" level="project" />
+    <orderEntry type="library" exported="" name="crashreport-2.3.0" level="project" />
     <orderEntry type="library" exported="" name="IndoorscapeAlbumPlugin" level="project" />
     <orderEntry type="library" exported="" name="play-services-nearby-9.4.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-plus-9.4.0" level="project" />
@@ -240,6 +241,7 @@
     <orderEntry type="library" exported="" name="bmob-sdk-3.4.7-aar" level="project" />
     <orderEntry type="library" exported="" name="glide-3.7.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-games-9.4.0" level="project" />
+    <orderEntry type="library" exported="" name="BmobStat_v1.0_0929" level="project" />
     <orderEntry type="library" exported="" name="support-media-compat-24.2.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-analytics-9.4.0" level="project" />
     <orderEntry type="library" exported="" name="httpmime-4.1.2" level="project" />

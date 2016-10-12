@@ -11,6 +11,7 @@ import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.mapapi.SDKInitializer;
 import com.orhanobut.logger.Logger;
+import com.tencent.bugly.crashreport.CrashReport;
 import com.xinguan14.jdyp.base.UniversalImageLoader;
 
 import java.io.BufferedReader;
@@ -63,7 +64,9 @@ public class MyApplication extends Application {
         }
         //uil初始化
         UniversalImageLoader.initImageLoader(this);
-        initBaidu();
+        initBaidu();//初始化百度地图
+        CrashReport.initCrashReport(getApplicationContext(), "900054607", false);//腾讯bugly
+        cn.bmob.statistics.AppStat.i("837e7a9a893103b81208fd1d2fbdbbdb", null);//调用bmob统计SDK
     }
 
     /**

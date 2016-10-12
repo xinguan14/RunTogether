@@ -67,7 +67,6 @@ public class GuideActivity extends FragmentActivity implements ViewPager.OnPageC
         }
         currentIndex = 0;
         dots[currentIndex].setEnabled(false);
-
     }
 
     private void setCurrentDot(int position) {
