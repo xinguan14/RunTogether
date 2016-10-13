@@ -449,10 +449,9 @@ public class MainActivity extends BaseActivity implements ObseverListener,
      */
     public void hideTab() {
         bottom.setVisibility(View.GONE);
-        FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) content.getLayoutParams();
+        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) content.getLayoutParams();
         layoutParams.bottomMargin = 0;
         content.setLayoutParams(layoutParams);
-
     }
 
     /**
@@ -460,7 +459,7 @@ public class MainActivity extends BaseActivity implements ObseverListener,
      */
     public void showTab() {
         bottom.setVisibility(View.VISIBLE);
-        FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) content.getLayoutParams();
+        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) content.getLayoutParams();
         layoutParams.bottomMargin = 52;
         content.setLayoutParams(layoutParams);
 
