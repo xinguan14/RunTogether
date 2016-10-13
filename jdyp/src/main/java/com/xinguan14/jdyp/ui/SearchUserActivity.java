@@ -85,9 +85,9 @@ public class SearchUserActivity extends ParentWithNaviActivity {
     }
 
     public void query(){
-        String name =et_find_name.getText().toString();
+        String name =et_find_name.getText().toString();//获取搜索框中的信息
         if(TextUtils.isEmpty(name)){
-            toast("请填写用户名");
+            toast("请填写手机号");
             sw_refresh.setRefreshing(false);
             return;
         }
