@@ -93,7 +93,6 @@ public class ItemDetailsActivity extends ParentWithNaviActivity implements View.
         //接收传递的user和post信息
         user = (User) getBundle().getSerializable("u");
         post=(Post)getBundle().getSerializable("p");
-        goodState =getBundle().getInt("zan");
         //构造聊天方的用户信息:传入用户id、用户名和用户头像三个参数
         info = new BmobIMUserInfo(user.getObjectId(), user.getNick(), user.getAvatar());
         dataBind();
@@ -189,8 +188,8 @@ public class ItemDetailsActivity extends ParentWithNaviActivity implements View.
         commentBmobQuery.findObjects(this, new FindListener<Comment>() {
             @Override
             public void onSuccess(List<Comment> list) {
-                comment.setText(list.size()+"评论");
                 if (list.size()!=0 ) {
+                    comment.setText(list.size()+"评论");
                     if (list.size() < NUMBERS_PER_PAGE) {
                         loadmore.setText("暂无更多评论~");
                         loadmore.setEnabled(false);

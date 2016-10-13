@@ -39,7 +39,6 @@ import cn.bmob.v3.listener.UpdateListener;
  */
 public class SquareListViewAdapter extends BaseListAdapter<Post> {
 
-    public int goodState =0;//判断当前的动态是否已经点赞，0为否
 
     //要传入的参数有当前的Activity，数据集。item的布局文件
     public SquareListViewAdapter(Context context, List<Post> list,int itemLayoutId){
@@ -124,7 +123,6 @@ public class SquareListViewAdapter extends BaseListAdapter<Post> {
                 User userInfo = item.getAuthor();
                 bundle.putSerializable("u", userInfo);
                 bundle.putSerializable("p", item);
-                bundle.putInt("zan",goodState);
                 Intent intent = new Intent(mContext,ItemDetailsActivity.class);
                 if (bundle != null)
                     intent.putExtra(mContext.getPackageName(), bundle);
@@ -152,10 +150,10 @@ public class SquareListViewAdapter extends BaseListAdapter<Post> {
         holder.getView(R.id.iv_share_heart).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(goodState==1) {
+                if(holder.getView(R.id.iv_share_heart).isEnabled()==false) {
                     Toast.makeText(mContext, "您已经点赞过啦", Toast.LENGTH_SHORT).show();
                 }
-                if (goodState==0) {
+                if (holder.getView(R.id.iv_share_heart).isEnabled()) {
                     User user = BmobUser.getCurrentUser(mContext, User.class);
                     Post post = new Post();
                     post.setObjectId(item.getObjectId());
@@ -170,9 +168,14 @@ public class SquareListViewAdapter extends BaseListAdapter<Post> {
 
                         @Override
                         public void onSuccess() {
-                            //跟新点赞人数
-                            holder.setTextView(R.id.tv_likes_number, "(" + item.getZan().intValue() + ")");
                             Toast.makeText(mContext, "点赞成功", Toast.LENGTH_SHORT).show();
+                            //跟新点赞人数
+                            if (item.getZan()!=null) {
+                                int zan =item.getZan().intValue()+1;
+                                holder.setTextView(R.id.tv_likes_number, "(" + zan + ")");
+                            }else {
+                                holder.setTextView(R.id.tv_likes_number, "");
+                            }
                         }
 
                         @Override
@@ -181,7 +184,7 @@ public class SquareListViewAdapter extends BaseListAdapter<Post> {
                             Toast.makeText(mContext, "点赞失败", Toast.LENGTH_SHORT).show();
                         }
                     });
-                    goodState=1;
+                    holder.getView(R.id.iv_share_heart).setEnabled(false);
                 }
             }
         });

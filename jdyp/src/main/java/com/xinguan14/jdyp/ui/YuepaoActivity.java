@@ -31,6 +31,7 @@ import butterknife.Bind;
 import cn.bmob.newim.BmobIM;
 import cn.bmob.newim.bean.BmobIMConversation;
 import cn.bmob.newim.bean.BmobIMMessage;
+import cn.bmob.newim.bean.BmobIMTextMessage;
 import cn.bmob.newim.bean.BmobIMUserInfo;
 import cn.bmob.newim.core.BmobIMClient;
 import cn.bmob.newim.listener.MessageSendListener;
@@ -39,6 +40,8 @@ import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobGeoPoint;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
+
+import static com.xinguan14.jdyp.R.id.edit_msg;
 
 
 public class YuepaoActivity extends BaseActivity {
@@ -199,11 +202,9 @@ public class YuepaoActivity extends BaseActivity {
 
         @Override
         public void bindView(BaseRecyclerHolder holder, User user, int position) {
-
-            //构造聊天方的用户信息:传入用户id、用户名和用户头像三个参数
-            info = new BmobIMUserInfo(user.getObjectId(), user.getNick(), user.getAvatar());
-
             if (user != null) {
+                //构造聊天方的用户信息:传入用户id、用户名和用户头像三个参数
+                info = new BmobIMUserInfo(user.getObjectId(), user.getNick(), user.getAvatar());
                 //头像
                 if (user.getAvatar() != null && !user.getAvatar().equals("")) {
                     ImageLoader.getInstance().displayImage(user.getAvatar(), (CircleImageView) holder.getView(R.id.iv_near_avatar),
@@ -226,6 +227,7 @@ public class YuepaoActivity extends BaseActivity {
                 double distance_km = distance / 1000;//km
                 //距离
                 holder.setText(R.id.tv_distance, user == null ? "未知1" : String.valueOf(distance_km) + "km");
+
                 holder.getView(R.id.bt_yuepao).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -235,12 +237,11 @@ public class YuepaoActivity extends BaseActivity {
                         //这个obtain方法才是真正创建一个管理消息发送的会话
                         BmobIMConversation conversation = BmobIMConversation.obtain(BmobIMClient.getInstance(), c);
                         AddFriendMessage msg = new AddFriendMessage();
-                        User currentUser = BmobUser.getCurrentUser(YuepaoActivity.this, User.class);
                         msg.setContent("可以一起约跑吗");//给对方的一个留言信息
                         Map<String, Object> map = new HashMap<>();
-                        map.put("name", currentUser.getUsername());//发送者姓名，这里只是举个例子，其实可以不需要传发送者的信息过去
-                        map.put("avatar", currentUser.getAvatar());//发送者的头像
-                        map.put("uid", currentUser.getObjectId());//发送者的uid
+                        map.put("name", me.getNick());//发送者姓名，这里只是举个例子，其实可以不需要传发送者的信息过去
+                        map.put("avatar", me.getAvatar());//发送者的头像
+                        map.put("uid", me.getObjectId());//发送者的uid
                         msg.setExtraMap(map);
                         conversation.sendMessage(msg, new MessageSendListener() {
                             @Override
@@ -252,6 +253,28 @@ public class YuepaoActivity extends BaseActivity {
                                 }
                             }
                         });
+
+                       /* BmobIMConversation c = BmobIM.getInstance().startPrivateConversation(info, true, null);
+                        //这个obtain方法才是真正创建一个管理消息发送的会话
+                       BmobIMConversation conversation = BmobIMConversation.obtain(BmobIMClient.getInstance(), c);
+                        AddFriendMessage msg = new AddFriendMessage();
+                        msg.setContent("可以一起约跑吗");//给对方的一个留言信息
+                        Map<String, Object> map = new HashMap<>();
+                        map.put("msg",me.getUsername()+"同意你的约跑请求");//显示在通知栏上面的内容
+                        map.put("name", me.getUsername());//发送者姓名，这里只是举个例子，其实可以不需要传发送者的信息过去
+                        map.put("avatar", me.getAvatar());//发送者的头像
+                        map.put("uid", me.getObjectId());//发送者的uid
+                        msg.setExtraMap(map);
+                        conversation.sendMessage(msg, new MessageSendListener() {
+                            @Override
+                            public void done(BmobIMMessage msg, BmobException e) {
+                                if (e == null) {//发送成功
+                                    toast("约跑请求发送成功，等待验证");
+                                }else {//发送失败
+                                    toast("发送失败:" + e.getMessage());
+                                }
+                            }
+                        });*/
                     }
                 });
             }

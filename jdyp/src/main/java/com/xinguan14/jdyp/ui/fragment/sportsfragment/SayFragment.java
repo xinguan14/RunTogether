@@ -240,7 +240,7 @@ public class SayFragment extends BaseFragment {
         private int mShowMorePopupWindowHeight;
         //弹出评论框
         private AddCommentPopupWindow menuWindow;
-        private int goodState = 0;//判断当前的动态是否已经点赞，0为否
+
 
         // private Handler handler;
         public SayListViewAdapter(Activity context, List<Post> list, int itemLayoutId) {
@@ -332,7 +332,6 @@ public class SayFragment extends BaseFragment {
                     User userInfo = item.getAuthor();
                     bundle.putSerializable("u", userInfo);
                     bundle.putSerializable("p", item);
-                    bundle.putInt("zan",goodState);
                     Intent intent = new Intent(mContext,ItemDetailsActivity.class);
                     if (bundle != null)
                         intent.putExtra(mContext.getPackageName(), bundle);
@@ -364,7 +363,7 @@ public class SayFragment extends BaseFragment {
 
                 View parent = mMorePopupWindow.getContentView();
 
-                ImageView good = (ImageView) parent.findViewById(R.id.good_img);
+                final ImageView good = (ImageView) parent.findViewById(R.id.good_img);
                 ImageView comment = (ImageView) parent.findViewById(R.id.comment_img);
 
                 // 评论的监听器
@@ -386,10 +385,10 @@ public class SayFragment extends BaseFragment {
                 good.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if (goodState == 1) {
+                        if (good.isEnabled()==false) {
                             Toast.makeText(mContext, "您已经点赞过啦", Toast.LENGTH_SHORT).show();
                         }
-                        if (goodState == 0) {
+                        if (good.isEnabled()) {
                             User user = BmobUser.getCurrentUser(mContext, User.class);
                             Post post = new Post();
                             post.setObjectId(item.getObjectId());
@@ -407,7 +406,12 @@ public class SayFragment extends BaseFragment {
                                 public void onSuccess() {
                                     Toast.makeText(mContext, "点赞成功", Toast.LENGTH_SHORT).show();
                                     //跟新点赞人数
-                                    holder.setTextView(R.id.tv_likes_number, "(" + item.getZan() + ")");
+                                    if(item.getZan()!=null){
+                                        int zan =item.getZan().intValue()+1;
+                                        holder.setTextView(R.id.tv_likes_number,  zan+ "人觉得很赞");
+                                    }else {
+                                        holder.setTextView(R.id.tv_likes_number, "1人觉得很赞");
+                                    }
                                 }
 
                                 @Override
@@ -418,7 +422,7 @@ public class SayFragment extends BaseFragment {
                             if (mMorePopupWindow != null && mMorePopupWindow.isShowing()) {
                                 mMorePopupWindow.dismiss();
                             }
-                            goodState = 1;
+                           good.setEnabled(false);
                         }
 
                     }
