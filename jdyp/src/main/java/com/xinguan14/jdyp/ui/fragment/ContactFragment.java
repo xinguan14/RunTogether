@@ -142,12 +142,14 @@ public class ContactFragment extends ParentWithNaviFragment {
             public void onGlobalLayout() {
                 rootView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
                 sw_refresh.setRefreshing(true);
+
                 query();
             }
         });
         sw_refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+
                 query();
             }
         });
@@ -259,7 +261,7 @@ public class ContactFragment extends ParentWithNaviFragment {
     }
 
     /**
-     * 查询本地会话
+     * 查询联系人
      */
     public void query() {
         UserModel.getInstance().queryFriends(new FindListener<Friend>() {

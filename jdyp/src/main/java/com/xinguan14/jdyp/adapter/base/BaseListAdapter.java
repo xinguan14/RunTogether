@@ -20,7 +20,7 @@ public abstract class BaseListAdapter<T> extends BaseAdapter
 	public BaseListAdapter(Context context, List<T> mDatas, int itemLayoutId)
 	{
 		this.mContext = context;
-		this.mInflater = LayoutInflater.from(mContext);
+		this.mInflater = LayoutInflater.from(context);
 		this.mDatas = mDatas;
 		this.mItemLayoutId = itemLayoutId;
 	}

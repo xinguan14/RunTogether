@@ -167,6 +167,7 @@ public class NearFragment extends BaseFragment {
     private void queryNear() {
         User me = BmobUser.getCurrentUser(getActivity(), User.class);
         BmobQuery<User> bmobQuery = new BmobQuery<User>();
+        bmobQuery.setCachePolicy(BmobQuery.CachePolicy.CACHE_ELSE_NETWORK);
         bmobQuery.addWhereWithinKilometers("location", me.getLocation(), 1000);
         bmobQuery.findObjects(getActivity(), new FindListener<User>() {
             @Override

@@ -154,6 +154,7 @@ public class SayFragment extends BaseFragment {
         query.include("author");
         //返回50条数据，如果不加上这条语句，默认返回10条数据
         query.setLimit(50);
+        query.setCachePolicy(BmobQuery.CachePolicy.CACHE_ELSE_NETWORK);
         query.findObjects(getActivity(), new FindListener<Post>() {
             @Override
             public void onSuccess(List<Post> list) {
