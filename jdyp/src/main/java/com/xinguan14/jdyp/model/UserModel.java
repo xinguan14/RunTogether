@@ -152,6 +152,7 @@ public class UserModel extends BaseModel {
         query.addWhereContains("username", username);
         query.setLimit(limit);
         query.order("-createdAt");
+        query.setCachePolicy(BmobQuery.CachePolicy.CACHE_ELSE_NETWORK);
         query.findObjects(getContext(), new FindListener<User>() {
             @Override
             public void onSuccess(List<User> list) {
