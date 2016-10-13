@@ -11,6 +11,7 @@ import android.widget.EditText;
 import com.xinguan14.jdyp.R;
 import com.xinguan14.jdyp.base.ParentWithNaviActivity;
 import com.xinguan14.jdyp.base.ParentWithNaviFragment;
+import com.xinguan14.jdyp.ui.LoginActivity;
 import com.xinguan14.jdyp.ui.fragment.SetFragment;
 
 import butterknife.Bind;
@@ -89,8 +90,8 @@ public class ChangePassWordFragment extends ParentWithNaviFragment {
                             @Override
                             public void onSuccess() {
                                 // TODO Auto-generated method stub
-                                Log.i("smile", "密码修改成功，可以用新密码进行登录啦");
-                                getActivity().finish();
+                               toast("密码修改成功，可以用新密码进行登录啦");
+                               startActivity( LoginActivity.class,null);
                             }
 
                             @Override

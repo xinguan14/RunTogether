@@ -563,7 +563,8 @@ public class ChatActivity extends ParentWithNaviActivity implements ObseverListe
         }
     };
 
-    /**首次加载，可设置msg为null，下拉刷新的时候，默认取消息表的第一个msg作为刷新的起始时间点，默认按照消息时间的降序排列
+    /**首次加载，可设置msg为null，下拉刷新的时候，默认取消息表的第一个msg作为刷新的起始时间点，
+     * 默认按照消息时间的降序排列
      * @param msg
      */
     public void queryMessages(BmobIMMessage msg){
