@@ -17,13 +17,6 @@
         android:layout_height="match_parent"
         android:clickable="true" />
 
-    <!--<fragment-->
-    <!--android:id="@+id/fragment_title"-->
-    <!--android:name="com.xinguan14.jdyp.trackshow.TitleFragment"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="45dp" />-->
-
-
     <FrameLayout
         android:id="@+id/fragment_content"
         android:layout_width="match_parent"
