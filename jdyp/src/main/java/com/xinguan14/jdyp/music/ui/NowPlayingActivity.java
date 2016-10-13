@@ -20,13 +20,14 @@ import android.app.UiModeManager;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+
 import com.xinguan14.jdyp.music.utils.LogHelper;
 
 
 /**
  * The activity for the Now Playing Card PendingIntent.
  * https://developer.android.com/training/tv/playback/now-playing.html
- *
+ * <p>
  * This activity determines which activity to launch based on the current UI mode.
  */
 public class NowPlayingActivity extends Activity {
@@ -38,14 +39,10 @@ public class NowPlayingActivity extends Activity {
         super.onCreate(savedInstanceState);
         LogHelper.d(TAG, "onCreate");
         Intent newIntent;
-        UiModeManager uiModeManager = (UiModeManager) getSystemService(UI_MODE_SERVICE);
-        if (uiModeManager.getCurrentModeType() == Configuration.UI_MODE_TYPE_TELEVISION) {
-            LogHelper.d(TAG, "Running on a TV Device");
-            newIntent = new Intent(this, TvPlaybackActivity.class);
-        } else {
-            LogHelper.d(TAG, "Running on a non-TV Device");
-            newIntent = new Intent(this, MusicPlayerActivity.class);
-        }
+
+        LogHelper.d(TAG, "Running on a non-TV Device");
+        newIntent = new Intent(this, MusicPlayerActivity.class);
+
         startActivity(newIntent);
         finish();
     }

@@ -121,20 +121,8 @@
         <activity android:name="com.xinguan14.jdyp.music.ui.NowPlayingActivity"></activity>
 
         <!-- Main activity for Android TV user interface -->
-        <activity
-            android:name="com.xinguan14.jdyp.music.ui.TvBrowseActivity"
-            android:theme="@style/Theme.UAmp.TVLeanback"></activity>
-
-        <activity
-            android:name="com.xinguan14.jdyp.music.ui.TvVerticalGridActivity"
-            android:parentActivityName="com.xinguan14.jdyp.music.ui.TvBrowseActivity"
-            android:theme="@style/Theme.UAmp.TVLeanback" />
 
         <!-- Android TV UI when playing a song -->
-        <activity
-            android:name="com.xinguan14.jdyp.music.ui.TvPlaybackActivity"
-            android:parentActivityName="com.xinguan14.jdyp.music.ui.TvBrowseActivity"
-            android:theme="@style/Theme.UAmp.TVLeanback" />
 
         <!--
              (OPTIONAL) use this meta data to indicate which icon should be

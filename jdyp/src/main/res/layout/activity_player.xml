@@ -22,13 +22,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".MusicPlayerActivity">
+    tools:context="com.xinguan14.jdyp.music.ui.MusicPlayerActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <include layout="@layout/include_toolbar" android:id="@+id/toolbar_container"/>
+        <!--<include layout="@layout/include_toolbar" android:id="@+id/toolbar_container"/>-->
 
         <FrameLayout
             android:id="@+id/container"

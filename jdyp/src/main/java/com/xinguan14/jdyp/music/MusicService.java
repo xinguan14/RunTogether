@@ -33,8 +33,9 @@ import android.support.v4.media.session.MediaButtonReceiver;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 import android.support.v7.media.MediaRouter;
+ import android.util.Log;
 
-import com.google.android.gms.cast.framework.CastContext;
+ import com.google.android.gms.cast.framework.CastContext;
 import com.google.android.gms.cast.framework.CastSession;
 import com.google.android.gms.cast.framework.SessionManager;
 import com.google.android.gms.cast.framework.SessionManagerListener;
@@ -46,11 +47,9 @@ import com.xinguan14.jdyp.music.playback.Playback;
 import com.xinguan14.jdyp.music.playback.PlaybackManager;
 import com.xinguan14.jdyp.music.playback.QueueManager;
 import com.xinguan14.jdyp.music.ui.NowPlayingActivity;
-import com.xinguan14.jdyp.music.utils.CarHelper;
-import com.xinguan14.jdyp.music.utils.LogHelper;
-import com.xinguan14.jdyp.music.utils.TvHelper;
+ import com.xinguan14.jdyp.music.utils.LogHelper;
 
-import java.lang.ref.WeakReference;
+ import java.lang.ref.WeakReference;
 import java.util.List;
 
 import static com.xinguan14.jdyp.music.utils.MediaIDHelper.MEDIA_ID_ROOT;
@@ -211,9 +210,6 @@ import static com.xinguan14.jdyp.music.utils.MediaIDHelper.MEDIA_ID_ROOT;
          mSession.setSessionActivity(pi);
 
          mSessionExtras = new Bundle();
-         CarHelper.setSlotReservationFlags(mSessionExtras, true, true, true);
-//         WearHelper.setSlotReservationFlags(mSessionExtras, true, true);
-//         WearHelper.setUseBackgroundFromTheme(mSessionExtras, true);
          mSession.setExtras(mSessionExtras);
 
          mPlaybackManager.updatePlaybackState(null);
@@ -224,16 +220,9 @@ import static com.xinguan14.jdyp.music.utils.MediaIDHelper.MEDIA_ID_ROOT;
              throw new IllegalStateException("Could not create a MediaNotificationManager", e);
          }
 
-         if (!TvHelper.isTvUiMode(this)) {
-             mCastSessionManager = CastContext.getSharedInstance(this).getSessionManager();
-             mCastSessionManagerListener = new CastSessionManagerListener();
-             mCastSessionManager.addSessionManagerListener(mCastSessionManagerListener,
-                     CastSession.class);
-         }
 
          mMediaRouter = MediaRouter.getInstance(getApplicationContext());
 
-         registerCarConnectionReceiver();
      }
 
      /**
@@ -299,19 +288,6 @@ import static com.xinguan14.jdyp.music.utils.MediaIDHelper.MEDIA_ID_ROOT;
              return null;
          }
          //noinspection StatementWithEmptyBody
-         if (CarHelper.isValidCarPackage(clientPackageName)) {
-             // Optional: if your app needs to adapt the music library to show a different subset
-             // when connected to the car, this is where you should handle it.
-             // If you want to adapt other runtime behaviors, like tweak ads or change some behavior
-             // that should be different on cars, you should instead use the boolean flag
-             // set by the BroadcastReceiver mCarConnectionReceiver (mIsConnectedToCar).
-         }
-         //noinspection StatementWithEmptyBody
-//         if (WearHelper.isValidWearCompanionPackage(clientPackageName)) {
-//             // Optional: if your app needs to adapt the music library for when browsing from a
-//             // Wear device, you should return a different MEDIA ROOT here, and then,
-//             // on onLoadChildren, handle it accordingly.
-//         }
 
          return new BrowserRoot(MEDIA_ID_ROOT, null);
      }
@@ -375,22 +351,20 @@ import static com.xinguan14.jdyp.music.utils.MediaIDHelper.MEDIA_ID_ROOT;
          mSession.setPlaybackState(newState);
      }
 
-     private void registerCarConnectionReceiver() {
-         IntentFilter filter = new IntentFilter(CarHelper.ACTION_MEDIA_STATUS);
-         mCarConnectionReceiver = new BroadcastReceiver() {
-             @Override
-             public void onReceive(Context context, Intent intent) {
-                 String connectionEvent = intent.getStringExtra(CarHelper.MEDIA_CONNECTION_STATUS);
-                 mIsConnectedToCar = CarHelper.MEDIA_CONNECTED.equals(connectionEvent);
-                 LogHelper.i(TAG, "Connection event to Android Auto: ", connectionEvent,
-                         " isConnectedToCar=", mIsConnectedToCar);
-             }
-         };
-         registerReceiver(mCarConnectionReceiver, filter);
-     }
 
      private void unregisterCarConnectionReceiver() {
-         unregisterReceiver(mCarConnectionReceiver);
+         try {
+             if (mCarConnectionReceiver == null) {
+                 Log.i(TAG, "Do not unregister receiver as it was never registered");
+             } else {
+                 Log.d(TAG, "Unregister receiver");
+                 unregisterReceiver(mCarConnectionReceiver);
+                 mCarConnectionReceiver = null;
+             }
+         } catch (Exception e) {
+             e.printStackTrace();
+         }
+//         unregisterReceiver(mCarConnectionReceiver);
      }
 
      /**
