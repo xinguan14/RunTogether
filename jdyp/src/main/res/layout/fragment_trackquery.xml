@@ -41,12 +41,12 @@
         android:id="@+id/btn_distance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/btn_isprocessed"
         android:layout_marginRight="15dp"
-        android:layout_marginTop="10dip"
+        android:layout_marginTop="11dp"
         android:background="#FFFFFF"
         android:text="@string/track_distance"
-        android:textColor="#000000" />
+        android:textColor="#000000"
+        android:layout_below="@+id/btn_isprocessed"
+        android:layout_alignStart="@+id/btn_isprocessed" />
 
 </RelativeLayout>

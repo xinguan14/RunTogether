@@ -1,9 +1,9 @@
 package com.xinguan14.jdyp.trackutils;
 
 public interface WheelAdapter {
-    public int getItemsCount();
+     int getItemsCount();
 
-    public String getItem(int index);
+     String getItem(int index);
 
-    public int getMaximumLength();
+     int getMaximumLength();
 }

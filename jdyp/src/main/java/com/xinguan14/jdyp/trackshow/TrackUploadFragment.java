@@ -53,9 +53,9 @@ public class TrackUploadFragment extends Fragment {
 
     private Button btnStopTrace = null;
 
-    private Button btnOperator = null;
+//    private Button btnOperator = null;
 
-    protected TextView tvEntityName = null;
+//    protected TextView tvEntityName = null;
 
     private Geofence geoFence = null;
 
@@ -150,16 +150,15 @@ public class TrackUploadFragment extends Fragment {
 
         btnStopTrace = (Button) view.findViewById(R.id.btn_stopTrace);
 
-        btnOperator = (Button) view.findViewById(R.id.btn_operator);
-
-        tvEntityName = (TextView) view.findViewById(R.id.tv_entityName);
-
-        tvEntityName.setText(" entityName : " + BaiduActivity.entityName + " ");
+//        btnOperator = (Button) view.findViewById(R.id.btn_operator);
+//
+//        tvEntityName = (TextView) view.findViewById(R.id.tv_entityName);
+//
+//        tvEntityName.setText(" entityName : " + BaiduActivity.entityName + " ");
 
         btnStartTrace.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
-                // TODO Auto-generated method stub
 
                 Toast.makeText(getActivity(), "正在开启轨迹服务，请稍候", Toast.LENGTH_LONG).show();
                 startTrace();
@@ -184,7 +183,6 @@ public class TrackUploadFragment extends Fragment {
         btnStopTrace.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
-                // TODO Auto-generated method stub
 
                 Toast.makeText(getActivity(), "正在停止轨迹服务，请稍候", Toast.LENGTH_SHORT).show();
                 stopTrace();
@@ -193,27 +191,25 @@ public class TrackUploadFragment extends Fragment {
                         BaiduActivity.mContext.unregisterReceiver(powerReceiver);
                         isRegister = false;
                     } catch (Exception e) {
-                        // TODO: handle
                     }
 
                 }
             }
         });
 
-        btnOperator.setOnClickListener(new View.OnClickListener() {
-
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                geoFence = new Geofence(getActivity(), mInflater);
-                if (geoFence.popupwindow != null && geoFence.popupwindow.isShowing()) {
-                    geoFence.popupwindow.dismiss();
-                    return;
-                } else {
-                    geoFence.initPopupWindowView();
-                    geoFence.popupwindow.showAsDropDown(v, 0, 5);
-                }
-            }
-        });
+//        btnOperator.setOnClickListener(new View.OnClickListener() {
+//
+//            public void onClick(View v) {
+//                geoFence = new Geofence(getActivity(), mInflater);
+//                if (geoFence.popupwindow != null && geoFence.popupwindow.isShowing()) {
+//                    geoFence.popupwindow.dismiss();
+//                    return;
+//                } else {
+//                    geoFence.initPopupWindowView();
+//                    geoFence.popupwindow.showAsDropDown(v, 0, 5);
+//                }
+//            }
+//        });
 
     }
 
@@ -322,8 +318,7 @@ public class TrackUploadFragment extends Fragment {
 
             // 开启轨迹服务回调接口（arg0 : 消息编码，arg1 : 消息内容，详情查看类参考）
             public void onTraceCallback(int arg0, String arg1) {
-                // TODO Auto-generated method stub
-                showMessage("开启轨迹服务回调接口消息 [消息编码 : " + arg0 + "，消息内容 : " + arg1 + "]", Integer.valueOf(arg0));
+//                showMessage("开启轨迹服务回调接口消息 [消息编码 : " + arg0 + "，消息内容 : " + arg1 + "]", Integer.valueOf(arg0));
                 if (0 == arg0 || 10006 == arg0 || 10008 == arg0 || 10009 == arg0) {
                     isTraceStart = true;
                     // startRefreshThread(true);
@@ -332,7 +327,6 @@ public class TrackUploadFragment extends Fragment {
 
             // 轨迹服务推送接口（用于接收服务端推送消息，arg0 : 消息类型，arg1 : 消息内容，详情查看类参考）
             public void onTracePushCallback(byte arg0, String arg1) {
-                // TODO Auto-generated method stub
                 if (0x03 == arg0 || 0x04 == arg0) {
                     try {
                         JSONObject dataJson = new JSONObject(arg1);
@@ -341,16 +335,14 @@ public class TrackUploadFragment extends Fragment {
                             String action = dataJson.getInt("action") == 1 ? "进入" : "离开";
                             String date = DateUtils.getDate(dataJson.getInt("time"));
                             long fenceId = dataJson.getLong("fence_id");
-                            showMessage("监控对象[" + mPerson + "]于" + date + " [" + action + "][" + fenceId + "号]围栏",
-                                    null);
+//                            showMessage("监控对象[" + mPerson + "]于" + date + " [" + action + "][" + fenceId + "号]围栏",null);
                         }
 
                     } catch (JSONException e) {
-                        // TODO Auto-generated catch block
-                        showMessage("轨迹服务推送接口消息 [消息类型 : " + arg0 + "，消息内容 : " + arg1 + "]", null);
+//                        showMessage("轨迹服务推送接口消息 [消息类型 : " + arg0 + "，消息内容 : " + arg1 + "]", null);
                     }
                 } else {
-                    showMessage("轨迹服务推送接口消息 [消息类型 : " + arg0 + "，消息内容 : " + arg1 + "]", null);
+//                    showMessage("轨迹服务推送接口消息 [消息类型 : " + arg0 + "，消息内容 : " + arg1 + "]", null);
                 }
             }
 
@@ -366,8 +358,7 @@ public class TrackUploadFragment extends Fragment {
 
             // 轨迹服务停止成功
             public void onStopTraceSuccess() {
-                // TODO Auto-generated method stub
-                showMessage("停止轨迹服务成功", Integer.valueOf(1));
+//                showMessage("停止轨迹服务成功", Integer.valueOf(1));
                 isTraceStart = false;
                 startRefreshThread(false);
                 BaiduActivity.client.onDestroy();
@@ -375,8 +366,7 @@ public class TrackUploadFragment extends Fragment {
 
             // 轨迹服务停止失败（arg0 : 错误编码，arg1 : 消息内容，详情查看类参考）
             public void onStopTraceFailed(int arg0, String arg1) {
-                // TODO Auto-generated method stub
-                showMessage("停止轨迹服务接口消息 [错误编码 : " + arg0 + "，消息内容 : " + arg1 + "]", null);
+//                showMessage("停止轨迹服务接口消息 [错误编码 : " + arg0 + "，消息内容 : " + arg1 + "]", null);
                 startRefreshThread(false);
             }
         };
@@ -388,7 +378,6 @@ public class TrackUploadFragment extends Fragment {
 
         @Override
         public void run() {
-            // TODO Auto-generated method stub
             Looper.prepare();
             while (refresh) {
                 // 查询实时位置
@@ -397,7 +386,6 @@ public class TrackUploadFragment extends Fragment {
                 try {
                     Thread.sleep(gatherInterval * 1000);
                 } catch (InterruptedException e) {
-                    // TODO Auto-generated catch block
                     System.out.println("线程休眠失败");
                 }
             }

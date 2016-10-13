@@ -56,8 +56,8 @@ public class BaiduActivity extends FragmentActivity implements OnClickListener {
      */
     protected static OnEntityListener entityListener = null;
 
-    private Button btnTrackUpload;
-    private Button btnTrackQuery;
+//    private Button btnTrackUpload;
+//    private Button btnTrackQuery;
 
     protected static MapView bmapView = null;
     protected static BaiduMap mBaiduMap = null;
@@ -120,11 +120,11 @@ public class BaiduActivity extends FragmentActivity implements OnClickListener {
      */
     private void initComponent() {
         // 初始化控件
-        btnTrackUpload = (Button) findViewById(R.id.btn_trackUpload);
-        btnTrackQuery = (Button) findViewById(R.id.btn_trackQuery);
-
-        btnTrackUpload.setOnClickListener(this);
-        btnTrackQuery.setOnClickListener(this);
+//        btnTrackUpload = (Button) findViewById(R.id.btn_trackUpload);
+//        btnTrackQuery = (Button) findViewById(R.id.btn_trackQuery);
+//
+//        btnTrackUpload.setOnClickListener(this);
+//        btnTrackQuery.setOnClickListener(this);
 
         fragmentManager = getSupportFragmentManager();
 
@@ -212,8 +212,8 @@ public class BaiduActivity extends FragmentActivity implements OnClickListener {
                     mTrackUploadFragment.startRefreshThread(false);
                 }
                 mTrackQueryFragment.addMarker();
-                btnTrackQuery.setTextColor(Color.rgb(0x00, 0x00, 0xd8));
-                btnTrackQuery.setBackgroundColor(Color.rgb(0x99, 0xcc, 0xff));
+//                btnTrackQuery.setTextColor(Color.rgb(0x00, 0x00, 0xd8));
+//                btnTrackQuery.setBackgroundColor(Color.rgb(0x99, 0xcc, 0xff));
                 mBaiduMap.setOnMapClickListener(null);
                 break;
 
@@ -231,8 +231,8 @@ public class BaiduActivity extends FragmentActivity implements OnClickListener {
                 mTrackUploadFragment.startRefreshThread(true);
                 TrackUploadFragment.addMarker();
                 Geofence.addMarker();
-                btnTrackUpload.setTextColor(Color.rgb(0x00, 0x00, 0xd8));
-                btnTrackUpload.setBackgroundColor(Color.rgb(0x99, 0xcc, 0xff));
+//                btnTrackUpload.setTextColor(Color.rgb(0x00, 0x00, 0xd8));
+//                btnTrackUpload.setBackgroundColor(Color.rgb(0x99, 0xcc, 0xff));
                 mBaiduMap.setOnMapClickListener(null);
                 break;
         }
@@ -245,10 +245,10 @@ public class BaiduActivity extends FragmentActivity implements OnClickListener {
      * 重置button状态
      */
     private void onResetButton() {
-        btnTrackQuery.setTextColor(Color.rgb(0x00, 0x00, 0x00));
-        btnTrackQuery.setBackgroundColor(Color.rgb(0xFF, 0xFF, 0xFF));
-        btnTrackUpload.setTextColor(Color.rgb(0x00, 0x00, 0x00));
-        btnTrackUpload.setBackgroundColor(Color.rgb(0xFF, 0xFF, 0xFF));
+//        btnTrackQuery.setTextColor(Color.rgb(0x00, 0x00, 0x00));
+//        btnTrackQuery.setBackgroundColor(Color.rgb(0xFF, 0xFF, 0xFF));
+//        btnTrackUpload.setTextColor(Color.rgb(0x00, 0x00, 0x00));
+//        btnTrackUpload.setBackgroundColor(Color.rgb(0xFF, 0xFF, 0xFF));
     }
 
     /**
