@@ -11,6 +11,7 @@ import android.telephony.TelephonyManager;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 
 import com.baidu.mapapi.SDKInitializer;
@@ -81,7 +82,9 @@ public class BaiduActivity extends FragmentActivity implements OnClickListener {
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_baidu);
-
+        //去状态栏
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         mContext = getApplicationContext();
 
         // 初始化轨迹服务客户端

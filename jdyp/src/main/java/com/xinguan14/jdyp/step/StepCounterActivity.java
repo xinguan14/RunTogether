@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TableRow;
@@ -128,7 +129,7 @@ public class StepCounterActivity extends Activity {
          * 设置当前步数和星标
          */
         private void changeStep() {
-            int level = StepDetector.CURRENT_SETP / 100;  //每走150步亮一颗星星
+            int level = StepDetector.CURRENT_SETP / 10;  //每走100步亮一颗星星
             switch (level) {
                 case 10:
                     iv_star_10.setImageResource(R.drawable.start_disable);
@@ -173,7 +174,9 @@ public class StepCounterActivity extends Activity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.setContentView(R.layout.activity_step);  //设置当前屏幕
-
+        //去状态栏
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         if (SettingsActivity.sharedPreferences == null) {
             SettingsActivity.sharedPreferences = this.getSharedPreferences(
                     SettingsActivity.SETP_SHARED_PREFERENCES,
@@ -185,14 +188,14 @@ public class StepCounterActivity extends Activity {
             //健身
             gifView = (GifView)findViewById(R.id.gif_view);
             gifView.setGifImageType(GifImageType.COVER);
-            gifView.setShowDimension(250, 250);
-            gifView.setGifImage(R.drawable.walk_gif);
+            gifView.setShowDimension(400, 300);
+            gifView.setGifImage(R.drawable.run_gif);
             gifView.showCover();
 
         }else{
             gifView = (GifView)findViewById(R.id.gif_view);
             gifView.setGifImageType(GifImageType.COVER);
-            gifView.setShowDimension(250, 250);
+            gifView.setShowDimension(400, 300);
             gifView.setGifImage(R.drawable.run_gif);
             gifView.showCover();
         }

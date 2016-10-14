@@ -67,7 +67,6 @@ public class SetFragment extends ParentWithNaviFragment {
     @Bind(R.id.set)
     LinearLayout layout_all;
 
-    AchievementsFragment achievementsFragment;
     DynamicFragment dynamicFragment;
     ChangeMyInfoFragment changeMyInfoFragment;
 

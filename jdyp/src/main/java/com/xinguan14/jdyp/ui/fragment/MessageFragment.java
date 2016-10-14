@@ -321,7 +321,6 @@ public class MessageFragment extends ParentWithNaviFragment implements SwipeMenu
             holder.setText(R.id.tv_recent_msg, conversation.getLastMessageContent());
             holder.setText(R.id.tv_recent_time, TimeUtil.getChatTime(false, conversation.getLastMessageTime()));
             //会话图标
-
             if (conversation.getAvatar() != null && !conversation.getAvatar().toString().equals("")) {
                 ImageLoader.getInstance().displayImage(conversation.getAvatar().toString(), (CircleImageView) holder.getView(R.id.iv_recent_avatar),
                         ImageLoadOptions.getOptions());

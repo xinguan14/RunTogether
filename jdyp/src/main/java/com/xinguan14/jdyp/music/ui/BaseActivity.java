@@ -28,6 +28,7 @@ import android.support.v4.media.session.MediaControllerCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.view.WindowManager;
 
 import com.xinguan14.jdyp.R;
 import com.xinguan14.jdyp.music.MusicService;
@@ -48,7 +49,9 @@ public abstract class BaseActivity extends AppCompatActivity implements MediaBro
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        //去状态栏
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         LogHelper.d(TAG, "Activity onCreate");
 
         if (Build.VERSION.SDK_INT >= 21) {

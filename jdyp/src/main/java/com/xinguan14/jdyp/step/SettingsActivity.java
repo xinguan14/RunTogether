@@ -76,7 +76,6 @@ public class SettingsActivity extends Activity {
                     @Override
                     public void onProgressChanged(SeekBar seekBar,
                                                   int progress, boolean fromUser) {
-                        // TODO Auto-generated method stub
                         sensitivity = progress;
                         tv_sensitivity_vlaue.setText(sensitivity + "");
                     }
